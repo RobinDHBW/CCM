@@ -7,5 +7,10 @@ public interface CCM_Constants {
 	public static final String VIEW_NAME_BENUTZER = "Benutzer";
 	public static final String VIEW_NAME_UNTERNEHMEN = "Unternehmen";
 	public static final String VIEW_NAME_TERMIN = "Termine";
+	
+	public static final String COLOR_DHBW_RED = "";
+	public static final String COLOR_DHBW_WHITE = "";
+	public static final String COLOR_DHBW_BLACK = "";
+	
 
 }
