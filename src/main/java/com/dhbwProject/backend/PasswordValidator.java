@@ -2,6 +2,8 @@ package com.dhbwProject.backend;
 
 import com.vaadin.data.validator.AbstractValidator;
 
+/*	Der PasswordValidator prueft das Passwort auf feste Richtlinien,
+ * 	diese muessen evtl. noch ausdiskutiert werden*/
 public class PasswordValidator extends AbstractValidator<String>{
 	private static final long serialVersionUID = 1L;
 

@@ -38,7 +38,9 @@ public class ViewLogin extends CustomComponent implements View{
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid() || !this.pwField.isValid())
 	            return;
-
+			/*	An dieser Stelle erfolgt spaeter ein Backendzugriff
+			 *	um einen Datenbankabgleich zu tätigen, anstatt einen
+			 *	dummy-user abgleich zu taetigen*/
 	        boolean isValid = this.userField.getValue().equals("Alpha")
 	                && this.pwField.getValue().equals("123");
 
