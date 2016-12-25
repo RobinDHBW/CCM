@@ -53,6 +53,12 @@ public class TerminAnlage extends CustomComponent {
 		this.initCbEnterprise();
 		this.initGrdParticipants();
 		this.initBtnCreate();
+		Button btnTest = new Button("LookupTest");
+		btnTest.addClickListener(listener ->{
+			LookupUnternehmen lookup = new LookupUnternehmen();
+			this.getUI().addWindow(lookup);
+		});
+		this.vlContent.addComponent(btnTest);
 
 	}
 	
@@ -68,11 +74,12 @@ public class TerminAnlage extends CustomComponent {
 		this.cbEnterprise.setWidth("300px");
 		this.cbEnterprise.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
 		//Dummywerte
+		
 		this.cbEnterprise.addContainerProperty("Enterprise", String.class, null);
 		String[] aEnterprise = {"ebm-papst", "Ziehl-Abegg", "Fujitsu", "Toyota", "Sony", "Toyo", "Phyto", "Mercedes Benz", "Pabronko"};
 		for(int i = 0; i<aEnterprise.length; i++){
-			Item itm = this.cbEnterprise.addItem(i);
-			itm.getItemProperty("Enterprise").setValue(aEnterprise[i]);
+			Item itmEnterprise = this.cbEnterprise.addItem(i);
+			itmEnterprise.getItemProperty("Enterprise").setValue(aEnterprise[i]);
 			this.cbEnterprise.setItemCaption(i, aEnterprise[i]);
 		}
 		this.vlContent.addComponent(this.cbEnterprise);
@@ -189,6 +196,12 @@ public class TerminAnlage extends CustomComponent {
 		this.grdParticipants.setContainerDataSource(this.idcParticipants);
 		this.initParticipantsFilter();
 		
+	}
+	
+	private int enterpriseLookUp(){
+		Window w = new Window();
+		
+		return 0;
 	}
 
 }
