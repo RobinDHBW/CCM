@@ -1,26 +1,26 @@
 package com.dhbwProject.termine;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import java.util.ArrayList;
+
+import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Unternehmen;
+import com.dhbwProject.benutzer.LookupBenutzer;
+import com.dhbwProject.unternehmen.LookupUnternehmen;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
-import com.vaadin.ui.Grid;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Grid.HeaderCell;
-import com.vaadin.ui.Grid.HeaderRow;
-import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class TerminAnlage extends CustomComponent {
 	private static final long serialVersionUID = 1L;
@@ -29,13 +29,18 @@ public class TerminAnlage extends CustomComponent {
 	private VerticalLayout vlLayout;
 	
 	private DateField dfDate;
-	private ComboBox cbEnterprise;
-	private Grid grdParticipants;
-	private IndexedContainer idcParticipants;
+	private TextField tfUnternehmen;
+	private Button btnLookupUnternehmen;
+	private TextArea taParticipants;
+	private Button btnLookupParticipants;
 	private Button btnCreate;
+	
+	private Unternehmen uAnlage;
+	private ArrayList<Benutzer> alBenutzer;
 	
 	
 	public TerminAnlage(){
+		this.alBenutzer = new ArrayList<Benutzer>();
 		this.initVlContent();
 		this.initFields();
 		this.initVlLayout();
@@ -50,16 +55,9 @@ public class TerminAnlage extends CustomComponent {
 	
 	private void initFields(){
 		this.initDfDate();
-		this.initCbEnterprise();
-		this.initGrdParticipants();
+		this.initFieldUnternehmen();
+		this.initFieldParticipants();
 		this.initBtnCreate();
-		Button btnTest = new Button("LookupTest");
-		btnTest.addClickListener(listener ->{
-			LookupUnternehmen lookup = new LookupUnternehmen();
-			this.getUI().addWindow(lookup);
-		});
-		this.vlContent.addComponent(btnTest);
-
 	}
 	
 	private void initDfDate(){
@@ -69,46 +67,61 @@ public class TerminAnlage extends CustomComponent {
 		this.vlContent.addComponent(this.dfDate);
 	}
 	
-	private void initCbEnterprise(){
-		this.cbEnterprise = new ComboBox("Wo?");
-		this.cbEnterprise.setWidth("300px");
-		this.cbEnterprise.setItemCaptionMode(ItemCaptionMode.EXPLICIT);
-		//Dummywerte
+	private void initFieldUnternehmen(){
+		HorizontalLayout hlUnternehmen = new HorizontalLayout();
+		this.tfUnternehmen = new TextField();
+		this.tfUnternehmen.setInputPrompt("Unternehmen");
+		this.tfUnternehmen.setWidth("300px");
 		
-		this.cbEnterprise.addContainerProperty("Enterprise", String.class, null);
-		String[] aEnterprise = {"ebm-papst", "Ziehl-Abegg", "Fujitsu", "Toyota", "Sony", "Toyo", "Phyto", "Mercedes Benz", "Pabronko"};
-		for(int i = 0; i<aEnterprise.length; i++){
-			Item itmEnterprise = this.cbEnterprise.addItem(i);
-			itmEnterprise.getItemProperty("Enterprise").setValue(aEnterprise[i]);
-			this.cbEnterprise.setItemCaption(i, aEnterprise[i]);
-		}
-		this.vlContent.addComponent(this.cbEnterprise);
-	}
-	
-	private void initGrdParticipants(){
-		this.grdParticipants = new Grid("mit Wem?");
-		this.grdParticipants.setSelectionMode(SelectionMode.MULTI);
-		this.grdParticipants.setWidth("300px");
-		this.grdParticipants.setHeight("400px");
-		this.refreshParticipants();
-		this.vlContent.addComponent(this.grdParticipants);
-	}
-	
-	private void initParticipantsFilter(){
-		HeaderRow filterRow = this.grdParticipants.appendHeaderRow();
-		for (Object propId: this.idcParticipants.getContainerPropertyIds()) {
-		    HeaderCell cell = filterRow.getCell(propId);
-		    TextField tfFilter = new TextField();
+		this.btnLookupUnternehmen = new Button();
+		this.btnLookupUnternehmen.setIcon(FontAwesome.REPLY);
+		this.btnLookupUnternehmen.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		this.btnLookupUnternehmen.setWidth("50px");
+		this.btnLookupUnternehmen.addClickListener(listener ->{
+			LookupUnternehmen lookup = new LookupUnternehmen(this.uAnlage);
+			lookup.addCloseListener(CloseListener ->{
+				/*	In diesem Wert erfolgt das zurückschreiben
+				 *	zur Anzeige in dem TextField
+				 * */
+			});
+			this.getUI().addWindow(lookup);
 
-		    tfFilter.addTextChangeListener(change -> {
-		    	this.idcParticipants.removeContainerFilters(propId);
-		        if (! change.getText().isEmpty())
-		        	this.idcParticipants.addContainerFilter(
-		                new SimpleStringFilter(propId,
-		                    change.getText(), true, false));
-		    });
-		    cell.setComponent(tfFilter);
-		}
+		});
+		hlUnternehmen.setSizeUndefined();
+		hlUnternehmen.addComponent(this.tfUnternehmen);
+		hlUnternehmen.addComponent(this.btnLookupUnternehmen);
+		this.vlContent.addComponent(hlUnternehmen);
+	}
+	
+	private void initFieldParticipants(){
+		HorizontalLayout hlParticipants = new HorizontalLayout();
+		this.taParticipants = new TextArea();
+		this.taParticipants.setInputPrompt("Teilnehmer");
+		this.taParticipants.setWidth("300px");
+		
+		this.btnLookupParticipants = new Button();
+		this.btnLookupParticipants.setIcon(FontAwesome.REPLY);
+		this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		this.btnLookupParticipants.setWidth("50px");
+		this.btnLookupParticipants.addClickListener(listener ->{
+			LookupBenutzer lookup = new LookupBenutzer(this.alBenutzer);
+			lookup.addCloseListener(CloseListener ->{
+				/*	In diesem Wert erfolgt das zurückschreiben
+				 *	zur Anzeige in dem TextArea
+				 *	Hier erfolgt eine Dummy-Zurückschreibung
+				 * */	
+				String value = "";
+				for(Benutzer b : this.alBenutzer)
+					value = value +b.getNachname()+", "+b.getVorname()+"\n"; 
+				this.taParticipants.setValue(value);
+			});
+			this.getUI().addWindow(lookup);
+		});
+		
+		hlParticipants.setSizeUndefined();
+		hlParticipants.addComponent(this.taParticipants);
+		hlParticipants.addComponent(this.btnLookupParticipants);
+		this.vlContent.addComponent(hlParticipants);
 	}
 	
 	private void initBtnCreate(){
@@ -179,29 +192,4 @@ public class TerminAnlage extends CustomComponent {
 		this.getUI().addWindow(warning);
 	}
 	
-	protected void refreshParticipants(){
-		//Hier werden wir evtl. einen BeanContainer verwenden
-		this.idcParticipants = new IndexedContainer();
-		this.idcParticipants.addContainerProperty("Vorname", String.class, null);
-		this.idcParticipants.addContainerProperty("Nachname", String.class, null);
-		
-		//Dummywerte
-		String[] aVorname = {"Albert", "Herbert", "Yoshi", "Sakura", "Robin", "Simon", "Bosse", "Jasmin", "Florian", "Manuel", "Christian"};
-		String[] aNachname = {"Terbun", "Remus", "Suzuki", "Shizuki", "Bahr", "Schlarb", "Bosse", "Stribik", "Flurer", "Manu", "Zaengle"};
-		for(int i = 0; i<=10;i++){
-			Item itm = this.idcParticipants.addItem(i);
-			itm.getItemProperty("Vorname").setValue(aVorname[i]);
-			itm.getItemProperty("Nachname").setValue(aNachname[i]);
-		}
-		this.grdParticipants.setContainerDataSource(this.idcParticipants);
-		this.initParticipantsFilter();
-		
-	}
-	
-	private int enterpriseLookUp(){
-		Window w = new Window();
-		
-		return 0;
-	}
-
 }
