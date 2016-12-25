@@ -77,6 +77,7 @@ public class CCM_UI extends UI {
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BENUTZER, ViewBenutzer.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_UNTERNEHMEN, ViewUnternehmen.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, ViewTermin.class);
+		//this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin());
 		
 		/*	Dieser ViewChangeListener prueft ob sich ein Benutzer an der Session angemeldet hat
 		 * 	Ist das nicht der Fall so ist lediglich der Login anzuzeigen*/

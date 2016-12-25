@@ -12,5 +12,7 @@ public interface CCM_Constants {
 	public static final String COLOR_DHBW_WHITE = "";
 	public static final String COLOR_DHBW_BLACK = "";
 	
+	public static final String SESSION_VALUE_USERNAME = "User";
+	
 
 }
