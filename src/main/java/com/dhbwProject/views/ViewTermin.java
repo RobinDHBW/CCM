@@ -2,6 +2,7 @@ package com.dhbwProject.views;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.termine.TerminAnlage;
+import com.dhbwProject.termine.TerminEigene;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -28,6 +29,7 @@ public class ViewTermin extends VerticalLayout implements View {
 	
 	private void initTbContent(){
 		this.tbContent = new TabSheet();
+		this.tbContent.addTab(new TerminEigene(), "Meine Termine", FontAwesome.USER);
 		this.tbContent.addTab(new TerminAnlage(), "Termin anlegen", FontAwesome.CALENDAR_PLUS_O);
 		this.addComponent(this.tbContent);
 	}

@@ -2,8 +2,10 @@ package com.dhbwProject.views;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.PasswordValidator;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -12,6 +14,7 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class ViewLogin extends CustomComponent implements View{
 	private static final long serialVersionUID = 1L;
@@ -58,6 +61,8 @@ public class ViewLogin extends CustomComponent implements View{
 	
 	private void initBtnLogin(){
 		this.btnLogin = new Button("Anmelden");
+		this.btnLogin.setIcon(FontAwesome.SIGN_IN);
+		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid() || !this.pwField.isValid())
 	            return;
@@ -68,7 +73,8 @@ public class ViewLogin extends CustomComponent implements View{
 	                && this.pwField.getValue().equals("123");
 
 	        if (isValid) {
-	            this.getSession().setAttribute("user", this.userField.getValue());
+	        	//Den Benutzer speichern wir uns in die Session, damit können wir überall darauf zugreifen
+	            this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, new Benutzer("0", "Alpha", "Version", null, "0"));
 	            this.getUI().getNavigator().navigateTo(CCM_Constants.VIEW_NAME_START);
 	        } else {
 	            this.pwField.setValue(null);

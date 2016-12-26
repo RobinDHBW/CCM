@@ -55,7 +55,7 @@ public class CCM_UI extends UI {
 		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_BENUTZER, this.getNavigator()));
 		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, this.getNavigator()));
 		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_TERMIN, this.getNavigator()));	
-		if(this.getSession().getAttribute("user") == null){
+		if(this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null){
 			this.clNavigation.setVisible(false);
 		}else
 			this.clNavigation.setVisible(true);
@@ -86,7 +86,7 @@ public class CCM_UI extends UI {
 
 			@Override
             public boolean beforeViewChange(ViewChangeEvent event) {
-                boolean isLoggedIn = getSession().getAttribute("user") != null;
+                boolean isLoggedIn = getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
                 if(isLoggedIn && !clNavigation.isVisible())
                 	clNavigation.setVisible(true);

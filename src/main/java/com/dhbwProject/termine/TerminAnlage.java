@@ -2,9 +2,11 @@ package com.dhbwProject.termine;
 
 import java.util.ArrayList;
 
+import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.dhbwProject.benutzer.LookupBenutzer;
+import com.dhbwProject.unternehmen.LookupAnsprechpartner;
 import com.dhbwProject.unternehmen.LookupUnternehmen;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -29,13 +31,20 @@ public class TerminAnlage extends CustomComponent {
 	private VerticalLayout vlLayout;
 	
 	private DateField dfDate;
+	
 	private TextField tfUnternehmen;
 	private Button btnLookupUnternehmen;
+	
+	private TextField tfAnsprechpartner;
+	private Button btnLookupAnsprechpartner;
+	
 	private TextArea taParticipants;
 	private Button btnLookupParticipants;
+	
 	private Button btnCreate;
 	
-	private Unternehmen uAnlage;
+	private Unternehmen unternehmen;
+	private Ansprechpartner ansprechpartner;
 	private ArrayList<Benutzer> alBenutzer;
 	
 	
@@ -56,6 +65,7 @@ public class TerminAnlage extends CustomComponent {
 	private void initFields(){
 		this.initDfDate();
 		this.initFieldUnternehmen();
+		this.initFieldAnsprechpartner();
 		this.initFieldParticipants();
 		this.initBtnCreate();
 	}
@@ -78,7 +88,7 @@ public class TerminAnlage extends CustomComponent {
 		this.btnLookupUnternehmen.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupUnternehmen.setWidth("50px");
 		this.btnLookupUnternehmen.addClickListener(listener ->{
-			LookupUnternehmen lookup = new LookupUnternehmen(this.uAnlage);
+			LookupUnternehmen lookup = new LookupUnternehmen(this.unternehmen);
 			lookup.addCloseListener(CloseListener ->{
 				/*	In diesem Wert erfolgt das zurückschreiben
 				 *	zur Anzeige in dem TextField
@@ -91,6 +101,32 @@ public class TerminAnlage extends CustomComponent {
 		hlUnternehmen.addComponent(this.tfUnternehmen);
 		hlUnternehmen.addComponent(this.btnLookupUnternehmen);
 		this.vlContent.addComponent(hlUnternehmen);
+	}
+	
+	private void initFieldAnsprechpartner(){
+		HorizontalLayout hlAnsprechpartner = new HorizontalLayout();
+		this.tfAnsprechpartner = new TextField();
+		this.tfAnsprechpartner.setInputPrompt("Ansprechpartner");
+		this.tfAnsprechpartner.setWidth("300px");
+		
+		this.btnLookupAnsprechpartner = new Button();
+		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
+		this.btnLookupAnsprechpartner.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		this.btnLookupAnsprechpartner.setWidth("50px");
+		this.btnLookupAnsprechpartner.addClickListener(listener ->{
+			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen, this.ansprechpartner);
+			lookup.addCloseListener(CloseListener ->{
+				/*	In diesem Wert erfolgt das zurückschreiben
+				 *	zur Anzeige in dem TextField
+				 * */
+			});
+			this.getUI().addWindow(lookup);
+
+		});
+		hlAnsprechpartner.setSizeUndefined();
+		hlAnsprechpartner.addComponent(this.tfAnsprechpartner);
+		hlAnsprechpartner.addComponent(this.btnLookupAnsprechpartner);
+		this.vlContent.addComponent(hlAnsprechpartner);
 	}
 	
 	private void initFieldParticipants(){
