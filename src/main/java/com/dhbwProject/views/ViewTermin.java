@@ -18,8 +18,6 @@ public class ViewTermin extends VerticalLayout implements View {
 	public ViewTermin(){
 		this.setSizeFull();
 		this.setCaption(CCM_Constants.VIEW_NAME_TERMIN);
-		//Hier wird zunächst der Header eingefügt.
-		this.addComponent(new HeaderView());
 		this.initTbContent();
 		
 	}
