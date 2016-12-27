@@ -6,32 +6,32 @@ import java.util.GregorianCalendar;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Calendar;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.calendar.event.BasicEvent;
 import com.vaadin.ui.themes.Reindeer;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class TerminEigene extends CustomComponent {
+public class TerminVerwaltung extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 	
 	private VerticalLayout vlFields;
 	private VerticalLayout vlLayout;
 	
-	private Calendar calendar;
+	private TermineCalendar calendar;
 	private LocalDateTime date;
 	
 	private Button btnMonth;
 	private Button btnWeek;
 	private Button btnDay;
 	
-	public TerminEigene(){
+	public TerminVerwaltung(){
 		this.date = LocalDateTime.now();
 		this.initVlFields();
 		this.initVlLayout();
-		this.initButtons();
 		this.initCalendar();
+		this.initButtons();
 	}
 	
 	private void initVlFields(){
@@ -58,62 +58,40 @@ public class TerminEigene extends CustomComponent {
 		this.btnMonth.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnMonth.setWidth("200px");
 		this.btnMonth.addClickListener(listener ->{
-			this.setViewMonth();
+			this.calendar.setViewMonth();
 		});
 		this.btnWeek = new Button("Wochenansicht");
 		this.btnWeek.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnWeek.setWidth("200px");
 		this.btnWeek.addClickListener(listener ->{
-			this.setViewWeek();
+			this.calendar.setViewWeek();
 		});
 		this.btnDay = new Button("Tagesansicht");
 		this.btnDay.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnDay.setWidth("200px");
 		this.btnDay.addClickListener(listener ->{
-			this.setViewDay();
+			this.calendar.setViewDay();
 		});
 		hlButtons.addComponent(this.btnMonth);
 		hlButtons.addComponent(this.btnWeek);
 		hlButtons.addComponent(this.btnDay);
 		this.vlFields.addComponent(hlButtons);
-		
-		
 	}
 	
 	private void initCalendar(){
-		this.calendar = new Calendar();
-		this.calendar.setSizeFull();
-		this.calendar.setFirstVisibleDayOfWeek(1);
-		this.calendar.setLastVisibleDayOfWeek(5);
-		this.setViewMonth();
+		this.calendar = new TermineCalendar();
 		this.vlFields.addComponent(this.calendar);
-	}
-	
-	private void setViewMonth(){
-		this.calendar.setStartDate(new GregorianCalendar(this.date.getYear(), 
+		
+		//Testevent
+		BasicEvent event = new BasicEvent();
+		event.setCaption("TEST");
+		event.setStart(new GregorianCalendar(this.date.getYear(), 
 				this.date.getMonthValue()-1, 
 				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		this.calendar.setEndDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
+		event.setEnd(new GregorianCalendar(this.date.getYear(), 
+				this.date.getMonthValue()-1, 
 				this.date.getDayOfMonth(), 00, 00, 00).getTime());
+		event.setAllDay(true);
+		this.calendar.addEvent(event);
 	}
-	
-	private void setViewWeek(){
-		this.calendar.setStartDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		this.calendar.setEndDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-	}
-	
-	private void setViewDay(){
-		this.calendar.setStartDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		this.calendar.setEndDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-	}
-
 }
