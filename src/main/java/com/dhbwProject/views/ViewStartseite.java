@@ -8,7 +8,8 @@ public class ViewStartseite extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	
 	public ViewStartseite(){
-		
+		//Hier wird zunächst der Header eingefügt.
+		this.addComponent(new HeaderView());
 	}
 
 	@Override
