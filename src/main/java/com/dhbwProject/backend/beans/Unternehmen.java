@@ -10,6 +10,9 @@ public class Unternehmen {
 		this.name = name;
 		this.lAnsprechpartner = lAnsprechpartner;
 	}
+	public Unternehmen() {
+		// TODO Auto-generated constructor stub
+	}
 	private int id;
 	private String name;
 	private LinkedList<Ansprechpartner> lAnsprechpartner;
