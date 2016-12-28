@@ -9,9 +9,11 @@ public class NaviButton extends Button {
 
 	public NaviButton(String viewName, Navigator nav){
 		this.setCaptionAsHtml(true);
-		this.setCaption("<font color=#35adcc><left>"+viewName+"</left></font>");
+		//this.setCaption("<font color=#35adcc><left>"+viewName+"</left></font>");
+		this.setCaption(viewName);
 		this.setWidth("100%");
-		this.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		//this.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		this.setStyleName("navi");
 		this.addClickListener(listener -> {
 			nav.navigateTo(viewName);
 		});

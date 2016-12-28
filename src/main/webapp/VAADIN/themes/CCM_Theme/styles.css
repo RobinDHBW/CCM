@@ -1585,6 +1585,17 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 }
 
+.CCM_Theme .v-app-loading:after {
+	position: fixed;
+	z-index: 100;
+	top: 45%;
+	padding-top: 47px;
+	text-align: center;
+	left: 0;
+	right: 0;
+	content: "CRM System laedt, bitte warten.";
+}
+
 .CCM_Theme .v-loading-indicator {
 	position: fixed !important;
 	z-index: 99999;
@@ -1594,7 +1605,7 @@ div.v-layout.v-horizontal.v-widget {
 	width: 50%;
 	opacity: 1;
 	height: 4px;
-	background-color: #197de1;
+	background-color: #8c0011;
 	pointer-events: none;
 	-webkit-transition: none;
 	-moz-transition: none;
@@ -1718,8 +1729,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme select:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme button {
@@ -1730,7 +1741,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme a {
 	cursor: pointer;
-	color: #197de1;
+	color: #8c0011;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -1739,7 +1750,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme a:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme a.v-disabled {
@@ -1857,7 +1868,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: #0957a6;
+	background: #62000c;
 	opacity: 0.15;
 	filter: alpha(opacity=15.0) ;
 	pointer-events: none;
@@ -1871,10 +1882,10 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-contextmenu .gwt-MenuItem-selected {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	color: #ecf2f8;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -1904,9 +1915,9 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	border: 2px solid rgba(25, 125, 225, 0.2);
-	border-top-color: #197de1;
-	border-right-color: #197de1;
+	border: 2px solid rgba(140, 0, 17, 0.2);
+	border-top-color: #8c0011;
+	border-right-color: #8c0011;
 	border-radius: 100%;
 	-webkit-animation: v-rotate-360 500ms infinite linear;
 	-moz-animation: v-rotate-360 500ms infinite linear;
@@ -2130,9 +2141,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-button:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-button:active:after {
@@ -2142,19 +2153,19 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-button-primary {
 	height: 37px;
 	padding: 0 16px;
-	color: #ecf2f8;
+	color: #f7e2e5;
 	font-weight: 400;
 	
 	
 	border-radius: 4px;
-	border: 1px solid #1362b1;
-	border-top-color: #156ab3;
-	border-bottom-color: #1156a8;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	-webkit-box-shadow: inset 0 1px 0 #4d98e6, inset 0 -1px 0 #166bca, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: inset 0 1px 0 #4d98e6, inset 0 -1px 0 #166bca, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border: 1px solid #6e000d;
+	border-top-color: #75000e;
+	border-bottom-color: #61000b;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	-webkit-box-shadow: inset 0 1px 0 #b00e21, inset 0 -1px 0 #75000e, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 #b00e21, inset 0 -1px 0 #75000e, 0 2px 3px rgba(0, 0, 0, 0.05);
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 	padding: 0 19px;
 	font-weight: bold;
@@ -2170,17 +2181,17 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-button-primary:hover:after {
-	background-color: rgba(90, 163, 237, 0.1);
+	background-color: rgba(217, 0, 26, 0.1);
 }
 
 .CCM_Theme .v-button-primary:focus:after {
 	border: inherit;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-button-primary:active:after {
-	background-color: rgba(2, 62, 122, 0.2);
+	background-color: rgba(70, 0, 9, 0.2);
 }
 
 .v-ie8 .CCM_Theme .v-button-primary {
@@ -2219,9 +2230,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-button-friendly:focus:after {
-	border: inherit;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-button-friendly:active:after {
@@ -2260,9 +2271,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-button-danger:focus:after {
-	border: inherit;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-button-danger:active:after {
@@ -2295,11 +2306,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: transparent;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-button-borderless-colored:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-button-borderless-colored:hover:after {
@@ -2338,7 +2349,7 @@ div.v-layout.v-horizontal.v-widget {
 	background: transparent;
 	color: inherit;
 	cursor: pointer;
-	color: #197de1;
+	color: #8c0011;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -2360,7 +2371,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-button-link:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-button-link.v-disabled {
@@ -2530,11 +2541,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-checkbox > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-checkbox > input ~ label:before, :root .CCM_Theme .v-checkbox > input ~ label:after {
@@ -2588,7 +2599,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-checkbox > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-checkbox > .v-icon, .CCM_Theme .v-checkbox > label .v-icon {
@@ -2660,11 +2671,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-checkbox-small > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-checkbox-small > input ~ label:before, :root .CCM_Theme .v-checkbox-small > input ~ label:after {
@@ -2718,7 +2729,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-checkbox-small > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-checkbox-small > .v-icon, .CCM_Theme .v-checkbox-small > label .v-icon {
@@ -2790,11 +2801,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-checkbox-large > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-checkbox-large > input ~ label:before, :root .CCM_Theme .v-checkbox-large > input ~ label:after {
@@ -2848,7 +2859,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-checkbox-large > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-checkbox-large > .v-icon, .CCM_Theme .v-checkbox-large > label .v-icon {
@@ -2947,11 +2958,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: none;
 	-moz-transition: none;
 	transition: none;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-filterselect [class*="input"][class*="prompt"] {
@@ -3135,7 +3146,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: #0957a6;
+	background: #62000c;
 	opacity: 0.15;
 	filter: alpha(opacity=15.0) ;
 	pointer-events: none;
@@ -3149,10 +3160,10 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-filterselect-suggestpopup .gwt-MenuItem-selected {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	color: #ecf2f8;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -3295,11 +3306,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: none;
 	-moz-transition: none;
 	transition: none;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-filterselect-no-input [class$="button"] {
@@ -4123,11 +4134,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: none;
 	-moz-transition: none;
 	transition: none;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), none;
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), none;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), none;
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), none;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-textfield:focus, .CCM_Theme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-textarea:focus, .CCM_Theme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-filterselect input:focus, .CCM_Theme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-datefield input:focus, .CCM_Theme .v-formlayout.light  > table > tbody > [class*="row"] > [class*="contentcell"]  > .v-richtextarea:focus {
@@ -4356,7 +4367,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-grid .header-drag-table .v-grid-header  > .v-grid-drop-marker {
-	background-color: #197de1;
+	background-color: #8c0011;
 	position: absolute;
 	width: 3px;
 }
@@ -4485,7 +4496,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-grid-row-selected > td {
-	background: #197de1;
+	background: #8c0011;
 }
 
 .CCM_Theme .v-grid-row-focused > td {
@@ -4608,7 +4619,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	border: 2px solid #197de1;
+	border: 2px solid #8c0011;
 	display: none;
 	pointer-events: none;
 }
@@ -4798,7 +4809,7 @@ div.v-layout.v-horizontal.v-widget {
 	top: 0;
 	left: 0;
 	width: 2px;
-	background-color: #197de1;
+	background-color: #8c0011;
 	position: absolute;
 	height: 100%;
 	pointer-events: none;
@@ -4864,22 +4875,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-grid-row-selected  > .v-grid-cell {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	color: #c8dbed;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	color: #ecaab2;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
-	border-color: #1d69b4;
+	border-color: #5f040f;
 }
 
 .CCM_Theme .v-grid-row-selected  > .v-grid-cell-focused:before {
-	border-color: #71b0ef;
+	border-color: #f2001d;
 }
 
 .CCM_Theme .v-grid-editor {
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	border-color: #197de1;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	border-color: #8c0011;
 }
 
 .CCM_Theme .v-grid-editor-footer {
@@ -4973,7 +4984,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-grid-editor-save, .CCM_Theme .v-grid-editor-cancel {
 	cursor: pointer;
-	color: #197de1;
+	color: #8c0011;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -4989,7 +5000,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-grid-editor-save:hover, .CCM_Theme .v-grid-editor-cancel:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-grid-editor-save.v-disabled, .CCM_Theme .v-grid-editor-cancel.v-disabled {
@@ -5079,11 +5090,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: none;
 	-moz-transition: none;
 	transition: none;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-textfield[class*="prompt"] {
@@ -5549,11 +5560,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: none;
 	-moz-transition: none;
 	transition: none;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-textarea[class*="prompt"] {
@@ -5838,11 +5849,11 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-transition: none;
 	-moz-transition: none;
 	transition: none;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-datefield [class*="textfield"][class*="prompt"] {
@@ -6034,7 +6045,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day:hover {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day-offmonth {
@@ -6049,22 +6060,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-selected, .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-selected:hover {
-	color: #c8dbed;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	color: #ecaab2;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	border: none;
 	font-weight: 600;
 }
 
 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-focused {
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 	position: relative;
 }
 
 .v-ie8 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-focused {
-	border-color: #197de1;
+	border-color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-outside-range, .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-outside-range:hover {
@@ -6116,7 +6127,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-datefield-popup td[class*="year"] button:hover:before, .CCM_Theme .v-datefield-popup td[class*="month"] button:hover:before {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-popup td[class*="year"] button.outside-range, .CCM_Theme .v-datefield-popup td[class*="month"] button.outside-range {
@@ -6151,7 +6162,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-datefield-popup td.v-datefield-calendarpanel-month {
 	width: 148px;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-popup .v-datefield-calendarpanel-year td.v-datefield-calendarpanel-month {
@@ -6227,7 +6238,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-datefield-calendarpanel-day:hover {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-calendarpanel-day-offmonth {
@@ -6242,22 +6253,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-selected, .CCM_Theme .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-selected:hover {
-	color: #c8dbed;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	color: #ecaab2;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	border: none;
 	font-weight: 600;
 }
 
 .CCM_Theme .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-focused {
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 	position: relative;
 }
 
 .v-ie8 .CCM_Theme .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-focused {
-	border-color: #197de1;
+	border-color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-outside-range, .CCM_Theme .v-datefield-calendarpanel-day.v-datefield-calendarpanel-day-outside-range:hover {
@@ -6309,7 +6320,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme td[class*="year"] button:hover:before, .CCM_Theme td[class*="month"] button:hover:before {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme td[class*="year"] button.outside-range, .CCM_Theme td[class*="month"] button.outside-range {
@@ -6344,7 +6355,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme td.v-datefield-calendarpanel-month {
 	width: 148px;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-datefield-calendarpanel-year td.v-datefield-calendarpanel-month {
@@ -6922,7 +6933,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-inline-datefield-calendarpanel-day:hover {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-inline-datefield-calendarpanel-day-offmonth {
@@ -6937,22 +6948,22 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-inline-datefield-calendarpanel-day.v-inline-datefield-calendarpanel-day-selected, .CCM_Theme .v-inline-datefield-calendarpanel-day.v-inline-datefield-calendarpanel-day-selected:hover {
-	color: #c8dbed;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	color: #ecaab2;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	border: none;
 	font-weight: 600;
 }
 
 .CCM_Theme .v-inline-datefield-calendarpanel-day.v-inline-datefield-calendarpanel-day-focused {
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 	position: relative;
 }
 
 .v-ie8 .CCM_Theme .v-inline-datefield-calendarpanel-day.v-inline-datefield-calendarpanel-day-focused {
-	border-color: #197de1;
+	border-color: #8c0011;
 }
 
 .CCM_Theme .v-inline-datefield-calendarpanel-day.v-inline-datefield-calendarpanel-day-outside-range, .CCM_Theme .v-inline-datefield-calendarpanel-day.v-inline-datefield-calendarpanel-day-outside-range:hover {
@@ -7004,7 +7015,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme td[class*="year"] button:hover:before, .CCM_Theme td[class*="month"] button:hover:before {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme td[class*="year"] button.outside-range, .CCM_Theme td[class*="month"] button.outside-range {
@@ -7039,7 +7050,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme td.v-inline-datefield-calendarpanel-month {
 	width: 148px;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-inline-datefield-calendarpanel-year td.v-inline-datefield-calendarpanel-month {
@@ -7176,9 +7187,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-menubar  > .v-menubar-menuitem {
@@ -7300,19 +7311,19 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar > .v-menubar-menuitem-selected {
-	color: #ecf2f8;
+	color: #f7e2e5;
 	
 	
 	
 	border-radius: 0;
-	border: 1px solid #1362b1;
-	border-top-color: #156ab3;
-	border-bottom-color: #1156a8;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	-webkit-box-shadow: inset 0 1px 0 #4d98e6, inset 0 -1px 0 #166bca;
-	box-shadow: inset 0 1px 0 #4d98e6, inset 0 -1px 0 #166bca;
+	border: 1px solid #6e000d;
+	border-top-color: #75000e;
+	border-bottom-color: #61000b;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	-webkit-box-shadow: inset 0 1px 0 #b00e21, inset 0 -1px 0 #75000e;
+	box-shadow: inset 0 1px 0 #b00e21, inset 0 -1px 0 #75000e;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 	border-top-width: 0;
 	border-left-width: 0;
@@ -7393,7 +7404,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: #0957a6;
+	background: #62000c;
 	opacity: 0.15;
 	filter: alpha(opacity=15.0) ;
 	pointer-events: none;
@@ -7419,10 +7430,10 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar-popup .v-menubar-menuitem-selected {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	color: #ecf2f8;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -7500,7 +7511,7 @@ div.v-layout.v-horizontal.v-widget {
 	border: none;
 	margin-right: 1px;
 	border-radius: 4px;
-	color: #197de1;
+	color: #8c0011;
 	padding: 0 12px;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -7516,7 +7527,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem:active {
@@ -7525,7 +7536,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-checked, .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-checked:first-child {
 	border: 1px solid #c5c5c5;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-checked .v-menubar-menuitem-caption, .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-checked:first-child .v-menubar-menuitem-caption {
@@ -7534,12 +7545,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-selected {
-	color: #ecf2f8;
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-selected:hover {
-	color: #ecf2f8;
+	color: #f7e2e5;
 }
 
 .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-disabled, .CCM_Theme .v-menubar-borderless .v-menubar-menuitem-disabled:hover {
@@ -7577,11 +7588,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-radiobutton > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-radiobutton > input ~ label:before, :root .CCM_Theme .v-radiobutton > input ~ label:after {
@@ -7635,7 +7646,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-radiobutton > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-radiobutton > .v-icon, .CCM_Theme .v-radiobutton > label .v-icon {
@@ -7680,7 +7691,7 @@ div.v-layout.v-horizontal.v-widget {
 	height: 7px;
 	top: 6px;
 	left: 6px;
-	background: #197de1;
+	background: #8c0011;
 }
 
 :root .CCM_Theme .v-radiobutton > input ~ label:before, :root .CCM_Theme .v-radiobutton > input ~ label:after {
@@ -7740,11 +7751,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-checkbox > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-checkbox > input ~ label:before, :root .CCM_Theme .v-select-optiongroup-small .v-checkbox > input ~ label:after {
@@ -7798,7 +7809,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-checkbox > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-select-optiongroup-small .v-checkbox > .v-icon, .CCM_Theme .v-select-optiongroup-small .v-checkbox > label .v-icon {
@@ -7869,11 +7880,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-radiobutton > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-radiobutton > input ~ label:before, :root .CCM_Theme .v-select-optiongroup-small .v-radiobutton > input ~ label:after {
@@ -7927,7 +7938,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-radiobutton > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-select-optiongroup-small .v-radiobutton > .v-icon, .CCM_Theme .v-select-optiongroup-small .v-radiobutton > label .v-icon {
@@ -7972,7 +7983,7 @@ div.v-layout.v-horizontal.v-widget {
 	height: 6px;
 	top: 5px;
 	left: 5px;
-	background: #197de1;
+	background: #8c0011;
 }
 
 :root .CCM_Theme .v-select-optiongroup-small .v-radiobutton > input ~ label:before, :root .CCM_Theme .v-select-optiongroup-small .v-radiobutton > input ~ label:after {
@@ -8032,11 +8043,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-checkbox > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-checkbox > input ~ label:before, :root .CCM_Theme .v-select-optiongroup-large .v-checkbox > input ~ label:after {
@@ -8090,7 +8101,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-checkbox > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-select-optiongroup-large .v-checkbox > .v-icon, .CCM_Theme .v-select-optiongroup-large .v-checkbox > label .v-icon {
@@ -8161,11 +8172,11 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-radiobutton > input:focus ~ label:before {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5), inset 0 1px 0 white, inset 0 -1px 0 #e7e7e7, 0 2px 3px rgba(0, 0, 0, 0.05);
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-radiobutton > input ~ label:before, :root .CCM_Theme .v-select-optiongroup-large .v-radiobutton > input ~ label:after {
@@ -8219,7 +8230,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-radiobutton > input:checked ~ label:after {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-select-optiongroup-large .v-radiobutton > .v-icon, .CCM_Theme .v-select-optiongroup-large .v-radiobutton > label .v-icon {
@@ -8264,7 +8275,7 @@ div.v-layout.v-horizontal.v-widget {
 	height: 8px;
 	top: 7px;
 	left: 7px;
-	background: #197de1;
+	background: #8c0011;
 }
 
 :root .CCM_Theme .v-select-optiongroup-large .v-radiobutton > input ~ label:before, :root .CCM_Theme .v-select-optiongroup-large .v-radiobutton > input ~ label:after {
@@ -8307,7 +8318,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-link {
 	cursor: pointer;
-	color: #197de1;
+	color: #8c0011;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -8316,7 +8327,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-link:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-link.v-disabled {
@@ -8489,7 +8500,7 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-window-closebox:hover, .CCM_Theme .v-window-maximizebox:hover, .CCM_Theme .v-window-restorebox:hover {
 	opacity: 1;
 	filter: none ;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-window-closebox:active, .CCM_Theme .v-window-maximizebox:active, .CCM_Theme .v-window-restorebox:active {
@@ -8833,30 +8844,30 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-tree-node-focused:after {
 	opacity: 1;
-	border: 1px solid #197de1;
+	border: 1px solid #8c0011;
 }
 
 .v-ie8 .CCM_Theme .v-tree-node-focused {
-	outline: 1px dotted #197de1;
+	outline: 1px dotted #8c0011;
 }
 
 .CCM_Theme .v-tree-node-selected {
-	color: #ecf2f8;
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .CCM_Theme .v-tree-node-selected:after {
 	opacity: 1;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	border: none;
 }
 
 .v-ie8 .CCM_Theme .v-tree-node-selected {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 }
 
 .CCM_Theme .v-tree-node-children {
@@ -8873,10 +8884,10 @@ div.v-layout.v-horizontal.v-widget {
 	position: absolute;
 	height: 2px;
 	width: 100%;
-	background: #197de1;
+	background: #8c0011;
 	font-size: 32px;
 	line-height: 2px;
-	color: #197de1;
+	color: #8c0011;
 	text-indent: -4px;
 	text-shadow: 0 0 1px #fafafa, 0 0 1px #fafafa;
 	opacity: 1;
@@ -8888,14 +8899,14 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-tree-node-caption-drag-center {
-	-webkit-box-shadow: 0 0 0 2px #197de1;
-	box-shadow: 0 0 0 2px #197de1;
+	-webkit-box-shadow: 0 0 0 2px #8c0011;
+	box-shadow: 0 0 0 2px #8c0011;
 	position: relative;
 	border-radius: 4px;
 }
 
 .v-ie8 .CCM_Theme .v-tree-node-caption-drag-center {
-	outline: 2px solid #197de1;
+	outline: 2px solid #8c0011;
 }
 
 .v-ff .CCM_Theme .v-tree-node-drag-top:before, .v-ff .CCM_Theme .v-tree-node-drag-bottom:after {
@@ -9061,25 +9072,25 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table [class*="-row"].v-selected {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	background-origin: border-box;
-	color: #ecf2f8;
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .CCM_Theme .v-table [class*="-row"].v-selected  + .v-selected {
-	background: #166ed5;
+	background: #7c000e;
 }
 
 .CCM_Theme .v-table [class*="-row"].v-selected  + .v-selected td {
-	border-top-color: #166ed5;
+	border-top-color: #7c000e;
 }
 
 .CCM_Theme .v-table [class*="-row"].v-selected .v-table-cell-content {
 	border-color: transparent;
-	border-left-color: #1d69b4;
+	border-left-color: #5f040f;
 }
 
 .CCM_Theme .v-table [class*="-row"].v-selected .v-table-cell-content:first-child {
@@ -9115,7 +9126,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table-focus {
-	outline: 1px solid #197de1;
+	outline: 1px solid #8c0011;
 	outline-offset: -1px;
 }
 
@@ -9133,14 +9144,14 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table-focus-slot-right {
-	border-right: 3px solid #197de1;
+	border-right: 3px solid #8c0011;
 	right: -2px;
 	margin-left: -11px !important;
 }
 
 .CCM_Theme .v-table-focus-slot-left {
 	float: left;
-	border-left: 3px solid #197de1;
+	border-left: 3px solid #8c0011;
 	left: -1px;
 	right: auto;
 	margin-left: 0 !important;
@@ -9197,9 +9208,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table-column-selector:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-table-column-selector:active:after {
@@ -9296,13 +9307,13 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table-drag .v-table-body {
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	border-color: #197de1;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	border-color: #8c0011;
 }
 
 .v-ie8 .CCM_Theme .v-table-drag .v-table-body {
-	border-color: #197de1;
+	border-color: #8c0011;
 }
 
 .CCM_Theme .v-table-drag .v-table-body .v-table-focus {
@@ -9310,12 +9321,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table-row-drag-middle .v-table-cell-content {
-	background-color: #d1e5f9;
-	color: #214060;
+	background-color: #e8cccf;
+	color: #4c2e31;
 }
 
 .CCM_Theme .v-table-row-drag-bottom td.v-table-cell-content {
-	border-bottom: 2px solid #197de1;
+	border-bottom: 2px solid #8c0011;
 	height: 35px;
 }
 
@@ -9324,7 +9335,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-table-row-drag-top td.v-table-cell-content {
-	border-top: 2px solid #197de1;
+	border-top: 2px solid #8c0011;
 	height: 36px;
 }
 
@@ -9559,9 +9570,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-splitpanel-horizontal  > div > .v-splitpanel-hsplitter div:before:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-splitpanel-horizontal  > div > .v-splitpanel-hsplitter div:before:active:after {
@@ -9616,9 +9627,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-splitpanel-vertical  > div > .v-splitpanel-vsplitter div:before:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-splitpanel-vertical  > div > .v-splitpanel-vsplitter div:before:active:after {
@@ -9672,9 +9683,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-splitpanel-horizontal.large  > div > .v-splitpanel-hsplitter div:before:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-splitpanel-horizontal.large  > div > .v-splitpanel-hsplitter div:before:active:after {
@@ -9743,9 +9754,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-splitpanel-vertical.large  > div > .v-splitpanel-vsplitter div:before:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-splitpanel-vertical.large  > div > .v-splitpanel-vsplitter div:before:active:after {
@@ -9781,12 +9792,12 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-progressbar-indicator {
 	border-radius: 4px;
 	height: inherit;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	
 	
-	border: 1px solid #1362b1;
+	border: 1px solid #6e000d;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -9811,12 +9822,12 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	border-radius: 4px;
 	height: inherit;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	
 	
-	border: 1px solid #1362b1;
+	border: 1px solid #6e000d;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -9831,9 +9842,9 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	border: 2px solid rgba(25, 125, 225, 0.2);
-	border-top-color: #197de1;
-	border-right-color: #197de1;
+	border: 2px solid rgba(140, 0, 17, 0.2);
+	border-top-color: #8c0011;
+	border-right-color: #8c0011;
 	border-radius: 100%;
 	-webkit-animation: v-rotate-360 500ms infinite linear;
 	-moz-animation: v-rotate-360 500ms infinite linear;
@@ -9903,18 +9914,18 @@ div.v-layout.v-horizontal.v-widget {
 	left: 11px;
 	width: 8px;
 	border-radius: 4px;
-	border-left: 1px solid #1362b1;
+	border-left: 1px solid #6e000d;
 }
 
 .CCM_Theme .v-slider-base:after {
 	border-radius: 4px;
 	height: inherit;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	
 	
-	border: 1px solid #1362b1;
+	border: 1px solid #6e000d;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -9974,9 +9985,9 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-slider-handle:before:focus:after {
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-slider-handle:before:active:after {
@@ -9985,9 +9996,9 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-slider-handle:after {
 	border: 1px solid #c5c5c5;
-	border-color: #197de1;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	border-color: #8c0011;
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 	opacity: 0;
 	-webkit-transition: opacity 200ms;
 	-moz-transition: opacity 200ms;
@@ -10049,15 +10060,15 @@ div.v-layout.v-horizontal.v-widget {
 	width: auto;
 	height: 8px;
 	border-left: none;
-	border-bottom: 1px solid #1362b1;
+	border-bottom: 1px solid #6e000d;
 }
 
 .CCM_Theme .v-slider-vertical .v-slider-base:after {
 	height: 101%;
 	margin-left: 0;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(left, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to right,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(left, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to right,#950012 2%, #7c000e 98%);
 }
 
 .v-ie8 .CCM_Theme .v-slider-vertical .v-slider-base:after {
@@ -10153,7 +10164,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-tabsheet-tabitemcell .v-caption:hover {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-tabsheet-tabitemcell .v-caption.v-disabled {
@@ -10172,12 +10183,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-tabsheet-tabitemcell:focus .v-caption {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-tabsheet-tabitemcell .v-tabsheet-tabitem-selected .v-caption.v-caption {
-	border-bottom-color: #197de1;
-	color: #197de1;
+	border-bottom-color: #8c0011;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-tabsheet-tabitemcell .v-caption-closable {
@@ -10203,12 +10214,12 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-tabsheet-tabitemcell .v-tabsheet-caption-close:hover {
 	background: rgba(0, 0, 0, 0.03);
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-tabsheet-tabitemcell .v-tabsheet-caption-close:active {
-	background: #197de1;
-	color: #c8dbed;
+	background: #8c0011;
+	color: #ecaab2;
 }
 
 .CCM_Theme .v-tabsheet-scroller {
@@ -10267,13 +10278,13 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-tabsheet-scroller button:hover {
 	opacity: 1;
 	filter: none ;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-tabsheet-scroller button:active {
 	opacity: 0.7;
 	filter: alpha(opacity=70) ;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-tabsheet-scroller button::-moz-focus-inner {
@@ -10318,9 +10329,9 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	border: 2px solid rgba(25, 125, 225, 0.2);
-	border-top-color: #197de1;
-	border-right-color: #197de1;
+	border: 2px solid rgba(140, 0, 17, 0.2);
+	border-top-color: #8c0011;
+	border-right-color: #8c0011;
 	border-radius: 100%;
 	-webkit-animation: v-rotate-360 500ms infinite linear;
 	-moz-animation: v-rotate-360 500ms infinite linear;
@@ -10892,8 +10903,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-select-twincol select:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-select-twincol .v-textfield, .CCM_Theme .v-select-twincol .v-nativebutton {
@@ -10982,8 +10993,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-select select:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-select-select {
@@ -11096,7 +11107,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-calendar-bottom-spacer:hover {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-calendar-day-number {
@@ -11110,24 +11121,24 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-calendar-day-number:hover {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-calendar-month-day-today {
-	background: #eef3f8;
+	background: #f4edee;
 }
 
 .CCM_Theme .v-calendar-month-day-today .v-calendar-day-number {
 	font-weight: 400;
-	color: #197de1;
-	border-top: 2px solid #197de1;
+	color: #8c0011;
+	border-top: 2px solid #8c0011;
 	line-height: 24px;
 	margin: 0;
 	padding: 0 5px;
 }
 
 .CCM_Theme .v-calendar-month-day-selected {
-	background-color: #e3edf7;
+	background-color: #efe1e2;
 }
 
 .CCM_Theme .v-calendar-month-day-dragemphasis {
@@ -11197,7 +11208,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-calendar-current-time {
-	background: #197de1;
+	background: #8c0011;
 	line-height: 1px;
 	pointer-events: none;
 	opacity: 0.5;
@@ -11206,7 +11217,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-calendar-current-time:before {
 	content: "\2022";
-	color: #197de1;
+	color: #8c0011;
 	font-size: 22px;
 	margin-left: -0.07em;
 }
@@ -11222,7 +11233,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: 0;
 	bottom: -1px;
 	left: 0;
-	background: #197de1;
+	background: #8c0011;
 	opacity: 0.5;
 	filter: alpha(opacity=50) ;
 	border-radius: 4px 4px 0 0;
@@ -11513,7 +11524,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-label-colored {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-label-large {
@@ -11555,9 +11566,9 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	border: 2px solid rgba(25, 125, 225, 0.2);
-	border-top-color: #197de1;
-	border-right-color: #197de1;
+	border: 2px solid rgba(140, 0, 17, 0.2);
+	border-top-color: #8c0011;
+	border-right-color: #8c0011;
 	border-radius: 100%;
 	-webkit-animation: v-rotate-360 500ms infinite linear;
 	-moz-animation: v-rotate-360 500ms infinite linear;
@@ -11621,7 +11632,7 @@ div.v-layout.v-horizontal.v-widget {
 	right: -1px;
 	bottom: -1px;
 	left: -1px;
-	border: 0 solid #197de1;
+	border: 0 solid #8c0011;
 }
 
 .CCM_Theme .v-ddwrapper-over-top:before {
@@ -11649,7 +11660,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	opacity: 0.3;
 	filter: alpha(opacity=30.0) ;
-	background: #8abef2;
+	background: #ff465c;
 }
 
 .CCM_Theme .no-vertical-drag-hints .v-ddwrapper-over-bottom:before, .CCM_Theme .no-vertical-drag-hints.v-ddwrapper-over-bottom:before {
@@ -11661,7 +11672,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	opacity: 0.3;
 	filter: alpha(opacity=30.0) ;
-	background: #8abef2;
+	background: #ff465c;
 }
 
 .CCM_Theme .no-horizontal-drag-hints.v-ddwrapper-over-left:before, .CCM_Theme .no-horizontal-drag-hints .v-ddwrapper-over-left:before {
@@ -11673,7 +11684,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	opacity: 0.3;
 	filter: alpha(opacity=30.0) ;
-	background: #8abef2;
+	background: #ff465c;
 }
 
 .CCM_Theme .no-horizontal-drag-hints.v-ddwrapper-over-right:before, .CCM_Theme .no-horizontal-drag-hints .v-ddwrapper-over-right:before {
@@ -11685,7 +11696,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	opacity: 0.3;
 	filter: alpha(opacity=30.0) ;
-	background: #8abef2;
+	background: #ff465c;
 }
 
 .CCM_Theme .v-ddwrapper-over-middle:after, .CCM_Theme .v-ddwrapper-over-center:after {
@@ -11693,7 +11704,7 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 	opacity: 0.3;
 	filter: alpha(opacity=30.0) ;
-	background: #8abef2;
+	background: #ff465c;
 }
 
 .CCM_Theme .no-box-drag-hints.v-ddwrapper:after, .CCM_Theme .no-box-drag-hints .v-ddwrapper:after {
@@ -11715,8 +11726,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-select select:focus {
 	outline: none;
-	-webkit-box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
-	box-shadow: 0 0 0 2px rgba(25, 125, 225, 0.5);
+	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
+	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-select-select {
@@ -11741,7 +11752,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-popupview {
 	cursor: pointer;
-	color: #197de1;
+	color: #8c0011;
 	text-decoration: underline;
 	font-weight: inherit;
 	-webkit-transition: color 140ms;
@@ -11750,7 +11761,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-popupview:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-popupview.v-disabled {
@@ -11806,9 +11817,9 @@ div.v-layout.v-horizontal.v-widget {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	border: 2px solid rgba(25, 125, 225, 0.2);
-	border-top-color: #197de1;
-	border-right-color: #197de1;
+	border: 2px solid rgba(140, 0, 17, 0.2);
+	border-top-color: #8c0011;
+	border-right-color: #8c0011;
 	border-radius: 100%;
 	-webkit-animation: v-rotate-360 500ms infinite linear;
 	-moz-animation: v-rotate-360 500ms infinite linear;
@@ -12088,7 +12099,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-Notification .v-Notification-caption {
-	color: #197de1;
+	color: #8c0011;
 	font-size: 19px;
 	line-height: 1;
 }
@@ -12439,14 +12450,14 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .valo-menu-title {
 	line-height: 1.2;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	color: white;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 	padding: 12px 19px;
 	font-size: 14px;
-	border-bottom: 1px solid #1362b1;
+	border-bottom: 1px solid #6e000d;
 	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
 	text-align: center;
@@ -12454,7 +12465,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .valo-menu-title .v-menubar.v-menubar {
 	background: transparent;
-	border-color: #1362b1;
+	border-color: #6e000d;
 	color: inherit;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -12463,8 +12474,8 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .valo-menu-title .v-menubar-menuitem {
 	background: transparent;
-	-webkit-box-shadow: inset 0 1px 0 #4d98e6, inset 0 -1px 0 #166bca;
-	box-shadow: inset 0 1px 0 #4d98e6, inset 0 -1px 0 #166bca;
+	-webkit-box-shadow: inset 0 1px 0 #b00e21, inset 0 -1px 0 #75000e;
+	box-shadow: inset 0 1px 0 #b00e21, inset 0 -1px 0 #75000e;
 	text-shadow: inherit;
 	font-size: 16px;
 	border-color: inherit;
@@ -12503,7 +12514,7 @@ div.v-layout.v-horizontal.v-widget {
 	border: none;
 	margin-right: 1px;
 	border-radius: 4px;
-	color: #197de1;
+	color: #8c0011;
 	padding: 0 12px;
 	-webkit-transition: color 140ms;
 	-moz-transition: color 140ms;
@@ -12519,7 +12530,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem:hover {
-	color: #4396ea;
+	color: #bf0017;
 }
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem:active {
@@ -12528,7 +12539,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-checked, .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-checked:first-child {
 	border: 1px solid #c5c5c5;
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-checked .v-menubar-menuitem-caption, .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-checked:first-child .v-menubar-menuitem-caption {
@@ -12537,12 +12548,12 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-selected {
-	color: #ecf2f8;
+	color: #f7e2e5;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-selected:hover {
-	color: #ecf2f8;
+	color: #f7e2e5;
 }
 
 .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-disabled, .CCM_Theme .v-menubar-user-menu .v-menubar-menuitem-disabled:hover {
@@ -12584,7 +12595,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .valo-menu-subtitle [class*="badge"] {
-	color: #73a5d7;
+	color: #ac666f;
 }
 
 .CCM_Theme .valo-menuitems {
@@ -12615,7 +12626,7 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .valo-menu-item [class*="badge"] {
-	color: #73a5d7;
+	color: #ac666f;
 }
 
 .CCM_Theme .valo-menu-item.selected {
@@ -12623,14 +12634,14 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .valo-menu-item.selected .v-icon {
-	color: #197de1;
+	color: #8c0011;
 }
 
 .CCM_Theme .valo-menu-item.selected [class*="badge"] {
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
-	color: #c8dbed;
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
+	color: #ecaab2;
 }
 
 .CCM_Theme .valo-menu-item:focus, .CCM_Theme .valo-menu-item:hover, .CCM_Theme .valo-menu-item.selected {
@@ -12764,9 +12775,9 @@ div.v-layout.v-horizontal.v-widget {
 	height: 44px;
 	border-radius: 4px;
 	text-align: center;
-	background-color: #197de1;
-	background-image: -webkit-linear-gradient(top, #1b87e3 2%, #166ed5 98%);
-	background-image: linear-gradient(to bottom,#1b87e3 2%, #166ed5 98%);
+	background-color: #8c0011;
+	background-image: -webkit-linear-gradient(top, #950012 2%, #7c000e 98%);
+	background-image: linear-gradient(to bottom,#950012 2%, #7c000e 98%);
 	color: white;
 	font-size: 25px;
 	line-height: 44px;
@@ -12920,7 +12931,7 @@ div.v-layout.v-horizontal.v-widget {
 	margin: 0;
 	padding: 0;
 	height: 37px;
-	color: #97bee5;
+	color: #e85d6e;
 	max-width: 30%;
 	-webkit-backface-visibility: hidden;
 }
@@ -12983,4 +12994,87 @@ div.v-layout.v-horizontal.v-widget {
 	display: inline-block;
 	width: 19px;
 	overflow: hidden;
+}
+
+.CCM_Theme .v-button {
+	border: none;
+	background: #323D43;
+	color: #dcdfe0;
+	font-weight: bold;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+.CCM_Theme .v-button-caption {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: #dcdfe0;
+}
+
+.CCM_Theme .v-button-navi {
+	background-color: #5d6a72;
+	color: #dcdfe0;
+	font-color: #dcdfe0;
+	font-weight: bold;
+}
+
+.CCM_Theme .v-button-caption-navi {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: #dcdfe0;
+}
+
+.CCM_Theme .v-button:focus -v-button-wrap {
+	background: red;
+	boxshadow: black;
+}
+
+.CCM_Theme .v-textfield {
+	color: black;
+}
+
+.CCM_Theme .base .v-table-drag .v-table-body {
+	border-color: white;
+	text-decoration: none;
+}
+
+.CCM_Theme .v-label {
+	color: black;
+	margin: 0px 0px 5px 0px;
+	width: -1;
+}
+
+.CCM_Theme .v-calendar-times {
+	width: 51 px;
+}
+
+.CCM_Theme .v-calendar-time {
+	text-align: right;
+	color: 0;
+	border-right: 1px solid;
+}
+
+.CCM_Theme .v-calendar-current-time {
+	overflow: hidden;
+	background: #e00019;
+}
+
+.CCM_Theme .v-calendar-month-day-selected {
+	background-color: #7b858c;
+}
+
+.CCM_Theme .v-calendar-month-day-today {
+	background-color: #e00019;
+}
+
+.CCM_Theme .v-calendar-header-day-today {
+	color: #e00019;
+	font-weight: bold;
+}
+
+.CCM_Theme .v-calendar-event-month::before, .CCM_Theme v.overlay-container {
+	content: " ";
+	margin-right: 2px;
 }

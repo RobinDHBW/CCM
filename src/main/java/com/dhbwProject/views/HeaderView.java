@@ -25,7 +25,7 @@ public class HeaderView extends CustomComponent{
 	 hL.setMargin(new MarginInfo(true, true, false, true)); //top right bottom left
 	pnHeader.setContent(hL);
 	Image dhbwLogo = new Image(" ",
-		    new ThemeResource("Logo DHBW_Mosbach.gif"));
+		    new ThemeResource("logodhbw.gif"));
 	dhbwLogo.setHeight("-1px");
 	dhbwLogo.setWidth("-1px");
 		hL.addComponent(dhbwLogo);
