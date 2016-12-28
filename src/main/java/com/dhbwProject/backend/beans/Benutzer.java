@@ -21,41 +21,41 @@ public class Benutzer {
 		return vorname;
 	}
 
-	public void setVorname(String vorname) {
-		this.vorname = vorname;
-	}
+//	public void setVorname(String vorname) {
+//		this.vorname = vorname;
+//	}
 
 	public String getNachname() {
 		return nachname;
 	}
 
-	public void setNachname(String nachname) {
-		this.nachname = nachname;
-	}
+//	public void setNachname(String nachname) {
+//		this.nachname = nachname;
+//	}
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+//	public void setId(String id) {
+//		this.id = id;
+//	}
 
 	public String getBeruf() {
 		return beruf;
 	}
-
-	public void setBeruf(String beruf) {
-		this.beruf = beruf;
-	}
+//
+//	public void setBeruf(String beruf) {
+//		this.beruf = beruf;
+//	}
 
 	public String getRolle() {
 		return rolle;
 	}
 
-	public void setRolle(String rolle) {
-		this.rolle = rolle;
-	}
+//	public void setRolle(String rolle) {
+//		this.rolle = rolle;
+//	}
 
 	@Override
 	public String toString() {
