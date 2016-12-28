@@ -49,19 +49,20 @@ public class DummyDataManager {
 	}
 	
 	private void initAnsprechpartner(){
-		this.lAnsprechpartner.add(new Ansprechpartner(0, "Bernd", "Ludwig", this.lUnternehmen.get(0)));
-		this.lAnsprechpartner.add(new Ansprechpartner(1, "Flo", "Flu", this.lUnternehmen.get(1)));
-		this.lAnsprechpartner.add(new Ansprechpartner(2, "Maraike", "Wurst", this.lUnternehmen.get(2)));
-		this.lAnsprechpartner.add(new Ansprechpartner(3, "Yoshi", "Kadowa", this.lUnternehmen.get(3)));
-		this.lAnsprechpartner.add(new Ansprechpartner(4, "Hans", "Brot", this.lUnternehmen.get(4)));
-		this.lAnsprechpartner.add(new Ansprechpartner(5, "Susanno", "Nippon", this.lUnternehmen.get(5)));
-		
-		this.lUnternehmen.get(0).getAnsprechpartner().add(this.lAnsprechpartner.get(0));
-		this.lUnternehmen.get(1).getAnsprechpartner().add(this.lAnsprechpartner.get(1));
-		this.lUnternehmen.get(2).getAnsprechpartner().add(this.lAnsprechpartner.get(2));
-		this.lUnternehmen.get(3).getAnsprechpartner().add(this.lAnsprechpartner.get(3));
-		this.lUnternehmen.get(4).getAnsprechpartner().add(this.lAnsprechpartner.get(4));
-		this.lUnternehmen.get(5).getAnsprechpartner().add(this.lAnsprechpartner.get(5));
+		//TODO Robin
+//		this.lAnsprechpartner.add(new Ansprechpartner(0, "Bernd", "Ludwig", this.lUnternehmen.get(0)));
+//		this.lAnsprechpartner.add(new Ansprechpartner(1, "Flo", "Flu", this.lUnternehmen.get(1)));
+//		this.lAnsprechpartner.add(new Ansprechpartner(2, "Maraike", "Wurst", this.lUnternehmen.get(2)));
+//		this.lAnsprechpartner.add(new Ansprechpartner(3, "Yoshi", "Kadowa", this.lUnternehmen.get(3)));
+//		this.lAnsprechpartner.add(new Ansprechpartner(4, "Hans", "Brot", this.lUnternehmen.get(4)));
+//		this.lAnsprechpartner.add(new Ansprechpartner(5, "Susanno", "Nippon", this.lUnternehmen.get(5)));
+//		
+//		this.lUnternehmen.get(0).getAnsprechpartner().add(this.lAnsprechpartner.get(0));
+//		this.lUnternehmen.get(1).getAnsprechpartner().add(this.lAnsprechpartner.get(1));
+//		this.lUnternehmen.get(2).getAnsprechpartner().add(this.lAnsprechpartner.get(2));
+//		this.lUnternehmen.get(3).getAnsprechpartner().add(this.lAnsprechpartner.get(3));
+//		this.lUnternehmen.get(4).getAnsprechpartner().add(this.lAnsprechpartner.get(4));
+//		this.lUnternehmen.get(5).getAnsprechpartner().add(this.lAnsprechpartner.get(5));
 	}
 	
 	private void initBesuch(){

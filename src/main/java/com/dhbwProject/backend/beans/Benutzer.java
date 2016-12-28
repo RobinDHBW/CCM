@@ -44,7 +44,7 @@ public class Benutzer {
 		return beruf;
 	}
 
-	public void setBeruf(String beruf) {
+	public void setBeruf(Beruf beruf) {
 		this.beruf = beruf;
 	}
 
@@ -52,7 +52,7 @@ public class Benutzer {
 		return rolle;
 	}
 
-	public void setRolle(String rolle) {
+	public void setRolle(Rolle rolle) {
 		this.rolle = rolle;
 	}
 

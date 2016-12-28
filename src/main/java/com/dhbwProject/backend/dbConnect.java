@@ -42,7 +42,7 @@ public class dbConnect {
 	
 	public ResultSet executeQuery(PreparedStatement ps){
 		try {
-			res = ps.executeQuery();
+			ResultSet res = ps.executeQuery();
 			ps.close();
 			return res;
 		} catch (SQLException e) {
@@ -124,6 +124,7 @@ public class dbConnect {
 
 	private Beruf getBerufById(int beruf_id) throws SQLException {
 		PreparedStatement ps = con.prepareStatement("select * from beruf where beruf_id = ?");
+		ps.setInt(1, beruf_id);
 		ResultSet res = executeQuery(ps);
 		Beruf beruf = null;
 		while (res.next()) {

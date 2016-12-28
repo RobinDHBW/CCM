@@ -3,13 +3,6 @@ package com.dhbwProject.backend.beans;
 import java.util.LinkedList;
 
 public class Rolle {
-
-	public Rolle() {
-		// TODO Auto-generated constructor stub
-	}
-
-	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
-	//rolle, berechtigung
 	
 	private LinkedList<Berechtigung> lBerechtigung;
 	private String bezeichnung;
