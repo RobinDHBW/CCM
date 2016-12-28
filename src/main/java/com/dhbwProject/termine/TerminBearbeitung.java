@@ -58,7 +58,7 @@ public class TerminBearbeitung extends CustomComponent {
 		
 		this.btnLookupTermin = new Button();
 		this.btnLookupTermin.setIcon(FontAwesome.REPLY);
-		this.btnLookupTermin.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnLookupTermin.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupTermin.setWidth("50px");
 		this.btnLookupTermin.addClickListener(listener ->{
 			
@@ -72,7 +72,7 @@ public class TerminBearbeitung extends CustomComponent {
 	private void initBtnUpdate(){
 		this.btnUpdate = new Button("Bearbeiten");
 		this.btnUpdate.setIcon(FontAwesome.CHECK);
-		this.btnUpdate.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
+//		this.btnUpdate.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnUpdate.addClickListener(listener ->{
 			this.updateTermin();
 		});

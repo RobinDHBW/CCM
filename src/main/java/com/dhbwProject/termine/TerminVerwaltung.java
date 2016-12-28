@@ -45,7 +45,7 @@ public class TerminVerwaltung extends CustomComponent {
 		this.vlLayout = new VerticalLayout(this.vlFields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setComponentAlignment(this.vlFields, Alignment.TOP_LEFT);
-		this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+//		this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
 		this.setCompositionRoot(this.vlLayout);
 	}
 	
@@ -55,19 +55,19 @@ public class TerminVerwaltung extends CustomComponent {
 		hlButtons.setSpacing(true);
 		
 		this.btnMonth = new Button("Monatansicht");
-		this.btnMonth.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnMonth.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnMonth.setWidth("200px");
 		this.btnMonth.addClickListener(listener ->{
 			this.calendar.setViewMonth();
 		});
 		this.btnWeek = new Button("Wochenansicht");
-		this.btnWeek.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnWeek.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnWeek.setWidth("200px");
 		this.btnWeek.addClickListener(listener ->{
 			this.calendar.setViewWeek();
 		});
 		this.btnDay = new Button("Tagesansicht");
-		this.btnDay.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnDay.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnDay.setWidth("200px");
 		this.btnDay.addClickListener(listener ->{
 			this.calendar.setViewDay();

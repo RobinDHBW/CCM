@@ -54,7 +54,7 @@ public class TerminAnlage extends CustomComponent {
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
-		this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+//		this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
 		this.setCompositionRoot(this.vlLayout);
 	}
 	

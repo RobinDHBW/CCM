@@ -55,14 +55,14 @@ public abstract class Lookup extends Window{
 	private void initBtnOk(){
 		this.btnOk = new Button();
 		this.btnOk.setIcon(FontAwesome.UPLOAD);
-		this.btnOk.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnOk.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.vlFields.addComponent(this.btnOk);
 	}
 	
 	private void initGrdData(){
 		this.grdData = new Grid();
 		this.grdData.setWidth("300px");
-		this.grdData.setStyleName(ValoTheme.TABLE_BORDERLESS);
+//		this.grdData.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.vlFields.addComponent(this.grdData);
 		
 	}
@@ -85,7 +85,7 @@ public abstract class Lookup extends Window{
 		for (Object propId: container.getContainerPropertyIds()) {
 		    HeaderCell cell = filterRow.getCell(propId);
 		    TextField tfFilter = new TextField();
-		    tfFilter.setStyleName(ValoTheme.TEXTFIELD_BORDERLESS);
+//		    tfFilter.setStyleName(ValoTheme.TEXTFIELD_BORDERLESS);
 		    tfFilter.setInputPrompt("Filter...");
 
 		    tfFilter.addTextChangeListener(change -> {

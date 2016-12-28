@@ -62,7 +62,7 @@ public class ViewLogin extends CustomComponent implements View{
 	private void initBtnLogin(){
 		this.btnLogin = new Button("Anmelden");
 		this.btnLogin.setIcon(FontAwesome.SIGN_IN);
-		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
+//		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid() || !this.pwField.isValid())
 	            return;
@@ -95,7 +95,7 @@ public class ViewLogin extends CustomComponent implements View{
         this.vlLayout = new VerticalLayout(this.vlFields);
         this.vlLayout.setSizeFull();
         this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
-        this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+//        this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
         this.setCompositionRoot(this.vlLayout);	
 	}
 

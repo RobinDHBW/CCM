@@ -68,7 +68,7 @@ public class TerminFields extends VerticalLayout {
 		
 		this.btnLookupUnternehmen = new Button();
 		this.btnLookupUnternehmen.setIcon(FontAwesome.REPLY);
-		this.btnLookupUnternehmen.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnLookupUnternehmen.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupUnternehmen.setWidth("50px");
 		this.btnLookupUnternehmen.addClickListener(listener ->{
 			LookupUnternehmen lookup = new LookupUnternehmen(this.unternehmen);
@@ -94,7 +94,7 @@ public class TerminFields extends VerticalLayout {
 		
 		this.btnLookupAnsprechpartner = new Button();
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
-		this.btnLookupAnsprechpartner.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnLookupAnsprechpartner.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener ->{
 			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen, this.ansprechpartner);
@@ -120,7 +120,7 @@ public class TerminFields extends VerticalLayout {
 		
 		this.btnLookupParticipants = new Button();
 		this.btnLookupParticipants.setIcon(FontAwesome.REPLY);
-		this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+//		this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener ->{
 			LookupBenutzer lookup = new LookupBenutzer(this.alBenutzer);
