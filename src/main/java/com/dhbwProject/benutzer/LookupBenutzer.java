@@ -14,21 +14,24 @@ import com.vaadin.ui.Grid.SelectionMode;
  * */
 public class LookupBenutzer extends Lookup {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Benutzer> alUser;
+	private ArrayList<Benutzer> lUser;
 	
-	public LookupBenutzer(ArrayList<Benutzer> alUser){
-		this.alUser = alUser;
+	public LookupBenutzer(ArrayList<Benutzer> lUser){
+		this.lUser = lUser;
 		super.setCaption("<center><h2>Bitte wählen Sie Ihre Teilnemer</h2></center>");
 		super.getOkButton().addClickListener(listener ->{
 			/*	Hier soll abschließend die Benutzrliste befüllt werden
 			 * 	Aktuell werden Dummy-Beans erzeugt
 			 * */
 			for(Object o : super.getGrid().getSelectedRows()){
+				
+				
+				
 				Benutzer b = new Benutzer(super.getGrid().getContainerDataSource().getItem(o).toString(),
 						(String)super.getGrid().getContainerDataSource().getItem(o).getItemProperty("Vorname").getValue(),
 						(String)super.getGrid().getContainerDataSource().getItem(o).getItemProperty("Nachname").getValue(),
 						null, null);
-				this.alUser.add(b);
+				this.lUser.add(b);
 			}
 			this.close();
 		});
@@ -43,6 +46,12 @@ public class LookupBenutzer extends Lookup {
 		IndexedContainer container= new IndexedContainer();
 		container.addContainerProperty("Vorname", String.class, null);
 		container.addContainerProperty("Nachname", String.class, null);
+		
+//		for(Benutzer b : this.allUsers){
+//			Item itm = container.addItem(b.getId());
+//			itm.getItemProperty("Vorname").setValue(b.getVorname());
+//			itm.getItemProperty("Nachname").setValue(b.getNachname());
+//		}
 		
 		//Dummywerte
 		String[] aVorname = {"Albert", "Herbert", "Yoshi", "Sakura", "Robin", "Simon", "Bosse", "Jasmin", "Florian", "Manuel", "Christian"};

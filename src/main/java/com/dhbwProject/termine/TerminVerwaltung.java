@@ -3,6 +3,7 @@ package com.dhbwProject.termine;
 import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
 
+import com.dhbwProject.backend.DummyDataManager;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -79,19 +80,20 @@ public class TerminVerwaltung extends CustomComponent {
 	}
 	
 	private void initCalendar(){
-		this.calendar = new TermineCalendar();
+		DummyDataManager dataManager = new DummyDataManager();
+		this.calendar = new TermineCalendar(dataManager.getlTermin());
 		this.vlFields.addComponent(this.calendar);
 		
 		//Testevent
-		BasicEvent event = new BasicEvent();
-		event.setCaption("TEST");
-		event.setStart(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue()-1, 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		event.setEnd(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue()-1, 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		event.setAllDay(true);
-		this.calendar.addEvent(event);
+//		BasicEvent event = new BasicEvent();
+//		event.setCaption("TEST");
+//		event.setStart(new GregorianCalendar(this.date.getYear(), 
+//				this.date.getMonthValue()-1, 
+//				this.date.getDayOfMonth(), 00, 00, 00).getTime());
+//		event.setEnd(new GregorianCalendar(this.date.getYear(), 
+//				this.date.getMonthValue()-1, 
+//				this.date.getDayOfMonth(), 00, 00, 00).getTime());
+//		event.setAllDay(true);
+//		this.calendar.addEvent(event);
 	}
 }

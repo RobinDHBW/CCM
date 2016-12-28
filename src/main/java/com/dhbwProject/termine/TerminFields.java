@@ -36,8 +36,8 @@ public class TerminFields extends VerticalLayout {
 	private Button btnLookupParticipants;
 	
 	//Diese Objekte können später wegfallen, sofern die Termin-Beanklasse implementiert ist
-	private Unternehmen unternehmen = new Unternehmen();
-	private Ansprechpartner ansprechpartner = new Ansprechpartner();
+	private Unternehmen unternehmen = new Unternehmen(0);
+	private Ansprechpartner ansprechpartner = new Ansprechpartner(0);
 	private ArrayList<Benutzer> alBenutzer = new ArrayList<Benutzer>();
 	
 	public TerminFields(){
