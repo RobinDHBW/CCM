@@ -26,33 +26,33 @@ public class Ansprechpartner {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public String getVorname() {
 		return vorname;
 	}
 
-	public void setVorname(String vorname) {
-		this.vorname = vorname;
-	}
+//	public void setVorname(String vorname) {
+//		this.vorname = vorname;
+//	}
 
 	public String getNachname() {
 		return nachname;
 	}
 
-	public void setNachname(String nachname) {
-		this.nachname = nachname;
-	}
+//	public void setNachname(String nachname) {
+//		this.nachname = nachname;
+//	}
 
 	public Unternehmen getUnternehmen() {
 		return unternehmen;
 	}
 
-	public void setUnternehmen(Unternehmen unternehmen) {
-		this.unternehmen = unternehmen;
-	}
+//	public void setUnternehmen(Unternehmen unternehmen) {
+//		this.unternehmen = unternehmen;
+//	}
 
 	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
 	//ansprechpartner, adresse, ort, studiengang_ansprechpartner
