@@ -36,65 +36,65 @@ public class Besuch {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public String getTitel() {
 		return titel;
 	}
 
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
+//	public void setTitel(String titel) {
+//		this.titel = titel;
+//	}
 
 	public Unternehmen getUnternehmen() {
 		return unternehmen;
 	}
 
-	public void setUnternehmen(Unternehmen unternehmen) {
-		this.unternehmen = unternehmen;
-	}
+//	public void setUnternehmen(Unternehmen unternehmen) {
+//		this.unternehmen = unternehmen;
+//	}
 
 	public Gespraechsnotiz getGespraechsnotiz() {
 		return gespraechsnotiz;
 	}
 
-	public void setGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) {
-		this.gespraechsnotiz = gespraechsnotiz;
-	}
+//	public void setGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) {
+//		this.gespraechsnotiz = gespraechsnotiz;
+//	}
 
 	public LinkedList<Benutzer> getBenutzer() {
 		return benutzer;
 	}
-
-	public void setBenutzer(LinkedList<Benutzer> benutzer) {
-		this.benutzer = benutzer;
-	}
+//
+//	public void setBenutzer(LinkedList<Benutzer> benutzer) {
+//		this.benutzer = benutzer;
+//	}
 
 	public Ansprechpartner getAnsprechpartner() {
 		return ansprechpartner;
 	}
 
-	public void setAnsprechpartner(Ansprechpartner ansprechpartner) {
-		this.ansprechpartner = ansprechpartner;
-	}
+//	public void setAnsprechpartner(Ansprechpartner ansprechpartner) {
+//		this.ansprechpartner = ansprechpartner;
+//	}
 
 	public Date getDateStart() {
 		return dateStart;
 	}
-
-	public void setDateStart(Date dateStart) {
-		this.dateStart = dateStart;
-	}
+//
+//	public void setDateStart(Date dateStart) {
+//		this.dateStart = dateStart;
+//	}
 
 	public Date getDateEnd() {
 		return dateEnd;
 	}
 
-	public void setDateEnd(Date dateEnd) {
-		this.dateEnd = dateEnd;
-	}
+//	public void setDateEnd(Date dateEnd) {
+//		this.dateEnd = dateEnd;
+//	}
 
 
 }
