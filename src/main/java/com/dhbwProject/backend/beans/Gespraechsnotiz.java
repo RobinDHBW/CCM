@@ -58,20 +58,5 @@ public class Gespraechsnotiz {
 		return notiz_id;
 	}
 
-<<<<<<< HEAD
-	public Gespraechsnotiz() {
-		// TODO folgende Tabellen der DB müssenn noch im Bean implementiert werden: gespraechsnotizen
-=======
-	public Date getNotiz_timestamp() {
-		return notiz_timestamp;
->>>>>>> refs/remotes/origin/master
-	}
-	
 
-<<<<<<< HEAD
-	
-=======
-	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
-	//gespraechsnotizen -> done ss281216
->>>>>>> refs/remotes/origin/master
 }
