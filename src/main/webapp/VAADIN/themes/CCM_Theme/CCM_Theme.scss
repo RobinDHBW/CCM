@@ -3,18 +3,19 @@
 // Global variable overrides. Must be declared before importing Valo.
 
 // Defines the plaintext font size, weight and family. Font size affects general component sizing.
-//$v-font-size: 16px;
-//$v-font-weight: 300;
-//$v-font-family: "Open Sans", sans-serif;
+$v-font-size: 16px;
+$v-font-weight: 300;
+$v-font-family: "Open Sans", sans-serif;
 
 // Defines the border used by all components.
-//$v-border: 1px solid (v-shade 0.7);
-//$v-border-radius: 4px;
+$v-border: 1px solid (v-shade 0.7);
+$v-border-radius: 4px;
 
 // Affects the color of some component elements, e.g Button, Panel title, etc
-//$v-background-color: hsl(210, 0%, 98%);
+$v-background-color: hsl(210, 0%, 98%);
 // Affects the color of content areas, e.g  Panel and Window content, TextField input etc
-//$v-app-background-color: $v-background-color;
+//$v-app-background-color: white;
+$v-app-loading-text: "CRM System laedt, bitte warten.";
 
 // Affects the visual appearance of all components
 //$v-gradient: v-linear 8%;
@@ -22,7 +23,7 @@
 //$v-shadow-opacity: 5%;
 
 // Defines colors for indicating status (focus, success, failure)
-//$v-focus-color: valo-focus-color(); // Calculates a suitable color automatically
+$v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color automatically
 //$v-friendly-color: #2c9720;
 //$v-error-indicator-color: #ed473b;
 
@@ -33,6 +34,111 @@
 
 @mixin CCM_Theme {
   @include valo;
-
+ 
   // Insert your own theme rules here
+.v-button{
+
+	border: none;
+	background: #323D43; //dunkelgrau wie auf der Homepage
+	color: #dcdfe0;
+	font-weight:bold;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding:0;
+	
+  
+  
 }
+.v-button-caption{
+ 	font-size: 12pt;
+    font-weight: bold;
+    font-color: #dcdfe0;
+}
+.v-button-nonborder{
+}
+.v-button-navi{
+background-color:#5d6a72;
+color: #dcdfe0;
+font-color: #dcdfe0;
+font-weight:bold;
+}
+.v-button-caption-navi{
+	font-size: 12pt;
+    font-weight: bold;
+    font-color: #dcdfe0;
+
+}
+.v-button:focus -v-button-wrap{
+	background: red;
+	boxshadow:black;
+
+}
+.v-button:active .v-button-wrap{
+} 
+
+
+
+
+
+
+.v-textfield{
+color: black
+}
+.base .v-table-drag .v-table-body{
+border-color: white;
+text-decoration:none;
+}
+
+.v-label{
+
+color:black;
+margin: 0px 0px 5px 0px;
+width: -1;
+
+} 
+
+.v-calendar-times{
+width: 51 px;
+}
+.v-calendar-time{
+
+text-align:right;
+color:000;
+border-right: 1px solid;
+
+
+}
+.v-calendar-current-time{
+overflow: hidden;
+background:#e00019;
+
+}
+.v-calendar-month-day-selected{
+
+background-color: #7b858c;
+}
+
+.v-calendar-month-day-today{
+background-color: #e00019;
+
+
+}
+
+
+.v-calendar-header-day-today{
+color:#e00019;
+font-weight: bold;
+}
+
+.v-calendar-event-month::before, v.overlay-container{
+content: " ";
+margin-right: 2px;
+
+
+
+
+}
+
+}
+

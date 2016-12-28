@@ -2,7 +2,6 @@ package com.dhbwProject.termine;
 
 import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.ui.Calendar;
@@ -19,15 +18,13 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandl
 public class TermineCalendar extends Calendar{
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime date;
-	private LinkedList<Besuch> lBesuch;
 	
 	//Aktuell eine Idee um forward und backward für den Month-View zu realisieren...
 	private GregorianCalendar gcStart;
 	private GregorianCalendar gcEnd;
 	
-	public TermineCalendar(LinkedList<Besuch> lBesuch){
+	public TermineCalendar(){
 		super();
-		this.lBesuch = lBesuch;
 		this.date = LocalDateTime.now();
 		this.gcStart = new GregorianCalendar(this.date.getYear(), 
 				this.date.getMonthValue()-1, 
@@ -42,8 +39,6 @@ public class TermineCalendar extends Calendar{
 		this.setViewMonth();
 		this.initDateClickHandler();
 		this.initEventClickHandler();
-		if(this.lBesuch != null)
-			this.initEvents();
 //		this.initForwardHandler();
 //		this.initBackwardHandler();
 		
@@ -93,7 +88,7 @@ public class TermineCalendar extends Calendar{
 				w.setClosable(true);
 				w.setModal(false);
 				
-				TerminBearbeitung bearbeitung = new TerminBearbeitung(new Besuch(0));
+				TerminBearbeitung bearbeitung = new TerminBearbeitung(new Besuch());
 				bearbeitung.getBtnUpdate().addClickListener(listener ->{
 					w.close();
 				});
@@ -134,17 +129,6 @@ public class TermineCalendar extends Calendar{
 			
 		});
 		
-	}
-	
-	protected void initEvents(){
-		for(Besuch b : this.lBesuch){
-			TerminEvent event = new TerminEvent(b.getId());
-			event.setCaption(b.getTitel());
-			event.setStart(b.getDateStart());
-			event.setEnd(b.getDateEnd());
-//			event.setAllDay(true);
-			this.addEvent(event);
-		}
 	}
 	
 	protected void setViewMonth(){

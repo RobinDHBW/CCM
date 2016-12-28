@@ -1,38 +1,14 @@
 package com.dhbwProject.backend.beans;
 
-/*	Ich mach hier lediglich Id, Name, Vorname und Unternehmen rein,
- * 	das reicht für meine Zwecke 
- * */
-
 public class Ansprechpartner {
 
-	private int id;
-	private String vorname;
-	private String nachname;
-	private Unternehmen unternehmen;
-	
-	public Ansprechpartner(int id) {
-		this.id = id;
-	}
-	
-	public Ansprechpartner(int id, String vorname, String nachname, Unternehmen unternehmen){
-		this(id);
-		this.vorname = vorname;
-		this.nachname = nachname;
-		this.unternehmen = unternehmen;
+	public Ansprechpartner() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public int getId() {
-		return id;
-	}
 
-//	public void setId(int id) {
-//		this.id = id;
-//	}
-
-	public String getVorname() {
-		return vorname;
-	}
+	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
+	//ansprechpartner, adresse, ort, studiengang_ansprechpartner
 
 //	public void setVorname(String vorname) {
 //		this.vorname = vorname;
@@ -54,5 +30,6 @@ public class Ansprechpartner {
 //	public void setUnternehmen(Unternehmen unternehmen) {
 //		this.unternehmen = unternehmen;
 //	}
+
 
 }
