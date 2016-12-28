@@ -11,6 +11,7 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandle
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardHandler;
+import com.vaadin.ui.components.calendar.event.CalendarEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
@@ -78,6 +79,7 @@ public class TermineCalendar extends Calendar{
 
 			@Override
 			public void eventClick(EventClick event) {
+				TerminEvent e = (TerminEvent)event.getCalendarEvent();//So irgendwie
 				Window w = new Window();
 				w.setCaptionAsHtml(true);
 				w.setCaption("<center><h2>Termin bearbeiten</h2></center>");
@@ -129,6 +131,12 @@ public class TermineCalendar extends Calendar{
 			
 		});
 		
+	}
+	
+	protected void initCalendarEvents(){
+		/*	Für die Terminliste eines Benutzers sollen hier die 
+		 * 	TerminEvents erzeugt werden
+		 * */
 	}
 	
 	protected void setViewMonth(){

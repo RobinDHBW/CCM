@@ -83,7 +83,8 @@ public class TerminVerwaltung extends CustomComponent {
 		this.vlFields.addComponent(this.calendar);
 		
 		//Testevent
-		BasicEvent event = new BasicEvent();
+//		BasicEvent event = new BasicEvent();
+		TerminEvent event = new TerminEvent(0);
 		event.setCaption("TEST");
 		event.setStart(new GregorianCalendar(this.date.getYear(), 
 				this.date.getMonthValue()-1, 

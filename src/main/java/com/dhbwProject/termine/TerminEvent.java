@@ -1,5 +1,7 @@
 package com.dhbwProject.termine;
 
+
+import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 
 public class TerminEvent extends BasicEvent {
@@ -18,5 +20,4 @@ public class TerminEvent extends BasicEvent {
 	public void setIdTermin(int idTermin) {
 		this.idTermin = idTermin;
 	}
-
 }

@@ -30,6 +30,10 @@ public class TerminBearbeitung extends CustomComponent {
 	public TerminBearbeitung(Besuch b){
 		this();
 		this.setTermin(b);
+//		this.fields.setCaption(b.getTitel());
+//		this.fields.setUnternehmen(b.getUnternehmen());
+//		this.fields.setAnsprechpartner(b.getAnsprechpartner());
+//		this.fields.setTeilnehmenr(b.getBenutzer());
 	}
 	
 	private void initFields(){

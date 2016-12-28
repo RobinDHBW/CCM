@@ -71,9 +71,15 @@ public class TerminAnlage extends CustomComponent {
 		 *	vor kurzem oder in naher Zukunft Termine geplant waren
 		 *	oder bereits geplant sind*/
 		boolean b = false;
-		if(b){
-			//erstelle termin 
+		if(b){//zukuenftig if(pruefe Termin)
+			/*	Hier werden die Entitaeten von TerminFields zur Factory geschickt
+			 * 	nach erfolgreicher erzeugung muss der Termin umgehend als Event im Kalender
+			 * 	angezeigt werden - eine Art refresh ist notwendig
+			 * */
 		}else
+			/*	Die genauen Inhalte der Warnung und wie diese entsteht muss noch ausdiskutiert werden
+			 * 	Fakt ist, der Benutzer soll die Moeglichkeit haben den Termin zu erstellen oder nicht
+			 * */
 			this.createWarning();
 	}
 	

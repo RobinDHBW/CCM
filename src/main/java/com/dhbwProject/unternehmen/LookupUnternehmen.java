@@ -1,5 +1,7 @@
 package com.dhbwProject.unternehmen;
 
+import java.util.LinkedList;
+
 import com.dhbwProject.CCM.Lookup;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
@@ -13,6 +15,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 public class LookupUnternehmen extends Lookup{
 	private static final long serialVersionUID = 1L;
 	private Unternehmen uReferenz;
+	private LinkedList<Unternehmen> lUnternehmen;
 
 	
 	public LookupUnternehmen(Unternehmen uReferenz){
