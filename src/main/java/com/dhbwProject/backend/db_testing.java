@@ -2,7 +2,7 @@ package com.dhbwProject.backend;
 
 import java.util.LinkedList;
 
-import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.*;
 import junit.framework.*;
 
 public class db_testing extends TestCase {
@@ -14,7 +14,9 @@ public class db_testing extends TestCase {
 	public void testInsertBenutzer(){
 		dbConnect connection = new dbConnect();
 		try {
-			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", "Studiengangsleiter", "ccm_all");
+			Beruf beruf = new Beruf(1, "Studiengangsleiter");
+			Rolle rolle = new Rolle(1, "ccm_all", null);
+			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle);
 			assertTrue(connection.createBenutzer(b));
 			Benutzer p = connection.getBenutzerbyId("fgustavson");
 			assertTrue(b.equals(p));
@@ -31,8 +33,10 @@ public class db_testing extends TestCase {
 		dbConnect connection = new dbConnect();
 		try {
 			LinkedList<Benutzer> lBen = new LinkedList<Benutzer>();
-			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", "Studiengangsleiter", "ccm_all"));
-			lBen.add(new Benutzer("mmustermann", "Max", "Mustermann", "Studiengangsleiter", "ccm_all"));
+			Beruf beruf = new Beruf(1, "Studiengangsleiter");
+			Rolle rolle = new Rolle(1, "ccm_all", null);
+			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle));
+			lBen.add(new Benutzer("mmustermann", "Max", "Mustermann", beruf, rolle));
 			int i = 0;
 			LinkedList<Benutzer> dbBen = connection.getAllBenutzer();
 			Benutzer p;

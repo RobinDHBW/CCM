@@ -5,15 +5,15 @@ public class Benutzer {
 	private String vorname;
 	private String nachname;
 	private String id;
-	private String beruf;
-	private String rolle;
+	private Beruf beruf;
+	private Rolle rolle;
 
-	public Benutzer(String string, String string2, String string3, String string4, String string5) {
-		id = string;
-		vorname = string2;
-		nachname = string3;
-		beruf = string4;
-		rolle = string5;
+	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle) {
+		this.id = id;
+		this.vorname = vorname;
+		this.nachname = nachname;
+		this.beruf = beruf;
+		this.rolle = rolle;
 	}
 
 	public String getVorname() {
@@ -40,7 +40,7 @@ public class Benutzer {
 //		this.id = id;
 //	}
 
-	public String getBeruf() {
+	public Beruf getBeruf() {
 		return beruf;
 	}
 //
@@ -48,7 +48,7 @@ public class Benutzer {
 //		this.beruf = beruf;
 //	}
 
-	public String getRolle() {
+	public Rolle getRolle() {
 		return rolle;
 	}
 

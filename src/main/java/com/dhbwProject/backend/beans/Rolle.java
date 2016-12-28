@@ -1,21 +1,23 @@
 package com.dhbwProject.backend.beans;
 
+import java.util.LinkedList;
+
 public class Rolle {
 	
-	private StringBuffer berechtigung;
+	private LinkedList<Berechtigung> lBerechtigung;
 	private String bezeichnung;
 	private int id;
 
-	public Rolle(StringBuffer berechtigung, String bezeichnung, int id) {
+	public Rolle(int id, String bezeichnung, LinkedList<Berechtigung> berechtigung) {
 		super();
-		this.berechtigung = berechtigung;
+		this.lBerechtigung = berechtigung;
 		this.bezeichnung = bezeichnung;
 		this.id = id;
 	}
 
 
-	public StringBuffer getBerechtigung() {
-		return berechtigung;
+	public LinkedList<Berechtigung> getBerechtigung() {
+		return lBerechtigung;
 	}
 
 	public String getBezeichnung() {
