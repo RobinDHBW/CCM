@@ -9,7 +9,6 @@ public class Benutzer {
 	private String rolle;
 
 	public Benutzer(String string, String string2, String string3, String string4, String string5) {
-		// TODO Auto-generated constructor stub
 		id = string;
 		vorname = string2;
 		nachname = string3;

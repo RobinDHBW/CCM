@@ -15,7 +15,7 @@ public class db_testing extends TestCase {
 		dbConnect connection = new dbConnect();
 		try {
 			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", "Studiengangsleiter", "ccm_all");
-			assertTrue(connection.setBenutzer(b));
+			assertTrue(connection.createBenutzer(b));
 			Benutzer p = connection.getBenutzerbyId("fgustavson");
 			assertTrue(b.equals(p));
 			

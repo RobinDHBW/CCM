@@ -53,7 +53,4 @@ public class Ansprechpartner {
 	public void setUnternehmen(Unternehmen unternehmen) {
 		this.unternehmen = unternehmen;
 	}
-
-	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
-	//ansprechpartner, adresse, ort, studiengang_ansprechpartner
 }

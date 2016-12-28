@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.*;
 
 public class dbConnect {
 
@@ -31,7 +31,6 @@ public class dbConnect {
 			if (stat != null) if (!stat.isClosed())stat.close();
 			con.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -119,7 +118,7 @@ public class dbConnect {
 		return ben;
 	}
 
-	public boolean setBenutzer(Benutzer b) {
+	public boolean createBenutzer(Benutzer b) {
 		try{
 		if(getBenutzerbyId(b.getId()).equals(b)){
 			return false;
@@ -153,6 +152,42 @@ public class dbConnect {
 		
 			
 		}
+	
+	public Ansprechpartner getAnsprechpartnerById() {
+		// TODO ss implement getBesucheByDate
+		return null;
+
+	}
+
+	public LinkedList<Besuch> getBesucheByDate() {
+		// TODO ss implement getBesucheByDate
+		return null;
+
+	}
+
+	public Gespraechsnotiz getGespraechsnotizByBesuchId() {
+		// TODO ss implement getGespraechsnotizByBesuchId
+		return null;
+
+	}
+
+	public boolean createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) {
+		// TODO ss implement createGespreachsnotiz
+		return false;
+
+	}
+
+	public boolean createBesuch(Besuch besuch) {
+		// TODO ss implement createBesuch
+		return false;
+
+	}
+
+	public boolean createAnsprechpartner(Ansprechpartner ansprechpartner) {
+		// TODO ss implement createAnsprechpartner
+		return false;
+	
+}
 
 	}
 
