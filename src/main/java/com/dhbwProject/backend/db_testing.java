@@ -18,7 +18,7 @@ public class db_testing extends TestCase {
 			Rolle rolle = new Rolle(1, "ccm_all", null);
 			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle);
 			assertTrue(connection.createBenutzer(b));
-			Benutzer p = connection.getBenutzerbyId("fgustavson");
+			Benutzer p = connection.getBenutzerById("fgustavson");
 			assertTrue(b.equals(p));
 			
 		} catch (Exception e) {

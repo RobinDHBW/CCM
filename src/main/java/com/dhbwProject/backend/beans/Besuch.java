@@ -9,19 +9,21 @@ public class Besuch {
 	private String name;
 	private Date startDate;
 	private Date endDate;
-	private Unternehmen unternehmen;
+	private Adresse adresse;
 	private Ansprechpartner ansprechpartner;
 	private LinkedList<Benutzer> besucher;
 	private Status status;
+	private Date timestamp;
+	private Benutzer autor;
 	
-	public Besuch(int id, String name, Date startDate, Date endDate, Unternehmen unternehmen, Status status,
-			Ansprechpartner ansprechpartner, LinkedList<Benutzer> besucher) {
+	public Besuch(int id, String name, Date startDate, Date endDate, Adresse adresse, Status status,
+			Ansprechpartner ansprechpartner, LinkedList<Benutzer> besucher, Date timestamp, Benutzer autor) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.unternehmen = unternehmen;
+		this.adresse = adresse;
 		this.ansprechpartner = ansprechpartner;
 		this.besucher = besucher;
 		this.status = status;
@@ -47,8 +49,8 @@ public class Besuch {
 		return endDate;
 	}
 
-	public Unternehmen getUnternehmen() {
-		return unternehmen;
+	public Adresse getAdresse() {
+		return adresse;
 	}
 
 	public Ansprechpartner getAnsprechpartner() {

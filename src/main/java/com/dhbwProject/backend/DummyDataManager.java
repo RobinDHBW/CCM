@@ -1,6 +1,7 @@
 package com.dhbwProject.backend;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
@@ -22,6 +23,7 @@ public class DummyDataManager {
 	public DummyDataManager(){
 		this.user = new Benutzer("0", "Alpha", "Engineering", null, null);
 		this.initBenutzer();
+		this.initAdresse();
 		this.initUnternehmen();
 		this.initAnsprechpartner();
 		this.initBesuch();
@@ -72,10 +74,11 @@ public class DummyDataManager {
 		GregorianCalendar dateStart = new GregorianCalendar(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 13, 30);
 		GregorianCalendar dateEnd = new GregorianCalendar(date.getYear(), date.getMonthValue()-1, date.getDayOfMonth(), 18, 00);
 		LinkedList<Benutzer> benutzer = new LinkedList<Benutzer>();
+		Date timestamp = null;
 		benutzer.add(this.user);
 		benutzer.add(this.lBenutzer.get(0));
 		benutzer.add(this.lBenutzer.get(1));
-		this.lTermin.add(new Besuch(0, "ebm", dateStart.getTime(), dateEnd.getTime(), this.lUnternehmen.get(0), null, this.lAnsprechpartner.get(0), benutzer));
+		this.lTermin.add(new Besuch(0, "ebm", dateStart.getTime(), dateEnd.getTime(), this.lAdresse.get(0), null, this.lAnsprechpartner.get(0), benutzer, timestamp, this.lBenutzer.get(0)));
 	}
 	
 	private void initAdresse(){
