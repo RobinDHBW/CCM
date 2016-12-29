@@ -18,40 +18,20 @@ public class Ansprechpartner {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
-	//ansprechpartner, adresse, ort, studiengang_ansprechpartner
-
-//	public void setVorname(String vorname) {
-//		this.vorname = vorname;
-//	}
-
 	public String getNachname() {
 		return nachname;
 	}
-
-//	public void setNachname(String nachname) {
-//		this.nachname = nachname;
-//	}
 
 	public Adresse getAdresse() {
 		return adresse;
 	}
 
-
 	public int getId() {
 		return id;
 	}
 
-
 	public String getVorname() {
 		return vorname;
 	}
-
-
-//	public void setUnternehmen(Unternehmen unternehmen) {
-//		this.unternehmen = unternehmen;
-//	}
-
 
 }
