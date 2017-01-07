@@ -9,6 +9,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class HeaderView extends CustomComponent{
 	/**
@@ -18,7 +19,8 @@ public class HeaderView extends CustomComponent{
 
 	public HeaderView()
 	{
-	Panel pnHeader = new Panel();
+	Panel pnHeader = new Panel(); 
+	pnHeader.setStyleName(ValoTheme.PANEL_BORDERLESS); //By Robin Bahr 07.01.2017
 	pnHeader.setHeight("40px");
 	pnHeader.setWidth("100%");
 	HorizontalLayout hL = new HorizontalLayout();

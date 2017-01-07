@@ -9,7 +9,7 @@ public class ViewStartseite extends VerticalLayout implements View {
 	
 	public ViewStartseite(){
 		//Hier wird zunächst der Header eingefügt.
-		this.addComponent(new HeaderView());
+//		this.addComponent(new HeaderView());
 	}
 
 	@Override

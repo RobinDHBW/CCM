@@ -4,6 +4,8 @@ import javax.servlet.annotation.WebServlet;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.views.FooterView;
+import com.dhbwProject.views.HeaderView;
 import com.dhbwProject.views.ViewBenutzer;
 import com.dhbwProject.views.ViewLogin;
 import com.dhbwProject.views.ViewStartseite;
@@ -19,15 +21,24 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 @Theme("CCM_Theme")
 public class CCM_UI extends UI {
 	private static final long serialVersionUID = 1L;
 	private DummyDataManager dummyData;
 	
+	private Panel pnlContent;
+	private VerticalLayout vlFormat;
 	private HorizontalLayout hlContent;
-	private CssLayout clNavigation;
-	private final Panel pnlViews = new Panel();	
+	
+	private HeaderView header;
+	private Navigationsbar naviBar;
+	private FooterView footer;
+	
+//	Direkte Initialisierung wegen dem Navigator
+	private Panel pnlViews;	
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -36,9 +47,13 @@ public class CCM_UI extends UI {
 		this.setSizeFull();		
 		this.initViewNavigator();
 		this.initContentLayout();
-		this.initNavigationLayout();
-		this.initViewPanel();
-		this.setContent(this.hlContent);
+		this.initFormatLayout();
+		
+		this.pnlContent = new Panel();
+		this.pnlContent.setStyleName(ValoTheme.PANEL_BORDERLESS);
+		this.pnlContent.setContent(this.vlFormat);
+		this.setContent(this.pnlContent);
+		
 		this.getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
     }
 
@@ -48,24 +63,35 @@ public class CCM_UI extends UI {
 		private static final long serialVersionUID = 1L;
     }
     
+    private void initFormatLayout(){
+    	this.vlFormat = new VerticalLayout();
+    	this.vlFormat.setSizeFull();
+    	this.header = new HeaderView();
+    	this.header.setSizeFull();
+    	this.vlFormat.addComponent(this.header);
+    	this.vlFormat.setExpandRatio(this.header, 2);
+    	this.vlFormat.addComponent(this.hlContent);
+    	this.vlFormat.setExpandRatio(this.hlContent, 8);
+    	
+    }
+    
     private void initContentLayout(){
 		this.hlContent = new HorizontalLayout();
 		this.hlContent.setSizeFull();
+		this.initNavigationBar();
+		this.initViewPanel();
 	}
 	
-	private void initNavigationLayout(){
-		this.clNavigation = new CssLayout();
-		this.clNavigation.setSizeFull();
-		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_START, this.getNavigator()));
-		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_BENUTZER, this.getNavigator()));
-		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, this.getNavigator()));
-		this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_TERMIN, this.getNavigator()));	
-		if(this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null){
-			this.clNavigation.setVisible(false);
-		}else
-			this.clNavigation.setVisible(true);
-		this.hlContent.addComponent(this.clNavigation);
-		this.hlContent.setExpandRatio(this.clNavigation, 1);
+	private void initNavigationBar(){
+		this.naviBar = new Navigationsbar((CCM_Navigator)this.getNavigator());
+		if(this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null)	
+			this.naviBar.setVisible(false);
+		else
+			this.naviBar.setVisible(true);
+		
+		
+		this.hlContent.addComponent(this.naviBar);
+		this.hlContent.setExpandRatio(this.naviBar, 1);
 	}
 	
 	private void initViewPanel(){	
@@ -75,13 +101,13 @@ public class CCM_UI extends UI {
 	}
 	
 	private void initViewNavigator(){
-		
-		this.setNavigator(new Navigator(this, this.pnlViews));
+		this.pnlViews = new Panel();
+		this.pnlViews.setStyleName(ValoTheme.PANEL_BORDERLESS);
+		this.setNavigator(new CCM_Navigator(this, this.pnlViews));
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_LOGIN, ViewLogin.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_START, ViewStartseite.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BENUTZER, ViewBenutzer.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_UNTERNEHMEN, ViewUnternehmen.class);
-//		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, ViewTermin.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin(this.dummyData));
 		
 		/*	Dieser ViewChangeListener prueft ob sich ein Benutzer an der Session angemeldet hat
@@ -93,8 +119,8 @@ public class CCM_UI extends UI {
             public boolean beforeViewChange(ViewChangeEvent event) {
                 boolean isLoggedIn = getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
-                if(isLoggedIn && !clNavigation.isVisible())
-                	clNavigation.setVisible(true);
+                if(isLoggedIn && !naviBar.isVisible())
+                	naviBar.setVisible(true);
 
                 if (!isLoggedIn && !isLoginView) {
                     getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
@@ -112,3 +138,14 @@ public class CCM_UI extends UI {
 		});
 	}
 }
+
+//this.clNavigation = new CssLayout();
+//this.clNavigation.setSizeFull();
+//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_START, this.getNavigator()));
+//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_BENUTZER, this.getNavigator()));
+//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, this.getNavigator()));
+//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_TERMIN, this.getNavigator()));	
+//if(this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null){
+//	this.clNavigation.setVisible(false);
+//}else
+//	this.clNavigation.setVisible(true);
