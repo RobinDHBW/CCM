@@ -1,6 +1,6 @@
 package com.dhbwProject.benutzer;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.dhbwProject.CCM.Lookup;
 import com.dhbwProject.backend.beans.Benutzer;
@@ -14,10 +14,10 @@ import com.vaadin.ui.Grid.SelectionMode;
  * */
 public class LookupBenutzer extends Lookup {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<Benutzer> alUser;
+	private LinkedList<Benutzer> lUser;
 	
-	public LookupBenutzer(ArrayList<Benutzer> alUser){
-		this.alUser = alUser;
+	public LookupBenutzer(LinkedList<Benutzer> lUser){
+		this.lUser = lUser;
 		super.setCaption("<center><h2>Bitte wählen Sie Ihre Teilnemer</h2></center>");
 		super.getOkButton().addClickListener(listener ->{
 			/*	Hier soll abschließend die Benutzrliste befüllt werden
@@ -28,7 +28,7 @@ public class LookupBenutzer extends Lookup {
 						(String)super.getGrid().getContainerDataSource().getItem(o).getItemProperty("Vorname").getValue(),
 						(String)super.getGrid().getContainerDataSource().getItem(o).getItemProperty("Nachname").getValue(),
 						null, null);
-				this.alUser.add(b);
+				this.lUser.add(b);
 			}
 			this.close();
 		});

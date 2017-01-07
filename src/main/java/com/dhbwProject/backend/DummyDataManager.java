@@ -23,8 +23,8 @@ public class DummyDataManager {
 	public DummyDataManager(){
 		this.user = new Benutzer("0", "Alpha", "Engineering", null, null);
 		this.initBenutzer();
-		this.initAdresse();
 		this.initUnternehmen();
+		this.initAdresse();
 		this.initAnsprechpartner();
 		this.initBesuch();
 	}
@@ -78,7 +78,7 @@ public class DummyDataManager {
 		benutzer.add(this.user);
 		benutzer.add(this.lBenutzer.get(0));
 		benutzer.add(this.lBenutzer.get(1));
-		this.lTermin.add(new Besuch(0, "ebm", dateStart.getTime(), dateEnd.getTime(), this.lAdresse.get(0), null, this.lAnsprechpartner.get(0), benutzer, timestamp, this.lBenutzer.get(0)));
+		this.lTermin.add(new Besuch(0, "ebm-papst", dateStart.getTime(), dateEnd.getTime(), this.lAdresse.get(0), null, this.lAnsprechpartner.get(0), benutzer, timestamp, this.lBenutzer.get(0)));
 	}
 	
 	private void initAdresse(){
@@ -87,6 +87,7 @@ public class DummyDataManager {
 		this.lAdresse.add(new Adresse(2, "74189", "Weltstadt Wimmental2", lUnternehmen.get(2), "Musterstrasse", "2c"));
 		this.lAdresse.add(new Adresse(3, "74189", "Weltstadt Wimmental3", lUnternehmen.get(3), "Musterstrasse", "3d"));
 		this.lAdresse.add(new Adresse(4, "74189", "Weltstadt Wimmental4", lUnternehmen.get(4), "Musterstrasse", "4e"));
+		this.lAdresse.add(new Adresse(4, "74189", "Weltstadt Wimmental4", lUnternehmen.get(5), "Musterstrasse", "5f"));
 	}
 
 	public Benutzer getUser() {

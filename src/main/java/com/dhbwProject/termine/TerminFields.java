@@ -1,8 +1,9 @@
 package com.dhbwProject.termine;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
+import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
@@ -18,11 +19,11 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
 
 public class TerminFields extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
-
+	private DummyDataManager  dummyData;
+	
 	private TextField tfTitel;
 	private DateField dfDate;
 	private TextField tfUnternehmen;
@@ -38,9 +39,10 @@ public class TerminFields extends VerticalLayout {
 	 */
 	private Unternehmen unternehmen = new Unternehmen();
 	private Ansprechpartner ansprechpartner = new Ansprechpartner();
-	private ArrayList<Benutzer> alBenutzer = new ArrayList<Benutzer>();
+	private LinkedList<Benutzer> lBenutzer;
 
-	public TerminFields() {
+	public TerminFields(DummyDataManager dummyData) {
+		this.dummyData = dummyData;
 		this.setSizeUndefined();
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(true, true, true, true));
@@ -128,14 +130,14 @@ public class TerminFields extends VerticalLayout {
 		// this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener -> {
-			LookupBenutzer lookup = new LookupBenutzer(this.alBenutzer);
+			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer);
 			lookup.addCloseListener(CloseListener -> {
 				/*
 				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
 				 * TextArea Hier erfolgt eine Dummy-Zurückschreibung
 				 */
 				String value = "";
-				for (Benutzer b : this.alBenutzer)
+				for (Benutzer b : this.lBenutzer)
 					value = value + b.getNachname() + ", " + b.getVorname() + "\n";
 				this.taParticipants.setValue(value);
 			});
@@ -162,7 +164,7 @@ public class TerminFields extends VerticalLayout {
 
 	protected void setUnternehmen(Unternehmen u) {
 		this.unternehmen = u;
-		// this.tfUnternehmen.setValue(u.getName());
+		this.tfUnternehmen.setValue(u.getName());
 	}
 
 	protected Ansprechpartner getAnsprechpartner() {
@@ -171,32 +173,32 @@ public class TerminFields extends VerticalLayout {
 
 	protected void setAnsprechpartner(Ansprechpartner a) {
 		this.ansprechpartner = a;
-		// this.tfAnsprechpartner.setValue(a.getNachname()+", "+a.getVorname());
+		this.tfAnsprechpartner.setValue(a.getNachname()+", "+a.getVorname());
 	}
 
-	protected ArrayList<Benutzer> getTeilnehmenr() {
-		return this.alBenutzer;
+	protected LinkedList<Benutzer> getTeilnehmenr() {
+		return this.lBenutzer;
 	}
 
-	protected void setTeilnehmenr(ArrayList<Benutzer> alBenutzer) {
-		this.alBenutzer = alBenutzer;
-		// String value = "";
-		// for(Benutzer b : this.alBenutzer)
-		// value = value +b.getNachname()+", "+b.getVorname()+"\n";
-		// this.taParticipants.setValue(value);
+	protected void setTeilnehmenr(LinkedList<Benutzer> lBenutzer) {
+		this.lBenutzer = lBenutzer;
+		String value = "";
+		for (Benutzer b : this.lBenutzer)
+			value = value + b.getNachname() + ", " + b.getVorname() + "\n";
+		this.taParticipants.setValue(value);
 	}
 
 	protected boolean addTeilnehmer(Benutzer b) {
-		return this.alBenutzer.add(b);
+		return this.lBenutzer.add(b);
 	}
 
 	protected boolean removeTeilnehmer(Benutzer b) {
-		return this.alBenutzer.remove(b);
+		return this.lBenutzer.remove(b);
 	}
 
 	protected void clear() {
 		this.unternehmen = null;
 		this.ansprechpartner = null;
-		this.alBenutzer.clear();
+		this.lBenutzer.clear();
 	}
 }

@@ -2,7 +2,9 @@ package com.dhbwProject.termine;
 
 import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
+import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.Window;
@@ -11,7 +13,6 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandle
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardHandler;
-import com.vaadin.ui.components.calendar.event.CalendarEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
@@ -19,12 +20,14 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandl
 public class TermineCalendar extends Calendar{
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime date;
+	private DummyDataManager dummyData;
+//	private LinkedList<Besuch> lTermine;
 	
 	//Aktuell eine Idee um forward und backward für den Month-View zu realisieren...
 	private GregorianCalendar gcStart;
 	private GregorianCalendar gcEnd;
 	
-	public TermineCalendar(){
+	public TermineCalendar(DummyDataManager dummyData){
 		super();
 		this.date = LocalDateTime.now();
 		this.gcStart = new GregorianCalendar(this.date.getYear(), 
@@ -35,11 +38,13 @@ public class TermineCalendar extends Calendar{
 				this.date.getDayOfMonth(), 00, 00, 00);
 		
 		super.setSizeFull();
-		super.setFirstVisibleDayOfWeek(1);
-		super.setLastVisibleDayOfWeek(5);
+//		super.setFirstVisibleDayOfWeek(1);
+//		super.setLastVisibleDayOfWeek(5);
+		this.dummyData = dummyData;
 		this.setViewMonth();
 		this.initDateClickHandler();
 		this.initEventClickHandler();
+		this.initCalendarEvents();
 //		this.initForwardHandler();
 //		this.initBackwardHandler();
 		
@@ -61,7 +66,7 @@ public class TermineCalendar extends Calendar{
 				w.setClosable(true);
 				w.setModal(false);
 				
-				TerminAnlage anlage = new TerminAnlage(event.getDate());
+				TerminAnlage anlage = new TerminAnlage(dummyData, event.getDate());
 				anlage.getBtnCreate().addClickListener(listener ->{
 					w.close();
 				});
@@ -90,7 +95,7 @@ public class TermineCalendar extends Calendar{
 				w.setClosable(true);
 				w.setModal(false);
 				
-				TerminBearbeitung bearbeitung = new TerminBearbeitung(new Besuch());
+				TerminBearbeitung bearbeitung = new TerminBearbeitung(dummyData, e.getBesuch());
 				bearbeitung.getBtnUpdate().addClickListener(listener ->{
 					w.close();
 				});
@@ -133,10 +138,11 @@ public class TermineCalendar extends Calendar{
 		
 	}
 	
-	protected void initCalendarEvents(){
-		/*	Für die Terminliste eines Benutzers sollen hier die 
-		 * 	TerminEvents erzeugt werden
-		 * */
+	protected void initCalendarEvents(){		
+		for(Besuch b : this.dummyData.getlTermin()){
+			TerminEvent event = new TerminEvent(b);
+			this.addEvent(event);
+		}	
 	}
 	
 	protected void setViewMonth(){

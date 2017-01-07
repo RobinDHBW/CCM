@@ -1,19 +1,18 @@
 package com.dhbwProject.termine;
 
+import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
-import com.vaadin.ui.themes.ValoTheme;
 
 public class TerminBearbeitung extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 	
+	private DummyDataManager dummyData;
 	private Besuch termin;
 	
 	private VerticalLayout vlLayout;
@@ -22,22 +21,24 @@ public class TerminBearbeitung extends CustomComponent {
 	private TerminFields fields;
 	private Button btnUpdate;
 	
-	public TerminBearbeitung(){
+	public TerminBearbeitung(DummyDataManager dummyData){
+		this.dummyData = dummyData;
 		this.initVlLayout();
 		this.initFields();
 	}
 	
-	public TerminBearbeitung(Besuch b){
-		this();
-		this.setTermin(b);
-//		this.fields.setCaption(b.getTitel());
-//		this.fields.setUnternehmen(b.getUnternehmen());
-//		this.fields.setAnsprechpartner(b.getAnsprechpartner());
-//		this.fields.setTeilnehmenr(b.getBenutzer());
+	public TerminBearbeitung(DummyDataManager dummyData, Besuch b){
+		this(dummyData);
+		this.termin = b;
+		this.tfTermin.setValue(b.getName());
+		this.fields.setDate(b.getStartDate());
+		this.fields.setTeilnehmenr(b.getBesucher());
+		this.fields.setUnternehmen(b.getAdresse().getUnternehmen());
+		this.fields.setAnsprechpartner(b.getAnsprechpartner());
 	}
 	
 	private void initFields(){
-		this.fields = new TerminFields();
+		this.fields = new TerminFields(this.dummyData);
 		this.vlLayout.addComponent(this.fields);
 		this.initLookupTermin();
 		this.fields.initFieldTitel();
@@ -87,7 +88,9 @@ public class TerminBearbeitung extends CustomComponent {
 	}
 	
 	private void updateTermin(){
-		
+		/*
+		 * Wie wollen wir updates vornehmen?
+		 * */
 	}
 	
 	protected void setTermin(Besuch b){

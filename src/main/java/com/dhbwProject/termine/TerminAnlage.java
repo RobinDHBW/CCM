@@ -2,6 +2,7 @@ package com.dhbwProject.termine;
 
 import java.util.Date;
 
+import com.dhbwProject.backend.DummyDataManager;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -14,23 +15,25 @@ import com.vaadin.ui.themes.Reindeer;
 
 public class TerminAnlage extends CustomComponent {
 	private static final long serialVersionUID = 1L;
+	private DummyDataManager dummyData;
 	
 	private TerminFields fields;
 	private VerticalLayout vlLayout;
 	private Button btnCreate;	
 	
-	public TerminAnlage(){
+	public TerminAnlage(DummyDataManager dummyData){
+		this.dummyData = dummyData;
 		this.initFields();
 		this.initVlLayout();
 	}
 	
-	public TerminAnlage(Date date){
-		this();
+	public TerminAnlage(DummyDataManager dummyData, Date date){
+		this(dummyData);
 		this.setDate(date);
 	}
 	
 	private void initFields(){
-		this.fields = new TerminFields();
+		this.fields = new TerminFields(this.dummyData);
 		fields.initFieldTitel();
 		fields.initDfDate();
 		fields.initFieldUnternehmen();

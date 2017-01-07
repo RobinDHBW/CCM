@@ -3,6 +3,7 @@ package com.dhbwProject.CCM;
 import javax.servlet.annotation.WebServlet;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.views.ViewBenutzer;
 import com.dhbwProject.views.ViewLogin;
 import com.dhbwProject.views.ViewStartseite;
@@ -22,12 +23,16 @@ import com.vaadin.ui.UI;
 @Theme("CCM_Theme")
 public class CCM_UI extends UI {
 	private static final long serialVersionUID = 1L;
+	private DummyDataManager dummyData;
+	
 	private HorizontalLayout hlContent;
 	private CssLayout clNavigation;
 	private final Panel pnlViews = new Panel();	
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
+		this.dummyData = new DummyDataManager();
+		
 		this.setSizeFull();		
 		this.initViewNavigator();
 		this.initContentLayout();
@@ -76,8 +81,8 @@ public class CCM_UI extends UI {
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_START, ViewStartseite.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BENUTZER, ViewBenutzer.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_UNTERNEHMEN, ViewUnternehmen.class);
-		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, ViewTermin.class);
-		//this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin());
+//		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, ViewTermin.class);
+		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin(this.dummyData));
 		
 		/*	Dieser ViewChangeListener prueft ob sich ein Benutzer an der Session angemeldet hat
 		 * 	Ist das nicht der Fall so ist lediglich der Login anzuzeigen*/
