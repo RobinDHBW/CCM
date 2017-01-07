@@ -8,14 +8,18 @@ import com.dhbwProject.termine.TerminVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
 
-public class ViewTermin extends VerticalLayout implements View {
+public class ViewTermin extends CustomComponent implements View {
 	private static final long serialVersionUID = 1L;
-	private DummyDataManager dummyData;
 	
+	private DummyDataManager dummyData;
 	private TabSheet tbContent;
+	
+	private TerminVerwaltung verwaltung;
+//	private TerminAnlage anlage;
+//	private TerminBearbeitung bearbeitung;
 	
 	public ViewTermin(DummyDataManager dummyData){
 		this.dummyData = dummyData;
@@ -27,16 +31,17 @@ public class ViewTermin extends VerticalLayout implements View {
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+		this.verwaltung.refresh();
 		
 	}
 	
 	private void initTbContent(){
 		this.tbContent = new TabSheet();
-		this.tbContent.addTab(new TerminVerwaltung(this.dummyData), "Meine Termine", FontAwesome.USER);
-		this.tbContent.addTab(new TerminAnlage(this.dummyData), "Termin anlegen", FontAwesome.CALENDAR_PLUS_O);
-		this.tbContent.addTab(new TerminBearbeitung(this.dummyData), "Termin bearbeiten", FontAwesome.LIST);
-		this.addComponent(this.tbContent);
+		this.verwaltung = new TerminVerwaltung(this.dummyData);
+		this.tbContent.addTab(this.verwaltung, "Meine Termine", FontAwesome.USER);
+//		this.tbContent.addTab(new TerminAnlage(this.dummyData), "Termin anlegen", FontAwesome.CALENDAR_PLUS_O);
+//		this.tbContent.addTab(new TerminBearbeitung(this.dummyData), "Termin bearbeiten", FontAwesome.LIST);
+		this.setCompositionRoot(this.tbContent);
 	}
 
 }

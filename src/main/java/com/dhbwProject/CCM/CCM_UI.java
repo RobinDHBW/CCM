@@ -138,14 +138,3 @@ public class CCM_UI extends UI {
 		});
 	}
 }
-
-//this.clNavigation = new CssLayout();
-//this.clNavigation.setSizeFull();
-//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_START, this.getNavigator()));
-//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_BENUTZER, this.getNavigator()));
-//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, this.getNavigator()));
-//this.clNavigation.addComponent(new NaviButton(CCM_Constants.VIEW_NAME_TERMIN, this.getNavigator()));	
-//if(this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null){
-//	this.clNavigation.setVisible(false);
-//}else
-//	this.clNavigation.setVisible(true);

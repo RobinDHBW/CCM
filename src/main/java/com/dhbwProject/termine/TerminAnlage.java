@@ -29,13 +29,15 @@ public class TerminAnlage extends CustomComponent {
 	
 	public TerminAnlage(DummyDataManager dummyData, Date date){
 		this(dummyData);
-		this.setDate(date);
+		this.fields.setDateStart(date);
+		this.fields.setDateEnd(date);
 	}
 	
 	private void initFields(){
 		this.fields = new TerminFields(this.dummyData);
 		fields.initFieldTitel();
-		fields.initDfDate();
+		fields.initDfDateStart();
+		fields.initDfDateEnd();
 		fields.initFieldUnternehmen();
 		fields.initFieldAnsprechpartner();
 		fields.initFieldParticipants();
@@ -61,9 +63,9 @@ public class TerminAnlage extends CustomComponent {
 		this.setCompositionRoot(this.vlLayout);
 	}
 	
-	protected void setDate(Date d){
-		this.fields.setDate(d);
-	}
+//	protected void setDate(Date d){
+//		this.fields.setDate(d);
+//	}
 	
 	protected Button getBtnCreate(){
 		return this.btnCreate;

@@ -1,53 +1,57 @@
 package com.dhbwProject.termine;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Besuch;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardHandler;
+import com.vaadin.ui.components.calendar.handler.BasicBackwardHandler;
+import com.vaadin.ui.components.calendar.handler.BasicForwardHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardEvent;
-import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
 
 public class TermineCalendar extends Calendar{
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime date;
 	private DummyDataManager dummyData;
-//	private LinkedList<Besuch> lTermine;
+	private BeanItemContainer<TerminEvent> eventContainer;
 	
-	//Aktuell eine Idee um forward und backward für den Month-View zu realisieren...
-	private GregorianCalendar gcStart;
-	private GregorianCalendar gcEnd;
+	private GregorianCalendar dateStart;
+	private GregorianCalendar dateEnd;
 	
 	public TermineCalendar(DummyDataManager dummyData){
 		super();
 		this.date = LocalDateTime.now();
-		this.gcStart = new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue()-1, 
-				this.date.getDayOfMonth(), 00, 00, 00);
-		this.gcEnd = new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00);
+		this.dateStart = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 01, 00, 00);
+		this.dateEnd = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 31, 00, 00);
 		
-		super.setSizeFull();
-//		super.setFirstVisibleDayOfWeek(1);
-//		super.setLastVisibleDayOfWeek(5);
+		this.refreshTime();
+		this.setLocale(Locale.GERMANY);
+		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+//		super.setSizeFull();
 		this.dummyData = dummyData;
-		this.setViewMonth();
+		this.eventContainer = new BeanItemContainer<TerminEvent>(TerminEvent.class);
+		this.setContainerDataSource(eventContainer);
+		
 		this.initDateClickHandler();
 		this.initEventClickHandler();
-		this.initCalendarEvents();
-//		this.initForwardHandler();
-//		this.initBackwardHandler();
-		
+		this.initBackwardHandler();
+		this.initForwardHandler();
+	}
+	
+	protected void refreshTime(){
+		super.setStartDate(dateStart.getTime());
+		super.setEndDate(dateEnd.getTime());
 	}
 	
 	protected void initDateClickHandler(){
@@ -71,10 +75,8 @@ public class TermineCalendar extends Calendar{
 					w.close();
 				});
 				w.setContent(anlage);
-				getUI().addWindow(w);
-				
+				getUI().addWindow(w);	
 			}
-			
 		});		
 	}
 	
@@ -100,76 +102,41 @@ public class TermineCalendar extends Calendar{
 					w.close();
 				});
 				w.setContent(bearbeitung);
-				getUI().addWindow(w);
-				
-			}
-			
-		});	
-				
+				getUI().addWindow(w);			
+			}		
+		});			
 	}
 	
 	protected void initForwardHandler(){
-		this.setHandler(new ForwardHandler(){
+		this.setHandler(new BasicForwardHandler(){
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void forward(ForwardEvent event) {
-				gcStart = gcEnd;
-				gcEnd = new GregorianCalendar(gcEnd.YEAR, gcEnd.MONTH+1, gcEnd.DAY_OF_MONTH, 00, 00);
-				setStartDate(gcStart.getTime());
-				setEndDate(gcEnd.getTime());	
+			protected void setDates(ForwardEvent event, Date start, Date end) {
+			 	super.setDates(event, start, end);
 			}
 		});
 	}
 	
 	protected void initBackwardHandler(){
-		this.setHandler(new BackwardHandler(){
+		this.setHandler(new BasicBackwardHandler(){
 			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void backward(BackwardEvent event) {
-				gcEnd = gcStart;
-				gcStart = new GregorianCalendar(gcEnd.YEAR, gcEnd.MONTH-1, gcEnd.DAY_OF_MONTH, 00, 00);
-				setStartDate(gcStart.getTime());
-				setEndDate(gcEnd.getTime());		
-			}
-			
-		});
-		
+			 protected void setDates(BackwardEvent event, Date start, Date end) {
+				 super.setDates(event, start, end);
+			 }			
+		});	
 	}
 	
-	protected void initCalendarEvents(){		
-		for(Besuch b : this.dummyData.getlTermin()){
-			TerminEvent event = new TerminEvent(b);
-			this.addEvent(event);
-		}	
+	protected void navigateBackward(){
+		this.fireNavigationEvent(false);
 	}
 	
-	protected void setViewMonth(){
-		super.setStartDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue()-1, 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		super.setEndDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
+	protected void navigateForward(){
+		this.fireNavigationEvent(true);
 	}
 	
-	protected void setViewWeek(){
-		super.setStartDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		super.setEndDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-	}
-	
-	protected void setViewDay(){
-		super.setStartDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
-		super.setEndDate(new GregorianCalendar(this.date.getYear(), 
-				this.date.getMonthValue(), 
-				this.date.getDayOfMonth(), 00, 00, 00).getTime());
+	protected void refreshCalendarEvents(){		
+		this.eventContainer.removeAllItems();
+		for(Besuch b : this.dummyData.getlTermin())
+			this.eventContainer.addBean(new TerminEvent(b));
 	}
 
 }

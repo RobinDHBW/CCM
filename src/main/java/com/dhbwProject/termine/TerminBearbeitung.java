@@ -31,7 +31,8 @@ public class TerminBearbeitung extends CustomComponent {
 		this(dummyData);
 		this.termin = b;
 		this.tfTermin.setValue(b.getName());
-		this.fields.setDate(b.getStartDate());
+		this.fields.setDateStart(b.getStartDate());
+		this.fields.setDateEnd(b.getEndDate());
 		this.fields.setTeilnehmenr(b.getBesucher());
 		this.fields.setUnternehmen(b.getAdresse().getUnternehmen());
 		this.fields.setAnsprechpartner(b.getAnsprechpartner());
@@ -41,8 +42,9 @@ public class TerminBearbeitung extends CustomComponent {
 		this.fields = new TerminFields(this.dummyData);
 		this.vlLayout.addComponent(this.fields);
 		this.initLookupTermin();
-		this.fields.initFieldTitel();
-		this.fields.initDfDate();
+//		this.fields.initFieldTitel();
+		this.fields.initDfDateStart();
+		this.fields.initDfDateEnd();
 		this.fields.initFieldUnternehmen();
 		this.fields.initFieldAnsprechpartner();
 		this.fields.initFieldParticipants();

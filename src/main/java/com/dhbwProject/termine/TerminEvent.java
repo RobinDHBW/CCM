@@ -11,6 +11,7 @@ public class TerminEvent extends BasicEvent {
 		super();
 		this.termin = b;
 		super.setCaption(b.getName());	
+		super.setDescription(b.getStartDate().toString()+" bis "+b.getEndDate().toString());
 		super.setStart(b.getStartDate());
 		super.setEnd(b.getEndDate());		
 	}

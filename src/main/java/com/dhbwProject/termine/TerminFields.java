@@ -25,7 +25,8 @@ public class TerminFields extends VerticalLayout {
 	private DummyDataManager  dummyData;
 	
 	private TextField tfTitel;
-	private DateField dfDate;
+	private DateField dfDateStart;
+	private DateField dfDateEnd;
 	private TextField tfUnternehmen;
 	private Button btnLookupUnternehmen;
 	private TextField tfAnsprechpartner;
@@ -55,11 +56,18 @@ public class TerminFields extends VerticalLayout {
 		this.addComponent(this.tfTitel);
 	}
 
-	protected void initDfDate() {
-		this.dfDate = new DateField();
-		this.dfDate.setWidth("300px");
-		this.dfDate.setResolution(Resolution.MINUTE);
-		this.addComponent(this.dfDate);
+	protected void initDfDateStart() {
+		this.dfDateStart = new DateField();
+		this.dfDateStart.setWidth("300px");
+		this.dfDateStart.setResolution(Resolution.MINUTE);
+		this.addComponent(this.dfDateStart);
+	}
+	
+	protected void initDfDateEnd(){
+		this.dfDateEnd = new DateField();
+		this.dfDateEnd.setWidth("300px");
+		this.dfDateEnd.setResolution(Resolution.MINUTE);
+		this.addComponent(this.dfDateEnd);
 	}
 
 	protected void initFieldUnternehmen() {
@@ -150,12 +158,20 @@ public class TerminFields extends VerticalLayout {
 		this.addComponent(hlParticipants);
 	}
 
-	protected Date getDate() {
-		return this.dfDate.getValue();
+	protected Date getDateStart() {
+		return this.dfDateStart.getValue();
 	}
 
-	protected void setDate(Date d) {
-		this.dfDate.setValue(d);
+	protected void setDateStart(Date d) {
+		this.dfDateStart.setValue(d);
+	}
+	
+	protected Date getDateEnd(){
+		return this.dfDateEnd.getValue();
+	}
+	
+	protected void setDateEnd(Date d){
+		this.dfDateEnd.setValue(d);
 	}
 
 	protected Unternehmen getUnternehmen() {
