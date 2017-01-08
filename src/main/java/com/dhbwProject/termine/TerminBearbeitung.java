@@ -5,8 +5,6 @@ import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class TerminBearbeitung extends CustomComponent {
@@ -16,8 +14,6 @@ public class TerminBearbeitung extends CustomComponent {
 	private Besuch termin;
 	
 	private VerticalLayout vlLayout;
-	private TextField tfTermin;
-	private Button btnLookupTermin;
 	private TerminFields fields;
 	private Button btnUpdate;
 	
@@ -30,7 +26,7 @@ public class TerminBearbeitung extends CustomComponent {
 	public TerminBearbeitung(DummyDataManager dummyData, Besuch b){
 		this(dummyData);
 		this.termin = b;
-		this.tfTermin.setValue(b.getName());
+		this.fields.setTitel(b.getName());
 		this.fields.setDateStart(b.getStartDate());
 		this.fields.setDateEnd(b.getEndDate());
 		this.fields.setTeilnehmenr(b.getBesucher());
@@ -41,8 +37,8 @@ public class TerminBearbeitung extends CustomComponent {
 	private void initFields(){
 		this.fields = new TerminFields(this.dummyData);
 		this.vlLayout.addComponent(this.fields);
-		this.initLookupTermin();
-//		this.fields.initFieldTitel();
+		this.fields.initFieldTitel();
+		this.fields.initAnlage(); //Das wird wohl doch vllt. standard
 		this.fields.initDfDateStart();
 		this.fields.initDfDateEnd();
 		this.fields.initFieldAdresse();
@@ -57,25 +53,6 @@ public class TerminBearbeitung extends CustomComponent {
 		this.setCompositionRoot(this.vlLayout);
 	}
 	
-	private void initLookupTermin(){
-		HorizontalLayout hlLayout = new HorizontalLayout();
-		this.tfTermin = new TextField();
-		this.tfTermin.setInputPrompt("Termin");
-		this.tfTermin.setWidth("300px");
-		
-		this.btnLookupTermin = new Button();
-		this.btnLookupTermin.setIcon(FontAwesome.REPLY);
-//		this.btnLookupTermin.setStyleName(ValoTheme.BUTTON_BORDERLESS);
-		this.btnLookupTermin.setWidth("50px");
-		this.btnLookupTermin.addClickListener(listener ->{
-			
-		});
-		hlLayout.setSizeUndefined();
-		hlLayout.addComponent(this.tfTermin);
-		hlLayout.addComponent(this.btnLookupTermin);
-		this.fields.addComponent(hlLayout);	
-	}
-	
 	private void initBtnUpdate(){
 		this.btnUpdate = new Button("Bearbeiten");
 		this.btnUpdate.setIcon(FontAwesome.CHECK);
@@ -84,15 +61,10 @@ public class TerminBearbeitung extends CustomComponent {
 			this.updateTermin();
 		});
 		this.fields.addComponent(this.btnUpdate);
-		
-		
-		
 	}
 	
 	private void updateTermin(){
-		/*
-		 * Wie wollen wir updates vornehmen?
-		 * */
+		this.dummyData.updateTermin(this.termin, fields.getTitel(), fields.getDateStart(), fields.getDateEnd(), fields.getAdresse(), fields.getAnsprechpartner(), fields.getTeilnehmenr());
 	}
 	
 	protected void setTermin(Besuch b){
@@ -102,6 +74,5 @@ public class TerminBearbeitung extends CustomComponent {
 	protected Button getBtnUpdate(){
 		return this.btnUpdate;
 	}
-	
 	
 }

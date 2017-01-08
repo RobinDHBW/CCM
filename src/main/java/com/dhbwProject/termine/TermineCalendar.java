@@ -73,6 +73,7 @@ public class TermineCalendar extends Calendar{
 				TerminAnlage anlage = new TerminAnlage(dummyData, event.getDate());
 				anlage.getBtnCreate().addClickListener(listener ->{
 					w.close();
+					refreshCalendarEvents();
 				});
 				w.setContent(anlage);
 				getUI().addWindow(w);	
@@ -100,6 +101,7 @@ public class TermineCalendar extends Calendar{
 				TerminBearbeitung bearbeitung = new TerminBearbeitung(dummyData, e.getBesuch());
 				bearbeitung.getBtnUpdate().addClickListener(listener ->{
 					w.close();
+					refreshCalendarEvents();
 				});
 				w.setContent(bearbeitung);
 				getUI().addWindow(w);			

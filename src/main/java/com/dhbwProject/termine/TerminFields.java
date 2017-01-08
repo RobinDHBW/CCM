@@ -25,6 +25,7 @@ public class TerminFields extends VerticalLayout {
 	private DummyDataManager  dummyData;
 	
 	private TextField tfTitel;
+	private Button btnLookupBesuch;
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
 	private TextField tfAdresse;
@@ -50,10 +51,23 @@ public class TerminFields extends VerticalLayout {
 	}
 
 	protected void initFieldTitel() {
+		HorizontalLayout hlBesuch = new HorizontalLayout();
+		
 		this.tfTitel = new TextField();
 		this.tfTitel.setInputPrompt("Titel");
 		this.tfTitel.setWidth("300px");
 		this.addComponent(this.tfTitel);
+		
+		this.btnLookupBesuch = new Button();
+		this.btnLookupBesuch.setIcon(FontAwesome.REPLY);
+		this.btnLookupBesuch.setWidth("50px");
+		this.btnLookupBesuch.addClickListener(listener -> {
+
+		});
+		hlBesuch.setSizeUndefined();
+		hlBesuch.addComponent(this.tfTitel);
+		hlBesuch.addComponent(this.btnLookupBesuch);
+		this.addComponent(hlBesuch);
 	}
 
 	protected void initDfDateStart() {
@@ -169,7 +183,19 @@ public class TerminFields extends VerticalLayout {
 		hlParticipants.addComponent(this.btnLookupParticipants);
 		this.addComponent(hlParticipants);
 	}
-
+	
+	protected void initAnlage(){
+		this.btnLookupBesuch.setVisible(false);
+	}
+	
+	protected String getTitel(){
+		return this.tfTitel.getValue();
+	}
+	
+	protected void setTitel(String s){
+		this.tfTitel.setValue(s);
+	}
+	
 	protected Date getDateStart() {
 		return this.dfDateStart.getValue();
 	}
@@ -224,9 +250,4 @@ public class TerminFields extends VerticalLayout {
 		return this.lBenutzer.remove(b);
 	}
 
-//	protected void clear() {
-//		this.unternehmen = null;
-//		this.ansprechpartner = null;
-//		this.lBenutzer.clear();
-//	}
 }

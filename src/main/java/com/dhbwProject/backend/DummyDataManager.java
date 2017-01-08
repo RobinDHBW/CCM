@@ -138,6 +138,10 @@ public class DummyDataManager {
 		this.lAdresse = lAdresse;
 	}
 	
+	/*
+	 * Ab hier beginnt typische Backend logik die wir später brauchen werden
+	 * */
+	
 	public Benutzer getBenutzer(Object id){
 		for(Benutzer b : this.lBenutzer)
 			if(b.getId().equals(id))
@@ -159,6 +163,13 @@ public class DummyDataManager {
 		return null;
 	}
 	
+	public Besuch getBesuch(int id){
+		for(Besuch b : this.lTermin)
+			if(b.getId() == id)
+				return b;
+		return null;
+	}
+	
 	public LinkedList<Ansprechpartner> getAnsprechpartnerList(Adresse a){
 		LinkedList<Ansprechpartner> ansprechpartnerList = new LinkedList<Ansprechpartner>();
 		for(Ansprechpartner aP : this.lAnsprechpartner)
@@ -167,5 +178,26 @@ public class DummyDataManager {
 		return ansprechpartnerList;
 	}
 	
+	/*
+	 * Selbstverständlich wird das anders ablaufen, aber im Grunde brauchen wir Factorys zum erzeugen
+	 * diese sollten zunächst prüfen, ob die Daten valide sind und dann den Create vornehmen,
+	 * sobald der Create geklappt hat in die DB laden und in die aktuellen Listen der Session aufnehmen
+	 * */
+	public boolean createTermin(String name, Date dStart, Date dEnd, 
+			Adresse adresse, Ansprechpartner ansprech, LinkedList<Benutzer> benutzerList){
+		Besuch b = new Besuch(this.lTermin.size()+1, name, dStart, dEnd, adresse, null, ansprech, benutzerList,null , user);
+		return this.lTermin.add(b);
+	}
+	
+	/*
+	 * Hier gilt das selbe wie oben für createTermin
+	 * */
+	public boolean updateTermin(Besuch b, String name, Date dStart, Date dEnd, Adresse adresse,
+			Ansprechpartner ansprech, LinkedList<Benutzer> benutzerList){
+		Besuch bUpdate = new Besuch(b.getId(), name, dStart, dEnd, adresse, null, ansprech, benutzerList,null , user);
+		this.lTermin.remove(b);
+		this.lTermin.add(bUpdate);
+		return true;
+	}
 
 }
