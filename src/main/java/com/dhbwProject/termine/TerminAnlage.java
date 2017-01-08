@@ -38,7 +38,7 @@ public class TerminAnlage extends CustomComponent {
 		fields.initFieldTitel();
 		fields.initDfDateStart();
 		fields.initDfDateEnd();
-		fields.initFieldUnternehmen();
+		fields.initFieldAdresse();
 		fields.initFieldAnsprechpartner();
 		fields.initFieldParticipants();
 		this.initBtnCreate();

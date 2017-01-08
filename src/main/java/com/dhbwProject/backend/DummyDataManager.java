@@ -87,7 +87,7 @@ public class DummyDataManager {
 		this.lAdresse.add(new Adresse(2, "74189", "Weltstadt Wimmental2", lUnternehmen.get(2), "Musterstrasse", "2c"));
 		this.lAdresse.add(new Adresse(3, "74189", "Weltstadt Wimmental3", lUnternehmen.get(3), "Musterstrasse", "3d"));
 		this.lAdresse.add(new Adresse(4, "74189", "Weltstadt Wimmental4", lUnternehmen.get(4), "Musterstrasse", "4e"));
-		this.lAdresse.add(new Adresse(4, "74189", "Weltstadt Wimmental4", lUnternehmen.get(5), "Musterstrasse", "5f"));
+		this.lAdresse.add(new Adresse(5, "74189", "Weltstadt Wimmental4", lUnternehmen.get(5), "Musterstrasse", "5f"));
 	}
 
 	public Benutzer getUser() {
@@ -130,10 +130,25 @@ public class DummyDataManager {
 		this.lAnsprechpartner = lAnsprechpartner;
 	}
 	
+	public LinkedList<Adresse> getlAdresse(){
+		return this.lAdresse;
+	}
+	
+	public void setlAdresse(LinkedList<Adresse> lAdresse){
+		this.lAdresse = lAdresse;
+	}
+	
 	public Benutzer getBenutzer(Object id){
 		for(Benutzer b : this.lBenutzer)
 			if(b.getId().equals(id))
 				return b;
+		return null;
+	}
+	
+	public Adresse getAdresse(int id){
+		for(Adresse a : this.lAdresse)
+			if(a.getId() == id )
+				return a;
 		return null;
 	}
 	

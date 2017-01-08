@@ -4,12 +4,11 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
-import com.dhbwProject.backend.beans.Unternehmen;
 import com.dhbwProject.benutzer.LookupBenutzer;
-import com.dhbwProject.unternehmen.LookupAnsprechpartner;
-import com.dhbwProject.unternehmen.LookupUnternehmen;
+import com.dhbwProject.unternehmen.LookupAdresse;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -27,8 +26,8 @@ public class TerminFields extends VerticalLayout {
 	private TextField tfTitel;
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
-	private TextField tfUnternehmen;
-	private Button btnLookupUnternehmen;
+	private TextField tfAdresse;
+	private Button btnLookupAdresse;
 	private TextField tfAnsprechpartner;
 	private Button btnLookupAnsprechpartner;
 	private TextArea taParticipants;
@@ -38,8 +37,8 @@ public class TerminFields extends VerticalLayout {
 	 * Die Folgenden Entitäten sollen anschließend an die Besuch-Factory im
 	 * Backend geschickt werden um die Erzeugung vorzunehmen
 	 */
-	private Unternehmen unternehmen = new Unternehmen();
-	private Ansprechpartner ansprechpartner = new Ansprechpartner();
+	private Adresse adresse;
+	private Ansprechpartner ansprechpartner;
 	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 
 	public TerminFields(DummyDataManager dummyData) {
@@ -70,31 +69,40 @@ public class TerminFields extends VerticalLayout {
 		this.addComponent(this.dfDateEnd);
 	}
 
-	protected void initFieldUnternehmen() {
+	protected void initFieldAdresse() {
 		HorizontalLayout hlUnternehmen = new HorizontalLayout();
-		this.tfUnternehmen = new TextField();
-		this.tfUnternehmen.setInputPrompt("Unternehmen");
-		this.tfUnternehmen.setWidth("300px");
+		this.tfAdresse = new TextField();
+		this.tfAdresse.setInputPrompt("Unternehmen");
+		this.tfAdresse.setWidth("300px");
 
-		this.btnLookupUnternehmen = new Button();
-		this.btnLookupUnternehmen.setIcon(FontAwesome.REPLY);
+		this.btnLookupAdresse = new Button();
+		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
 		// this.btnLookupUnternehmen.setStyleName(ValoTheme.BUTTON_BORDERLESS);
-		this.btnLookupUnternehmen.setWidth("50px");
-		this.btnLookupUnternehmen.addClickListener(listener -> {
-			LookupUnternehmen lookup = new LookupUnternehmen(this.unternehmen);
+		this.btnLookupAdresse.setWidth("50px");
+		this.btnLookupAdresse.addClickListener(listener -> {
+			LookupAdresse lookup = new LookupAdresse(this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
 				/*
 				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
 				 * TextField
 				 */
-//				this.tfUnternehmen.setValue(this.unternehmen.getName());
+				if(lookup.getSelection() != null){
+					this.adresse = lookup.getSelection();
+					this.tfAdresse.setValue(this.adresse.getUnternehmen().getName());
+				}
+				/*
+				 * Ansich sollte hier auf die Referenz this.adresse zugegriffen werden
+				 * diese scheint aus mir unbekannten gründen nicht befüllt zu sein
+				 * obwohl das vorgehen call by reference ist...
+				 * naja so gehts natürlich auch
+				 * */
 			});
 			this.getUI().addWindow(lookup);
 
 		});
 		hlUnternehmen.setSizeUndefined();
-		hlUnternehmen.addComponent(this.tfUnternehmen);
-		hlUnternehmen.addComponent(this.btnLookupUnternehmen);
+		hlUnternehmen.addComponent(this.tfAdresse);
+		hlUnternehmen.addComponent(this.btnLookupAdresse);
 		this.addComponent(hlUnternehmen);
 	}
 
@@ -109,16 +117,16 @@ public class TerminFields extends VerticalLayout {
 		// this.btnLookupAnsprechpartner.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
-			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen, this.ansprechpartner);
-			lookup.addCloseListener(CloseListener -> {
-				/*
-				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
-				 * TextField
-				 */
-//				this.tfAnsprechpartner
-//						.setValue(this.ansprechpartner.getNachname() + ", " + this.ansprechpartner.getVorname());
-			});
-			this.getUI().addWindow(lookup);
+//			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen, this.ansprechpartner);
+//			lookup.addCloseListener(CloseListener -> {
+//				/*
+//				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
+//				 * TextField
+//				 */
+////				this.tfAnsprechpartner
+////						.setValue(this.ansprechpartner.getNachname() + ", " + this.ansprechpartner.getVorname());
+//			});
+//			this.getUI().addWindow(lookup);
 
 		});
 		hlAnsprechpartner.setSizeUndefined();
@@ -138,6 +146,7 @@ public class TerminFields extends VerticalLayout {
 		// this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener -> {
+			this.lBenutzer.clear();
 			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer, this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
 				/*
@@ -174,13 +183,13 @@ public class TerminFields extends VerticalLayout {
 		this.dfDateEnd.setValue(d);
 	}
 
-	protected Unternehmen getUnternehmen() {
-		return this.unternehmen;
+	protected Adresse getAdresse() {
+		return this.adresse;
 	}
 
-	protected void setUnternehmen(Unternehmen u) {
-		this.unternehmen = u;
-		this.tfUnternehmen.setValue(u.getName());
+	protected void setAdresse(Adresse a) {
+		this.adresse = a;
+		this.tfAdresse.setValue(a.getStrasse()+", "+a.getPlz()+" "+a.getOrt());
 	}
 
 	protected Ansprechpartner getAnsprechpartner() {
@@ -212,9 +221,9 @@ public class TerminFields extends VerticalLayout {
 		return this.lBenutzer.remove(b);
 	}
 
-	protected void clear() {
-		this.unternehmen = null;
-		this.ansprechpartner = null;
-		this.lBenutzer.clear();
-	}
+//	protected void clear() {
+//		this.unternehmen = null;
+//		this.ansprechpartner = null;
+//		this.lBenutzer.clear();
+//	}
 }

@@ -34,7 +34,7 @@ public class TerminBearbeitung extends CustomComponent {
 		this.fields.setDateStart(b.getStartDate());
 		this.fields.setDateEnd(b.getEndDate());
 		this.fields.setTeilnehmenr(b.getBesucher());
-		this.fields.setUnternehmen(b.getAdresse().getUnternehmen());
+		this.fields.setAdresse(b.getAdresse());
 		this.fields.setAnsprechpartner(b.getAnsprechpartner());
 	}
 	
@@ -45,7 +45,7 @@ public class TerminBearbeitung extends CustomComponent {
 //		this.fields.initFieldTitel();
 		this.fields.initDfDateStart();
 		this.fields.initDfDateEnd();
-		this.fields.initFieldUnternehmen();
+		this.fields.initFieldAdresse();
 		this.fields.initFieldAnsprechpartner();
 		this.fields.initFieldParticipants();
 		this.initBtnUpdate();
