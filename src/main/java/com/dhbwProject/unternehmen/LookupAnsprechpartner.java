@@ -1,49 +1,117 @@
 package com.dhbwProject.unternehmen;
 
-import com.dhbwProject.CCM.Lookup;
+import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
-import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 
-/*	Das Lookup soll die verfügbaren Ansprechspartner eines Unternehmens anzeigen
- * 	Der Benutzer soll dann einen Ansprechspartner aus der Grid auswählen
- * 	Durch die Ansprechspartnerreferenz gelangt das Resultat dann zum Aufrufer
- * */
-public class LookupAnsprechpartner extends Lookup{
+public class LookupAnsprechpartner extends Window{
 	private static final long serialVersionUID = 1L;
-	private Unternehmen uReferenz;
-	private Ansprechpartner aReferenz;
+
+	private VerticalLayout layout;
+	private VerticalLayout fields;
+	private TextField tfFilterVorname;
+	private TextField tfFilterNachname;
+	private ListSelect select;
+	private Button btnOK;
+	private IndexedContainer container;
+	private DummyDataManager dummyData;
+	private Adresse aReferenz;
+	private Ansprechpartner aPSelect;
 	
-	public LookupAnsprechpartner(Unternehmen u, Ansprechpartner a){
-		this.uReferenz = u;
-		super.setCaption("<center><h2>Bitte wählen Sie einen Ansprechspartner</h2></center>");
-		super.getOkButton().addClickListener(listener ->{
-			//belege den referenzierten Ansprechpartner mit der ausgewählten Position
-			this.close();
-		});
-		super.getGrid().setContainerDataSource(this.loadData());
-		super.getGrid().setSelectionMode(SelectionMode.SINGLE);
-		super.initGridMatchingFilter();
+	public LookupAnsprechpartner(Adresse a, DummyDataManager dummyData){
+		this.dummyData = dummyData;
+		this.aReferenz = a;
+		this.initFields();
+		
+		this.layout = new VerticalLayout(this.fields);
+		this.layout.setSizeFull();
+		this.layout.setComponentAlignment(this.fields, Alignment.TOP_CENTER);
+		
+		this.setContent(this.layout);
+		this.center();
+		this.setWidth("350px");
+		this.setHeight("500px");
 	}
 	
-	@Override
-	protected IndexedContainer loadData(){
-		IndexedContainer container = new IndexedContainer();
-		container.addContainerProperty("Vorname", String.class, null);
-		container.addContainerProperty("Nachname", String.class, null);
-		/*
-		 *	Dummywerte
-		 */
-		String[] aVorname = {"Hans","Peter","Leber","Wurst"};
-		String[] aNachname = {"B","Y","A","Z"};
-		for(int i = 0; i<aVorname.length;i++){
-			Item itm = container.addItem(i);
-			itm.getItemProperty("Vorname").setValue(aVorname[i]);
-			itm.getItemProperty("Nachname").setValue(aNachname[i]);
+	private void initFields(){
+		this.fields = new VerticalLayout();
+		this.fields.setSizeUndefined();
+		this.fields.setSpacing(true);
+		this.fields.setMargin(new MarginInfo(true, true, true, true));
+		
+		this.select = new ListSelect();
+		this.select.setWidth("300px");
+		this.initContainer();
+		this.select.setContainerDataSource(this.container);
+		select.setItemCaptionMode(ItemCaptionMode.ITEM);
+		
+		this.tfFilterNachname = new TextField();
+		this.tfFilterNachname.setInputPrompt("Filter Nachname");
+		this.tfFilterNachname.setWidth("300px");
+	    this.tfFilterNachname.addTextChangeListener(change -> {
+	    	container.removeContainerFilters("nachname");
+	        if (! change.getText().isEmpty())
+	        	container.addContainerFilter(
+	                new SimpleStringFilter("nachname",
+	                    change.getText(), true, false));
+	    });
+	    
+	    this.tfFilterVorname = new TextField();
+	    this.tfFilterVorname.setInputPrompt("Filter Vorname");
+	    this.tfFilterVorname.setWidth("300px");
+	    this.tfFilterVorname.addTextChangeListener(change ->{
+	    	container.removeContainerFilters("vorname");
+	        if (! change.getText().isEmpty())
+	        	container.addContainerFilter(
+	                new SimpleStringFilter("vorname",
+	                    change.getText(), true, false));
+	    });
+	    
+	    this.btnOK = new Button("Auswählen");
+	    this.btnOK.setWidth("300px");
+	    this.btnOK.setIcon(FontAwesome.UPLOAD);
+	    this.btnOK.addClickListener(listener ->{
+	    	if(this.select.getValue() != null)
+	    		this.aPSelect = this.dummyData.getAnsprechpartner((int)this.select.getValue());
+	    	this.close();
+	    });
+	    
+		this.fields.addComponent(this.tfFilterNachname);
+		this.fields.setComponentAlignment(this.tfFilterNachname, Alignment.TOP_CENTER);
+		this.fields.addComponent(this.tfFilterVorname);
+		this.fields.setComponentAlignment(this.tfFilterVorname, Alignment.TOP_CENTER);
+		this.fields.addComponent(this.select);
+		this.fields.setComponentAlignment(this.select, Alignment.TOP_CENTER);
+		this.fields.addComponent(this.btnOK);
+		this.fields.setComponentAlignment(this.btnOK, Alignment.TOP_CENTER);
+	}
+	
+	private void initContainer(){
+		this.container = new IndexedContainer();
+		this.container.addContainerProperty("nachname", String.class, null);
+		this.container.addContainerProperty("vorname", String.class, null);
+		
+		for(Ansprechpartner a : this.dummyData.getAnsprechpartnerList(this.aReferenz)){
+			Item itm = this.container.addItem(a.getId());
+			itm.getItemProperty("nachname").setValue(a.getNachname());
+			itm.getItemProperty("vorname").setValue(a.getVorname());
 		}
-		return container;
-	}	
+	}
+	
+	public Ansprechpartner getAnsprechpartner(){
+		return this.aPSelect;
+	}
 
 }

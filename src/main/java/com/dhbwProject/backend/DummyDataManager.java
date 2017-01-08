@@ -152,5 +152,20 @@ public class DummyDataManager {
 		return null;
 	}
 	
+	public Ansprechpartner getAnsprechpartner(int id){
+		for(Ansprechpartner a : this.lAnsprechpartner)
+			if(a.getId() == id)
+				return a;
+		return null;
+	}
+	
+	public LinkedList<Ansprechpartner> getAnsprechpartnerList(Adresse a){
+		LinkedList<Ansprechpartner> ansprechpartnerList = new LinkedList<Ansprechpartner>();
+		for(Ansprechpartner aP : this.lAnsprechpartner)
+			if(aP.getAdresse().equals(a))
+				ansprechpartnerList.add(aP);
+		return ansprechpartnerList;
+	}
+	
 
 }

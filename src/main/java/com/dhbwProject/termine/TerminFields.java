@@ -9,6 +9,7 @@ import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.benutzer.LookupBenutzer;
 import com.dhbwProject.unternehmen.LookupAdresse;
+import com.dhbwProject.unternehmen.LookupAnsprechpartner;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -117,16 +118,18 @@ public class TerminFields extends VerticalLayout {
 		// this.btnLookupAnsprechpartner.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
-//			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen, this.ansprechpartner);
-//			lookup.addCloseListener(CloseListener -> {
-//				/*
-//				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
-//				 * TextField
-//				 */
-////				this.tfAnsprechpartner
-////						.setValue(this.ansprechpartner.getNachname() + ", " + this.ansprechpartner.getVorname());
-//			});
-//			this.getUI().addWindow(lookup);
+			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse, this.dummyData);
+			lookup.addCloseListener(CloseListener -> {
+				/*
+				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
+				 * TextField
+				 */
+				if(lookup.getAnsprechpartner() != null){
+					this.ansprechpartner = lookup.getAnsprechpartner();
+					this.tfAnsprechpartner.setValue(this.ansprechpartner.getNachname()+", "+this.ansprechpartner.getVorname());
+				}
+			});
+			this.getUI().addWindow(lookup);
 
 		});
 		hlAnsprechpartner.setSizeUndefined();
