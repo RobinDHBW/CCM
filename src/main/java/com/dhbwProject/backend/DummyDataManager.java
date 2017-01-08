@@ -130,5 +130,12 @@ public class DummyDataManager {
 		this.lAnsprechpartner = lAnsprechpartner;
 	}
 	
+	public Benutzer getBenutzer(Object id){
+		for(Benutzer b : this.lBenutzer)
+			if(b.getId().equals(id))
+				return b;
+		return null;
+	}
+	
 
 }

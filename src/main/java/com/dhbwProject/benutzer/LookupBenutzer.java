@@ -1,59 +1,122 @@
 package com.dhbwProject.benutzer;
 
 import java.util.LinkedList;
+import java.util.Set;
 
-import com.dhbwProject.CCM.Lookup;
+import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
-/*	Das Lookup soll die verfügbaren Benutzer anzeigen
- * 	Der Benutzer soll dann einen oder mehrere Benutzer(Teilnehmer) aus der Grid auswählen
- * 	Durch die Benutzerlistenreferenz gelangt das Resultat dann zum Aufrufer
- * */
-public class LookupBenutzer extends Lookup {
+public class LookupBenutzer extends Window{
 	private static final long serialVersionUID = 1L;
-	private LinkedList<Benutzer> lUser;
 	
-	public LookupBenutzer(LinkedList<Benutzer> lUser){
-		this.lUser = lUser;
-		super.setCaption("<center><h2>Bitte wählen Sie Ihre Teilnemer</h2></center>");
-		super.getOkButton().addClickListener(listener ->{
-			/*	Hier soll abschließend die Benutzrliste befüllt werden
-			 * 	Aktuell werden Dummy-Beans erzeugt
-			 * */
-			for(Object o : super.getGrid().getSelectedRows()){
-				Benutzer b = new Benutzer(super.getGrid().getContainerDataSource().getItem(o).toString(),
-						(String)super.getGrid().getContainerDataSource().getItem(o).getItemProperty("Vorname").getValue(),
-						(String)super.getGrid().getContainerDataSource().getItem(o).getItemProperty("Nachname").getValue(),
-						null, null);
-				this.lUser.add(b);
-			}
-			this.close();
-		});
-		super.getGrid().setContainerDataSource(this.loadData());
-		super.getGrid().setSelectionMode(SelectionMode.MULTI);
-		super.getGrid().recalculateColumnWidths();
-		super.initGridMatchingFilter();
+	private VerticalLayout layout;
+	private VerticalLayout fields;
+	private TextField tfFilterNachname;
+	private TextField tfFilterVorname;
+	private ListSelect select;
+	private IndexedContainer container;
+	private Button btnOk;
+	private LinkedList<Benutzer> lBenutzerSelection;
+	private DummyDataManager dummyData;
+	
+	public LookupBenutzer(LinkedList<Benutzer> benutzerSelection, DummyDataManager dummyData){
+		this.lBenutzerSelection = benutzerSelection;
+		this.dummyData = dummyData;
+		this.initFields();
+		
+		this.layout = new VerticalLayout(this.fields);
+		this.layout.setSizeFull();
+		this.layout.setComponentAlignment(this.fields, Alignment.MIDDLE_CENTER);
+		
+		this.setContent(this.layout);
+		this.center();
+		this.setWidth("350px");
+		this.setHeight("500px");
 	}
 
-	@Override
-	protected IndexedContainer loadData() {
-		IndexedContainer container= new IndexedContainer();
-		container.addContainerProperty("Vorname", String.class, null);
-		container.addContainerProperty("Nachname", String.class, null);
+	private void initFields(){
+		this.fields = new VerticalLayout();
+		this.fields.setSizeUndefined();
+		this.fields.setSpacing(true);
+		this.fields.setMargin(new MarginInfo(true, true, true, true));
 		
-		//Dummywerte
-		String[] aVorname = {"Albert", "Herbert", "Yoshi", "Sakura", "Robin", "Simon", "Bosse", "Jasmin", "Florian", "Manuel", "Christian"};
-		String[] aNachname = {"Terbun", "Remus", "Suzuki", "Shizuki", "Bahr", "Schlarb", "Bosse", "Stribik", "Flurer", "Manu", "Zaengle"};		
-		for(int i = 0; i<aVorname.length; i++){
-			Item itm = container.addItem(i);
-			itm.getItemProperty("Vorname").setValue(aVorname[i]);
-			itm.getItemProperty("Nachname").setValue(aNachname[i]);
+		this.select = new ListSelect();
+		this.select.setWidth("300px");
+		this.initContainer();
+		this.select.setContainerDataSource(this.container);
+		select.setItemCaptionMode(ItemCaptionMode.ITEM);
+		this.select.setMultiSelect(true);
+		
+		this.tfFilterNachname = new TextField();
+		this.tfFilterNachname.setInputPrompt("Filter Nachname");
+		this.tfFilterNachname.setWidth("300px");
+	    this.tfFilterNachname.addTextChangeListener(change -> {
+	    	container.removeContainerFilters("nachname");
+	        if (! change.getText().isEmpty())
+	        	container.addContainerFilter(
+	                new SimpleStringFilter("nachname",
+	                    change.getText(), true, false));
+	    });
+	    
+	    this.tfFilterVorname = new TextField();
+	    this.tfFilterVorname.setInputPrompt("Filter Vorname");
+	    this.tfFilterVorname.setWidth("300px");
+	    this.tfFilterVorname.addTextChangeListener(change ->{
+	    	container.removeContainerFilters("vorname");
+	        if (! change.getText().isEmpty())
+	        	container.addContainerFilter(
+	                new SimpleStringFilter("vorname",
+	                    change.getText(), true, false));
+	    });
+	    
+	    this.btnOk = new Button("Auswählen");
+	    this.btnOk.setWidth("300px");
+	    this.btnOk.setIcon(FontAwesome.UPLOAD);
+	    this.btnOk.addClickListener(listener ->{
+	    	Set <Item>values=(Set<Item>) this.select.getValue();
+	    	for(Object o : values)
+	    		this.lBenutzerSelection.add(this.dummyData.getBenutzer(o));
+	    	this.close();
+	    });
+	    
+		this.fields.addComponent(this.tfFilterNachname);
+		this.fields.setComponentAlignment(this.tfFilterNachname, Alignment.TOP_CENTER);
+		this.fields.addComponent(this.tfFilterVorname);
+		this.fields.setComponentAlignment(this.tfFilterVorname, Alignment.TOP_CENTER);
+		this.fields.addComponent(this.select);
+		this.fields.setComponentAlignment(this.select, Alignment.TOP_CENTER);
+		this.fields.addComponent(this.btnOk);
+		this.fields.setComponentAlignment(this.btnOk, Alignment.TOP_CENTER);
+		
+	}
+
+	private void initContainer(){
+		this.container = new IndexedContainer();
+		this.container.addContainerProperty("nachname", String.class, null);
+		this.container.addContainerProperty("vorname", String.class, null);
+		for(Benutzer b : this.dummyData.getlBenutzer()){
+			Item itm = container.addItem(b.getId());
+			itm.getItemProperty("nachname").setValue(b.getNachname()+",");
+			itm.getItemProperty("vorname").setValue(b.getVorname());
 		}
-		
-		return container;
 	}
-
 }
+//private BeanItemContainer beanContainer;
+
+//this.beanContainer = new BeanItemContainer<Benutzer>(Benutzer.class);
+//this.beanContainer.addNestedContainerProperty("nachname");
+//this.beanContainer.addNestedContainerProperty("vorname");
+//for(Benutzer b : this.dummyData.getlBenutzer())
+//	this.beanContainer.addBean(b);

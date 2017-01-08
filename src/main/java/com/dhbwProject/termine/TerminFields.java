@@ -40,7 +40,7 @@ public class TerminFields extends VerticalLayout {
 	 */
 	private Unternehmen unternehmen = new Unternehmen();
 	private Ansprechpartner ansprechpartner = new Ansprechpartner();
-	private LinkedList<Benutzer> lBenutzer;
+	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 
 	public TerminFields(DummyDataManager dummyData) {
 		this.dummyData = dummyData;
@@ -138,7 +138,7 @@ public class TerminFields extends VerticalLayout {
 		// this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener -> {
-			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer);
+			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer, this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
 				/*
 				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
