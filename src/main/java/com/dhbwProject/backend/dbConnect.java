@@ -1077,9 +1077,10 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
+				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
 				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 				LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse);
+				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
 				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
 				lAdresse = getAdresseByUnternehmen(unternehmen);
 			}
@@ -1101,9 +1102,10 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
+				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
 				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 				LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse);
+				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
 				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
 				lAdresse = getAdresseByUnternehmen(unternehmen);
 			}

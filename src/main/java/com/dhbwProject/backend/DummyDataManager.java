@@ -30,12 +30,12 @@ public class DummyDataManager {
 	}
 	
 	private void initUnternehmen(){
-		this.lUnternehmen.add(new Unternehmen(0, "ebm-papst Mulfingen GmbH & Co. KG", new LinkedList<Ansprechpartner>(), new LinkedList<Adresse>()));
-		this.lUnternehmen.add(new Unternehmen(1, "Ziehl-Abegg SE.", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>()));
-		this.lUnternehmen.add(new Unternehmen(2, "DHBW-Mosbach", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>()));
-		this.lUnternehmen.add(new Unternehmen(3, "Audi AG", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>()));
-		this.lUnternehmen.add(new Unternehmen(4, "Ansmann AG", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>()));
-		this.lUnternehmen.add(new Unternehmen(5, "Würth GmbH & Co. KG", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>()));
+		this.lUnternehmen.add(new Unternehmen(0, "ebm-papst Mulfingen GmbH & Co. KG", new LinkedList<Ansprechpartner>(), new LinkedList<Adresse>(),"A"));
+		this.lUnternehmen.add(new Unternehmen(1, "Ziehl-Abegg SE.", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>(),"A"));
+		this.lUnternehmen.add(new Unternehmen(2, "DHBW-Mosbach", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>(),"A"));
+		this.lUnternehmen.add(new Unternehmen(3, "Audi AG", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>(),"A"));
+		this.lUnternehmen.add(new Unternehmen(4, "Ansmann AG", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>(),"A"));
+		this.lUnternehmen.add(new Unternehmen(5, "Würth GmbH & Co. KG", new LinkedList<Ansprechpartner>(),new LinkedList<Adresse>(),"A"));
 		
 	}
 	
