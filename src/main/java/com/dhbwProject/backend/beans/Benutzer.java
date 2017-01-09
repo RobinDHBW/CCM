@@ -78,4 +78,8 @@ public class Benutzer {
 		this.lStudiengang = lStudiengang;
 	}
 
+	public LinkedList<Studiengang> getStudiengang() {
+		return lStudiengang;
+	}
+
 }

@@ -20,12 +20,11 @@ import com.dhbwProject.backend.beans.*;
 public class dbConnect {
 
 	private Connection con;
-	private Statement stat;
-	private ResultSet res;
+	private PreparedStatement preparedStatement;
 
 	public dbConnect() {
 		try {
-
+			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ccm_db", "root", "");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -33,12 +32,15 @@ public class dbConnect {
 	}
 	public void close() {
 		try {
-			if (res != null)
-				if (!res.isClosed())
-					res.close();
-			if (stat != null)
-				if (!stat.isClosed())
-					stat.close();
+//			if (res != null)
+//				if (!res.isClosed())
+//					res.close();
+//			if (stat != null)
+//				if (!stat.isClosed())
+//					stat.close();
+			if (preparedStatement != null)
+				if (!preparedStatement.isClosed())
+				preparedStatement.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -47,23 +49,23 @@ public class dbConnect {
 
 	private ResultSet executeQuery(String sql, Object... objects) {
 		try {
-			PreparedStatement ps = con.prepareStatement(sql);
+			preparedStatement = con.prepareStatement(sql);
 			int q = 0;
 			for (Object e : objects) {
 				q++;
 				if (e instanceof Integer) {
 					Integer i = (Integer) e;
-					ps.setInt(q, i.intValue());
+					preparedStatement.setInt(q, i.intValue());
 				} else if(e instanceof Date){
 					java.sql.Date d = (java.sql.Date) e;
-					ps.setDate(q,  d);
+					preparedStatement.setDate(q,  d);
 				} else{
 					String s = (String) e;
-					ps.setString(q, s);
+					preparedStatement.setString(q, s);
 				}
 			}
-			ResultSet res = ps.executeQuery();
-			ps.close();
+			ResultSet res = preparedStatement.executeQuery();
+			//ps.close();
 			return res;
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -89,7 +91,7 @@ public class dbConnect {
 				}
 			}
 			int result = ps.executeUpdate();
-			ps.close();
+			//ps.close();
 			return result;
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -190,7 +192,6 @@ public class dbConnect {
 				rs.next();
 				int auto_id = rs.getInt(1);
 				rs.close();
-
 				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
 				for (Berechtigung e : lBerechtigung) {
 					PreparedStatement ps2 = con.prepareStatement(
@@ -334,6 +335,13 @@ public class dbConnect {
 				 ps.close();
 				 return result;
 			}else
+				if(obj instanceof Studiengang){
+					PreparedStatement ps = con.prepareStatement("INSERT INTO `studiengang` (`studiengang_id`, `studiengang_bezeichnung`) VALUES (NULL, ?)");
+					 ps.setString(1, ((Studiengang) obj).getBezeichnung());
+					 int result = ps.executeUpdate();
+					 ps.close();
+					 return result;
+			}else
 			if(obj instanceof Unternehmen){
 				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`) VALUES (NULL, ?)");
 				 ps.setString(1, ((Unternehmen) obj).getName());
@@ -370,8 +378,9 @@ public class dbConnect {
 	}
 	private String getOrtByPlz(String plz) {
 		String ort = null;
+		ResultSet res = null;
 		try {
-			ResultSet res = executeQuery("select * from ort where ort_plz = ?", (Object[]) new String[] { plz });
+			res = executeQuery("select * from ort where ort_plz = ?", (Object[]) new String[] { plz });
 			while (res.next()) {
 				ort = res.getString("ort_name");;
 			}
@@ -523,10 +532,10 @@ public class dbConnect {
 		}
 		return benArr;
 	}
-	public Benutzer getBenutzerById(String pId){
+	public Benutzer getBenutzerById(String pId) throws SQLException{
 		Benutzer benutzer = null;
-		try {
-			ResultSet res = stat.executeQuery("select * from benutzer where benutzer_id = '" + pId + "'");
+		ResultSet res = null;
+			res = executeQuery("select * from benutzer where benutzer_id = ?", new Object[] {(Object) pId});
 			res.next();
 			String id = res.getString("benutzer_id");
 			String vorname = res.getString("vorname");
@@ -536,44 +545,32 @@ public class dbConnect {
 			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
 			LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
 			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return benutzer;
 	}
-	public boolean createBenutzer(Benutzer b) {
-		try {
-			if (getBenutzerById(b.getId()).equals(b)) {
-				return false;
-			}
-		} catch (Exception e) {
-			try {
-				Beruf beruf = getBerufByBezeichnung(b.getBeruf().getBezeichnung());
-				Rolle rolle = getRolleByBezeichnung(b.getRolle().getBezeichnung());
-				PreparedStatement ps = con.prepareStatement(
-						"INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)");
-				ps.setString(1, b.getVorname());
-				ps.setString(2, b.getNachname());
-				ps.setString(3, b.getId());
-				ps.setInt(4, beruf.getId());
-				ps.setInt(5, rolle.getId());
-				ps.executeUpdate();
-				ps.close();
-
-				return true;
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				return false;
-			}
-
+	public boolean createBenutzer(Benutzer b) throws SQLException {
+		Beruf beruf = getBerufByBezeichnung(b.getBeruf().getBezeichnung());
+		Rolle rolle = getRolleByBezeichnung(b.getRolle().getBezeichnung());
+		PreparedStatement ps = con.prepareStatement(
+				"INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)");
+		ps.setString(1, b.getVorname());
+		ps.setString(2, b.getNachname());
+		ps.setString(3, b.getId());
+		ps.setInt(4, beruf.getId());
+		ps.setInt(5, rolle.getId());
+		ps.executeUpdate();
+		ps.close();
+		LinkedList<Studiengang> lStudiengang = b.getStudiengang();
+		for (Studiengang e : lStudiengang) {
+			PreparedStatement ps2 = con.prepareStatement(
+					"INSERT INTO `studiengang_benutzer` (`studiengang_benutzer_id`, `studiengang_id`, `benutzer_id`) VALUES (NULL, ?, ?)");
+			ps2.setInt(1, getStudiengangByBezeichnung(e.getBezeichnung()).getId());
+			ps2.setString(2, b.getId());
+			ps2.executeUpdate();
+			ps2.close();
 		}
-		return false;
-
+		return true;
 	}
 	public boolean changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) {
 		int i = executeUpdate(
@@ -698,19 +695,19 @@ public class dbConnect {
 		return beruf;
 	}
 	public Beruf getBerufByBezeichnung(String beruf_bezeichnung) throws SQLException {
-		ResultSet res = executeQuery("select * from beruf where beruf_bezeichnung = ?", new Object[]{(Object) beruf_bezeichnung});
+		ResultSet res1 = executeQuery("select * from beruf where beruf_bezeichnung = ?", new Object[]{(Object) beruf_bezeichnung});
 		Beruf beruf = null;
 		try {
-			while (res.next()) {
-				int id = res.getInt("beruf_id");
-				String bezeichnung = res.getString("beruf_bezeichnung");
+			while (res1.next()) {
+				int id = res1.getInt("beruf_id");
+				String bezeichnung = res1.getString("beruf_bezeichnung");
 				beruf = new Beruf(id, bezeichnung);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		try {
-			res.close();
+			res1.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -891,9 +888,10 @@ public class dbConnect {
 	public Rolle getRolleById(int id){
 		Rolle rolle1 = null;
 		Rolle rolle2 = null;
+		ResultSet res = null;
 		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
 		try {
-			ResultSet res = executeQuery("select * from rolle where rolle_id = ?", new Object[]{(Object) new Integer(id)});
+			res = executeQuery("select * from rolle where rolle_id = ?", new Object[]{(Object) new Integer(id)});
 			while (res.next()) {
 				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
 				lBerechtigung = getBerechtigungByRolle(rolle1);
@@ -970,8 +968,9 @@ public class dbConnect {
 	// Status
 	public Status getStatusById(int pId) {
 		Status status = null;
+		ResultSet res = null;
 		try {
-			ResultSet res = executeQuery("select * from status where status_id = ?", new Object[]{(Object) new Integer(pId)});
+			res = executeQuery("select * from status where status_id = ?", new Object[]{(Object) new Integer(pId)});
 			while (res.next()) {
 				int id = res.getInt("status_id");
 				String bezeichnung = res.getString("status_bezeichnung");
@@ -1011,8 +1010,9 @@ public class dbConnect {
 	// Studiengang
 	public Studiengang getStudiengangById(int pId) {
 		Studiengang studiengang = null;
+		ResultSet res = null;
 		try {
-			ResultSet res = executeQuery("SELECT * FROM studiengang WHERE studiengang_id = ?",
+			res = executeQuery("SELECT * FROM studiengang WHERE studiengang_id = ?",
 					new Object[] { (Object) new Integer(pId) });
 			while (res.next()) {
 				int id = res.getInt("studiengang_id");
@@ -1029,6 +1029,19 @@ public class dbConnect {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return studiengang;
+	}
+	public Studiengang getStudiengangByBezeichnung(String pBezeichnung) throws SQLException {
+		Studiengang studiengang = null;
+		ResultSet res = null;
+			res = executeQuery("SELECT * FROM studiengang WHERE studiengang_bezeichnung = ?",
+					new Object[] { (Object) pBezeichnung });
+			while (res.next()) {
+				int id = res.getInt("studiengang_id");
+				String name = res.getString("studiengang_bezeichnung");
+				studiengang = new Studiengang(id, name);
+			}
+			res.close();
 		return studiengang;
 	}
 	public LinkedList<Studiengang> getStudiengangByBenutzer(Benutzer benutzer){
@@ -1067,13 +1080,19 @@ public class dbConnect {
 			}
 			return lStudiengang;
 		}
-	
+	public boolean createStudiengang(Studiengang studiengang){
+		int i = executeInsert(studiengang);
+		if(i==1)return true;
+		return false;
+
+	}
 	
 	// Unternhmen 
 	public Unternehmen getUnternehmenById(int pId) {
 		Unternehmen unternehmen = null;
+		ResultSet res = null;
 		try {
-			ResultSet res = executeQuery("select * from unternehmen where unternehmen_id = ?", new Object[]{(Object) new Integer(pId)});
+			res = executeQuery("select * from unternehmen where unternehmen_id = ?", new Object[]{(Object) new Integer(pId)});
 			while (res.next()) {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
@@ -1097,8 +1116,9 @@ public class dbConnect {
 	}
 	public Unternehmen getUnternehmenByName(String pName) {
 		Unternehmen unternehmen = null;
+		ResultSet res = null;
 		try {
-			ResultSet res = executeQuery("select * from unternehmen where unternehmen_name = ?", new Object[]{(Object) pName});
+			res = executeQuery("select * from unternehmen where unternehmen_name = ?", new Object[]{(Object) pName});
 			while (res.next()) {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
