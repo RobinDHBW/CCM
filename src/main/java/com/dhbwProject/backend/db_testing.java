@@ -16,7 +16,8 @@ public class db_testing extends TestCase {
 		try {
 			Beruf beruf = new Beruf(1, "Studiengangsleiter");
 			Rolle rolle = new Rolle(1, "ccm_all", null);
-			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle);
+			
+			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, null);
 			assertTrue(connection.createBenutzer(b));
 			Benutzer p = connection.getBenutzerById("fgustavson");
 			assertTrue(b.equals(p));
@@ -35,8 +36,8 @@ public class db_testing extends TestCase {
 			LinkedList<Benutzer> lBen = new LinkedList<Benutzer>();
 			Beruf beruf = new Beruf(1, "Studiengangsleiter");
 			Rolle rolle = new Rolle(1, "ccm_all", null);
-			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle));
-			lBen.add(new Benutzer("mmustermann", "Max", "Mustermann", beruf, rolle));
+			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, null));
+			lBen.add(new Benutzer("mmustermann", "Max", "Mustermann", beruf, rolle, null));
 			int i = 0;
 			LinkedList<Benutzer> dbBen = connection.getAllBenutzer();
 			Benutzer p;

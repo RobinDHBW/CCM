@@ -7,13 +7,13 @@ import com.mysql.jdbc.Blob;
 public class Gespraechsnotiz {
 	
 	private int id;
-	private java.sql.Blob notiz;
-	private java.sql.Blob bild;
+	private byte[] notiz;
+	private byte[] bild;
 	private Unternehmen unternehmen;
 	private Besuch besuch;
 	private Date timestamp;
 	
-	public Gespraechsnotiz(int id, java.sql.Blob notiz, java.sql.Blob bild, Unternehmen unternehmen, Besuch besuch, Date timestamp) {
+	public Gespraechsnotiz(int id, byte[] notiz, byte[] bild, Unternehmen unternehmen, Besuch besuch, Date timestamp) {
 		super();
 		this.id = id;
 		this.notiz = notiz;
@@ -28,11 +28,11 @@ public class Gespraechsnotiz {
 		return id;
 	}
 
-	public java.sql.Blob getNotiz() {
+	public byte[] getNotiz() {
 		return notiz;
 	}
 
-	public java.sql.Blob getBild() {
+	public byte[] getBild() {
 		return bild;
 	}
 

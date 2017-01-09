@@ -7,8 +7,8 @@ public class Besuch {
 	
 	private int id;
 	private String name;
-	private Date startDate;
-	private Date endDate;
+	private java.sql.Date startDate;
+	private java.sql.Date endDate;
 	private Adresse adresse;
 	private Ansprechpartner ansprechpartner;
 	private LinkedList<Benutzer> besucher;
@@ -16,7 +16,7 @@ public class Besuch {
 	private Date timestamp;
 	private Benutzer autor;
 	
-	public Besuch(int id, String name, Date startDate, Date endDate, Adresse adresse, Status status,
+	public Besuch(int id, String name, java.sql.Date startDate, java.sql.Date endDate, Adresse adresse, Status status,
 			Ansprechpartner ansprechpartner, LinkedList<Benutzer> besucher, Date timestamp, Benutzer autor) {
 		super();
 		this.id = id;
@@ -27,6 +27,7 @@ public class Besuch {
 		this.ansprechpartner = ansprechpartner;
 		this.besucher = besucher;
 		this.status = status;
+		this.autor = autor;
 	}
 
 	public Besuch() {
@@ -41,11 +42,11 @@ public class Besuch {
 		return name;
 	}
 
-	public Date getStartDate() {
+	public java.sql.Date getStartDate() {
 		return startDate;
 	}
 
-	public Date getEndDate() {
+	public java.sql.Date getEndDate() {
 		return endDate;
 	}
 
@@ -63,6 +64,11 @@ public class Besuch {
 
 	public Status getStatus() {
 		return status;
+	}
+
+	public Adresse getAutor() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

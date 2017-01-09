@@ -1,5 +1,7 @@
 package com.dhbwProject.backend.beans;
 
+import java.util.LinkedList;
+
 public class Benutzer {
 	
 	private String vorname;
@@ -7,13 +9,15 @@ public class Benutzer {
 	private String id;
 	private Beruf beruf;
 	private Rolle rolle;
+	private LinkedList<Studiengang> lStudiengang;
 
-	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle) {
+	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle, LinkedList<Studiengang> lStudiengang) {
 		this.id = id;
 		this.vorname = vorname;
 		this.nachname = nachname;
 		this.beruf = beruf;
 		this.rolle = rolle;
+		this.lStudiengang = lStudiengang;
 	}
 
 	public String getVorname() {
@@ -58,8 +62,8 @@ public class Benutzer {
 
 	@Override
 	public String toString() {
-		return "Benutzer Vorname=" + vorname + ", Nachname=" + nachname + ", ID=" + id + ", Beruf=" + beruf
-				+ ", Rolle=" + rolle;
+		return "Benutzer [vorname=" + vorname + ", nachname=" + nachname + ", id=" + id + ", beruf=" + beruf
+				+ ", rolle=" + rolle + ", lStudiengang=" + lStudiengang + "]";
 	}
 	
 	  @Override
@@ -69,5 +73,9 @@ public class Benutzer {
 	      Benutzer b = (Benutzer) o;
 	      return this.getId().equals(b.getId());
 	  }
+
+	public void setlStudiengang(LinkedList<Studiengang> lStudiengang) {
+		this.lStudiengang = lStudiengang;
+	}
 
 }

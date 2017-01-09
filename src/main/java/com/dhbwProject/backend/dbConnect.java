@@ -1,5 +1,11 @@
 package com.dhbwProject.backend;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,58 +71,283 @@ public class dbConnect {
 
 		}
 	}
-	private ResultSet executeUpdate(PreparedStatement ps) {
+	private int executeUpdate(String sql, Object... objects)  {
 		try {
-			res = ps.executeQuery();
-			ps.close();
-			return res;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				ps.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			PreparedStatement ps = con.prepareStatement(sql);
+			int q = 0;
+			for (Object e : objects) {
+				q++;
+				if (e instanceof Integer) {
+					Integer i = (Integer) e;
+					ps.setInt(q, i.intValue());
+				} else if(e instanceof Date){
+					java.sql.Date d = (java.sql.Date) e;
+					ps.setDate(q,  d);
+				} else{
+					String s = (String) e;
+					ps.setString(q, s);
+				}
 			}
-			return null;
-		}
-	}
-	private ResultSet executeDelete(PreparedStatement ps) {
-		try {
-			res = ps.executeQuery();
+			int result = ps.executeUpdate();
 			ps.close();
-			return res;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				ps.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			return null;
-		}
-	}
-	private ResultSet executeInsert(PreparedStatement ps) {
-		try {
-			res = ps.executeQuery();
-			ps.close();
-			return res;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				ps.close();
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			return null;
-		}
-	}
+			return result;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			return 0;
 
+		}
+	}
+	private <T> int executeDelete(T obj) {
+		try {
+		
+			if(obj instanceof Adresse){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `adresse` WHERE `adresse_plz_id` = ? AND `unternehmen_id` = ? AND `adresse_strasse` = ? AND `adresse_hausnummer` = ?)");
+				 ps.setString(1, ((Adresse) obj).getPlz());
+				 ps.setInt(2, ((Adresse) obj).getUnternehmen().getId());
+				 ps.setString(3, ((Adresse) obj).getStrasse());
+				 ps.setString(4, ((Adresse) obj).getHausnummer());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Ansprechpartner){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `ansprechpartner` WHERE `ansprechpartner_vorname` = ? AND `ansprechpartner_nachname` = ? AND `adressen_id` = ?)");
+				 ps.setString(1, ((Ansprechpartner) obj).getVorname());
+				 ps.setString(2, ((Ansprechpartner) obj).getNachname());
+				 ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Benutzer){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `benutzer` WHERE `vorname`= ? AND `nachname`= ? AND `benutzer_id`= ? AND `rolle_id`= ? AND `beruf_id`= ?)");
+				 ps.setString(1, ((Benutzer) obj).getVorname());
+				 ps.setString(2, ((Benutzer) obj).getNachname());
+				 ps.setString(3, ((Benutzer) obj).getId());
+				 ps.setInt(4, ((Benutzer) obj).getRolle().getId());
+				 ps.setInt(5, ((Benutzer) obj).getBeruf().getId());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Berechtigung){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `berechtigung` WHERE `berechtigung_bezeichnung` = ?)");
+				 ps.setString(1, ((Berechtigung) obj).getBezeichnung());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Beruf){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `beruf` WHERE `beruf_bezeichnung` = ?)");
+				 ps.setString(1, ((Beruf) obj).getBezeichnung());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Besuch){
+				PreparedStatement ps = con.prepareStatement(
+						"DELETE FROM `besuch` WHERE `adresse_id` = ? AND `besuch_beginn` = ? AND `besuch_ende` = ? AND `besuch_name` = ? AND `besuch_autor` = ? AND `status_id` = ? AND `ansprechpartner_id` = ?)",
+						Statement.RETURN_GENERATED_KEYS);
+				ps.setInt(1, ((Besuch) obj).getAdresse().getId());
+				 ps.setDate(2, ((Besuch) obj).getStartDate());
+				 ps.setDate(3, ((Besuch) obj).getEndDate());
+				 ps.setString(4, ((Besuch) obj).getName());
+				 ps.setInt(5, ((Besuch) obj).getAutor().getId());
+				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
+				 ps.setInt(7, ((Besuch) obj).getAnsprechpartner().getId());
+				 
+				 int p = ps.executeUpdate();
+				    ResultSet rs = ps.getGeneratedKeys();
+				     rs.next();
+				    int auto_id = rs.getInt(1);
+				 rs.close();
+				 LinkedList<Benutzer> lBenutzer = ((Besuch) obj).getBesucher();
+				 for(Benutzer e : lBenutzer){
+					 PreparedStatement ps2 = con.prepareStatement("DELETE FROM `benutzer_besuch` WHERE `benutzer_id` = ? AND `besuch_id` = ?)");
+					 ps2.setString(1, e.getId());
+					 ps2.setInt(2, auto_id);
+					 ps2.executeUpdate();
+					 ps2.close();
+				 	}
+				 ps.close();
+				 return p;
+				 }else
+			if(obj instanceof Gespraechsnotiz){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `gespraechsnotizen` WHERE `gespraechsnotiz_notiz` = ? AND `gespraechsnotiz_bild` = ? AND `unternehmen_id` = ? AND `besuch_id` = ?");
+				 FileInputStream inputNotiz = null;
+				 FileInputStream inputBild = null;
+				try {
+					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz().toString());
+					ps.setBinaryStream(1, inputNotiz);
+
+					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild().toString());
+					ps.setBinaryStream(2, inputBild);
+				
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
+				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if (obj instanceof Rolle) {
+				PreparedStatement ps = con.prepareStatement(
+						"DELETE FROM `rolle` WHERE `rolle_bezeichnung` = ?)",
+						Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, ((Rolle) obj).getBezeichnung());
+				int p = ps.executeUpdate();
+				ResultSet rs = ps.getGeneratedKeys();
+				rs.next();
+				int auto_id = rs.getInt(1);
+				rs.close();
+
+				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
+				for (Berechtigung e : lBerechtigung) {
+					PreparedStatement ps2 = con.prepareStatement(
+							"DELETE FROM `rolle_berechtigung` WHERE `rolle_id` = ? AND `berechtigung_id` = ?)");
+					ps2.setInt(1, e.getId());
+					ps2.setInt(2, auto_id);
+					ps2.executeUpdate();
+					ps2.close();
+				}
+				ps.close();
+				return p;
+			} else
+			if(obj instanceof Status){
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `status` WHERE `status_bezeichnung` = ?)");
+				 ps.setString(1, ((Status) obj).getBezeichnung());
+				 int result = ps.executeUpdate();
+				 ps.close();
+				 return result;
+			}else
+			if(obj instanceof Unternehmen){
+				PreparedStatement ps = con.prepareStatement("DELETE FROM `unternehmen` WHERE `unternehmen_name` = ?)");
+				 ps.setString(1, ((Unternehmen) obj).getName());
+				 int result = ps.executeUpdate();
+				 ps.close();
+				 return result;
+			}
+		}
+			 catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return 0;
+	}
+	private <T> int executeInsert(T obj) {
+		try {
+		
+			if(obj instanceof Adresse){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `unternehmen_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?, ?)");
+				 ps.setString(1, ((Adresse) obj).getPlz());
+				 ps.setInt(2, ((Adresse) obj).getUnternehmen().getId());
+				 ps.setString(3, ((Adresse) obj).getStrasse());
+				 ps.setString(4, ((Adresse) obj).getHausnummer());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Ansprechpartner){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adressen_id`) VALUES (?, ?, ?)");
+				 ps.setString(1, ((Ansprechpartner) obj).getVorname());
+				 ps.setString(2, ((Ansprechpartner) obj).getNachname());
+				 ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Benutzer){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)");
+				 ps.setString(1, ((Benutzer) obj).getVorname());
+				 ps.setString(2, ((Benutzer) obj).getNachname());
+				 ps.setString(3, ((Benutzer) obj).getId());
+				 ps.setInt(4, ((Benutzer) obj).getRolle().getId());
+				 ps.setInt(5, ((Benutzer) obj).getBeruf().getId());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Berechtigung){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `berechtigung` (`berechtigung_id`, `berechtigung_bezeichnung`) VALUES (NULL, ?)");
+				 ps.setString(1, ((Berechtigung) obj).getBezeichnung());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Beruf){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `beruf` (`beruf_id`, `beruf_bezeichnung`) VALUES (NULL, ?)");
+				 ps.setString(1, ((Beruf) obj).getBezeichnung());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if(obj instanceof Besuch){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `besuch` (`besuch_id`, `adresse_id`, `besuch_timestamp`, `besuch_beginn`, `besuch_ende`, `besuch_name`, `besuch_autor`, `status_id`, `ansprechpartner_id`) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				 ps.setInt(1, ((Besuch) obj).getAdresse().getId());
+				 ps.setDate(2, ((Besuch) obj).getStartDate());
+				 ps.setDate(3, ((Besuch) obj).getEndDate());
+				 ps.setString(4, ((Besuch) obj).getName());
+				 ps.setInt(5, ((Besuch) obj).getAutor().getId());
+				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
+				 ps.setInt(7, ((Besuch) obj).getAnsprechpartner().getId());
+				 
+				 int p = ps.executeUpdate();
+				    ResultSet rs = ps.getGeneratedKeys();
+				     rs.next();
+				    int auto_id = rs.getInt(1);
+				 rs.close();
+				 LinkedList<Benutzer> lBenutzer = ((Besuch) obj).getBesucher();
+				 for(Benutzer e : lBenutzer){
+					 PreparedStatement ps2 = con.prepareStatement("INSERT INTO `benutzer_besuch` (`benutzer_besuch_id`, `benutzer_id`, `besuch_id`) VALUES (NULL, ?, ?)");
+					 ps2.setString(1, e.getId());
+					 ps2.setInt(2, auto_id);
+					 ps2.executeUpdate();
+					 ps2.close();
+				 	}
+				 ps.close();
+				 return p;
+				 }else
+			if(obj instanceof Gespraechsnotiz){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+				 FileInputStream inputNotiz = null;
+				 FileInputStream inputBild = null;
+				try {
+					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz().toString());
+					ps.setBinaryStream(1, inputNotiz);
+
+					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild().toString());
+					ps.setBinaryStream(2, inputBild);
+				
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
+				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
+				 int result = ps.executeUpdate();ps.close();return result;
+			}else
+			if (obj instanceof Rolle) {
+				PreparedStatement ps = con.prepareStatement(
+						"INSERT INTO `rolle` (`rolle_id`, `rolle_bezeichnung`) VALUES (NULL, ?)",
+						Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, ((Rolle) obj).getBezeichnung());
+				int p = ps.executeUpdate();
+				ResultSet rs = ps.getGeneratedKeys();
+				rs.next();
+				int auto_id = rs.getInt(1);
+				rs.close();
+
+				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
+				for (Berechtigung e : lBerechtigung) {
+					PreparedStatement ps2 = con.prepareStatement(
+							"INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)");
+					ps2.setInt(1, e.getId());
+					ps2.setInt(2, auto_id);
+					ps2.executeUpdate();
+					ps2.close();
+				}
+				ps.close();
+				return p;
+			} else
+			if(obj instanceof Status){
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `status` (`status_id`, `status_bezeichnung`) VALUES (NULL, ?)");
+				 ps.setString(1, ((Status) obj).getBezeichnung());
+				 int result = ps.executeUpdate();
+				 ps.close();
+				 return result;
+			}else
+			if(obj instanceof Unternehmen){
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`) VALUES (NULL, ?)");
+				 ps.setString(1, ((Unternehmen) obj).getName());
+				 int result = ps.executeUpdate();
+				 ps.close();
+				 return result;
+			}
+		}
+			 catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		return 0;
+	}
 	// Adresse
-
-	// TODO Adresse
 	public Adresse getAdresseById(int pId) {
 		Adresse adresse = null;
 		try {
@@ -155,15 +386,19 @@ public class dbConnect {
 		return ort;
 	}
 	public boolean createAdresse(Adresse adresse) {
-		// TODO ss implement
+		int i = executeInsert(adresse);
+		if(i==1)return true;
 		return false;
 	}
 	public boolean changeAdresse(Adresse altAdresse, Adresse neuAdresse) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `adresse` SET `adresse_plz_id` = ?, `unternehmen_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
+				new Object[] { neuAdresse.getPlz(), neuAdresse.getUnternehmen().getId(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
+		if(i!=0){
+			return true;
+		}
 		return false;
 	}
-
-	// TODO Ansprechpartner
 	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) {
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
 		ResultSet res = executeQuery("select * from adresse a, Unternehmen u where u.unternehmen_id = a.unternehmen_id and unternehmen_id = ?", new Object[]{(Object) new Integer(pUnternehmen.getId())});
@@ -199,7 +434,10 @@ public class dbConnect {
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
 				Adresse adresse = getAdresseById(res.getInt("adressen_id"));
-				lAnsprechpartner.add(new Ansprechpartner(id, vorname, nachname, adresse));
+				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByAnsprechpartner(ansprechpartner);
+				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang);
+				lAnsprechpartner.add(ansprechpartner);
 			}
 			res.close();
 		} catch (SQLException e) {
@@ -213,13 +451,20 @@ public class dbConnect {
 		return lAnsprechpartner;
 	}
 	public boolean createAnsprechpartner(Ansprechpartner ansprechpartner) {
-		// TODO ss implement createAnsprechpartner
+		int i = executeInsert(ansprechpartner);
+		if(i==1)return true;
 		return false;
 
 	}
 	public boolean changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
+				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), altAnsprechpartner.getId() });
+		if(i!=0){
+			return true;
+		}
 		return false;
+	
 	}
 	public Ansprechpartner getAnsprechpartnerById(int pId){
 		ResultSet res = executeQuery("Select * from Ansprechpartner where Unternehmen_id = ?", new Object[] {new Integer(pId)});
@@ -230,7 +475,9 @@ public class dbConnect {
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
 				Adresse adresse = getAdresseById(res.getInt("adressen_id"));
-				ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse);
+				ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByAnsprechpartner(ansprechpartner);
+				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang);
 			}
 			res.close();
 		} catch (SQLException e) {
@@ -244,7 +491,8 @@ public class dbConnect {
 		return ansprechpartner;
 	}
 	public boolean deleteAnsprechpartner(Ansprechpartner ansprechpartner){
-		//TODO ss implement
+		int i = executeDelete(ansprechpartner);
+		if(i==1)return true;
 		return false;
 	}
 	
@@ -260,7 +508,9 @@ public class dbConnect {
 				String nachname = res.getString("nachname");
 				Beruf beruf = getBerufById(res.getInt("beruf_id"));
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
-				Benutzer ben = new Benutzer(id, vorname, nachname, beruf, rolle);
+				Benutzer ben = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(ben);
+				ben = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
 				benArr.add(ben);
 			}
 		} catch (SQLException e) {
@@ -283,7 +533,9 @@ public class dbConnect {
 			String nachname = res.getString("nachname");
 			Beruf beruf = getBerufById(res.getInt("beruf_id"));
 			Rolle rolle = getRolleById(res.getInt("rolle_id"));
-			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle);
+			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+			LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
+			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -324,14 +576,19 @@ public class dbConnect {
 
 	}
 	public boolean changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
+				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), altBenutzer.getId() });
+		if(i!=0){
+			return true;
+		}
 		return false;
 	}
 	public boolean deleteBenutzer(Benutzer benutzer) {
-		// TODO ss implement
+		int i = executeDelete(benutzer);
+		if(i==1)return true;
 		return false;
 	}
-	// TODO Berechtigung
 	public LinkedList<Benutzer> getBenutzerByBesuchId(int pId){
 		LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 		ResultSet res = executeQuery("select * from benutzer b, besuch bs, benutzer_besuch bb where b.benutzer_id=bb.benutzer_id and bs.besuch_id = bb.besuch_id and bs.besuch_id = ?", new Object[]{(Object) new Integer(pId)});
@@ -342,7 +599,10 @@ public class dbConnect {
 				String nachname = res.getString("nachname");
 				Beruf beruf = getBerufById(res.getInt("beruf_id")); 
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
-				lBenutzer.add(new Benutzer(id, vorname, nachname, beruf, rolle));
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
+				lBenutzer.add(benutzer);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -355,8 +615,6 @@ public class dbConnect {
 		return lBenutzer;
 	}
 	
-	// Berechtigung
-
 	// Berechtigung
 	public LinkedList<Berechtigung> getBerechtigungByRolle(Rolle rolle) {
 		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
@@ -380,17 +638,19 @@ public class dbConnect {
 		return lBerechtigung;
 	}
 	public boolean createBerechtigung(Berechtigung berechtigung) {
-		// TODO ss implement
+		int i = executeInsert(berechtigung);
+		if(i==1)return true;
 		return false;
 	}
 	public boolean changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `berechtigung` SET `berechtigung_bezeichnung` = ? WHERE `berechtigung`.`berechtigung_id` = ?",
+				new Object[] { neuBerechtigung.getBezeichnung(), altBerechtigung.getId()});
+		if(i!=0){
+			return true;
+		}
 		return false;
 	}
-
-	// TODO Beruf
-	
-	//Beruf
 	public Berechtigung getBerechtigunById(int pId){
 		Berechtigung berechtigung = null;
 		ResultSet res = executeQuery(
@@ -410,6 +670,11 @@ public class dbConnect {
 			}
 		}
 		return berechtigung;
+	}
+	public boolean deleteBerechtigung(Berechtigung berechtigung){
+		int i = executeDelete(berechtigung);
+		if(i==1)return true;
+		return false;
 	}
 	
 	// Beruf
@@ -451,11 +716,26 @@ public class dbConnect {
 		}
 		return beruf;
 	}
+	public boolean createBeruf(Beruf beruf) {
+		int i = executeInsert(beruf);
+		if(i==1)return true;
+		return false;
+	}
+	public boolean deleteBeruf(Beruf beruf){
+		int i = executeDelete(beruf);
+		if(i==1)return true;
+		return false;
+	}
+	public boolean changeBeruf(Beruf altBeruf, Beruf neuBeruf) {
+		int i = executeUpdate(
+				"UPDATE `beruf` SET `beruf_bezeichnung` = ? WHERE `beruf`.`beruf_id` = 1 ",
+				new Object[] { neuBeruf.getBezeichnung(), altBeruf.getId()});
+		if(i!=0){
+			return true;
+		}
+		return false;
+	}
 
-	// TODO Besuch
-	
-	//Besuch
-	
 	// Besuch
 	public LinkedList<Besuch> getBesucheByDate(Date date) {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
@@ -464,9 +744,9 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
-				Date timestamp = res.getDate("besuch_timestamp");
-				Date startDate = res.getDate("besuch_beginn");
-				Date endDate = res.getDate("besuch_ende");
+				java.sql.Date timestamp = res.getDate("besuch_timestamp");
+				java.sql.Date startDate = res.getDate("besuch_beginn");
+				java.sql.Date endDate = res.getDate("besuch_ende");
 				String name = res.getString("besuch_name");
 				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
 				Status status = getStatusById(res.getInt("status_id"));
@@ -493,8 +773,8 @@ public class dbConnect {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
 				Date timestamp = res.getDate("besuch_timestamp");
-				Date startDate = res.getDate("besuch_beginn");
-				Date endDate = res.getDate("besuch_ende");
+				java.sql.Date startDate = res.getDate("besuch_beginn");
+				java.sql.Date endDate = res.getDate("besuch_ende");
 				String name = res.getString("besuch_name");
 				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
 				Status status = getStatusById(res.getInt("status_id"));
@@ -513,33 +793,74 @@ public class dbConnect {
 		return besuch;
 	}
 	public boolean createBesuch(Besuch besuch) {
-		// TODO ss implement
+		int i = executeInsert(besuch);
+		if(i==1)return true;
 		return false;
 	}
-
-	// TODO Gespraechsnotiz
-	
-	//Gespreachsnotiz
 	public boolean deleteBesuch(Besuch besuch){
-		//TODO ss implement
+		int i = executeDelete(besuch);
+		if(i==1)return true;
+		return false;
+	}
+	public boolean changeBesuch(Besuch neuBesuch, Besuch altBesuch) {
+		int i = executeUpdate(
+				"UPDATE `besuch` SET `adresse_id` = ?, `besuch_beginn` = ?, `besuch_ende` = ?, `besuch_name` = ?, `besuch_autor` = ?, `status_id` = ?, `ansprechpartner_id` = ? WHERE `besuch`.`besuch_id` = ? ",
+				new Object[] { neuBesuch.getAdresse().getId(), neuBesuch.getStartDate(), neuBesuch.getEndDate(), neuBesuch.getName(), neuBesuch.getAutor().getId(), neuBesuch.getStatus().getId(), neuBesuch.getAnsprechpartner().getId(), altBesuch.getId()});
+		try {
+			PreparedStatement ps1 = con.prepareStatement("DELETE FROM benutzer_besuch WHERE besuch_id = ?");
+			ps1.setInt(1, altBesuch.getId());
+			ps1.executeUpdate();
+			ps1.close();
+			LinkedList<Benutzer> lBenutzer = getBenutzerByBesuchId(altBesuch.getId());
+			for(Benutzer e : lBenutzer){
+			PreparedStatement ps2 = con.prepareStatement("INSERT INTO `benutzer_besuch` (`benutzer_besuch_id`, `benutzer_id`, `besuch_id`) VALUES (NULL, ?, ?)");
+			ps2.setInt(1, altBesuch.getId());
+			ps2.setString(2, e.getId());
+			ps2.executeUpdate();
+			ps2.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (i != 0) {
+			return true;
+		}
 		return false;
 	}
 	
 	// Gespraechsnotiz
 	public Gespraechsnotiz getGespraechsnotizByBesuch(Besuch pBesuch) {
-		ResultSet res = executeQuery("Select * from gespraechsnotiz where besuch_id = ?", new Object[] {new Integer(pBesuch.getId())});
+		ResultSet res = executeQuery("Select * from gespraechsnotiz where besuch_id = ?",
+				new Object[] { new Integer(pBesuch.getId()) });
 		Gespraechsnotiz gespraechsnotiz = null;
 		try {
 			while (res.next()) {
 				int id = res.getInt("gespraechsnotiz_id");
-				java.sql.Blob notiz = res.getBlob("gespraechsnotiz_notiz");
-				java.sql.Blob bild = res.getBlob("gespraechsnotiz_bild");
-				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id")); 
+				File notizfile = new File("notiz");
+				FileOutputStream output1 = new FileOutputStream(notizfile);
+				
+				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
+				byte[] notiz = new byte[1024];
+				while (input1.read(notiz) > 0) {
+					output1.write(notiz);
+				}
+				output1.close();
+				
+				File file = new File("bild");
+				FileOutputStream output2 = new FileOutputStream(file);
+
+				InputStream input2 = res.getBinaryStream("resume");
+				byte[] bild = new byte[1024];
+				while (input2.read(bild) > 0) {
+					output2.write(bild);
+				}
+				output2.close();
+				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
 				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			e.printStackTrace();
 		}
 		try {
@@ -550,18 +871,21 @@ public class dbConnect {
 		return gespraechsnotiz;
 	}
 	public boolean createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) {
-		// TODO ss implement createGespreachsnotiz
+		int i = executeInsert(gespraechsnotiz);
+		if(i==1)return true;
 		return false;
 
 	}
 	public boolean changeGespraechsnotiz(Gespraechsnotiz altGespraechsnotiz, Gespraechsnotiz neuGespraechsnotiz) {
-		// TODO ss implement
+		deleteGespreachsnotiz(altGespraechsnotiz);
+		boolean i = createGespraechsnotiz(neuGespraechsnotiz);
+		return i;
+	}
+	public boolean deleteGespreachsnotiz(Gespraechsnotiz gespreachsnotiz){
+		int i = executeDelete(gespreachsnotiz);
+		if(i==1)return true;
 		return false;
 	}
-
-	// TODO Rolle
-	
-	//Rolle
 	
 	// Rolle
 	public Rolle getRolleById(int id){
@@ -607,15 +931,41 @@ public class dbConnect {
 		return rolle2;
 	}
 	public boolean createRolle(Rolle rolle) {
-		// TODO ss implement
+		int i = executeInsert(rolle);
+		if(i==1)return true;
 		return false;
 	}
 	public boolean changeRolle(Rolle altRolle, Rolle neuRolle) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `rolle` `rolle_bezeichnung` = ? WHERE `rolle`.`rolle_id` = ? ",
+				new Object[] { neuRolle.getBezeichnung(), altRolle.getId()});
+			try {
+				PreparedStatement ps1 = con.prepareStatement("DELETE FROM rolle_berechtigung WHERE rolle_id = ?");
+				ps1.setInt(1, altRolle.getId());
+				ps1.executeUpdate();
+				ps1.close();
+				LinkedList<Berechtigung> lBerechtigung = getBerechtigungByRolle(altRolle);
+				for(Berechtigung e : lBerechtigung){
+				PreparedStatement ps2 = con.prepareStatement("INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)");
+				ps2.setInt(1, altRolle.getId());
+				ps2.setInt(2, e.getId());
+				ps2.executeUpdate();
+				ps2.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		if (i != 0) {
+			return true;
+		}
 		return false;
 	}
-
-	//Status
+	
+	public boolean deleteRolle(Rolle rolle){
+		int i = executeDelete(rolle);
+		if(i==1)return true;
+		return false;
+	}
 	
 	// Status
 	public Status getStatusById(int pId) {
@@ -638,20 +988,86 @@ public class dbConnect {
 		return status;
 	}
 	public boolean createStatus(Status status) {
-		// TODO ss implement createStatus
+		int i = executeInsert(status);
+		if(i==1)return true;
 		return false;
 
 	}
 	public boolean changeStatus(Status altStatus, Status neuStatus) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `status` SET`status_bezeichnung` = ? WHERE `status`.`status_id` = ? ",
+				new Object[] {neuStatus.getBezeichnung(), altStatus.getId()});
+		if (i != 0) {
+			return true;
+		}
 		return false;
 	}
-
-	//Unternehmen
 	public boolean deleteStatus(Status status){
-		//TODO ss implement
+		int i = executeDelete(status);
+		if(i==1)return true;
 		return false;
 	}
+	
+	// Studiengang
+	public Studiengang getStudiengangById(int pId) {
+		Studiengang studiengang = null;
+		try {
+			ResultSet res = executeQuery("SELECT * FROM studiengang WHERE studiengang_id = ?",
+					new Object[] { (Object) new Integer(pId) });
+			while (res.next()) {
+				int id = res.getInt("studiengang_id");
+				String name = res.getString("studiengang_bezeichnung");
+				studiengang = new Studiengang(id, name);
+			}
+			res.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			res.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return studiengang;
+	}
+	public LinkedList<Studiengang> getStudiengangByBenutzer(Benutzer benutzer){
+	LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
+	ResultSet res = executeQuery("SELECT * FROM studiengang_benutzer WHERE benutzer_id = ?", new Object[]{(Object) benutzer.getId()});
+	try {
+			while(res.next()){
+				int id = res.getInt("studiengang_id");
+				lStudiengang.add(getStudiengangById(id));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			res.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lStudiengang;
+	}
+	public LinkedList<Studiengang> getStudiengangByAnsprechpartner(Ansprechpartner ansprechpartner){
+		LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
+		ResultSet res = executeQuery("SELECT * FROM studiengang_ansprechpartner WHERE ansprechpartner_id = ?", new Object[]{(Object) ansprechpartner.getId()});
+		try {
+				while(res.next()){
+					int id = res.getInt("studiengang_id");
+					lStudiengang.add(getStudiengangById(id));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				res.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return lStudiengang;
+		}
+	
 	
 	// Unternhmen 
 	public Unternehmen getUnternehmenById(int pId) {
@@ -704,13 +1120,25 @@ public class dbConnect {
 
 	}
 	public boolean createUnternehmen(Unternehmen unternehmen) {
-		// TODO ss implement
+		int i = executeInsert(unternehmen);
+		if(i==1)return true;
 		return false;
 
 	}
 	public boolean changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) {
-		// TODO ss implement
+		int i = executeUpdate(
+				"UPDATE `unternehmen` SET `unternehmen_name` = ? WHERE `unternehmen`.`unternehmen_id` = ? ",
+				new Object[] { neuUnternehmen.getName(), altUnternehmen.getId()});
+		if (i != 0) {
+			return true;
+		}
 		return false;
 	}
-
+	public boolean deleteUnternehmen(Unternehmen unternehmen){
+		int i = executeDelete(unternehmen);
+		if(i==1)return true;
+		return false;
+	}
+	
+	
 }

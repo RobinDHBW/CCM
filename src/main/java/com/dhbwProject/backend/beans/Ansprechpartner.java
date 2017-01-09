@@ -1,18 +1,23 @@
 package com.dhbwProject.backend.beans;
 
+import java.util.LinkedList;
+
 public class Ansprechpartner {
-	public Ansprechpartner(int id, String vorname, String nachname, Adresse adresse) {
+	public Ansprechpartner(int id, String vorname, String nachname, Adresse adresse,
+			LinkedList<Studiengang> lStudiengang) {
 		super();
 		this.id = id;
 		this.vorname = vorname;
 		this.nachname = nachname;
 		this.adresse = adresse;
+		this.lStudiengang = lStudiengang;
 	}
 
 	private int id;
 	private String vorname;
 	private String nachname;
 	private Adresse adresse;
+	private LinkedList<Studiengang> lStudiengang;
 
 	public Ansprechpartner() {
 		// TODO Auto-generated constructor stub
@@ -32,6 +37,26 @@ public class Ansprechpartner {
 
 	public String getVorname() {
 		return vorname;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setVorname(String vorname) {
+		this.vorname = vorname;
+	}
+
+	public void setNachname(String nachname) {
+		this.nachname = nachname;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
+	}
+
+	public void setlStudiengang(LinkedList<Studiengang> lStudiengang) {
+		this.lStudiengang = lStudiengang;
 	}
 
 }
