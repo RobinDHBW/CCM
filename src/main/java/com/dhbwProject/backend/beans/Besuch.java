@@ -66,9 +66,8 @@ public class Besuch {
 		return status;
 	}
 
-	public Adresse getAutor() {
-		// TODO Auto-generated method stub
-		return null;
+	public Benutzer getAutor() {
+		return this.autor;
 	}
 	
 

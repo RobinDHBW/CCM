@@ -10,6 +10,7 @@ import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
@@ -63,10 +64,11 @@ public class TermineCalendar extends Calendar{
 			@Override
 			public void dateClick(DateClickEvent event) {
 				Window w = new Window();
+				Panel p = new Panel();
 				w.setCaptionAsHtml(true);
 				w.setCaption("<center><h2>Termin anlegen</h2></center>");
 				w.center();
-				w.setWidth("400px");
+				w.setWidth("450px");
 				w.setHeight("600px");
 				w.setDraggable(true);
 				w.setClosable(true);
@@ -77,7 +79,8 @@ public class TermineCalendar extends Calendar{
 					w.close();
 					refreshCalendarEvents();
 				});
-				w.setContent(anlage);
+				p.setContent(anlage);
+				w.setContent(p);
 				getUI().addWindow(w);	
 			}
 		});		
@@ -90,11 +93,11 @@ public class TermineCalendar extends Calendar{
 			@Override
 			public void eventClick(EventClick event) {
 				TerminEvent e = (TerminEvent)event.getCalendarEvent();//So irgendwie
+				Panel p = new Panel();
 				Window w = new Window();
 				w.setCaptionAsHtml(true);
-				w.setCaption("<center><h2>Termin bearbeiten</h2></center>");
 				w.center();
-				w.setWidth("400px");
+				w.setWidth("450px");
 				w.setHeight("600px");
 				w.setDraggable(true);
 				w.setClosable(true);
@@ -105,7 +108,10 @@ public class TermineCalendar extends Calendar{
 					w.close();
 					refreshCalendarEvents();
 				});
-				w.setContent(bearbeitung);
+				w.setCaption("<center><h2>Sie bearbeiten einen Termin von:</h2></center>"+
+						"<center><h3><b>"+bearbeitung.getCaption()+"</b></h3></center>");
+				p.setContent(bearbeitung);
+				w.setContent(p);
 				getUI().addWindow(w);			
 			}		
 		});			

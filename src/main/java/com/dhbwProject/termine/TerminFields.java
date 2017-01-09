@@ -26,12 +26,18 @@ public class TerminFields extends VerticalLayout {
 	
 	private TextField tfTitel;
 	private Button btnLookupBesuch;
+	
+//	private TextField tfAutor;
+	
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
+	
 	private TextField tfAdresse;
 	private Button btnLookupAdresse;
+	
 	private TextField tfAnsprechpartner;
 	private Button btnLookupAnsprechpartner;
+	
 	private TextArea taParticipants;
 	private Button btnLookupParticipants;
 
@@ -39,6 +45,7 @@ public class TerminFields extends VerticalLayout {
 	 * Die Folgenden Entitäten sollen anschließend an die Besuch-Factory im
 	 * Backend geschickt werden um die Erzeugung vorzunehmen
 	 */
+	private Benutzer autor;
 	private Adresse adresse;
 	private Ansprechpartner ansprechpartner;
 	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
@@ -65,13 +72,23 @@ public class TerminFields extends VerticalLayout {
 
 		});
 		hlBesuch.setSizeUndefined();
+		hlBesuch.setSpacing(true);
 		hlBesuch.addComponent(this.tfTitel);
 		hlBesuch.addComponent(this.btnLookupBesuch);
+		hlBesuch.setCaption("Titel:");
 		this.addComponent(hlBesuch);
 	}
+	
+//	protected void initFieldAutor(){
+//		this.tfAutor = new TextField();
+//		this.tfAutor.setCaption("Autor:");
+//		this.tfAutor.setWidth("300px");
+//		this.addComponent(this.tfAutor);
+//	}
 
 	protected void initDfDateStart() {
 		this.dfDateStart = new DateField();
+		this.dfDateStart.setCaption("Start:");
 		this.dfDateStart.setWidth("300px");
 		this.dfDateStart.setResolution(Resolution.MINUTE);
 		this.addComponent(this.dfDateStart);
@@ -79,6 +96,7 @@ public class TerminFields extends VerticalLayout {
 	
 	protected void initDfDateEnd(){
 		this.dfDateEnd = new DateField();
+		this.dfDateEnd.setCaption("Ende:");
 		this.dfDateEnd.setWidth("300px");
 		this.dfDateEnd.setResolution(Resolution.MINUTE);
 		this.addComponent(this.dfDateEnd);
@@ -116,8 +134,10 @@ public class TerminFields extends VerticalLayout {
 
 		});
 		hlUnternehmen.setSizeUndefined();
+		hlUnternehmen.setSpacing(true);
 		hlUnternehmen.addComponent(this.tfAdresse);
 		hlUnternehmen.addComponent(this.btnLookupAdresse);
+		hlUnternehmen.setCaption("Unternehmen:");
 		this.addComponent(hlUnternehmen);
 	}
 
@@ -147,8 +167,10 @@ public class TerminFields extends VerticalLayout {
 
 		});
 		hlAnsprechpartner.setSizeUndefined();
+		hlAnsprechpartner.setSpacing(true);
 		hlAnsprechpartner.addComponent(this.tfAnsprechpartner);
 		hlAnsprechpartner.addComponent(this.btnLookupAnsprechpartner);
+		hlAnsprechpartner.setCaption("Ansprechpartner:");
 		this.addComponent(hlAnsprechpartner);
 	}
 
@@ -179,9 +201,22 @@ public class TerminFields extends VerticalLayout {
 		});
 
 		hlParticipants.setSizeUndefined();
+		hlParticipants.setSpacing(true);
 		hlParticipants.addComponent(this.taParticipants);
 		hlParticipants.addComponent(this.btnLookupParticipants);
+		hlParticipants.setCaption("Teilnehmen:");
 		this.addComponent(hlParticipants);
+	}
+	
+	protected Benutzer getAutor(){
+		return this.autor;
+	}
+	
+	protected void setAutor(Benutzer b){
+		if(b != null){
+			this.autor = b;
+//			this.tfAutor.setValue(b.getNachname()+", "+b.getVorname());
+		}
 	}
 	
 	protected void initAnlage(){

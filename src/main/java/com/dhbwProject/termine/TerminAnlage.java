@@ -20,6 +20,7 @@ public class TerminAnlage extends CustomComponent {
 	public TerminAnlage(DummyDataManager dummyData){
 		this.dummyData = dummyData;
 		this.initFields();
+		this.fields.setAutor(this.dummyData.getUser()); //Bei der Anlage wird auto. der angemeldete Benutzer verwendet
 		this.initVlLayout();
 	}
 	
@@ -33,6 +34,7 @@ public class TerminAnlage extends CustomComponent {
 		this.fields = new TerminFields(this.dummyData);
 		fields.initFieldTitel();
 		fields.initAnlage();
+//		fields.initFieldAutor();
 		fields.initDfDateStart();
 		fields.initDfDateEnd();
 		fields.initFieldAdresse();
@@ -54,7 +56,7 @@ public class TerminAnlage extends CustomComponent {
 	private void initVlLayout(){
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
-		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
+		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_CENTER);
 		this.setCompositionRoot(this.vlLayout);
 	}
 	

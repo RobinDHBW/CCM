@@ -3,6 +3,7 @@ package com.dhbwProject.termine;
 import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.VerticalLayout;
@@ -26,7 +27,14 @@ public class TerminBearbeitung extends CustomComponent {
 	public TerminBearbeitung(DummyDataManager dummyData, Besuch b){
 		this(dummyData);
 		this.termin = b;
+		//Probeweise--------------------------------------------
+		if(b.getAutor().equals(dummyData.getUser()))
+			this.setCaption("Ihnen");
+		else
+			this.setCaption(b.getAutor().getNachname()+", "+b.getAutor().getVorname());
+		//------------------------------------------------------
 		this.fields.setTitel(b.getName());
+		this.fields.setAutor(b.getAutor());
 		this.fields.setDateStart(b.getStartDate());
 		this.fields.setDateEnd(b.getEndDate());
 		this.fields.setTeilnehmenr(b.getBesucher());
@@ -37,8 +45,10 @@ public class TerminBearbeitung extends CustomComponent {
 	private void initFields(){
 		this.fields = new TerminFields(this.dummyData);
 		this.vlLayout.addComponent(this.fields);
+		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_CENTER);
 		this.fields.initFieldTitel();
 		this.fields.initAnlage(); //Das wird wohl doch vllt. standard
+//		this.fields.initFieldAutor();
 		this.fields.initDfDateStart();
 		this.fields.initDfDateEnd();
 		this.fields.initFieldAdresse();

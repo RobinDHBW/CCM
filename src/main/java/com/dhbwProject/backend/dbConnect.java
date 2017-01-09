@@ -144,7 +144,7 @@ public class dbConnect {
 				 ps.setDate(2, ((Besuch) obj).getStartDate());
 				 ps.setDate(3, ((Besuch) obj).getEndDate());
 				 ps.setString(4, ((Besuch) obj).getName());
-				 ps.setInt(5, ((Besuch) obj).getAutor().getId());
+				 ps.setString(5, ((Besuch) obj).getAutor().getId()); //@Robin Bahr 09.01.2017 20:59 Uhr
 				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
 				 ps.setInt(7, ((Besuch) obj).getAnsprechpartner().getId());
 				 
@@ -267,7 +267,7 @@ public class dbConnect {
 				 ps.setDate(2, ((Besuch) obj).getStartDate());
 				 ps.setDate(3, ((Besuch) obj).getEndDate());
 				 ps.setString(4, ((Besuch) obj).getName());
-				 ps.setInt(5, ((Besuch) obj).getAutor().getId());
+				 ps.setString(5, ((Besuch) obj).getAutor().getId());//@Robin Bahr 09.01.2017 20:59 Uhr
 				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
 				 ps.setInt(7, ((Besuch) obj).getAnsprechpartner().getId());
 				 
