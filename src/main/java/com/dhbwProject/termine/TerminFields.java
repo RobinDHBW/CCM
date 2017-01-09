@@ -32,7 +32,8 @@ public class TerminFields extends VerticalLayout {
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
 	
-	private TextField tfAdresse;
+	private TextArea taAdresse;
+	private TextField tfUnternehmen;
 	private Button btnLookupAdresse;
 	
 	private TextField tfAnsprechpartner;
@@ -103,10 +104,16 @@ public class TerminFields extends VerticalLayout {
 	}
 
 	protected void initFieldAdresse() {
+		VerticalLayout vlAdresse = new VerticalLayout();
 		HorizontalLayout hlUnternehmen = new HorizontalLayout();
-		this.tfAdresse = new TextField();
-		this.tfAdresse.setInputPrompt("Unternehmen");
-		this.tfAdresse.setWidth("300px");
+		
+		this.tfUnternehmen = new TextField();
+		this.tfUnternehmen.setInputPrompt("Unternehmen");
+		this.tfUnternehmen.setWidth("300px");
+		
+		this.taAdresse = new TextArea();
+		this.taAdresse.setInputPrompt("Standort");
+		this.taAdresse.setWidth("300px");
 
 		this.btnLookupAdresse = new Button();
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
@@ -115,30 +122,26 @@ public class TerminFields extends VerticalLayout {
 		this.btnLookupAdresse.addClickListener(listener -> {
 			LookupAdresse lookup = new LookupAdresse(this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
-				/*
-				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
-				 * TextField
-				 */
 				if(lookup.getSelection() != null){
-					this.adresse = lookup.getSelection();
-					this.tfAdresse.setValue(this.adresse.getUnternehmen().getName());
+					this.setAdresse(lookup.getSelection());
+//					this.adresse = lookup.getSelection();
+//					this.tfAdresse.setValue(this.adresse.getUnternehmen().getName());
 				}
-				/*
-				 * Ansich sollte hier auf die Referenz this.adresse zugegriffen werden
-				 * diese scheint aus mir unbekannten gründen nicht befüllt zu sein
-				 * obwohl das vorgehen call by reference ist...
-				 * naja so gehts natürlich auch
-				 * */
 			});
 			this.getUI().addWindow(lookup);
 
 		});
 		hlUnternehmen.setSizeUndefined();
 		hlUnternehmen.setSpacing(true);
-		hlUnternehmen.addComponent(this.tfAdresse);
+		hlUnternehmen.addComponent(this.tfUnternehmen);
 		hlUnternehmen.addComponent(this.btnLookupAdresse);
 		hlUnternehmen.setCaption("Unternehmen:");
-		this.addComponent(hlUnternehmen);
+		
+		vlAdresse.setSizeUndefined();
+		vlAdresse.addComponent(hlUnternehmen);
+		vlAdresse.addComponent(this.taAdresse);
+		
+		this.addComponent(vlAdresse);
 	}
 
 	protected void initFieldAnsprechpartner() {
@@ -154,13 +157,10 @@ public class TerminFields extends VerticalLayout {
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
 			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse, this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
-				/*
-				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
-				 * TextField
-				 */
 				if(lookup.getAnsprechpartner() != null){
-					this.ansprechpartner = lookup.getAnsprechpartner();
-					this.tfAnsprechpartner.setValue(this.ansprechpartner.getNachname()+", "+this.ansprechpartner.getVorname());
+					this.setAnsprechpartner(lookup.getAnsprechpartner());
+//					this.ansprechpartner = lookup.getAnsprechpartner();
+//					this.tfAnsprechpartner.setValue(this.ansprechpartner.getNachname()+", "+this.ansprechpartner.getVorname());
 				}
 			});
 			this.getUI().addWindow(lookup);
@@ -188,14 +188,11 @@ public class TerminFields extends VerticalLayout {
 			this.lBenutzer.clear();
 			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer, this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
-				/*
-				 * In diesem Wert erfolgt das zurückschreiben zur Anzeige in dem
-				 * TextArea Hier erfolgt eine Dummy-Zurückschreibung
-				 */
-				String value = "";
-				for (Benutzer b : this.lBenutzer)
-					value = value + b.getNachname() + ", " + b.getVorname() + "\n";
-				this.taParticipants.setValue(value);
+				this.setTeilnehmenr(this.lBenutzer);
+//				String value = "";
+//				for (Benutzer b : this.lBenutzer)
+//					value = value + b.getNachname() + ", " + b.getVorname() + "\n";
+//				this.taParticipants.setValue(value);
 			});
 			this.getUI().addWindow(lookup);
 		});
@@ -253,7 +250,8 @@ public class TerminFields extends VerticalLayout {
 
 	protected void setAdresse(Adresse a) {
 		this.adresse = a;
-		this.tfAdresse.setValue(a.getStrasse()+", "+a.getPlz()+" "+a.getOrt());
+		this.taAdresse.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+		this.tfUnternehmen.setValue(a.getUnternehmen().getName());
 	}
 
 	protected Ansprechpartner getAnsprechpartner() {
