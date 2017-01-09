@@ -77,7 +77,15 @@ font-weight:bold;
 .v-button:active .v-button-wrap{
 } 
 
+.v-panel-pnheader{
+  max-height: 120px;
+  background: white;
+  width: 100%;
+  padding:0px 0px 0px 0px;
+  margin:0;
+  overflow:hidden;
 
+}
 
 
 
@@ -109,6 +117,15 @@ border-right: 1px solid;
 
 
 }
+.v-calendar{
+ min-height:200px;
+ min-weight: 100%;
+ background:black;
+
+
+}
+
+
 .v-calendar-current-time{
 overflow: hidden;
 background:#e00019;
@@ -135,8 +152,18 @@ font-weight: bold;
 content: " ";
 margin-right: 2px;
 
+}
+//.v-calendar-event-newevent{
+//background:#7b858c;
+//color: white;
 
+//}
 
+.v-tabsheet-tabsheetpanel{
+overflow:scroll;
+height:-1px;
+width:-1px;
+max-height:120px;
 
 }
 

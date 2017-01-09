@@ -13031,6 +13031,15 @@ div.v-layout.v-horizontal.v-widget {
 	boxshadow: black;
 }
 
+.CCM_Theme .v-panel-pnheader {
+	max-height: 120px;
+	background: white;
+	width: 100%;
+	padding: 0px 0px 0px 0px;
+	margin: 0;
+	overflow: hidden;
+}
+
 .CCM_Theme .v-textfield {
 	color: black;
 }
@@ -13056,6 +13065,12 @@ div.v-layout.v-horizontal.v-widget {
 	border-right: 1px solid;
 }
 
+.CCM_Theme .v-calendar {
+	min-height: 200px;
+	min-weight: 100%;
+	background: black;
+}
+
 .CCM_Theme .v-calendar-current-time {
 	overflow: hidden;
 	background: #e00019;
@@ -13077,4 +13092,11 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-calendar-event-month::before, .CCM_Theme v.overlay-container {
 	content: " ";
 	margin-right: 2px;
+}
+
+.CCM_Theme .v-tabsheet-tabsheetpanel {
+	overflow: scroll;
+	height: -1px;
+	width: -1px;
+	max-height: 120px;
 }
