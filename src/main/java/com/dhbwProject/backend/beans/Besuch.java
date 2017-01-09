@@ -16,13 +16,13 @@ public class Besuch {
 	private Date timestamp;
 	private Benutzer autor;
 	
-	public Besuch(int id, String name, java.sql.Date startDate, java.sql.Date endDate, Adresse adresse, Status status,
+	public Besuch(int id, String name, Date startDate, Date endDate, Adresse adresse, Status status,
 			Ansprechpartner ansprechpartner, LinkedList<Benutzer> besucher, Date timestamp, Benutzer autor) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.startDate = startDate;
-		this.endDate = endDate;
+		this.startDate = new java.sql.Date(startDate.getTime());
+		this.endDate = new java.sql.Date(endDate.getTime());
 		this.adresse = adresse;
 		this.ansprechpartner = ansprechpartner;
 		this.besucher = besucher;

@@ -31,6 +31,8 @@ public class TermineCalendar extends Calendar{
 	
 	public TermineCalendar(DummyDataManager dummyData){
 		super();
+//		this.setHeight("800px");
+		
 		this.date = LocalDateTime.now();
 		this.dateStart = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 01, 00, 00);
 		this.dateEnd = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 31, 00, 00);

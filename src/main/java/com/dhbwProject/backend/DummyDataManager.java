@@ -21,7 +21,7 @@ public class DummyDataManager {
 	private LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
 	
 	public DummyDataManager(){
-		this.user = new Benutzer("0", "Alpha", "Engineering", null, null);
+		this.user = new Benutzer("0", "Alpha", "Engineering", null, null, null);
 		this.initBenutzer();
 		this.initUnternehmen();
 		this.initAdresse();
@@ -40,26 +40,26 @@ public class DummyDataManager {
 	}
 	
 	private void initBenutzer(){
-		this.lBenutzer.add(new Benutzer("1", "Robin", "Bahr", null, null));
-		this.lBenutzer.add(new Benutzer("2", "Simon", "Schlarb", null, null));
-		this.lBenutzer.add(new Benutzer("3", "Jasmin", "Stribik", null, null));
-		this.lBenutzer.add(new Benutzer("4", "Bosse", "Bosse", null, null));
-		this.lBenutzer.add(new Benutzer("5", "Florian", "Flurer", null, null));
-		this.lBenutzer.add(new Benutzer("6", "Christian", "Zaengle", null, null));
-		this.lBenutzer.add(new Benutzer("7", "Manuel", "Maier", null, null));
-		this.lBenutzer.add(new Benutzer("8", "Klaus-Georg", "Deck", null, null));
-		this.lBenutzer.add(new Benutzer("9", "Herbert", "Neuendorf", null, null));
-		this.lBenutzer.add(new Benutzer("10", "Dirk", "Palledhuhn", null, null));
+		this.lBenutzer.add(new Benutzer("1", "Robin", "Bahr", null, null, null));
+		this.lBenutzer.add(new Benutzer("2", "Simon", "Schlarb", null, null, null));
+		this.lBenutzer.add(new Benutzer("3", "Jasmin", "Stribik", null, null, null));
+		this.lBenutzer.add(new Benutzer("4", "Bosse", "Bosse", null, null, null));
+		this.lBenutzer.add(new Benutzer("5", "Florian", "Flurer", null, null, null));
+		this.lBenutzer.add(new Benutzer("6", "Christian", "Zaengle", null, null, null));
+		this.lBenutzer.add(new Benutzer("7", "Manuel", "Maier", null, null, null));
+		this.lBenutzer.add(new Benutzer("8", "Klaus-Georg", "Deck", null, null, null));
+		this.lBenutzer.add(new Benutzer("9", "Herbert", "Neuendorf", null, null, null));
+		this.lBenutzer.add(new Benutzer("10", "Dirk", "Palledhuhn", null, null, null));
 	}
 	
 	private void initAnsprechpartner(){
 		//TODO Robin
-		this.lAnsprechpartner.add(new Ansprechpartner(0, "Bernd", "Ludwig", this.lAdresse.get(0)));
-		this.lAnsprechpartner.add(new Ansprechpartner(1, "Flo", "Flu", this.lAdresse.get(1)));
-		this.lAnsprechpartner.add(new Ansprechpartner(2, "Maraike", "Wurst", this.lAdresse.get(2)));
-		this.lAnsprechpartner.add(new Ansprechpartner(3, "Yoshi", "Kadowa", this.lAdresse.get(3)));
-		this.lAnsprechpartner.add(new Ansprechpartner(4, "Hans", "Brot", this.lAdresse.get(4)));
-		this.lAnsprechpartner.add(new Ansprechpartner(5, "Susanno", "Nippon", this.lAdresse.get(5)));
+		this.lAnsprechpartner.add(new Ansprechpartner(0, "Bernd", "Ludwig", this.lAdresse.get(0), null));
+		this.lAnsprechpartner.add(new Ansprechpartner(1, "Flo", "Flu", this.lAdresse.get(1), null));
+		this.lAnsprechpartner.add(new Ansprechpartner(2, "Maraike", "Wurst", this.lAdresse.get(2), null));
+		this.lAnsprechpartner.add(new Ansprechpartner(3, "Yoshi", "Kadowa", this.lAdresse.get(3), null));
+		this.lAnsprechpartner.add(new Ansprechpartner(4, "Hans", "Brot", this.lAdresse.get(4), null));
+		this.lAnsprechpartner.add(new Ansprechpartner(5, "Susanno", "Nippon", this.lAdresse.get(5), null));
 		
 //		this.lUnternehmen.get(0).getAnsprechpartner().add(this.lAnsprechpartner.get(0));
 //		this.lUnternehmen.get(1).getAnsprechpartner().add(this.lAnsprechpartner.get(1));

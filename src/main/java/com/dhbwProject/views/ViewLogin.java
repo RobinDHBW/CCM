@@ -70,7 +70,7 @@ public class ViewLogin extends CustomComponent implements View{
 
 	        if (isValid) {
 	        	//Den Benutzer speichern wir uns in die Session, damit können wir überall darauf zugreifen
-	            this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, new Benutzer("0", "Alpha", "Version", null, null));
+	            this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, new Benutzer("0", "Alpha", "Version", null, null, null));
 	            this.getUI().getNavigator().navigateTo(CCM_Constants.VIEW_NAME_START);
 	        } else {
 	            this.pwField.setValue(null);
