@@ -123,6 +123,7 @@ public class CCM_UI extends UI {
                 	naviBar.setVisible(true);
 
                 if (!isLoggedIn && !isLoginView) {
+                	naviBar.setVisible(false); //das sollte ansich auch wieder rauskönnen
                     getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
                     return false;
 
