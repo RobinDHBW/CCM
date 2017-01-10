@@ -192,12 +192,12 @@ public class DummyDataManager {
 	/*
 	 * Hier gilt das selbe wie oben für createTermin
 	 * */
-	public boolean updateTermin(Besuch b, String name, Date dStart, Date dEnd, Adresse adresse,
+	public Besuch updateTermin(Besuch b, String name, Date dStart, Date dEnd, Adresse adresse,
 			Ansprechpartner ansprech, LinkedList<Benutzer> benutzerList){
 		Besuch bUpdate = new Besuch(b.getId(), name, dStart, dEnd, adresse, null, ansprech, benutzerList,null , user);
 		this.lTermin.remove(b);
 		this.lTermin.add(bUpdate);
-		return true;
+		return bUpdate;
 	}
 
 }

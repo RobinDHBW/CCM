@@ -14,8 +14,10 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventMoveHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClick;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.ForwardEvent;
+import com.vaadin.ui.components.calendar.CalendarComponentEvents.MoveEvent;
 import com.vaadin.ui.components.calendar.handler.BasicBackwardHandler;
 import com.vaadin.ui.components.calendar.handler.BasicForwardHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardEvent;
@@ -50,6 +52,7 @@ public class TermineCalendar extends Calendar{
 		this.initEventClickHandler();
 		this.initBackwardHandler();
 		this.initForwardHandler();
+		this.initEventMoveHandler();
 	}
 	
 	protected void refreshTime(){
@@ -108,13 +111,28 @@ public class TermineCalendar extends Calendar{
 					w.close();
 					refreshCalendarEvents();
 				});
-				w.setCaption("<center><h2>Sie bearbeiten einen Termin von:</h2></center>"+
-						"<center><h3><b>"+bearbeitung.getCaption()+"</b></h3></center>");
+				w.setCaption("<center><b>Sie bearbeiten einen Termin von:</b></center>"+
+						"<center><p><b>"+bearbeitung.getCaption()+"</b></p></center>");
 				p.setContent(bearbeitung);
 				w.setContent(p);
 				getUI().addWindow(w);			
 			}		
 		});			
+	}
+	
+protected void initEventMoveHandler(){
+		this.setHandler(new EventMoveHandler(){
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void eventMove(MoveEvent event) {
+				TerminEvent e = (TerminEvent)event.getCalendarEvent();
+				Besuch b = e.getBesuch();
+				b = dummyData.updateTermin(b,
+						b.getName(), e.getStart(), e.getEnd(), b.getAdresse(), b.getAnsprechpartner(), b.getBesucher()); 
+				eventContainer.removeItem(e);
+				eventContainer.addBean(new TerminEvent(b));			}
+		});
 	}
 	
 	protected void initForwardHandler(){

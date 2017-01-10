@@ -13,6 +13,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class ViewLogin extends CustomComponent implements View{
 	private static final long serialVersionUID = 1L;
@@ -58,7 +59,7 @@ public class ViewLogin extends CustomComponent implements View{
 	private void initBtnLogin(){
 		this.btnLogin = new Button("Anmelden");
 		this.btnLogin.setIcon(FontAwesome.SIGN_IN);
-//		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
+		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid() || !this.pwField.isValid())
 	            return;

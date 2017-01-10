@@ -30,9 +30,9 @@ public class LookupBenutzer extends Window{
 	private Button btnOk;
 	private LinkedList<Benutzer> lBenutzerSelection;
 	private DummyDataManager dummyData;
+	private Benutzer bSelection;
 	
-	public LookupBenutzer(LinkedList<Benutzer> benutzerSelection, DummyDataManager dummyData){
-		this.lBenutzerSelection = benutzerSelection;
+	public LookupBenutzer(DummyDataManager dummyData){
 		this.dummyData = dummyData;
 		this.initFields();
 		
@@ -44,6 +44,12 @@ public class LookupBenutzer extends Window{
 		this.center();
 		this.setWidth("350px");
 		this.setHeight("500px");
+	}
+	
+	public LookupBenutzer(DummyDataManager dummyData, LinkedList<Benutzer> benutzerSelection){
+		this(dummyData);
+		this.lBenutzerSelection = benutzerSelection;
+		this.select.setMultiSelect(true);
 	}
 
 	private void initFields(){
@@ -57,7 +63,6 @@ public class LookupBenutzer extends Window{
 		this.initContainer();
 		this.select.setContainerDataSource(this.container);
 		select.setItemCaptionMode(ItemCaptionMode.ITEM);
-		this.select.setMultiSelect(true);
 		
 		this.tfFilterNachname = new TextField();
 		this.tfFilterNachname.setInputPrompt("Filter Nachname");
@@ -83,12 +88,15 @@ public class LookupBenutzer extends Window{
 	    
 	    this.btnOk = new Button("Auswählen");
 	    this.btnOk.setWidth("300px");
-	    this.btnOk.setIcon(FontAwesome.UPLOAD);
-	    this.btnOk.addClickListener(listener ->{
-	    	Set <Item>values=(Set<Item>) this.select.getValue();
-	    	for(Object o : values)
-	    		this.lBenutzerSelection.add(this.dummyData.getBenutzer(o));
-	    	this.close();
+	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
+	    this.btnOk.addClickListener(click ->{
+	    	if(select.isMultiSelect()){
+	    		Set <Item>values=(Set<Item>) this.select.getValue();
+	    		for(Object o : values)
+	    			this.lBenutzerSelection.add(this.dummyData.getBenutzer(o));
+	    	}else
+	    		this.bSelection = this.dummyData.getBenutzer(this.select.getValue());
+	    	this.close();	
 	    });
 	    
 		this.fields.addComponent(this.tfFilterNachname);
@@ -112,11 +120,8 @@ public class LookupBenutzer extends Window{
 			itm.getItemProperty("vorname").setValue(b.getVorname());
 		}
 	}
+	
+	public Benutzer getSelection(){
+		return this.bSelection;
+	}
 }
-//private BeanItemContainer beanContainer;
-
-//this.beanContainer = new BeanItemContainer<Benutzer>(Benutzer.class);
-//this.beanContainer.addNestedContainerProperty("nachname");
-//this.beanContainer.addNestedContainerProperty("vorname");
-//for(Benutzer b : this.dummyData.getlBenutzer())
-//	this.beanContainer.addBean(b);

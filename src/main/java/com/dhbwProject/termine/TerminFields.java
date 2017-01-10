@@ -27,8 +27,6 @@ public class TerminFields extends VerticalLayout {
 	private TextField tfTitel;
 	private Button btnLookupBesuch;
 	
-//	private TextField tfAutor;
-	
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
 	
@@ -79,13 +77,6 @@ public class TerminFields extends VerticalLayout {
 		hlBesuch.setCaption("Titel:");
 		this.addComponent(hlBesuch);
 	}
-	
-//	protected void initFieldAutor(){
-//		this.tfAutor = new TextField();
-//		this.tfAutor.setCaption("Autor:");
-//		this.tfAutor.setWidth("300px");
-//		this.addComponent(this.tfAutor);
-//	}
 
 	protected void initDfDateStart() {
 		this.dfDateStart = new DateField();
@@ -117,15 +108,12 @@ public class TerminFields extends VerticalLayout {
 
 		this.btnLookupAdresse = new Button();
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
-		// this.btnLookupUnternehmen.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupAdresse.setWidth("50px");
 		this.btnLookupAdresse.addClickListener(listener -> {
 			LookupAdresse lookup = new LookupAdresse(this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getSelection() != null){
 					this.setAdresse(lookup.getSelection());
-//					this.adresse = lookup.getSelection();
-//					this.tfAdresse.setValue(this.adresse.getUnternehmen().getName());
 				}
 			});
 			this.getUI().addWindow(lookup);
@@ -152,15 +140,12 @@ public class TerminFields extends VerticalLayout {
 
 		this.btnLookupAnsprechpartner = new Button();
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
-		// this.btnLookupAnsprechpartner.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
 			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse, this.dummyData);
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getAnsprechpartner() != null){
 					this.setAnsprechpartner(lookup.getAnsprechpartner());
-//					this.ansprechpartner = lookup.getAnsprechpartner();
-//					this.tfAnsprechpartner.setValue(this.ansprechpartner.getNachname()+", "+this.ansprechpartner.getVorname());
 				}
 			});
 			this.getUI().addWindow(lookup);
@@ -182,17 +167,12 @@ public class TerminFields extends VerticalLayout {
 
 		this.btnLookupParticipants = new Button();
 		this.btnLookupParticipants.setIcon(FontAwesome.REPLY);
-		// this.btnLookupParticipants.setStyleName(ValoTheme.BUTTON_BORDERLESS);
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener -> {
 			this.lBenutzer.clear();
-			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer, this.dummyData);
+			LookupBenutzer lookup = new LookupBenutzer(this.dummyData, this.lBenutzer);
 			lookup.addCloseListener(CloseListener -> {
 				this.setTeilnehmenr(this.lBenutzer);
-//				String value = "";
-//				for (Benutzer b : this.lBenutzer)
-//					value = value + b.getNachname() + ", " + b.getVorname() + "\n";
-//				this.taParticipants.setValue(value);
 			});
 			this.getUI().addWindow(lookup);
 		});
