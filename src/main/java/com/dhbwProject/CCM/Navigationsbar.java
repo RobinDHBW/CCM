@@ -4,6 +4,7 @@ import com.dhbwProject.backend.CCM_Constants;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class Navigationsbar extends CssLayout{
@@ -24,6 +25,12 @@ public class Navigationsbar extends CssLayout{
 		btnLogout.setIcon(FontAwesome.SIGN_OUT);
 		btnLogout.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		btnLogout.addClickListener(click ->{
+			/*
+			 * Hier sollte statt der Schleife eher ein gesamter Resett der UI hin
+			 * sonst sind wir in "gewisser" Art statefull
+			 * */
+			for(Window w : this.getUI().getWindows())
+				w.close();
 			this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, null);
 			this.navNavigator.navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
 		
