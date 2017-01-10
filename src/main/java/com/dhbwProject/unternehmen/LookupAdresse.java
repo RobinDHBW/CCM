@@ -10,16 +10,13 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 
 public class LookupAdresse extends Window{
 	private static final long serialVersionUID = 1L;
@@ -80,10 +77,10 @@ public class LookupAdresse extends Window{
 		this.tfFirma.setInputPrompt("Filter Firma");
 		this.tfFirma.setWidth("600px");
 	    this.tfFirma.addTextChangeListener(change -> {
-	    	container.removeContainerFilters("uName");
+	    	container.removeContainerFilters("Firma");
 	        if (! change.getText().isEmpty())
 	        	container.addContainerFilter(
-	                new SimpleStringFilter("uName",
+	                new SimpleStringFilter("Firma",
 	                    change.getText(), true, false));
 	    });
 	    
@@ -113,13 +110,17 @@ public class LookupAdresse extends Window{
 	
 	private void initContainer(){
 		this.container = new IndexedContainer();
-		container.addContainerProperty("uName", String.class, null);
-		container.addContainerProperty("Standort", String.class, null);
+		container.addContainerProperty("Firma", String.class, null);
+		container.addContainerProperty("Standort", TextArea.class, null);
 		
 		for(Adresse a : this.dummyData.getlAdresse()){
 			Item itm = container.addItem(a.getId());	
-			itm.getItemProperty("uName").setValue(a.getUnternehmen().getName());
-			itm.getItemProperty("Standort").setValue(a.getStrasse()+" - "+a.getPlz()+" "+a.getOrt());
+			itm.getItemProperty("Firma").setValue(a.getUnternehmen().getName());
+			TextArea taStandort = new TextArea();
+			taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+			taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+			taStandort.setHeight("100px");
+			itm.getItemProperty("Standort").setValue(taStandort);
 		}
 	}
 	
