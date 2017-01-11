@@ -50,6 +50,29 @@ public class BenutzerFields extends VerticalLayout{
 		return this.tfVorname.getValue();
 	}
 	
+	public void setNachname (Benutzer b){
+		this.tfNachname.setValue(b.getNachname());
+	}
+	
+	public String getNachname (){
+		return this.tfNachname.getValue();
+	}
+	
+	public TextField getTfVorname() {
+		return this.tfVorname;
+	}
+	
+	public TextField getTfNachname() {
+		return this.tfNachname;
+	}
+
+	public void enableFields(boolean bool) {
+		this.tfVorname.setEnabled(bool);
+		this.tfNachname.setEnabled(bool);
+		this.cbBeruf.setEnabled(bool);
+		
+	}
+	
 	
 	
 

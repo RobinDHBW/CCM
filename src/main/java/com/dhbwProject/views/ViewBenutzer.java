@@ -3,6 +3,7 @@ package com.dhbwProject.views;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.benutzer.BenutzerAenderung;
 import com.dhbwProject.benutzer.BenutzerAnlage;
+import com.dhbwProject.benutzer.BenutzerAnzeige;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -29,9 +30,9 @@ public class ViewBenutzer extends VerticalLayout implements View {
 	
 	private void initTbContent(){
 		this.tbContent = new TabSheet();
-		this.tbContent.addTab(new BenutzerAnlage(), "Benutzer anlegen", FontAwesome.PLUS);
-		this.addComponent(tbContent);
-		this.tbContent.addTab(new BenutzerAenderung(), "Benutzer ändern", FontAwesome.PLUS);
+		this.tbContent.addTab(new BenutzerAnzeige(), "Alle Benutzer", FontAwesome.USERS);
+		this.tbContent.addTab(new BenutzerAnlage(), "Benutzer anlegen", FontAwesome.USER_PLUS);
+		this.tbContent.addTab(new BenutzerAenderung(), "Benutzer ändern", FontAwesome.LIST);
 		this.addComponent(tbContent);
 		
 	}
