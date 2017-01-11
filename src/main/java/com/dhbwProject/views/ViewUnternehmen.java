@@ -4,6 +4,7 @@ import com.dhbwProject.backend.CCM_Constants;
 // import com.dhbwProject.unternehmen.LayoutUnternehmen;
 import com.dhbwProject.unternehmen.UnternehmenAenderung;
 import com.dhbwProject.unternehmen.UnternehmenAnlage;
+import com.dhbwProject.unternehmen.UnternehmenAnzeigen;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -46,6 +47,7 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 		this.tbContent = new TabSheet();
 		this.tbContent.addTab(new UnternehmenAnlage(), "Unternehmen anlegen", FontAwesome.PLUS);
 		this.tbContent.addTab(new UnternehmenAenderung(), "Unternehmen bearbeiten", FontAwesome.PLUS);
+		this.tbContent.addTab(new UnternehmenAnzeigen(), "Unternehmen anzeigen", FontAwesome.PLUS);
 		this.addComponent(tbContent);
 	}
 

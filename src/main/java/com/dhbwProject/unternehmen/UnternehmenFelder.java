@@ -16,6 +16,8 @@ public class UnternehmenFelder extends VerticalLayout {
 	private TextField tfOrt;
 	private TextField tfNameAnsprechpartner;
 	private TextField tfVornameAnsprechpartner;
+	private TextField tfTelefonnummer;
+	private TextField tfEmail;
 
 	
 	
@@ -30,6 +32,8 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.initOrt();
 		this.initVornameAnsprechpartner();
 		this.initNameAnsprechpartner();
+		this.initTelefonnummer();
+		this.initEmail();
 		
 	}
 	
@@ -86,6 +90,20 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.tfNameAnsprechpartner.setInputPrompt("Nachname des Ansprechpartners");
 		this.setWidth("300px");
 		this.addComponent(tfNameAnsprechpartner);
+	}
+	
+	private void initTelefonnummer(){
+		this.tfTelefonnummer = new TextField();
+		this.tfTelefonnummer.setInputPrompt("Telefonnummer");
+		this.setWidth("300px");
+		this.addComponent(tfTelefonnummer);
+	}
+	
+	private void initEmail(){
+		this.tfEmail = new TextField();
+		this.tfEmail.setInputPrompt("E-Mail");
+		this.setWidth("300px");
+		this.addComponent(tfEmail);
 	}
 	
 	public void setUnternehmen (Unternehmen u){
