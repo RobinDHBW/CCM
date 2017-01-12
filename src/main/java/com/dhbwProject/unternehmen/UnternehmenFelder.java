@@ -1,6 +1,7 @@
 package com.dhbwProject.unternehmen;
 
 import com.dhbwProject.backend.beans.Unternehmen;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -34,6 +35,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.initNameAnsprechpartner();
 		this.initTelefonnummer();
 		this.initEmail();
+		this.setMargin(new MarginInfo(true, true, true, true)); // Abstand der Felder
 		
 	}
 	
