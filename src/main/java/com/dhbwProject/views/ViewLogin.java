@@ -3,6 +3,7 @@ package com.dhbwProject.views;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.PasswordValidator;
 import com.dhbwProject.backend.beans.Benutzer;
+import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -60,6 +61,7 @@ public class ViewLogin extends CustomComponent implements View{
 		this.btnLogin = new Button("Anmelden");
 		this.btnLogin.setIcon(FontAwesome.SIGN_IN);
 		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
+		this.btnLogin.setClickShortcut(KeyCode.ENTER);
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid() || !this.pwField.isValid())
 	            return;

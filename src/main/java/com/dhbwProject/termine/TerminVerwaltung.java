@@ -7,8 +7,8 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.ValoTheme;
 
 public class TerminVerwaltung extends CustomComponent {
 	private static final long serialVersionUID = 1L;
@@ -39,9 +39,9 @@ public class TerminVerwaltung extends CustomComponent {
 		this.hlFields.setSizeUndefined();
 		this.hlFields.setMargin(new MarginInfo(true, false, true, true)); 
 		
-		this.btnBackward = new Button();
+		this.btnBackward = new NativeButton();
 		this.btnBackward.setWidth("50px");
-		this.btnBackward.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		this.btnBackward.setStyleName("btnwhite");
 		this.btnBackward.setIcon(FontAwesome.BACKWARD);
 		this.btnBackward.addClickListener(listener ->{
 			this.calendar.navigateBackward();
@@ -53,9 +53,9 @@ public class TerminVerwaltung extends CustomComponent {
 		hlFields.addComponent(this.calendar);
 		hlFields.setComponentAlignment(this.calendar, Alignment.TOP_CENTER);
 		
-		this.btnForward = new Button();
+		this.btnForward = new NativeButton();
 		this.btnForward.setWidth("50px");
-		this.btnForward.setStyleName(ValoTheme.BUTTON_BORDERLESS);
+		this.btnForward.setStyleName("btnwhite");
 		this.btnForward.setIcon(FontAwesome.FORWARD);
 		this.btnForward.addClickListener(listener ->{
 			this.calendar.navigateForward();

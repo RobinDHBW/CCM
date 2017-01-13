@@ -8,14 +8,15 @@ $v-font-weight: 300;
 $v-font-family: "Open Sans", sans-serif;
 
 // Defines the border used by all components.
-$v-border: 1px solid (v-shade 0.7);
+//$v-border: 1px solid (v-shade 0.7);
 $v-border-radius: 4px;
 
 // Affects the color of some component elements, e.g Button, Panel title, etc
 $v-background-color: hsl(210, 0%, 98%);
 // Affects the color of content areas, e.g  Panel and Window content, TextField input etc
 //$v-app-background-color: white;
-$v-app-loading-text: "CRM System laedt, bitte warten.";
+
+$v-app-loading-text: "Bitte warten, CRM System wird geladen.";
 
 // Affects the visual appearance of all components
 //$v-gradient: v-linear 8%;
@@ -36,6 +37,8 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
   @include valo;
  
   // Insert your own theme rules here
+  
+
 .v-button{
 
 	border: none;
@@ -55,8 +58,27 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
     font-weight: bold;
     font-color: #dcdfe0;
 }
-.v-button-nonborder{
-}
+.v-nativebutton-btnwhite{
+	border:none;
+	background-color:white;
+	background:white;
+	width:50px;
+	font-weight:bold;
+	font-color:black;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding:0;
+	
+}  
+  
+.v-nativebutton-btnwhite .v-nativebutton-caption{
+	font-size: 12pt;
+	font-weight:bold;
+	font-color:#5d6a72;   //dunkelgrau
+	
+} 
+
 .v-button-navi{
 background-color:#5d6a72;
 color: #dcdfe0;
@@ -120,7 +142,8 @@ border-right: 1px solid;
 .v-calendar{
  min-height:200px;
  min-weight: 100%;
- background:black;
+ background:white;
+ overflow:hidden;
 
 
 }
@@ -153,6 +176,15 @@ content: " ";
 margin-right: 2px;
 
 }
+// Noch unvollständig Styling der Ereignisse nach fälligkeit
+.v-calendar-event-month::before,  v.overlay-container{
+ content: " ";
+ margin-right: 2px;
+}
+.v-calendar-event-month-geplant::before, v.overlay-container{
+content:"-";
+margin-right:2px;
+}
 //.v-calendar-event-newevent{
 //background:#7b858c;
 //color: white;
@@ -163,6 +195,7 @@ margin-right: 2px;
 overflow:scroll;
 height:-1px;
 width:-1px;
+max-height:120px;
 
 }
 
