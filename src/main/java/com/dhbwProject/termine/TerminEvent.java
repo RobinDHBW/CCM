@@ -13,7 +13,10 @@ public class TerminEvent extends BasicEvent {
 		super.setCaption(b.getName());	
 		super.setDescription(b.getStartDate().toString()+" bis "+b.getEndDate().toString());
 		super.setStart(b.getStartDate());
-		super.setEnd(b.getEndDate());		
+		super.setEnd(b.getEndDate());
+		//Hier wird der Stylename gesetzt damit die Events im Kalender richtig angezeigt werden.
+		//super.setStyleName(b.getStatus().getBezeichnung()); 
+		super.setStyleName("geplant"); //benötigt für die Anzeige auf der Oberfläche// Jasmin
 	}
 	
 	public void setBesuch(Besuch b){

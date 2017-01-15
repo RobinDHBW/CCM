@@ -176,7 +176,7 @@ content: " ";
 margin-right: 2px;
 
 }
-// Noch unvollständig Styling der Ereignisse nach fälligkeit
+// Noch unvollstï¿½ndig Styling der Ereignisse nach fï¿½lligkeit
 .v-calendar-event-month::before,  v.overlay-container{
  content: " ";
  margin-right: 2px;
@@ -185,6 +185,12 @@ margin-right: 2px;
 content:"-";
 margin-right:2px;
 }
+.v-calendar-event-month-besucht::before, v.overlay-container{
+content:"";  //HÃ¤ckchen?
+margin-right:2px;
+}
+
+
 //.v-calendar-event-newevent{
 //background:#7b858c;
 //color: white;
@@ -192,10 +198,10 @@ margin-right:2px;
 //}
 
 .v-tabsheet-tabsheetpanel{
-overflow:scroll;
+overflow:hidden;
 height:-1px;
 width:-1px;
-max-height:120px;
+min-height:300px;
 
 }
 

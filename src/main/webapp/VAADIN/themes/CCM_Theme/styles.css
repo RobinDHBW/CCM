@@ -1593,7 +1593,7 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: center;
 	left: 0;
 	right: 0;
-	content: "CRM System laedt, bitte warten.";
+	content: "Bitte warten, CRM System wird geladen.";
 }
 
 .CCM_Theme .v-loading-indicator {
@@ -13013,6 +13013,25 @@ div.v-layout.v-horizontal.v-widget {
 	font-color: #dcdfe0;
 }
 
+.CCM_Theme .v-nativebutton-btnwhite {
+	border: none;
+	background-color: white;
+	background: white;
+	width: 50px;
+	font-weight: bold;
+	font-color: black;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+.CCM_Theme .v-nativebutton-btnwhite .v-nativebutton-caption {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: #5d6a72;
+}
+
 .CCM_Theme .v-button-navi {
 	background-color: #5d6a72;
 	color: #dcdfe0;
@@ -13068,7 +13087,8 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-calendar {
 	min-height: 200px;
 	min-weight: 100%;
-	background: black;
+	background: white;
+	overflow: hidden;
 }
 
 .CCM_Theme .v-calendar-current-time {
@@ -13094,8 +13114,24 @@ div.v-layout.v-horizontal.v-widget {
 	margin-right: 2px;
 }
 
+.CCM_Theme .v-calendar-event-month::before, .CCM_Theme v.overlay-container {
+	content: " ";
+	margin-right: 2px;
+}
+
+.CCM_Theme .v-calendar-event-month-geplant::before, .CCM_Theme v.overlay-container {
+	content: "-";
+	margin-right: 2px;
+}
+
+.CCM_Theme .v-calendar-event-month-besucht::before, .CCM_Theme v.overlay-container {
+	content: "";
+	margin-right: 2px;
+}
+
 .CCM_Theme .v-tabsheet-tabsheetpanel {
-	overflow: scroll;
+	overflow: hidden;
 	height: -1px;
 	width: -1px;
+	min-height: 300px;
 }

@@ -34,13 +34,13 @@ public class HeaderView extends CustomComponent{
 		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
 	
 	Label whiteL = new Label(" ");
-	Button logoutB = new Button();
-	logoutB.setCaption("Abmelden");
+	/*Button logoutB = new Button();
+	logoutB.setCaption("Abmelden");*/
 	whiteL.setWidth("100%");
 	hL.addComponent(whiteL);
 
-	hL.addComponent(logoutB);
-	hL.setComponentAlignment(logoutB, Alignment.TOP_RIGHT);
+	/*hL.addComponent(logoutB);
+	hL.setComponentAlignment(logoutB, Alignment.TOP_RIGHT);*/
 	hL.setSizeFull();
 	hL.setHeight("120px");
 	pnHeader.setSizeFull();
