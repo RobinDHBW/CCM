@@ -2,7 +2,10 @@ package com.dhbwProject.unternehmen;
 
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -11,6 +14,7 @@ public class UnternehmenFelder extends VerticalLayout {
 	
 	private TextField tfUnternehmenname;
 	private ComboBox cbKennzeichen;
+	private OptionGroup ogKennzeichenauswahl;
 	private TextField tfStrasse;
 	private TextField tfHausnummer;
 	private TextField tfPLZ;
@@ -27,6 +31,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.setSpacing(true);
 		this.initUnternehmenname();
 		this.initKennzeichen(); // Combobox, restliche sind Textfelder
+		//this.initOptionGroup();
 		this.initStrasse();
 		this.initHausnummer();
 		this.initPLZ();
@@ -47,10 +52,19 @@ public class UnternehmenFelder extends VerticalLayout {
 	}
 	
 	private void initKennzeichen(){ // intialisiert als Combobox, da nur A und B Unternehmen gibt
-		this.cbKennzeichen = new ComboBox();
+		this.cbKennzeichen = new ComboBox("Kennzeichen");
 		this.setWidth("300px");
 		this.addComponent(cbKennzeichen);
+		OptionGroup single = new OptionGroup();
+		single.addItem("Permiumpartner (A)");
+		single.addItem("Sonstiger Partner (B)");
 	}
+	
+	//private void initOptionGroup(){
+		//OptionGroup single = new OptionGroup();
+		//single.addItem("Permiumpartner (A)");
+		//single.addItem("Sonstiger Partner (B)");
+//	}
 	
 	private void initStrasse(){
 		this.tfStrasse = new TextField();

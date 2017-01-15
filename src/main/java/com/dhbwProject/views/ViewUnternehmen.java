@@ -45,9 +45,9 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 	
 	private void initTbContent(){
 		this.tbContent = new TabSheet();
-		this.tbContent.addTab(new UnternehmenAnlage(), "Unternehmen anlegen", FontAwesome.PLUS);
-		this.tbContent.addTab(new UnternehmenAenderung(), "Unternehmen bearbeiten", FontAwesome.PLUS);
-		this.tbContent.addTab(new UnternehmenAnzeigen(), "Unternehmen anzeigen", FontAwesome.PLUS);
+		this.tbContent.addTab(new UnternehmenAnlage(), "Unternehmen anlegen", FontAwesome.AMAZON);
+		this.tbContent.addTab(new UnternehmenAenderung(), "Unternehmen bearbeiten", FontAwesome.APPLE);
+		this.tbContent.addTab(new UnternehmenAnzeigen(), "Unternehmen anzeigen", FontAwesome.LIST);
 		this.addComponent(tbContent);
 	}
 

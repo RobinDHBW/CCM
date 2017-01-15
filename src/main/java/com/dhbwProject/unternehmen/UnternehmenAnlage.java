@@ -1,6 +1,7 @@
 package com.dhbwProject.unternehmen;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -34,9 +35,17 @@ public class UnternehmenAnlage extends CustomComponent {
 	private void initLayout(){
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
+		this.vlLayout.setSpacing(true);
+		this.vlLayout.setMargin(new MarginInfo(true, true, true, true));
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
 		this.setCompositionRoot(vlLayout);
 	}
+	
+	//public void createUnternehmen(){
+	//	if (fields.getUnternehmen().equals()) {
+			
+	//	}
+	//}
 	
 
 }
