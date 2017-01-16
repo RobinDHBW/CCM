@@ -1,6 +1,7 @@
 package com.dhbwProject.unternehmen;
 
 import com.dhbwProject.backend.beans.Unternehmen;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.ui.ComboBox;
@@ -13,7 +14,7 @@ public class UnternehmenFelder extends VerticalLayout {
 	private static final long serialVersionUID = 1L; // dass net gelb unterstreicht
 	
 	private TextField tfUnternehmenname;
-	private ComboBox cbKennzeichen;
+	//private ComboBox cbKennzeichen;
 	private OptionGroup ogKennzeichenauswahl;
 	private TextField tfStrasse;
 	private TextField tfHausnummer;
@@ -52,12 +53,13 @@ public class UnternehmenFelder extends VerticalLayout {
 	}
 	
 	private void initKennzeichen(){ // intialisiert als Combobox, da nur A und B Unternehmen gibt
-		this.cbKennzeichen = new ComboBox("Kennzeichen");
+		//this.cbKennzeichen = new ComboBox("Kennzeichen");
 		this.setWidth("300px");
-		this.addComponent(cbKennzeichen);
-		OptionGroup single = new OptionGroup();
-		single.addItem("Permiumpartner (A)");
-		single.addItem("Sonstiger Partner (B)");
+		//this.addComponent(cbKennzeichen);
+		this.ogKennzeichenauswahl = new OptionGroup("Kennzeichen");
+		this.ogKennzeichenauswahl.addItem("Permiumpartner (A)");
+		this.ogKennzeichenauswahl.addItem("Sonstiger Partner (B)");
+		this.addComponent(ogKennzeichenauswahl);
 	}
 	
 	//private void initOptionGroup(){
@@ -120,6 +122,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.tfEmail.setInputPrompt("E-Mail");
 		this.setWidth("300px");
 		this.addComponent(tfEmail);
+		this.tfEmail.setIcon(FontAwesome.AT);
 	}
 	
 	public void setUnternehmen (Unternehmen u){
