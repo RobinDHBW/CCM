@@ -54,12 +54,12 @@ public class DummyDataManager {
 	
 	private void initAnsprechpartner(){
 		//TODO Robin
-		this.lAnsprechpartner.add(new Ansprechpartner(0, "Bernd", "Ludwig", this.lAdresse.get(0), null));
-		this.lAnsprechpartner.add(new Ansprechpartner(1, "Flo", "Flu", this.lAdresse.get(1), null));
-		this.lAnsprechpartner.add(new Ansprechpartner(2, "Maraike", "Wurst", this.lAdresse.get(2), null));
-		this.lAnsprechpartner.add(new Ansprechpartner(3, "Yoshi", "Kadowa", this.lAdresse.get(3), null));
-		this.lAnsprechpartner.add(new Ansprechpartner(4, "Hans", "Brot", this.lAdresse.get(4), null));
-		this.lAnsprechpartner.add(new Ansprechpartner(5, "Susanno", "Nippon", this.lAdresse.get(5), null));
+		this.lAnsprechpartner.add(new Ansprechpartner(0, "Bernd", "Ludwig", this.lAdresse.get(0), null,"",""));
+		this.lAnsprechpartner.add(new Ansprechpartner(1, "Flo", "Flu", this.lAdresse.get(1), null,"",""));
+		this.lAnsprechpartner.add(new Ansprechpartner(2, "Maraike", "Wurst", this.lAdresse.get(2), null,"",""));
+		this.lAnsprechpartner.add(new Ansprechpartner(3, "Yoshi", "Kadowa", this.lAdresse.get(3), null,"",""));
+		this.lAnsprechpartner.add(new Ansprechpartner(4, "Hans", "Brot", this.lAdresse.get(4), null,"",""));
+		this.lAnsprechpartner.add(new Ansprechpartner(5, "Susanno", "Nippon", this.lAdresse.get(5), null,"",""));
 		
 //		this.lUnternehmen.get(0).getAnsprechpartner().add(this.lAnsprechpartner.get(0));
 //		this.lUnternehmen.get(1).getAnsprechpartner().add(this.lAnsprechpartner.get(1));

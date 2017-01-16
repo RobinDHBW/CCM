@@ -1,5 +1,7 @@
 package com.dhbw.Project.rolle;
 
-public class RolleAnzeige {
+import com.vaadin.ui.VerticalLayout;
+
+public class RolleAnzeige extends VerticalLayout {
 
 }
