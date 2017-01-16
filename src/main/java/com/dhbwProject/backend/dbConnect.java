@@ -1014,5 +1014,35 @@ public class dbConnect {
 		return false;
 	}
 	
+	//Password
+	public boolean createPassword(String hash, Benutzer benutzer) throws SQLException{
+		 PreparedStatement ps = con.prepareStatement("INSERT INTO `password` (`password_hash`, `benutzer_id`, `password_id`) VALUES (?, ?, NULL)");
+		 ps.setString(1, hash);
+		 ps.setString(2, benutzer.getId());
+		 int result = ps.executeUpdate();ps.close();
+		 if(result == 1)return true;
+		 return false;
+	}
+	public boolean checkPassword(String hash, Benutzer benutzer) throws SQLException{
+		ResultSet res = null;
+		Object oldHash = null;
+			res = executeQuery("SELECT * FROM password WHERE password.benutzer_id = ?",
+					new Object[] { (Object) benutzer.getId() });
+			while (res.next()) {
+				oldHash = res.getString("password_hash");
+			}
+			res.close();
+		
+		return (oldHash.equals(hash));
+	}
+	public boolean changePassword(String hash, Benutzer benutzer) throws SQLException{
+		int i = executeUpdate(
+				"UPDATE `password` SET `password_hash` = ? WHERE `password`.`benutzer_id` = ? ",
+				new Object[] {(Object) hash, (Object)benutzer.getId()});
+		if (i != 0) {
+			return true;
+		}
+		return false;
 	
+	}
 }
