@@ -13,7 +13,16 @@ public class db_testing extends TestCase {
 	}
 
 	public void testInsertStudiengang(){
-		dbConnect connection = new dbConnect();
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e3) {
+			
+			e3.printStackTrace();
+		} catch (SQLException e3) {
+			
+			e3.printStackTrace();
+		}
 		
 		try{
 			Studiengang studiengang = connection.getStudiengangByBezeichnung("Wirtschaftsinformatik");
@@ -30,12 +39,26 @@ public class db_testing extends TestCase {
 			e2.printStackTrace();
 		}}
 		finally{
-			connection.close();
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void testInsertBenutzer(){
-		dbConnect connection = new dbConnect();
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e2) {
+			
+			e2.printStackTrace();
+		} catch (SQLException e2) {
+			
+			e2.printStackTrace();
+		}
 		try{
 			Benutzer benutzer = connection.getBenutzerById("fgustavson");
 			System.out.println("Benutzer bereits vorhanden");
@@ -56,12 +79,26 @@ public class db_testing extends TestCase {
 			e.printStackTrace();
 		}}
 		finally{
-			connection.close();
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public void testAllBenutzer() {
-		dbConnect connection = new dbConnect();
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e1) {
+			
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			
+			e1.printStackTrace();
+		}
 		try {
 			LinkedList<Benutzer> lBen = new LinkedList<Benutzer>();
 			Beruf beruf = new Beruf(1, "Studiengangsleiter");
@@ -83,7 +120,12 @@ public class db_testing extends TestCase {
 			e.printStackTrace();
 		}
 		finally{
-			connection.close();
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 		}
 	}
 
