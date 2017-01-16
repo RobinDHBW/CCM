@@ -7,6 +7,7 @@ import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 
@@ -18,6 +19,7 @@ public class UnternehmenAnzeigen extends CustomComponent {
 	//private Table unternehmen;
 	
 	private VerticalLayout vlLayout;
+	//private HorizontalLayout hzLayout;
 	
 	
 	public UnternehmenAnzeigen(){
@@ -30,7 +32,7 @@ public class UnternehmenAnzeigen extends CustomComponent {
 	
 	private void initCreateButton(){
 		this.utnAnzeigen = new Button ();
-		this.utnAnzeigen.setIcon(FontAwesome.WHATSAPP);
+		this.utnAnzeigen.setIcon(FontAwesome.LIST);
 		this.utnAnzeigen.setCaption("Anzeigen");
 		this.utnAnzeigen.addClickListener(listener ->{
 			//Später wird mehr erfolgen hier
@@ -61,13 +63,23 @@ public class UnternehmenAnzeigen extends CustomComponent {
 		}
 		return container;
 	*/ // Testversuch einer Table analog zu Manu
+	
 	 private void initLayout(){
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
 		this.vlLayout.setSpacing(true);
 		this.vlLayout.setMargin(new MarginInfo(true, true, true, true));
-		this.setCompositionRoot(vlLayout);
+		this.setCompositionRoot(vlLayout); // Vertikales Layout
 
-	}
+	} 
+	
+/*	private void initLayout(){
+		this.hzLayout = new HorizontalLayout(this.fields);
+		this.hzLayout.setSizeUndefined();
+		this.hzLayout.setSpacing(true);
+		this.hzLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
+		this.hzLayout.setMargin(new MarginInfo(true, true, true, true));
+		this.setCompositionRoot(hzLayout); //horizontales Layout
+	} */
 }

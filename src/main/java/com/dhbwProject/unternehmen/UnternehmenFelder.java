@@ -46,8 +46,8 @@ public class UnternehmenFelder extends VerticalLayout {
 	}
 	
 	private void initUnternehmenname(){
-		this.tfUnternehmenname = new TextField();
-		this.tfUnternehmenname.setInputPrompt("Name des Unternehmens");
+		this.tfUnternehmenname = new TextField("Unternehmen:");
+		this.tfUnternehmenname.setInputPrompt("Unternehmensname");
 		this.setWidth("300px");
 		this.addComponent(tfUnternehmenname);
 	}
@@ -56,7 +56,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		//this.cbKennzeichen = new ComboBox("Kennzeichen");
 		this.setWidth("300px");
 		//this.addComponent(cbKennzeichen);
-		this.ogKennzeichenauswahl = new OptionGroup("Kennzeichen");
+		this.ogKennzeichenauswahl = new OptionGroup("Kennzeichen:");
 		this.ogKennzeichenauswahl.addItem("Permiumpartner (A)");
 		this.ogKennzeichenauswahl.addItem("Sonstiger Partner (B)");
 		this.addComponent(ogKennzeichenauswahl);
@@ -65,7 +65,7 @@ public class UnternehmenFelder extends VerticalLayout {
 	//private void initOptionGroup(){
 		//OptionGroup single = new OptionGroup();
 		//single.addItem("Permiumpartner (A)");
-		//single.addItem("Sonstiger Partner (B)");
+		//single.addItem("Sonstiger Partner (B)"); gerade nicht mehr benötigt, oben gelöst
 //	}
 	
 	private void initStrasse(){
@@ -97,15 +97,15 @@ public class UnternehmenFelder extends VerticalLayout {
 	}
 	
 	private void initVornameAnsprechpartner(){
-		this.tfVornameAnsprechpartner = new TextField();
-		this.tfVornameAnsprechpartner.setInputPrompt("Vorname des Ansprechpartners");
+		this.tfVornameAnsprechpartner = new TextField("Ansprechpartner:");
+		this.tfVornameAnsprechpartner.setInputPrompt("Vorname");
 		this.setWidth("300px");
 		this.addComponent(tfVornameAnsprechpartner);
 	}
 	
 	private void initNameAnsprechpartner(){
 		this.tfNameAnsprechpartner = new TextField();
-		this.tfNameAnsprechpartner.setInputPrompt("Nachname des Ansprechpartners");
+		this.tfNameAnsprechpartner.setInputPrompt("Nachname");
 		this.setWidth("300px");
 		this.addComponent(tfNameAnsprechpartner);
 	}
@@ -115,6 +115,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.tfTelefonnummer.setInputPrompt("Telefonnummer");
 		this.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
+		this.tfTelefonnummer.setIcon(FontAwesome.WHATSAPP);
 	}
 	
 	private void initEmail(){
