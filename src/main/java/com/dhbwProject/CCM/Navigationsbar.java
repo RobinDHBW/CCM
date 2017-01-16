@@ -14,8 +14,9 @@ public class Navigationsbar extends CssLayout{
 	public Navigationsbar(CCM_Navigator nav){
 		this.setSizeFull();
 		this.navNavigator = nav;
-		this.initNaviButtons();
 		this.initLogoutButton();
+		this.initNaviButtons();
+		
 	}
 	
 	private void initLogoutButton(){
@@ -71,7 +72,7 @@ public class Navigationsbar extends CssLayout{
 			this(viewName);
 			this.setIcon(icon);
 			this.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
-			this.addStyleName("left");
+			this.addStyleName("navi");
 		}
 		
 	}

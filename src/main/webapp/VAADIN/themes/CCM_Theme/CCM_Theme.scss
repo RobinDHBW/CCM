@@ -38,7 +38,7 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
  
   // Insert your own theme rules here
   
-
+//Button Styling
 .v-button{
 
 	border: none;
@@ -58,6 +58,28 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
     font-weight: bold;
     font-color: #dcdfe0;
 }
+.v-button-navi{
+background-color:#5d6a72;
+color: #dcdfe0;
+font-color: #dcdfe0;
+font-weight:bold;
+}
+
+.v-button-caption-navi{
+	font-size: 12pt;
+    font-weight: bold;
+    font-color: #dcdfe0;
+    text-align: left;
+
+}
+.v-button:focus -v-button-wrap{
+	background: red;
+	boxshadow:black;
+
+}
+.v-button:active .v-button-wrap{
+} 
+//Native-Button Styling
 .v-nativebutton-btnwhite{
 	border:none;
 	background-color:white;
@@ -79,26 +101,8 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
 	
 } 
 
-.v-button-navi{
-background-color:#5d6a72;
-color: #dcdfe0;
-font-color: #dcdfe0;
-font-weight:bold;
-}
-.v-button-caption-navi{
-	font-size: 12pt;
-    font-weight: bold;
-    font-color: #dcdfe0;
 
-}
-.v-button:focus -v-button-wrap{
-	background: red;
-	boxshadow:black;
-
-}
-.v-button:active .v-button-wrap{
-} 
-
+//Panel Header Style
 .v-panel-pnheader{
   max-height: 120px;
   background: white;
@@ -111,15 +115,18 @@ font-weight:bold;
 
 
 
-
+//Textfield Style
 .v-textfield{
 color: black
 }
+
+//Table Style
 .base .v-table-drag .v-table-body{
 border-color: white;
 text-decoration:none;
 }
 
+//Label Style
 .v-label{
 
 color:black;
@@ -128,6 +135,7 @@ width: -1;
 
 } 
 
+//Calendar Style
 .v-calendar-times{
 width: 51 px;
 }
@@ -181,7 +189,7 @@ margin-right: 2px;
  content: " ";
  margin-right: 2px;
 }
-.v-calendar-event-month-geplant::before, v.overlay-container{
+.v-calendar-event-geplant-month::before, v.overlay-container{
 content:"-";
 margin-right:2px;
 }
@@ -190,13 +198,31 @@ content:"";  //Häckchen?
 margin-right:2px;
 }
 
+//Eventanzeige in der Monatsansicht
+.v-calendar-event-geplant{
+background:#5d6a72;
+color:white;
 
-//.v-calendar-event-newevent{
-//background:#7b858c;
-//color: white;
+}
+.v-calendar-event-geplant-all-day{
+background:#5d6a72;
+color:white;
+}
 
-//}
 
+.v-calendar-event-besucht{
+background:white ;
+color:black;	
+	
+}
+
+.v-calendar-event-besucht-all-day{
+background:white;
+color:black;	
+	
+}
+
+//Tabsheet Style
 .v-tabsheet-tabsheetpanel{
 overflow:hidden;
 height:-1px;

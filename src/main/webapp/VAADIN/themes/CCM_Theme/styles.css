@@ -13013,6 +13013,25 @@ div.v-layout.v-horizontal.v-widget {
 	font-color: #dcdfe0;
 }
 
+.CCM_Theme .v-button-navi {
+	background-color: #5d6a72;
+	color: #dcdfe0;
+	font-color: #dcdfe0;
+	font-weight: bold;
+}
+
+.CCM_Theme .v-button-caption-navi {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: #dcdfe0;
+	text-align: left;
+}
+
+.CCM_Theme .v-button:focus -v-button-wrap {
+	background: red;
+	boxshadow: black;
+}
+
 .CCM_Theme .v-nativebutton-btnwhite {
 	border: none;
 	background-color: white;
@@ -13030,24 +13049,6 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 12pt;
 	font-weight: bold;
 	font-color: #5d6a72;
-}
-
-.CCM_Theme .v-button-navi {
-	background-color: #5d6a72;
-	color: #dcdfe0;
-	font-color: #dcdfe0;
-	font-weight: bold;
-}
-
-.CCM_Theme .v-button-caption-navi {
-	font-size: 12pt;
-	font-weight: bold;
-	font-color: #dcdfe0;
-}
-
-.CCM_Theme .v-button:focus -v-button-wrap {
-	background: red;
-	boxshadow: black;
 }
 
 .CCM_Theme .v-panel-pnheader {
@@ -13119,7 +13120,7 @@ div.v-layout.v-horizontal.v-widget {
 	margin-right: 2px;
 }
 
-.CCM_Theme .v-calendar-event-month-geplant::before, .CCM_Theme v.overlay-container {
+.CCM_Theme .v-calendar-event-geplant-month::before, .CCM_Theme v.overlay-container {
 	content: "-";
 	margin-right: 2px;
 }
@@ -13127,6 +13128,26 @@ div.v-layout.v-horizontal.v-widget {
 .CCM_Theme .v-calendar-event-month-besucht::before, .CCM_Theme v.overlay-container {
 	content: "";
 	margin-right: 2px;
+}
+
+.CCM_Theme .v-calendar-event-geplant {
+	background: #5d6a72;
+	color: white;
+}
+
+.CCM_Theme .v-calendar-event-geplant-all-day {
+	background: #5d6a72;
+	color: white;
+}
+
+.CCM_Theme .v-calendar-event-besucht {
+	background: white;
+	color: black;
+}
+
+.CCM_Theme .v-calendar-event-besucht-all-day {
+	background: white;
+	color: black;
 }
 
 .CCM_Theme .v-tabsheet-tabsheetpanel {
