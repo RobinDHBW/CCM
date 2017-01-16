@@ -3,6 +3,7 @@ package com.dhbwProject.benutzer;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -20,8 +21,9 @@ public class BenutzerAenderung extends CustomComponent {
 	private BenutzerFields fields;
 	private Button btnAendern;
 	private Button lookup;
-	LinkedList<Benutzer> benutzerList = new LinkedList<Benutzer> ();
-	DummyDataManager dummyData = new DummyDataManager();
+	private DummyDataManager dummyData = new DummyDataManager();
+	private dbConnect dbConnect;
+	private Benutzer b;
 	
 	private VerticalLayout vlLayout;
 	
@@ -29,6 +31,7 @@ public class BenutzerAenderung extends CustomComponent {
 	public BenutzerAenderung(){
 		this.fields = new BenutzerFields();
 		this.fields.enableFields(false);
+		this.dbConnect = new dbConnect();
 		this.initLookup();
 		this.initCreateButton();
 		this.initLayout();
@@ -40,7 +43,7 @@ public class BenutzerAenderung extends CustomComponent {
 		lookup.addClickListener(e -> {
 			LookupBenutzer bLookup = new LookupBenutzer(dummyData);
 			bLookup.addCloseListener(event -> {
-				Benutzer b = bLookup.getSelection();
+				b = bLookup.getSelection();
 				fields.setVorname(b);
 				fields.setNachname(b);
 				fields.enableFields(true);
@@ -57,6 +60,10 @@ public class BenutzerAenderung extends CustomComponent {
 		this.btnAendern.setEnabled(false);
 		this.btnAendern.addClickListener(listener ->{
 			//Später wird mehr erfolgen hier
+			//Benutzer ("mmayer", "vorname", "nachname", "beruf", "ccmall", studiengänge)
+			//id = mmayer
+//			Benutzer neu = new Benutzer(null, fields.getVorname(), fields.getNachname(), null, null, null);
+//			dbConnect.changeBenutzer(b, neu);
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
 		});

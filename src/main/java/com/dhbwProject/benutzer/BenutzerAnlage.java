@@ -1,5 +1,13 @@
 package com.dhbwProject.benutzer;
 
+import java.sql.SQLException;
+import java.util.LinkedList;
+
+import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Beruf;
+import com.dhbwProject.backend.beans.Rolle;
+import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.MarginInfo;
@@ -14,11 +22,13 @@ public class BenutzerAnlage extends CustomComponent {
 
 	private BenutzerFields fields;
 	private Button btnErstellen;
+	private dbConnect dbConnect;
 
 	private VerticalLayout vlLayout;
 	
 	public BenutzerAnlage(){
 		this.fields = new BenutzerFields();
+		this.dbConnect = new dbConnect();
 		this.initCreateButton();
 		this.initLayout();
 	}
@@ -66,12 +76,28 @@ public class BenutzerAnlage extends CustomComponent {
 //			beruf.setComponentError(null);
 //		}
 		if (!fields.getVorname().equals("") && !fields.getNachname().equals("") /*&& !beruf.getValue().equals("")*/) {
+			String id = fields.getVorname().substring(0, 1) + fields.getNachname();
+			
+			Rolle rolle = dbConnect.getRolleByBezeichnung("ccm_all");
+//			Rolle rolle = dbConnect.getRolleById(1);
+			Beruf beruf = null;
+			try {
+				beruf = dbConnect.getBerufByBezeichnung("Studiengangsleiter");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			LinkedList<Studiengang> stg = new LinkedList<Studiengang>();
+			stg.add(new Studiengang(0, "Wirtschaftsinformatik"));
+			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
+			try {
+				this.dbConnect.createBenutzer(benutzer);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			Notification.show("Der Benutzer wurde angelegt",
                     Type.TRAY_NOTIFICATION);
 		}
-//		else {
-//			fields.setComponentError(new UserError("Alle Felder ausfüllen"));
-//		}
 	}
 
 }

@@ -1,5 +1,9 @@
 package com.dhbwProject.benutzer;
 
+import java.util.LinkedList;
+
+import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.shared.ui.MarginInfo;
@@ -8,12 +12,16 @@ import com.vaadin.ui.VerticalLayout;
 
 public class BenutzerAnzeige extends VerticalLayout {
 	
-	Table benutzer;
+	private Table benutzer;
+	private dbConnect dbConnect;
+	
 	
 	public BenutzerAnzeige() {
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(true, true, true, true));
+		this.dbConnect = new dbConnect();
 		initFields();
+		
 	}
 	
 	public void initFields() {
@@ -23,7 +31,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 		addComponent(benutzer);
 		
 	}
-	public IndexedContainer loadTableData() {
+	public IndexedContainer loadDummyData() {
 		IndexedContainer container= new IndexedContainer();
 		container.addContainerProperty("Vorname", String.class, null);
 		container.addContainerProperty("Nachname", String.class, null);
@@ -37,5 +45,27 @@ public class BenutzerAnzeige extends VerticalLayout {
 			itm.getItemProperty("Nachname").setValue(aNachname[i]);
 		}
 		return container;
+	}
+	public IndexedContainer loadTableData() {
+		LinkedList<Benutzer> alleBenutzer = dbConnect.getAllBenutzer();
+		
+		IndexedContainer container= new IndexedContainer();
+		container.addContainerProperty("Vorname", String.class, null);
+		container.addContainerProperty("Nachname", String.class, null);
+		container.addContainerProperty("Beruf", String.class, null);
+		container.addContainerProperty("Rolle", String.class, null);
+//		container.addContainerProperty("Studiengang", String.class, null);
+		
+		for (int i = 0; i<alleBenutzer.size(); i++) {
+			Benutzer b = (Benutzer) alleBenutzer.get(i);
+			Item item = container.addItem(i);
+			item.getItemProperty("Vorname").setValue(b.getVorname());
+			item.getItemProperty("Nachname").setValue(b.getNachname());
+			item.getItemProperty("Beruf").setValue(b.getBeruf().getBezeichnung());
+			item.getItemProperty("Rolle").setValue(b.getRolle().getBezeichnung());
+//			item.getItemProperty("Studiengang").setValue(b.getst);
+		}
+		
+		return null;
 	}
 }
