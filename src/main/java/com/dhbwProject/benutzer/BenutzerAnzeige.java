@@ -50,6 +50,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 		LinkedList<Benutzer> alleBenutzer = dbConnect.getAllBenutzer();
 		
 		IndexedContainer container= new IndexedContainer();
+		container.addContainerProperty("ID", String.class, null);
 		container.addContainerProperty("Vorname", String.class, null);
 		container.addContainerProperty("Nachname", String.class, null);
 		container.addContainerProperty("Beruf", String.class, null);
@@ -59,6 +60,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 		for (int i = 0; i<alleBenutzer.size(); i++) {
 			Benutzer b = (Benutzer) alleBenutzer.get(i);
 			Item item = container.addItem(i);
+			item.getItemProperty("ID").setValue(b.getId());
 			item.getItemProperty("Vorname").setValue(b.getVorname());
 			item.getItemProperty("Nachname").setValue(b.getNachname());
 			item.getItemProperty("Beruf").setValue(b.getBeruf().getBezeichnung());
@@ -66,6 +68,6 @@ public class BenutzerAnzeige extends VerticalLayout {
 //			item.getItemProperty("Studiengang").setValue(b.getst);
 		}
 		
-		return null;
+		return container;
 	}
 }
