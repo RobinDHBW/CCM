@@ -1,12 +1,16 @@
 package com.dhbwProject.views;
 
+import java.sql.SQLException;
+
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.PasswordValidator;
+import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -18,6 +22,7 @@ import com.vaadin.ui.themes.ValoTheme;
 
 public class ViewLogin extends CustomComponent implements View{
 	private static final long serialVersionUID = 1L;
+	private dbConnect dbConnection;
 	
 	private TextField userField;
 	private PasswordField pwField;
@@ -27,6 +32,7 @@ public class ViewLogin extends CustomComponent implements View{
 	private VerticalLayout vlLayout;
 	
 	public ViewLogin(){
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.setSizeFull();
 		this.initUserField();
 		this.initPwField();
@@ -73,8 +79,17 @@ public class ViewLogin extends CustomComponent implements View{
 
 	        if (isValid) {
 	        	//Den Benutzer speichern wir uns in die Session, damit können wir überall darauf zugreifen
-	            this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, new Benutzer("0", "Alpha", "Version", null, null, null));
-	            this.getUI().getNavigator().navigateTo(CCM_Constants.VIEW_NAME_START);
+//	            this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, new Benutzer("0", "Alpha", "Version", null, null, null));
+	            try {
+	            	VaadinSession.getCurrent().lock();
+					VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById("mmustermann"));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					VaadinSession.getCurrent().unlock();
+				}
+	        	this.getUI().getNavigator().navigateTo(CCM_Constants.VIEW_NAME_START);
 	        } else {
 	            this.pwField.setValue(null);
 	            this.pwField.focus();

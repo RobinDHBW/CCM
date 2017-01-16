@@ -1,14 +1,24 @@
 package com.dhbwProject.termine;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Ansprechpartner;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
+import com.dhbwProject.backend.beans.Status;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Calendar;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
@@ -26,15 +36,17 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandl
 public class TermineCalendar extends Calendar{
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime date;
-	private DummyDataManager dummyData;
+	private dbConnect dbConnection;
+//	private DummyDataManager dummyData;
 	private BeanItemContainer<TerminEvent> eventContainer;
 	
 	private GregorianCalendar dateStart;
 	private GregorianCalendar dateEnd;
 	
-	public TermineCalendar(DummyDataManager dummyData){
+	public TermineCalendar(){
 		super();
-//		this.setHeight("800px");
+//		this.dbConnection = (dbConnect)VaadinService.getCurrentRequest().getWrappedSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		
 		this.date = LocalDateTime.now();
 		this.dateStart = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 01, 00, 00);
@@ -44,7 +56,7 @@ public class TermineCalendar extends Calendar{
 		this.setLocale(Locale.GERMANY);
 		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
 //		super.setSizeFull();
-		this.dummyData = dummyData;
+//		this.dummyData = dummyData;
 		this.eventContainer = new BeanItemContainer<TerminEvent>(TerminEvent.class);
 		this.setContainerDataSource(eventContainer);
 		
@@ -66,25 +78,11 @@ public class TermineCalendar extends Calendar{
 
 			@Override
 			public void dateClick(DateClickEvent event) {
-				Window w = new Window();
-				Panel p = new Panel();
-				w.setCaptionAsHtml(true);
-				w.setCaption("<center><h2>Termin anlegen</h2></center>");
-				w.center();
-				w.setWidth("450px");
-				w.setHeight("600px");
-				w.setDraggable(true);
-				w.setClosable(true);
-				w.setModal(false);
-				
-				TerminAnlage anlage = new TerminAnlage(dummyData, event.getDate());
-				anlage.getBtnCreate().addClickListener(listener ->{
-					w.close();
+				TerminAnlage anlage = new TerminAnlage(event.getDate());
+				anlage.addCloseListener(close ->{
 					refreshCalendarEvents();
 				});
-				p.setContent(anlage);
-				w.setContent(p);
-				getUI().addWindow(w);	
+				getUI().addWindow(anlage);	
 			}
 		});		
 	}
@@ -96,26 +94,11 @@ public class TermineCalendar extends Calendar{
 			@Override
 			public void eventClick(EventClick event) {
 				TerminEvent e = (TerminEvent)event.getCalendarEvent();//So irgendwie
-				Panel p = new Panel();
-				Window w = new Window();
-				w.setCaptionAsHtml(true);
-				w.center();
-				w.setWidth("450px");
-				w.setHeight("600px");
-				w.setDraggable(true);
-				w.setClosable(true);
-				w.setModal(false);
-				
-				TerminBearbeitung bearbeitung = new TerminBearbeitung(dummyData, e.getBesuch());
-				bearbeitung.getBtnUpdate().addClickListener(listener ->{
-					w.close();
+				TerminBearbeitung bearbeitung = new TerminBearbeitung(e.getBesuch());
+				bearbeitung.addCloseListener(close ->{
 					refreshCalendarEvents();
 				});
-				w.setCaption("<center><b>Sie bearbeiten einen Termin von:</b></center>"+
-						"<center><p><b>"+bearbeitung.getCaption()+"</b></p></center>");
-				p.setContent(bearbeitung);
-				w.setContent(p);
-				getUI().addWindow(w);			
+				getUI().addWindow(bearbeitung);	
 			}		
 		});			
 	}
@@ -127,11 +110,23 @@ protected void initEventMoveHandler(){
 			@Override
 			public void eventMove(MoveEvent event) {
 				TerminEvent e = (TerminEvent)event.getCalendarEvent();
-				Besuch b = e.getBesuch();
-				b = dummyData.updateTermin(b,
-						b.getName(), e.getStart(), e.getEnd(), b.getAdresse(), b.getAnsprechpartner(), b.getBesucher()); 
-				eventContainer.removeItem(e);
-				eventContainer.addBean(new TerminEvent(b));			}
+				Besuch bAlt = e.getBesuch();
+				Besuch bNeu = new Besuch(bAlt.getId(), bAlt.getName(),
+						e.getStart(), e.getEnd(), bAlt.getAdresse(), bAlt.getStatus(),
+						bAlt.getAnsprechpartner(), bAlt.getBesucher(),null , bAlt.getAutor());
+				
+				
+				try {
+					if(dbConnection.changeBesuch(bNeu, bAlt)){
+						eventContainer.removeItem(e);
+						eventContainer.addBean(new TerminEvent(dbConnection.getBesuchById(bAlt.getId())));	
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+							}
 		});
 	}
 	
@@ -163,8 +158,15 @@ protected void initEventMoveHandler(){
 	
 	protected void refreshCalendarEvents(){		
 		this.eventContainer.removeAllItems();
-		for(Besuch b : this.dummyData.getlTermin())
-			this.eventContainer.addBean(new TerminEvent(b));
+//		dbConnect connection = (dbConnect)this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+//		for(Besuch b : connection.get..b.)
+//			this.eventContainer.addBean(new TerminEvent(b));
+		try {
+			this.eventContainer.addBean(new TerminEvent(this.dbConnection.getBesuchById(1)));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

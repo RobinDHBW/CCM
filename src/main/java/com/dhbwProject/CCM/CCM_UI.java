@@ -1,9 +1,12 @@
 package com.dhbwProject.CCM;
 
+import java.sql.SQLException;
+
 import javax.servlet.annotation.WebServlet;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.views.FooterView;
 import com.dhbwProject.views.HeaderView;
 import com.dhbwProject.views.ViewBenutzer;
@@ -17,7 +20,9 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
@@ -29,6 +34,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class CCM_UI extends UI {
 	private static final long serialVersionUID = 1L;
 	private DummyDataManager dummyData;
+	private dbConnect dbConnection;
 	
 	private Panel pnlContent;
 	private VerticalLayout vlFormat;
@@ -44,7 +50,24 @@ public class CCM_UI extends UI {
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
 		this.dummyData = new DummyDataManager();
+		try {
+			this.dbConnection = new dbConnect();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try{
+			VaadinSession.getCurrent().lock();
+			VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_CONNECTION, this.dbConnection);
+		}finally{
+			VaadinSession.getCurrent().unlock();
+		}
 		
+//		VaadinService.getCurrentRequest().getWrappedSession().
+//		setAttribute(CCM_Constants.SESSION_VALUE_CONNECTION, this.dbConnection);
 		this.setSizeFull();		
 		this.initViewNavigator();
 		this.initContentLayout();
@@ -85,7 +108,7 @@ public class CCM_UI extends UI {
 	
 	private void initNavigationBar(){
 		this.naviBar = new Navigationsbar((CCM_Navigator)this.getNavigator());
-		if(this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null)	
+		if(VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) == null)	
 			this.naviBar.setVisible(false);
 		else
 			this.naviBar.setVisible(true);
@@ -110,7 +133,8 @@ public class CCM_UI extends UI {
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BENUTZER, ViewBenutzer.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_UNTERNEHMEN, ViewUnternehmen.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_ROLLE, ViewRolle.class);
-		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin(this.dummyData));
+		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, ViewTermin.class);
+//		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin(this.dummyData));
 		
 		/*	Dieser ViewChangeListener prueft ob sich ein Benutzer an der Session angemeldet hat
 		 * 	Ist das nicht der Fall so ist lediglich der Login anzuzeigen*/
@@ -119,7 +143,7 @@ public class CCM_UI extends UI {
 
 			@Override
             public boolean beforeViewChange(ViewChangeEvent event) {
-                boolean isLoggedIn = getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
+                boolean isLoggedIn = VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
                 if(isLoggedIn && !naviBar.isVisible())
                 	naviBar.setVisible(true);
@@ -136,7 +160,7 @@ public class CCM_UI extends UI {
 
 			@Override
 			public void afterViewChange(ViewChangeEvent event) {
-				boolean isLoggedIn = getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
+				boolean isLoggedIn = VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
 				if(!isLoggedIn)
 					naviBar.setVisible(false);
 			}

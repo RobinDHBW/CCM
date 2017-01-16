@@ -3,7 +3,6 @@ package com.dhbwProject.termine;
 import java.util.Date;
 import java.util.LinkedList;
 
-import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
@@ -22,10 +21,8 @@ import com.vaadin.ui.VerticalLayout;
 
 public class TerminFields extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
-	private DummyDataManager  dummyData;
 	
 	private TextField tfTitel;
-	private Button btnLookupBesuch;
 	
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
@@ -40,45 +37,33 @@ public class TerminFields extends VerticalLayout {
 	private TextArea taParticipants;
 	private Button btnLookupParticipants;
 
-	/*
-	 * Die Folgenden Entitäten sollen anschließend an die Besuch-Factory im
-	 * Backend geschickt werden um die Erzeugung vorzunehmen
-	 */
 	private Benutzer autor;
 	private Adresse adresse;
 	private Ansprechpartner ansprechpartner;
 	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 
-	public TerminFields(DummyDataManager dummyData) {
-		this.dummyData = dummyData;
+	public TerminFields() {
 		this.setSizeUndefined();
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(true, true, true, true));
+		
+		this.initFieldTitel();
+		this.initFieldStartDate();
+		this.initFieldEndDate();
+		this.initFieldAdresse();
+		this.initFieldAnsprechpartner();
+		this.initFieldParticipants();
 	}
 
 	protected void initFieldTitel() {
-		HorizontalLayout hlBesuch = new HorizontalLayout();
-		
 		this.tfTitel = new TextField();
+		this.tfTitel.setCaption("Titel");
 		this.tfTitel.setInputPrompt("Titel");
 		this.tfTitel.setWidth("300px");
 		this.addComponent(this.tfTitel);
-		
-		this.btnLookupBesuch = new Button();
-		this.btnLookupBesuch.setIcon(FontAwesome.REPLY);
-		this.btnLookupBesuch.setWidth("50px");
-		this.btnLookupBesuch.addClickListener(listener -> {
-
-		});
-		hlBesuch.setSizeUndefined();
-		hlBesuch.setSpacing(true);
-		hlBesuch.addComponent(this.tfTitel);
-		hlBesuch.addComponent(this.btnLookupBesuch);
-		hlBesuch.setCaption("Titel:");
-		this.addComponent(hlBesuch);
 	}
 
-	protected void initDfDateStart() {
+	protected void initFieldStartDate() {
 		this.dfDateStart = new DateField();
 		this.dfDateStart.setCaption("Start:");
 		this.dfDateStart.setWidth("300px");
@@ -86,7 +71,7 @@ public class TerminFields extends VerticalLayout {
 		this.addComponent(this.dfDateStart);
 	}
 	
-	protected void initDfDateEnd(){
+	protected void initFieldEndDate(){
 		this.dfDateEnd = new DateField();
 		this.dfDateEnd.setCaption("Ende:");
 		this.dfDateEnd.setWidth("300px");
@@ -110,7 +95,7 @@ public class TerminFields extends VerticalLayout {
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
 		this.btnLookupAdresse.setWidth("50px");
 		this.btnLookupAdresse.addClickListener(listener -> {
-			LookupAdresse lookup = new LookupAdresse(this.dummyData);
+			LookupAdresse lookup = new LookupAdresse();
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getSelection() != null){
 					this.setAdresse(lookup.getSelection());
@@ -142,7 +127,7 @@ public class TerminFields extends VerticalLayout {
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
-			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse, this.dummyData);
+			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse);
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getAnsprechpartner() != null){
 					this.setAnsprechpartner(lookup.getAnsprechpartner());
@@ -170,7 +155,7 @@ public class TerminFields extends VerticalLayout {
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener -> {
 			this.lBenutzer.clear();
-			LookupBenutzer lookup = new LookupBenutzer(this.dummyData, this.lBenutzer);
+			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer);
 			lookup.addCloseListener(CloseListener -> {
 				this.setTeilnehmenr(this.lBenutzer);
 			});
@@ -192,12 +177,7 @@ public class TerminFields extends VerticalLayout {
 	protected void setAutor(Benutzer b){
 		if(b != null){
 			this.autor = b;
-//			this.tfAutor.setValue(b.getNachname()+", "+b.getVorname());
 		}
-	}
-	
-	protected void initAnlage(){
-		this.btnLookupBesuch.setVisible(false);
 	}
 	
 	protected String getTitel(){

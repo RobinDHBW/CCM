@@ -1,14 +1,19 @@
 package com.dhbwProject.benutzer;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Set;
 
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
@@ -29,11 +34,12 @@ public class LookupBenutzer extends Window{
 	private IndexedContainer container;
 	private Button btnOk;
 	private LinkedList<Benutzer> lBenutzerSelection;
-	private DummyDataManager dummyData;
+//	private DummyDataManager dummyData;
+	private dbConnect dbConnection;
 	private Benutzer bSelection;
 	
-	public LookupBenutzer(DummyDataManager dummyData){
-		this.dummyData = dummyData;
+	public LookupBenutzer(){
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initFields();
 		
 		this.layout = new VerticalLayout(this.fields);
@@ -46,8 +52,8 @@ public class LookupBenutzer extends Window{
 		this.setHeight("500px");
 	}
 	
-	public LookupBenutzer(DummyDataManager dummyData, LinkedList<Benutzer> benutzerSelection){
-		this(dummyData);
+	public LookupBenutzer(LinkedList<Benutzer> benutzerSelection){
+		this();
 		this.lBenutzerSelection = benutzerSelection;
 		this.select.setMultiSelect(true);
 	}
@@ -90,12 +96,16 @@ public class LookupBenutzer extends Window{
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{
+	    	try{
 	    	if(select.isMultiSelect()){
 	    		Set <Item>values=(Set<Item>) this.select.getValue();
 	    		for(Object o : values)
-	    			this.lBenutzerSelection.add(this.dummyData.getBenutzer(o));
+	    			this.lBenutzerSelection.add(this.dbConnection.getBenutzerById(o.toString()));
 	    	}else
-	    		this.bSelection = this.dummyData.getBenutzer(this.select.getValue());
+	    		this.bSelection = this.dbConnection.getBenutzerById(this.select.getValue().toString());
+	    	}catch(SQLException e){
+	    		
+	    	}
 	    	this.close();	
 	    });
 	    
@@ -114,10 +124,18 @@ public class LookupBenutzer extends Window{
 		this.container = new IndexedContainer();
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
-		for(Benutzer b : this.dummyData.getlBenutzer()){
-			Item itm = container.addItem(b.getId());
-			itm.getItemProperty("nachname").setValue(b.getNachname()+",");
-			itm.getItemProperty("vorname").setValue(b.getVorname());
+		try {
+			for(Benutzer b : this.dbConnection.getAllBenutzer()){
+				Item itm = container.addItem(b.getId());
+				itm.getItemProperty("nachname").setValue(b.getNachname()+",");
+				itm.getItemProperty("vorname").setValue(b.getVorname());
+			}
+		} catch (ReadOnlyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

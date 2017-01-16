@@ -1,12 +1,18 @@
 package com.dhbwProject.unternehmen;
 
+import java.sql.SQLException;
+
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -26,12 +32,13 @@ public class LookupAnsprechpartner extends Window{
 	private ListSelect select;
 	private Button btnOK;
 	private IndexedContainer container;
-	private DummyDataManager dummyData;
+//	private DummyDataManager dummyData;
+	private dbConnect dbConnection;
 	private Adresse aReferenz;
 	private Ansprechpartner aPSelect;
 	
-	public LookupAnsprechpartner(Adresse a, DummyDataManager dummyData){
-		this.dummyData = dummyData;
+	public LookupAnsprechpartner(Adresse a){
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.aReferenz = a;
 		this.initFields();
 		
@@ -53,7 +60,15 @@ public class LookupAnsprechpartner extends Window{
 		
 		this.select = new ListSelect();
 		this.select.setWidth("300px");
-		this.initContainer();
+		try {
+			this.initContainer();
+		} catch (ReadOnlyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		this.select.setContainerDataSource(this.container);
 		select.setItemCaptionMode(ItemCaptionMode.ITEM);
 		
@@ -84,7 +99,12 @@ public class LookupAnsprechpartner extends Window{
 	    this.btnOK.setIcon(FontAwesome.UPLOAD);
 	    this.btnOK.addClickListener(listener ->{
 	    	if(this.select.getValue() != null)
-	    		this.aPSelect = this.dummyData.getAnsprechpartner((int)this.select.getValue());
+				try {
+					this.aPSelect = this.dbConnection.getAnsprechpartnerById((int)this.select.getValue());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	    	this.close();
 	    });
 	    
@@ -98,12 +118,11 @@ public class LookupAnsprechpartner extends Window{
 		this.fields.setComponentAlignment(this.btnOK, Alignment.TOP_CENTER);
 	}
 	
-	private void initContainer(){
+	private void initContainer() throws ReadOnlyException, SQLException{
 		this.container = new IndexedContainer();
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
-		
-		for(Ansprechpartner a : this.dummyData.getAnsprechpartnerList(this.aReferenz)){
+		for(Ansprechpartner a : this.dbConnection.getAnsprechpartnerByUnternehmen(this.aReferenz.getUnternehmen())){
 			Item itm = this.container.addItem(a.getId());
 			itm.getItemProperty("nachname").setValue(a.getNachname());
 			itm.getItemProperty("vorname").setValue(a.getVorname());

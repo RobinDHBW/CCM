@@ -2,6 +2,7 @@ package com.dhbwProject.CCM;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Window;
@@ -32,7 +33,12 @@ public class Navigationsbar extends CssLayout{
 			 * */
 			for(Window w : this.getUI().getWindows())
 				w.close();
-			this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, null);
+			try{
+				VaadinSession.getCurrent().lock();
+				VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, null);
+			}finally{
+				VaadinSession.getCurrent().unlock();
+			}
 			this.navNavigator.navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
 		
 		});

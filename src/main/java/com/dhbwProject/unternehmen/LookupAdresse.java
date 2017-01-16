@@ -1,12 +1,17 @@
 package com.dhbwProject.unternehmen;
 
 
+import java.sql.SQLException;
+
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -29,14 +34,16 @@ public class LookupAdresse extends Window{
 	private IndexedContainer container;
 	private Button btnOk;
 	private Adresse aSelect;
-	private DummyDataManager dummyData;
+//	private DummyDataManager dummyData;
+	private dbConnect dbConnection;
 	
 	/*
 	 * Die Adresse kann als Übergabeparameter wohl entfernt werden
 	 * - siehe TerminFields für Zugriff
 	 * */
-	public LookupAdresse(DummyDataManager dummyData){
-		this.dummyData = dummyData;
+	public LookupAdresse(){
+//		this.dummyData = dummyData;
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initFields();
 		
 		this.layout = new VerticalLayout(this.fields);
@@ -94,7 +101,13 @@ public class LookupAdresse extends Window{
 //	    });
 	    this.btnOk.addClickListener(listener ->{
 	    	if(this.tblSelect.getValue() != null)
-	    		this.aSelect = this.dummyData.getAdresse((int)this.tblSelect.getValue());
+				try {
+					this.aSelect = this.dbConnection.getAdresseById((int)this.tblSelect.getValue());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//	    		this.aSelect = this.dummyData.getAdresse((int)this.tblSelect.getValue());
 	    	this.close();
 	    });
 	    
@@ -113,15 +126,36 @@ public class LookupAdresse extends Window{
 		container.addContainerProperty("Firma", String.class, null);
 		container.addContainerProperty("Standort", TextArea.class, null);
 		
-		for(Adresse a : this.dummyData.getlAdresse()){
-			Item itm = container.addItem(a.getId());	
-			itm.getItemProperty("Firma").setValue(a.getUnternehmen().getName());
-			TextArea taStandort = new TextArea();
-			taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
-			taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-			taStandort.setHeight("100px");
-			itm.getItemProperty("Standort").setValue(taStandort);
+		
+		/*
+		 * NUR TEMPORÄR
+		 * */ 
+		Adresse a = null;
+		try {
+			a = this.dbConnection.getAdresseById(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		Item itm1 = container.addItem(a.getId());
+		itm1.getItemProperty("Firma").setValue(a.getUnternehmen().getName());
+		TextArea taStandort = new TextArea();
+		taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+		taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+		taStandort.setHeight("100px");
+		itm1.getItemProperty("Standort").setValue(taStandort);
+		
+		
+		
+//		for(Adresse a : this.dummyData.getlAdresse()){
+//			Item itm = container.addItem(a.getId());	
+//			itm.getItemProperty("Firma").setValue(a.getUnternehmen().getName());
+//			TextArea taStandort = new TextArea();
+//			taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+//			taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+//			taStandort.setHeight("100px");
+//			itm.getItemProperty("Standort").setValue(taStandort);
+//		}
 	}
 	
 	public Adresse getSelection(){
