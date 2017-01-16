@@ -443,9 +443,11 @@ public class dbConnect {
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
 				Adresse adresse = getAdresseById(res.getInt("adressen_id"));
-				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null);
+				String email = res.getString("ansprechpartner_emailadresse");
+				String telefon = res.getString("ansprechpartner_telefonnummer");
+				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
 				LinkedList<Studiengang> lStudiengang = getStudiengangByAnsprechpartner(ansprechpartner);
-				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang);
+				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang, email, telefon);
 				lAnsprechpartner.add(ansprechpartner);
 			}
 			res.close();
@@ -484,9 +486,11 @@ public class dbConnect {
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
 				Adresse adresse = getAdresseById(res.getInt("adressen_id"));
-				ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null);
+				String email = res.getString("ansprechpartner_emailadresse");
+				String telefon = res.getString("ansprechpartner_telefonnummer");
+				ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
 				LinkedList<Studiengang> lStudiengang = getStudiengangByAnsprechpartner(ansprechpartner);
-				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang);
+				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang, email, telefon);
 			}
 			res.close();
 		} catch (SQLException e) {
