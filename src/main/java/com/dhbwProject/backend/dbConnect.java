@@ -22,16 +22,13 @@ public class dbConnect {
 	private Connection con;
 	private PreparedStatement preparedStatement;
 
-	public dbConnect() {
-		try {
+	public dbConnect() throws ClassNotFoundException, SQLException {
+		
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ccm_db", "root", "");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
-	public void close() {
-		try {
+	public void close() throws SQLException {
+		
 //			if (res != null)
 //				if (!res.isClosed())
 //					res.close();
@@ -42,13 +39,13 @@ public class dbConnect {
 				if (!preparedStatement.isClosed())
 				preparedStatement.close();
 			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		
+			
+		
 	}
 
-	private ResultSet executeQuery(String sql, Object... objects) {
-		try {
+	private ResultSet executeQuery(String sql, Object... objects) throws SQLException {
+		
 			preparedStatement = con.prepareStatement(sql);
 			int q = 0;
 			for (Object e : objects) {
@@ -67,14 +64,11 @@ public class dbConnect {
 			ResultSet res = preparedStatement.executeQuery();
 			//ps.close();
 			return res;
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-			return null;
 
-		}
+		
 	}
-	private int executeUpdate(String sql, Object... objects)  {
-		try {
+	private int executeUpdate(String sql, Object... objects) throws SQLException  {
+		
 			PreparedStatement ps = con.prepareStatement(sql);
 			int q = 0;
 			for (Object e : objects) {
@@ -93,14 +87,11 @@ public class dbConnect {
 			int result = ps.executeUpdate();
 			//ps.close();
 			return result;
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-			return 0;
 
-		}
+		
 	}
-	private <T> int executeDelete(T obj) {
-		try {
+	private <T> int executeDelete(T obj) throws SQLException {
+		
 		
 			if(obj instanceof Adresse){
 				 PreparedStatement ps = con.prepareStatement("DELETE FROM `adresse` WHERE `adresse_plz_id` = ? AND `unternehmen_id` = ? AND `adresse_strasse` = ? AND `adresse_hausnummer` = ?)");
@@ -168,7 +159,7 @@ public class dbConnect {
 				 PreparedStatement ps = con.prepareStatement("DELETE FROM `gespraechsnotizen` WHERE `gespraechsnotiz_notiz` = ? AND `gespraechsnotiz_bild` = ? AND `unternehmen_id` = ? AND `besuch_id` = ?");
 				 FileInputStream inputNotiz = null;
 				 FileInputStream inputBild = null;
-				try {
+				try{
 					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz().toString());
 					ps.setBinaryStream(1, inputNotiz);
 
@@ -176,7 +167,7 @@ public class dbConnect {
 					ps.setBinaryStream(2, inputBild);
 				
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
+					
 				}
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
@@ -218,14 +209,11 @@ public class dbConnect {
 				 ps.close();
 				 return result;
 			}
-		}
-			 catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+		
 		return 0;
 	}
-	private <T> int executeInsert(T obj) {
-		try {
+	private <T> int executeInsert(T obj) throws SQLException {
+		
 		
 			if(obj instanceof Adresse){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `unternehmen_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?, ?)");
@@ -291,7 +279,7 @@ public class dbConnect {
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
 				 FileInputStream inputNotiz = null;
 				 FileInputStream inputBild = null;
-				try {
+				try{
 					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz().toString());
 					ps.setBinaryStream(1, inputNotiz);
 
@@ -299,7 +287,7 @@ public class dbConnect {
 					ps.setBinaryStream(2, inputBild);
 				
 				} catch (FileNotFoundException e) {
-					e.printStackTrace();
+					
 				}
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
@@ -349,16 +337,14 @@ public class dbConnect {
 				 ps.close();
 				 return result;
 			}
-		}
-			 catch (SQLException e1) {
-			e1.printStackTrace();
-		}
+			
+		
 		return 0;
 	}
 	// Adresse
-	public Adresse getAdresseById(int pId) {
+	public Adresse getAdresseById(int pId) throws SQLException {
 		Adresse adresse = null;
-		try {
+		
 			ResultSet res = executeQuery("select * from Adress where id = ?", (Object[]) new Integer[] { pId });
 			while (res.next()) {
 				int id = res.getInt("adressen_id");
@@ -371,35 +357,25 @@ public class dbConnect {
 			}
 			res.close();
 			return adresse;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return adresse;
-		}
+		
 	}
-	private String getOrtByPlz(String plz) {
+	private String getOrtByPlz(String plz) throws SQLException {
 		String ort = null;
 		ResultSet res = null;
-		try {
+		
 			res = executeQuery("select * from ort where ort_plz = ?", (Object[]) new String[] { plz });
 			while (res.next()) {
 				ort = res.getString("ort_name");;
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return ort;
 	}
-	public boolean createAdresse(Adresse adresse) {
+	public boolean createAdresse(Adresse adresse) throws SQLException {
 		int i = executeInsert(adresse);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeAdresse(Adresse altAdresse, Adresse neuAdresse) {
+	public boolean changeAdresse(Adresse altAdresse, Adresse neuAdresse) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `adresse` SET `adresse_plz_id` = ?, `unternehmen_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
 				new Object[] { neuAdresse.getPlz(), neuAdresse.getUnternehmen().getId(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
@@ -408,10 +384,10 @@ public class dbConnect {
 		}
 		return false;
 	}
-	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) {
+	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
 		ResultSet res = executeQuery("select * from adresse a, Unternehmen u where u.unternehmen_id = a.unternehmen_id and unternehmen_id = ?", new Object[]{(Object) new Integer(pUnternehmen.getId())});
-		try{
+		
 			while(res.next()){
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id"); 
@@ -421,23 +397,16 @@ public class dbConnect {
 				String hausnummer = res.getString("adresse_hausnummer");
 				lAdresse.add(new Adresse(id, plz, ort, unternehmen, strasse, hausnummer));
 			}
-		}catch(SQLException e){
-			e.printStackTrace();
-			
-		}
-		try {
+		
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return lAdresse;
 	}
 	
 	// Ansprechpartner
-	public LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) {
+	public LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
 		ResultSet res = executeQuery("Select * from Ansprechpartner where Unternehmen_id = ?", new Object[] {(Object) unternehmen.getName()});
 		LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
-		try {
+		
 			while(res.next()){
 				int id = res.getInt("ansprechpartner_id");
 				String vorname = res.getString("ansprechpartner_vorname");
@@ -451,23 +420,17 @@ public class dbConnect {
 				lAnsprechpartner.add(ansprechpartner);
 			}
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
+
 				res.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
 		return lAnsprechpartner;
 	}
-	public boolean createAnsprechpartner(Ansprechpartner ansprechpartner) {
+	public boolean createAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException {
 		int i = executeInsert(ansprechpartner);
 		if(i==1)return true;
 		return false;
 
 	}
-	public boolean changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) {
+	public boolean changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
 				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), altAnsprechpartner.getId() });
@@ -477,10 +440,10 @@ public class dbConnect {
 		return false;
 	
 	}
-	public Ansprechpartner getAnsprechpartnerById(int pId){
+	public Ansprechpartner getAnsprechpartnerById(int pId) throws SQLException{
 		ResultSet res = executeQuery("Select * from Ansprechpartner where Unternehmen_id = ?", new Object[] {new Integer(pId)});
 		Ansprechpartner ansprechpartner = null;
-		try {
+		
 			while(res.next()){
 				int id = res.getInt("ansprechpartner_id");
 				String vorname = res.getString("ansprechpartner_vorname");
@@ -493,27 +456,23 @@ public class dbConnect {
 				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang, email, telefon);
 			}
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
+		
+			
+			
 				res.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
 		return ansprechpartner;
 	}
-	public boolean deleteAnsprechpartner(Ansprechpartner ansprechpartner){
+	public boolean deleteAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException{
 		int i = executeDelete(ansprechpartner);
 		if(i==1)return true;
 		return false;
 	}
 	
 	// Benutzer
-	public LinkedList<Benutzer> getAllBenutzer() {
+	public LinkedList<Benutzer> getAllBenutzer() throws SQLException {
 		LinkedList<Benutzer> benArr = new LinkedList<Benutzer>();
 		ResultSet res = executeQuery("select * from benutzer", new Object[] {});
-		try {
+		
 			while (res.next()) {
 				String id = res.getString("benutzer_id");
 				String vorname;
@@ -526,14 +485,7 @@ public class dbConnect {
 				ben = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
 				benArr.add(ben);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		
 		return benArr;
 	}
 	public Benutzer getBenutzerById(String pId) throws SQLException{
@@ -576,7 +528,7 @@ public class dbConnect {
 		}
 		return true;
 	}
-	public boolean changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) {
+	public boolean changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
 				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), altBenutzer.getId() });
@@ -585,15 +537,15 @@ public class dbConnect {
 		}
 		return false;
 	}
-	public boolean deleteBenutzer(Benutzer benutzer) {
+	public boolean deleteBenutzer(Benutzer benutzer) throws SQLException {
 		int i = executeDelete(benutzer);
 		if(i==1)return true;
 		return false;
 	}
-	public LinkedList<Benutzer> getBenutzerByBesuchId(int pId){
+	public LinkedList<Benutzer> getBenutzerByBesuchId(int pId) throws SQLException{
 		LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 		ResultSet res = executeQuery("select * from benutzer b, besuch bs, benutzer_besuch bb where b.benutzer_id=bb.benutzer_id and bs.besuch_id = bb.besuch_id and bs.besuch_id = ?", new Object[]{(Object) new Integer(pId)});
-		try {
+		
 			while(res.next()){
 				String id = res.getString("benutzer_id");
 				String vorname = res.getString("vorname");
@@ -605,45 +557,34 @@ public class dbConnect {
 				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
 				lBenutzer.add(benutzer);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+		
+
+		
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return lBenutzer;
 	}
 	
 	// Berechtigung
-	public LinkedList<Berechtigung> getBerechtigungByRolle(Rolle rolle) {
+	public LinkedList<Berechtigung> getBerechtigungByRolle(Rolle rolle) throws SQLException {
 		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
 		ResultSet res = executeQuery(
 				"Select * from berechtigung b, rolle_berechtigung rb where rb.berechtigung_id = b.berechtigung_id and rolle_id = ?",
 				new Object[] { new Integer(rolle.getId()) });
-		try {
+		
 			while (res.next()) {
 				int id = res.getInt("berechtigung_id");
 				String bezeichnung = res.getString("berechtigung_bezeichnung");
 				lBerechtigung.add(new Berechtigung(id, bezeichnung));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
 				res.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
 		return lBerechtigung;
 	}
-	public boolean createBerechtigung(Berechtigung berechtigung) {
+	public boolean createBerechtigung(Berechtigung berechtigung) throws SQLException {
 		int i = executeInsert(berechtigung);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) {
+	public boolean changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `berechtigung` SET `berechtigung_bezeichnung` = ? WHERE `berechtigung`.`berechtigung_id` = ?",
 				new Object[] { neuBerechtigung.getBezeichnung(), altBerechtigung.getId()});
@@ -652,82 +593,66 @@ public class dbConnect {
 		}
 		return false;
 	}
-	public Berechtigung getBerechtigunById(int pId){
+	public Berechtigung getBerechtigunById(int pId) throws SQLException{
 		Berechtigung berechtigung = null;
 		ResultSet res = executeQuery(
 				"select * from berechtigung where berechtigung_id = ?", new Object[] { new Integer(pId) });
-		try {
+		
 			while (res.next()) {
 				int id = res.getInt("berechtigung_id");
 				String bezeichnung = res.getString("berechtigung_bezeichnung");
 				berechtigung = new Berechtigung(id, bezeichnung);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
+		
+			
+			
 				res.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
+		
 		return berechtigung;
 	}
-	public boolean deleteBerechtigung(Berechtigung berechtigung){
+	public boolean deleteBerechtigung(Berechtigung berechtigung) throws SQLException{
 		int i = executeDelete(berechtigung);
 		if(i==1)return true;
 		return false;
 	}
 	
 	// Beruf
-	public Beruf getBerufById(int beruf_id){
+	public Beruf getBerufById(int beruf_id) throws SQLException{
 		ResultSet res = executeQuery("select * from beruf where beruf_id = ?", new Object[]{(Object) new Integer(beruf_id)});
 		Beruf beruf = null;
-		try {
+		
 			while (res.next()) {
 				int id = res.getInt("beruf_id");
 				String bezeichnung = res.getString("beruf_bezeichnung");
 				beruf = new Beruf(id, bezeichnung);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+		
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return beruf;
 	}
 	public Beruf getBerufByBezeichnung(String beruf_bezeichnung) throws SQLException {
 		ResultSet res1 = executeQuery("select * from beruf where beruf_bezeichnung = ?", new Object[]{(Object) beruf_bezeichnung});
 		Beruf beruf = null;
-		try {
+		
 			while (res1.next()) {
 				int id = res1.getInt("beruf_id");
 				String bezeichnung = res1.getString("beruf_bezeichnung");
 				beruf = new Beruf(id, bezeichnung);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			res1.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return beruf;
 	}
-	public boolean createBeruf(Beruf beruf) {
+	public boolean createBeruf(Beruf beruf) throws SQLException {
 		int i = executeInsert(beruf);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean deleteBeruf(Beruf beruf){
+	public boolean deleteBeruf(Beruf beruf) throws SQLException{
 		int i = executeDelete(beruf);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeBeruf(Beruf altBeruf, Beruf neuBeruf) {
+	public boolean changeBeruf(Beruf altBeruf, Beruf neuBeruf) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `beruf` SET `beruf_bezeichnung` = ? WHERE `beruf`.`beruf_id` = 1 ",
 				new Object[] { neuBeruf.getBezeichnung(), altBeruf.getId()});
@@ -738,10 +663,10 @@ public class dbConnect {
 	}
 
 	// Besuch
-	public LinkedList<Besuch> getBesucheByDate(Date date) {
+	public LinkedList<Besuch> getBesucheByDate(Date date) throws SQLException {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
 		ResultSet res = executeQuery("select * from besuch where besuch_beginn = ?", new Object[] {(Object) date});
-		try {
+		
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
@@ -755,21 +680,14 @@ public class dbConnect {
 				Ansprechpartner ansprechpartner = getAnsprechpartnerById(res.getInt("ansprechpartner_id"));
 				lBesuch.add(new Besuch(id, name, startDate, endDate, adresse, status, ansprechpartner, lBenutzer, timestamp, autor));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return lBesuch;
 
 	}
-	public Besuch getBesuchById(int pId) {
+	public Besuch getBesuchById(int pId) throws SQLException {
 		ResultSet res = executeQuery("Select * from besuch where besuch_id = ?", new Object[] {new Integer(pId)});
 		Besuch besuch = null;
-		try {
+		
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
@@ -783,31 +701,25 @@ public class dbConnect {
 				Ansprechpartner ansprechpartner = getAnsprechpartnerById(res.getInt("ansprechpartner_id"));
 				besuch = new Besuch(id, name, startDate, endDate, adresse, status, ansprechpartner, lBenutzer, timestamp, autor);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+		
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return besuch;
 	}
-	public boolean createBesuch(Besuch besuch) {
+	public boolean createBesuch(Besuch besuch) throws SQLException {
 		int i = executeInsert(besuch);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean deleteBesuch(Besuch besuch){
+	public boolean deleteBesuch(Besuch besuch) throws SQLException{
 		int i = executeDelete(besuch);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeBesuch(Besuch neuBesuch, Besuch altBesuch) {
+	public boolean changeBesuch(Besuch neuBesuch, Besuch altBesuch) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `besuch` SET `adresse_id` = ?, `besuch_beginn` = ?, `besuch_ende` = ?, `besuch_name` = ?, `besuch_autor` = ?, `status_id` = ?, `ansprechpartner_id` = ? WHERE `besuch`.`besuch_id` = ? ",
 				new Object[] { neuBesuch.getAdresse().getId(), neuBesuch.getStartDate(), neuBesuch.getEndDate(), neuBesuch.getName(), neuBesuch.getAutor().getId(), neuBesuch.getStatus().getId(), neuBesuch.getAnsprechpartner().getId(), altBesuch.getId()});
-		try {
+		
 			PreparedStatement ps1 = con.prepareStatement("DELETE FROM benutzer_besuch WHERE besuch_id = ?");
 			ps1.setInt(1, altBesuch.getId());
 			ps1.executeUpdate();
@@ -820,9 +732,7 @@ public class dbConnect {
 			ps2.executeUpdate();
 			ps2.close();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 		if (i != 0) {
 			return true;
 		}
@@ -830,11 +740,11 @@ public class dbConnect {
 	}
 	
 	// Gespraechsnotiz
-	public Gespraechsnotiz getGespraechsnotizByBesuch(Besuch pBesuch) {
+	public Gespraechsnotiz getGespraechsnotizByBesuch(Besuch pBesuch) throws SQLException {
 		ResultSet res = executeQuery("Select * from gespraechsnotiz where besuch_id = ?",
 				new Object[] { new Integer(pBesuch.getId()) });
 		Gespraechsnotiz gespraechsnotiz = null;
-		try {
+		try{
 			while (res.next()) {
 				int id = res.getInt("gespraechsnotiz_id");
 				File notizfile = new File("notiz");
@@ -861,87 +771,74 @@ public class dbConnect {
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
 				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
 			}
-		} catch (SQLException | IOException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			
 		}
-		try {
+		
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		
+			
+		
 		return gespraechsnotiz;
 	}
-	public boolean createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) {
+	public boolean createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) throws SQLException {
 		int i = executeInsert(gespraechsnotiz);
 		if(i==1)return true;
 		return false;
 
 	}
-	public boolean changeGespraechsnotiz(Gespraechsnotiz altGespraechsnotiz, Gespraechsnotiz neuGespraechsnotiz) {
+	public boolean changeGespraechsnotiz(Gespraechsnotiz altGespraechsnotiz, Gespraechsnotiz neuGespraechsnotiz) throws SQLException {
 		deleteGespreachsnotiz(altGespraechsnotiz);
 		boolean i = createGespraechsnotiz(neuGespraechsnotiz);
 		return i;
 	}
-	public boolean deleteGespreachsnotiz(Gespraechsnotiz gespreachsnotiz){
+	public boolean deleteGespreachsnotiz(Gespraechsnotiz gespreachsnotiz) throws SQLException{
 		int i = executeDelete(gespreachsnotiz);
 		if(i==1)return true;
 		return false;
 	}
 	
 	// Rolle
-	public Rolle getRolleById(int id){
+	public Rolle getRolleById(int id) throws SQLException{
 		Rolle rolle1 = null;
 		Rolle rolle2 = null;
 		ResultSet res = null;
 		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
-		try {
+		
 			res = executeQuery("select * from rolle where rolle_id = ?", new Object[]{(Object) new Integer(id)});
 			while (res.next()) {
 				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
 				lBerechtigung = getBerechtigungByRolle(rolle1);
 				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
+		
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return rolle2;
 	}
-	public Rolle getRolleByBezeichnung(String rolle_Bezeichnung){
+	public Rolle getRolleByBezeichnung(String rolle_Bezeichnung) throws SQLException{
 		ResultSet res = executeQuery("select * from `rolle` where rolle_bezeichnung = ?", new Object[] {(Object) rolle_Bezeichnung});
 		Rolle rolle1 = null;
 		Rolle rolle2 = null;
 		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
-		try {
+		
 			while (res.next()) {
 				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
 				lBerechtigung = getBerechtigungByRolle(rolle1);
 				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return rolle2;
 	}
-	public boolean createRolle(Rolle rolle) {
+	public boolean createRolle(Rolle rolle) throws SQLException {
 		int i = executeInsert(rolle);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeRolle(Rolle altRolle, Rolle neuRolle) {
+	public boolean changeRolle(Rolle altRolle, Rolle neuRolle) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `rolle` `rolle_bezeichnung` = ? WHERE `rolle`.`rolle_id` = ? ",
 				new Object[] { neuRolle.getBezeichnung(), altRolle.getId()});
-			try {
+			
 				PreparedStatement ps1 = con.prepareStatement("DELETE FROM rolle_berechtigung WHERE rolle_id = ?");
 				ps1.setInt(1, altRolle.getId());
 				ps1.executeUpdate();
@@ -954,49 +851,38 @@ public class dbConnect {
 				ps2.executeUpdate();
 				ps2.close();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		if (i != 0) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean deleteRolle(Rolle rolle){
+	public boolean deleteRolle(Rolle rolle) throws SQLException{
 		int i = executeDelete(rolle);
 		if(i==1)return true;
 		return false;
 	}
 	
 	// Status
-	public Status getStatusById(int pId) {
+	public Status getStatusById(int pId) throws SQLException {
 		Status status = null;
 		ResultSet res = null;
-		try {
 			res = executeQuery("select * from status where status_id = ?", new Object[]{(Object) new Integer(pId)});
 			while (res.next()) {
 				int id = res.getInt("status_id");
 				String bezeichnung = res.getString("status_bezeichnung");
 				status = new Status(id, bezeichnung);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return status;
 	}
-	public boolean createStatus(Status status) {
+	public boolean createStatus(Status status) throws SQLException {
 		int i = executeInsert(status);
 		if(i==1)return true;
 		return false;
 
 	}
-	public boolean changeStatus(Status altStatus, Status neuStatus) {
+	public boolean changeStatus(Status altStatus, Status neuStatus) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `status` SET`status_bezeichnung` = ? WHERE `status`.`status_id` = ? ",
 				new Object[] {neuStatus.getBezeichnung(), altStatus.getId()});
@@ -1005,17 +891,17 @@ public class dbConnect {
 		}
 		return false;
 	}
-	public boolean deleteStatus(Status status){
+	public boolean deleteStatus(Status status) throws SQLException{
 		int i = executeDelete(status);
 		if(i==1)return true;
 		return false;
 	}
 	
 	// Studiengang
-	public Studiengang getStudiengangById(int pId) {
+	public Studiengang getStudiengangById(int pId) throws SQLException {
 		Studiengang studiengang = null;
 		ResultSet res = null;
-		try {
+		
 			res = executeQuery("SELECT * FROM studiengang WHERE studiengang_id = ?",
 					new Object[] { (Object) new Integer(pId) });
 			while (res.next()) {
@@ -1024,15 +910,6 @@ public class dbConnect {
 				studiengang = new Studiengang(id, name);
 			}
 			res.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return studiengang;
 	}
 	public Studiengang getStudiengangByBezeichnung(String pBezeichnung) throws SQLException {
@@ -1048,43 +925,29 @@ public class dbConnect {
 			res.close();
 		return studiengang;
 	}
-	public LinkedList<Studiengang> getStudiengangByBenutzer(Benutzer benutzer){
+	public LinkedList<Studiengang> getStudiengangByBenutzer(Benutzer benutzer) throws SQLException{
 	LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 	ResultSet res = executeQuery("SELECT * FROM studiengang_benutzer WHERE benutzer_id = ?", new Object[]{(Object) benutzer.getId()});
-	try {
+	
 			while(res.next()){
 				int id = res.getInt("studiengang_id");
 				lStudiengang.add(getStudiengangById(id));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return lStudiengang;
 	}
-	public LinkedList<Studiengang> getStudiengangByAnsprechpartner(Ansprechpartner ansprechpartner){
+	public LinkedList<Studiengang> getStudiengangByAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException{
 		LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 		ResultSet res = executeQuery("SELECT * FROM studiengang_ansprechpartner WHERE ansprechpartner_id = ?", new Object[]{(Object) ansprechpartner.getId()});
-		try {
+		
 				while(res.next()){
 					int id = res.getInt("studiengang_id");
 					lStudiengang.add(getStudiengangById(id));
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
 				res.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 			return lStudiengang;
 		}
-	public boolean createStudiengang(Studiengang studiengang){
+	public boolean createStudiengang(Studiengang studiengang) throws SQLException{
 		int i = executeInsert(studiengang);
 		if(i==1)return true;
 		return false;
@@ -1092,10 +955,10 @@ public class dbConnect {
 	}
 	
 	// Unternhmen 
-	public Unternehmen getUnternehmenById(int pId) {
+	public Unternehmen getUnternehmenById(int pId) throws SQLException {
 		Unternehmen unternehmen = null;
 		ResultSet res = null;
-		try {
+		
 			res = executeQuery("select * from unternehmen where unternehmen_id = ?", new Object[]{(Object) new Integer(pId)});
 			while (res.next()) {
 				int id = res.getInt("unternehmen_id");
@@ -1108,20 +971,12 @@ public class dbConnect {
 				lAdresse = getAdresseByUnternehmen(unternehmen);
 			}
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		return unternehmen;
 	}
-	public Unternehmen getUnternehmenByName(String pName) {
+	public Unternehmen getUnternehmenByName(String pName) throws SQLException {
 		Unternehmen unternehmen = null;
 		ResultSet res = null;
-		try {
+		
 			res = executeQuery("select * from unternehmen where unternehmen_name = ?", new Object[]{(Object) pName});
 			while (res.next()) {
 				int id = res.getInt("unternehmen_id");
@@ -1134,24 +989,17 @@ public class dbConnect {
 				lAdresse = getAdresseByUnternehmen(unternehmen);
 			}
 			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			res.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 		return unternehmen;
 
 	}
-	public boolean createUnternehmen(Unternehmen unternehmen) {
+	public boolean createUnternehmen(Unternehmen unternehmen) throws SQLException {
 		int i = executeInsert(unternehmen);
 		if(i==1)return true;
 		return false;
 
 	}
-	public boolean changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) {
+	public boolean changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `unternehmen` SET `unternehmen_name` = ? WHERE `unternehmen`.`unternehmen_id` = ? ",
 				new Object[] { neuUnternehmen.getName(), altUnternehmen.getId()});
@@ -1160,7 +1008,7 @@ public class dbConnect {
 		}
 		return false;
 	}
-	public boolean deleteUnternehmen(Unternehmen unternehmen){
+	public boolean deleteUnternehmen(Unternehmen unternehmen) throws SQLException{
 		int i = executeDelete(unternehmen);
 		if(i==1)return true;
 		return false;
