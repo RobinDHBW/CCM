@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.shared.ui.MarginInfo;
@@ -50,22 +51,34 @@ public class BenutzerAnzeige extends VerticalLayout {
 		LinkedList<Benutzer> alleBenutzer = dbConnect.getAllBenutzer();
 		
 		IndexedContainer container= new IndexedContainer();
+		container.addContainerProperty("ID", String.class, null);
 		container.addContainerProperty("Vorname", String.class, null);
 		container.addContainerProperty("Nachname", String.class, null);
 		container.addContainerProperty("Beruf", String.class, null);
 		container.addContainerProperty("Rolle", String.class, null);
-//		container.addContainerProperty("Studiengang", String.class, null);
+		container.addContainerProperty("Studiengang", String.class, null);
 		
 		for (int i = 0; i<alleBenutzer.size(); i++) {
 			Benutzer b = (Benutzer) alleBenutzer.get(i);
+			String studiengang = "";
+			LinkedList<Studiengang> stg = b.getStudiengang();
+			for (int j = 0; j < stg.size(); j++) {
+				if (j+2 > stg.size()) {
+					studiengang = studiengang.concat(b.getStudiengang().get(j).getBezeichnung());
+				}
+				else {
+					studiengang = studiengang.concat(b.getStudiengang().get(j).getBezeichnung() + " ,");
+				}
+			}
 			Item item = container.addItem(i);
+			item.getItemProperty("ID").setValue(b.getId());
 			item.getItemProperty("Vorname").setValue(b.getVorname());
 			item.getItemProperty("Nachname").setValue(b.getNachname());
 			item.getItemProperty("Beruf").setValue(b.getBeruf().getBezeichnung());
 			item.getItemProperty("Rolle").setValue(b.getRolle().getBezeichnung());
-//			item.getItemProperty("Studiengang").setValue(b.getst);
+			item.getItemProperty("Studiengang").setValue(studiengang);
 		}
 		
-		return null;
+		return container;
 	}
 }

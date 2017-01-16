@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Ansprechpartner {
 	public Ansprechpartner(int id, String vorname, String nachname, Adresse adresse,
-			LinkedList<Studiengang> lStudiengang) {
+			LinkedList<Studiengang> lStudiengang, String email, String telefonnummer) {
 		super();
 		this.id = id;
 		this.vorname = vorname;
@@ -18,6 +18,8 @@ public class Ansprechpartner {
 	private String nachname;
 	private Adresse adresse;
 	private LinkedList<Studiengang> lStudiengang;
+	private String email;
+	private String telefonnummer;
 
 	public Ansprechpartner() {
 		// TODO Auto-generated constructor stub

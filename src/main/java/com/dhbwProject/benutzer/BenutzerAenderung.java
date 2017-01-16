@@ -1,10 +1,14 @@
 package com.dhbwProject.benutzer;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Beruf;
+import com.dhbwProject.backend.beans.Rolle;
+import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -60,10 +64,26 @@ public class BenutzerAenderung extends CustomComponent {
 		this.btnAendern.setEnabled(false);
 		this.btnAendern.addClickListener(listener ->{
 			//Später wird mehr erfolgen hier
-			//Benutzer ("mmayer", "vorname", "nachname", "beruf", "ccmall", studiengänge)
-			//id = mmayer
-//			Benutzer neu = new Benutzer(null, fields.getVorname(), fields.getNachname(), null, null, null);
-//			dbConnect.changeBenutzer(b, neu);
+			String id = fields.getVorname().substring(0, 1) + fields.getNachname();
+			
+			Rolle rolle = dbConnect.getRolleByBezeichnung("ccm_all");
+			Beruf beruf = null;
+			try {
+				beruf = dbConnect.getBerufByBezeichnung("Studiengangsleiter");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			LinkedList<Studiengang> stg = new LinkedList<Studiengang>();
+			try {
+				stg.add(dbConnect.getStudiengangByBezeichnung("Wirtschaftsinformatik"));
+			} catch (SQLException e) {
+				Notification.show("Fehler bei Studiengangfindung",
+		                Type.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+			
+			Benutzer neu = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
+			dbConnect.changeBenutzer(b, neu);
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
 		});
