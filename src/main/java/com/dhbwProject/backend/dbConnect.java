@@ -101,7 +101,7 @@ public class dbConnect {
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
 			if(obj instanceof Ansprechpartner){
-				 PreparedStatement ps = con.prepareStatement("DELETE FROM `ansprechpartner` WHERE `ansprechpartner_vorname` = ? AND `ansprechpartner_nachname` = ? AND `adressen_id` = ?)");
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `ansprechpartner` WHERE `ansprechpartner_vorname` = ? AND `ansprechpartner_nachname` = ? AND `adresse_id` = ?)");
 				 ps.setString(1, ((Ansprechpartner) obj).getVorname());
 				 ps.setString(2, ((Ansprechpartner) obj).getNachname());
 				 ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
@@ -222,7 +222,7 @@ public class dbConnect {
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
 			if(obj instanceof Ansprechpartner){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adressen_id`) VALUES (?, ?, ?)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`) VALUES (?, ?, ?)");
 				 ps.setString(1, ((Ansprechpartner) obj).getVorname());
 				 ps.setString(2, ((Ansprechpartner) obj).getNachname());
 				 ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
@@ -340,6 +340,38 @@ public class dbConnect {
 		return 0;
 	}
 	// Adresse
+	public LinkedList<Adresse> getAllAdresse() throws SQLException{
+		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+		ResultSet res = executeQuery("select * from adresse", new Object[] {});
+		
+			while (res.next()) {
+				int id = res.getInt("adresse_id");
+				String plz = res.getString("adresse_plz_id");
+				String ort = getOrtByPlz(plz);
+				String strasse = res.getString("adresse_strasse");
+				String hausnummer = res.getString("adresse_hausnummer");
+				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer);
+				lAdresse.add(adresse);
+			}
+		
+		return lAdresse;
+	}
+	public LinkedList<Adresse> getAdresseByStudiengang(Studiengang studiengang) throws SQLException{
+		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+		ResultSet res = executeQuery("SELECT * FROM `adresse`, ansprechpartner,studiengang,studiengang_ansprechpartner WHERE ansprechpartner.adresse_id = adresse.adresse_id AND ansprechpartner.ansprechpartner_id = studiengang_ansprechpartner.ansprechpartner_id AND studiengang.studiengang_id = studiengang_ansprechpartner.studiengang_id AND studiengang.studiengang_id = ?", new Object[] {(Object) new Integer(studiengang.getId())});
+		
+			while (res.next()) {
+				int id = res.getInt("adresse_id");
+				String plz = res.getString("adresse_plz_id");
+				String ort = getOrtByPlz(plz);
+				String strasse = res.getString("adresse_strasse");
+				String hausnummer = res.getString("adresse_hausnummer");
+				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer);
+				lAdresse.add(adresse);
+			}
+		
+		return lAdresse;
+	}
 	public Adresse getAdresseById(int pId) throws SQLException {
 		Adresse adresse = null;
 		
@@ -409,7 +441,7 @@ public class dbConnect {
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
 				Adresse adresse = null;
-				//adresse = getAdresseById(res.getInt("adressen_id"));
+				//adresse = getAdresseById(res.getInt("adresse_id"));
 				String email = res.getString("ansprechpartner_emailadresse");
 				String telefon = res.getString("ansprechpartner_telefonnummer");
 				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
@@ -439,14 +471,14 @@ public class dbConnect {
 	
 	}
 	public Ansprechpartner getAnsprechpartnerById(int pId) throws SQLException{
-		ResultSet res = executeQuery("Select * from Ansprechpartner where Unternehmen_id = ?", new Object[] {new Integer(pId)});
+		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {new Integer(pId)});
 		Ansprechpartner ansprechpartner = null;
 		
 			while(res.next()){
 				int id = res.getInt("ansprechpartner_id");
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
-				Adresse adresse = getAdresseById(res.getInt("adressen_id"));
+				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
 				String email = res.getString("ansprechpartner_emailadresse");
 				String telefon = res.getString("ansprechpartner_telefonnummer");
 				ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
@@ -681,6 +713,18 @@ public class dbConnect {
 			res.close();
 		return lBesuch;
 
+	}
+	public LinkedList<Besuch> getBesuchByBenutzer(Benutzer benutzer) throws SQLException{
+		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
+		ResultSet res = executeQuery("select * from benutzer_besuch, where benutzer_id = ?", new Object[] {(Object) benutzer.getId()});
+		
+			while (res.next()) {
+				int besuch_id = res.getInt("besuch_id");
+				Besuch besuch = getBesuchById(besuch_id);
+				lBesuch.add(besuch);
+			}
+			res.close();
+		return lBesuch;
 	}
 	public Besuch getBesuchById(int pId) throws SQLException {
 		ResultSet res = executeQuery("Select * from besuch where besuch_id = ?", new Object[] {new Integer(pId)});
