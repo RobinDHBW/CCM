@@ -109,21 +109,21 @@ public class LookupUnternehmen extends Window{
 		container.addContainerProperty("Firma", String.class, null);
 		container.addContainerProperty("Standort", TextArea.class, null);
 
-//		try {
-//			for(Unternehmen b : this.dbConnection.getAllUnternehmen()){
-//				for(Adresse a : b.getlAdresse()){
-//				Item itm = container.addItem(b.getId());
-//				itm.getItemProperty("Firma").setValue(b.getName()+",");
-//				itm.getItemProperty("Standort").setValue(a.getOrt());
-//			}
-//			}
-//		} catch (ReadOnlyException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			for(Unternehmen b : this.dbConnection.getAllUnternehmen()){
+				for(Adresse a : b.getlAdresse()){
+				Item itm = container.addItem(b.getId());
+				itm.getItemProperty("Firma").setValue(b.getName());
+				//itm.getItemProperty("Standort").setValue(a.getOrt());
+			}
+			}
+		} catch (ReadOnlyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		/*
 		 * NUR TEMPORÄR
