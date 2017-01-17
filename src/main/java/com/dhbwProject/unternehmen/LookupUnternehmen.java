@@ -109,41 +109,19 @@ public class LookupUnternehmen extends Window{
 		container.addContainerProperty("Firma", String.class, null);
 		container.addContainerProperty("Standort", TextArea.class, null);
 
-		try {
-			for(Unternehmen b : this.dbConnection.getAllUnternehmen()){
-				for(Adresse a : b.getlAdresse()){
-				Item itm = container.addItem(b.getId());
-				itm.getItemProperty("Firma").setValue(b.getName());
-				//itm.getItemProperty("Standort").setValue(a.getOrt());
+		try{
+			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
+				for(Adresse a  : u.getlAdresse()){
+					Item itm = container.addItem(new ItemId(u.getId(), a.getId()));
+					TextArea taStandort = new TextArea();
+					taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+					taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+					taStandort.setHeight("100px");
+					itm.getItemProperty("Standort").setValue(taStandort);
+				}
 			}
-			}
-		} catch (ReadOnlyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		/*
-		 * NUR TEMPORÄR
-		 * da ich hier ne Liste von unternehmen brauch
-		 * */ 
-		Unternehmen u = null;
-		try {
-			u = this.dbConnection.getUnternehmenById(1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		for(Adresse a  : u.getlAdresse()){
-			Item itm = container.addItem(new ItemId(u.getId(), a.getId()));
-			TextArea taStandort = new TextArea();
-			taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
-			taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-			taStandort.setHeight("100px");
-			itm.getItemProperty("Standort").setValue(taStandort);
+		}catch(SQLException e){
+			
 		}
 	}
 	
