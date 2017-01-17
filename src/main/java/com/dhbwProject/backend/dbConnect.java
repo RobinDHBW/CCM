@@ -969,6 +969,20 @@ public class dbConnect {
 	}
 	
 	// Status
+	public LinkedList<Status> getAllStatus() throws SQLException{
+		Status status = null;
+		LinkedList<Status> lStatus = new LinkedList<Status>();
+		ResultSet res = null;
+			res = executeQuery("select * from status", new Object[]{});
+			while (res.next()) {
+				int id = res.getInt("status_id");
+				String bezeichnung = res.getString("status_bezeichnung");
+				status = new Status(id, bezeichnung);
+				lStatus.add(status);
+			}
+			res.close();
+		return lStatus;
+	}
 	public Status getStatusById(int pId) throws SQLException {
 		Status status = null;
 		ResultSet res = null;
