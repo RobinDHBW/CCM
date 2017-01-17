@@ -482,7 +482,7 @@ public class dbConnect {
 	
 	// Ansprechpartner
 	private LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
-		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {(Object) unternehmen.getName()});
+		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {(Object) new Integer(unternehmen.getId())});
 		LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 		
 			while(res.next()){
