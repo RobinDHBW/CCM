@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.data.Item;

@@ -7,9 +7,10 @@ import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Status;
+import com.dhbwProject.backend.beans.Unternehmen;
 import com.dhbwProject.benutzer.LookupBenutzer;
-import com.dhbwProject.unternehmen.LookupAdresse;
 import com.dhbwProject.unternehmen.LookupAnsprechpartner;
+import com.dhbwProject.unternehmen.LookupUnternehmen;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -43,6 +44,7 @@ public class BesuchFelder extends VerticalLayout {
 
 	private Benutzer autor;
 	private Adresse adresse;
+	private Unternehmen unternehmen;
 	private Ansprechpartner ansprechpartner;
 	private Status staus;
 	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
@@ -109,11 +111,20 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
 		this.btnLookupAdresse.setWidth("50px");
 		this.btnLookupAdresse.addClickListener(listener -> {
-			LookupAdresse lookup = new LookupAdresse();
-			lookup.addCloseListener(CloseListener -> {
-				if(lookup.getSelection() != null){
-					this.setAdresse(lookup.getSelection());
-				}
+//			LookupAdresse lookup = new LookupAdresse();
+//			lookup.addCloseListener(CloseListener -> {
+//				if(lookup.getSelection() != null){
+//					this.setAdresse(lookup.getSelection());
+//				}
+//			});
+//			this.getUI().addWindow(lookup);
+			
+			LookupUnternehmen lookup = new LookupUnternehmen();
+			lookup.addCloseListener(close ->{
+				if(lookup.getSelectionUnternehmen() != null)
+					this.setUnternehmen(lookup.getSelectionUnternehmen());
+				if(lookup.getSelectionAdresse() != null)
+					this.setAdresse(lookup.getSelectionAdresse());
 			});
 			this.getUI().addWindow(lookup);
 
@@ -141,7 +152,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
-			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse);
+			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen);
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getAnsprechpartner() != null){
 					this.setAnsprechpartner(lookup.getAnsprechpartner());
@@ -225,7 +236,15 @@ public class BesuchFelder extends VerticalLayout {
 	protected void setAdresse(Adresse a) {
 		this.adresse = a;
 		this.taAdresse.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
-		this.tfUnternehmen.setValue(a.getUnternehmen().getName());
+	}
+	
+	protected Unternehmen getUnternehmen(){
+		return this.unternehmen;
+	}
+	
+	protected void setUnternehmen(Unternehmen u){
+		this.unternehmen = u;
+		this.tfUnternehmen.setValue(u.getName());
 	}
 
 	protected Ansprechpartner getAnsprechpartner() {

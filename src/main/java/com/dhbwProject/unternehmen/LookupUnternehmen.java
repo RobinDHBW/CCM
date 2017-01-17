@@ -1,12 +1,11 @@
 package com.dhbwProject.unternehmen;
 
-
 import java.sql.SQLException;
 
 import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
@@ -23,26 +22,20 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class LookupAdresse extends Window{
+public class LookupUnternehmen extends Window{
 	private static final long serialVersionUID = 1L;
 	
 	private VerticalLayout layout;
 	private VerticalLayout fields;
 	private TextField tfFirma;
 	private Table tblSelect;
-//	private ListSelect select;
 	private IndexedContainer container;
 	private Button btnOk;
+	private Unternehmen uSelect;
 	private Adresse aSelect;
-//	private DummyDataManager dummyData;
 	private dbConnect dbConnection;
 	
-	/*
-	 * Die Adresse kann als Übergabeparameter wohl entfernt werden
-	 * - siehe TerminFields für Zugriff
-	 * */
-	public LookupAdresse(){
-//		this.dummyData = dummyData;
+	public LookupUnternehmen(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initFields();
 		
@@ -63,12 +56,6 @@ public class LookupAdresse extends Window{
 		this.fields.setSizeUndefined();
 		this.fields.setSpacing(true);
 		this.fields.setMargin(new MarginInfo(true, true, true, true));
-		
-//		this.select = new ListSelect();
-//		this.select.setWidth("600px");
-//		this.initContainer();
-//		this.select.setContainerDataSource(this.container);
-//		select.setItemCaptionMode(ItemCaptionMode.ITEM);
 		
 		this.tblSelect = new Table();
 		this.tblSelect.setWidth("600px");
@@ -94,27 +81,21 @@ public class LookupAdresse extends Window{
 	    this.btnOk = new Button("Auswählen");
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);
-//	    this.btnOk.addClickListener(listener ->{
-//	    	if(this.select.getValue() != null)
-//	    		this.aSelect = this.dummyData.getAdresse((int)this.select.getValue());
-//	    	this.close();
-//	    });
 	    this.btnOk.addClickListener(listener ->{
 	    	if(this.tblSelect.getValue() != null)
 				try {
-					this.aSelect = this.dbConnection.getAdresseById((int)this.tblSelect.getValue());
+					ItemId id = (ItemId)this.tblSelect.getValue();
+					this.uSelect = this.dbConnection.getUnternehmenById(id.idUnternehmen);
+					this.aSelect = this.dbConnection.getAdresseById(id.idAdresse);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//	    		this.aSelect = this.dummyData.getAdresse((int)this.tblSelect.getValue());
 	    	this.close();
 	    });
 	    
 	    this.fields.addComponent(this.tfFirma);
 	    this.fields.setComponentAlignment(this.tfFirma, Alignment.TOP_CENTER);
-//	    this.fields.addComponent(this.select);
-//	    this.fields.setComponentAlignment(this.select, Alignment.TOP_CENTER);
 	    this.fields.addComponent(this.tblSelect);
 	    this.fields.setComponentAlignment(this.tblSelect, Alignment.TOP_CENTER);
 	    this.fields.addComponent(this.btnOk);
@@ -129,37 +110,42 @@ public class LookupAdresse extends Window{
 		
 		/*
 		 * NUR TEMPORÄR
+		 * da ich hier ne Liste von unternehmen brauch
 		 * */ 
-		Adresse a = null;
+		Unternehmen u = null;
 		try {
-			a = this.dbConnection.getAdresseById(1);
+			u = this.dbConnection.getUnternehmenById(1);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Item itm1 = container.addItem(a.getId());
-		itm1.getItemProperty("Firma").setValue(a.getUnternehmen().getName());
-		TextArea taStandort = new TextArea();
-		taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
-		taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-		taStandort.setHeight("100px");
-		itm1.getItemProperty("Standort").setValue(taStandort);
 		
-		
-		
-//		for(Adresse a : this.dummyData.getlAdresse()){
-//			Item itm = container.addItem(a.getId());	
-//			itm.getItemProperty("Firma").setValue(a.getUnternehmen().getName());
-//			TextArea taStandort = new TextArea();
-//			taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
-//			taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-//			taStandort.setHeight("100px");
-//			itm.getItemProperty("Standort").setValue(taStandort);
-//		}
+		for(Adresse a  : u.getlAdresse()){
+			Item itm = container.addItem(new ItemId(u.getId(), a.getId()));
+			TextArea taStandort = new TextArea();
+			taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+			taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+			taStandort.setHeight("100px");
+			itm.getItemProperty("Standort").setValue(taStandort);
+		}
 	}
 	
-	public Adresse getSelection(){
+	public Unternehmen getSelectionUnternehmen(){
+		return this.uSelect;
+	}
+	
+	public Adresse getSelectionAdresse(){
 		return this.aSelect;
+	}
+	
+	private class ItemId{
+		private int idUnternehmen;
+		private int idAdresse;
+		
+		private ItemId(int uId, int aId){
+			this.idUnternehmen = uId;
+			this.idAdresse = aId;
+		}
 	}
 	
 	

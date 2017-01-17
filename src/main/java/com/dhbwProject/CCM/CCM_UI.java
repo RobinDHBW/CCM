@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import javax.servlet.annotation.WebServlet;
 
 import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.views.FooterView;
 import com.dhbwProject.views.HeaderView;
@@ -33,7 +32,6 @@ import com.vaadin.ui.themes.ValoTheme;
 @Theme("CCM_Theme")
 public class CCM_UI extends UI {
 	private static final long serialVersionUID = 1L;
-	private DummyDataManager dummyData;
 	private dbConnect dbConnection;
 	
 	private Panel pnlContent;
@@ -49,7 +47,6 @@ public class CCM_UI extends UI {
 	
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
-		this.dummyData = new DummyDataManager();
 		try {
 			this.dbConnection = new dbConnect();
 		} catch (ClassNotFoundException e) {
