@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
@@ -106,7 +108,22 @@ public class LookupUnternehmen extends Window{
 		this.container = new IndexedContainer();
 		container.addContainerProperty("Firma", String.class, null);
 		container.addContainerProperty("Standort", TextArea.class, null);
-		
+
+//		try {
+//			for(Unternehmen b : this.dbConnection.getAllUnternehmen()){
+//				for(Adresse a : b.getlAdresse()){
+//				Item itm = container.addItem(b.getId());
+//				itm.getItemProperty("Firma").setValue(b.getName()+",");
+//				itm.getItemProperty("Standort").setValue(a.getOrt());
+//			}
+//			}
+//		} catch (ReadOnlyException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		/*
 		 * NUR TEMPORÄR
