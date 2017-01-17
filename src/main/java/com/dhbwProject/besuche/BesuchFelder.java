@@ -3,6 +3,7 @@ package com.dhbwProject.besuche;
 import java.util.Date;
 import java.util.LinkedList;
 
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
@@ -12,6 +13,7 @@ import com.dhbwProject.benutzer.LookupBenutzer;
 import com.dhbwProject.unternehmen.LookupAnsprechpartner;
 import com.dhbwProject.unternehmen.LookupUnternehmen;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
@@ -42,7 +44,7 @@ public class BesuchFelder extends VerticalLayout {
 	private TextArea taParticipants;
 	private Button btnLookupParticipants;
 
-	private Benutzer autor;
+	private Benutzer autor = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
 	private Adresse adresse;
 	private Unternehmen unternehmen;
 	private Ansprechpartner ansprechpartner;

@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
-import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
@@ -32,26 +31,9 @@ public class LookupAnsprechpartner extends Window{
 	private ListSelect select;
 	private Button btnOK;
 	private IndexedContainer container;
-//	private DummyDataManager dummyData;
 	private dbConnect dbConnection;
-//	private Adresse aReferenz;
 	private Unternehmen uReferenz;
 	private Ansprechpartner aPSelect;
-	
-//	public LookupAnsprechpartner(Adresse a){
-//		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-//		this.aReferenz = a;
-//		this.initFields();
-//		
-//		this.layout = new VerticalLayout(this.fields);
-//		this.layout.setSizeFull();
-//		this.layout.setComponentAlignment(this.fields, Alignment.TOP_CENTER);
-//		
-//		this.setContent(this.layout);
-//		this.center();
-//		this.setWidth("350px");
-//		this.setHeight("500px");
-//	}
 	
 	public LookupAnsprechpartner(Unternehmen u){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
@@ -138,11 +120,14 @@ public class LookupAnsprechpartner extends Window{
 		this.container = new IndexedContainer();
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
-//		for(Ansprechpartner a : this.dbConnection.getUnternehmenById(this.aReferenz.getUnternehmen().getId()).getlAnsprechpartner()){
-//			Item itm = this.container.addItem(a.getId());
-//			itm.getItemProperty("nachname").setValue(a.getNachname());
-//			itm.getItemProperty("vorname").setValue(a.getVorname());
-//		}
+		
+		
+//		Ansprechpartner a1 = this.dbConnection.getAnsprechpartnerById(1);
+//		Item itm1 = this.container.addItem(1);
+//		itm1.getItemProperty("nachname").setValue(a1.getNachname());
+//		itm1.getItemProperty("vorname").setValue(a1.getVorname());
+		
+		
 		for(Ansprechpartner a : uReferenz.getlAnsprechpartner()){
 			Item itm = this.container.addItem(a.getId());
 			itm.getItemProperty("nachname").setValue(a.getNachname());

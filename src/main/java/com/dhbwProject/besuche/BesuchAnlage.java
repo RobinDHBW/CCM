@@ -2,9 +2,15 @@ package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Ansprechpartner;
+import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Besuch;
+import com.dhbwProject.backend.beans.Status;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Alignment;
@@ -48,7 +54,10 @@ public class BesuchAnlage extends Window {
 		this.btnCreate.setWidth("300px");
 		this.btnCreate.addClickListener(listener ->{
 			try {
-				this.dbConnection.createBesuch(null);
+				this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+						fields.getDateStart(), fields.getDateEnd(),
+						fields.getAdresse(), new Status(1, ""), fields.getAnsprechpartner(),
+						fields.getTeilnehmenr(), null, fields.getAutor()));				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

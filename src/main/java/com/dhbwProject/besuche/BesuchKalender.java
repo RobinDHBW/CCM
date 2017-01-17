@@ -111,17 +111,17 @@ protected void initEventMoveHandler(){
 						bAlt.getAnsprechpartner(), bAlt.getBesucher(),null , bAlt.getAutor());
 				
 				
-				try {
-					if(dbConnection.changeBesuch(bNeu, bAlt)){
-						eventContainer.removeItem(e);
-						eventContainer.addBean(new BesuchEvent(dbConnection.getBesuchById(bAlt.getId())));	
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+//				try {
+//					if(dbConnection.changeBesuch(bNeu, bAlt)){
+//						eventContainer.removeItem(e);
+//						eventContainer.addBean(new BesuchEvent(dbConnection.getBesuchById(bAlt.getId())));	
+//					}
+//				} catch (SQLException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
 				
-							}
+			}
 		});
 	}
 	
