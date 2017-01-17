@@ -94,11 +94,10 @@ public class dbConnect {
 		
 		
 			if(obj instanceof Adresse){
-				 PreparedStatement ps = con.prepareStatement("DELETE FROM `adresse` WHERE `adresse_plz_id` = ? AND `unternehmen_id` = ? AND `adresse_strasse` = ? AND `adresse_hausnummer` = ?)");
+				 PreparedStatement ps = con.prepareStatement("DELETE FROM `adresse` WHERE `adresse_plz_id` = ? AND `adresse_strasse` = ? AND `adresse_hausnummer` = ?)");
 				 ps.setString(1, ((Adresse) obj).getPlz());
-				 ps.setInt(2, ((Adresse) obj).getUnternehmen().getId());
-				 ps.setString(3, ((Adresse) obj).getStrasse());
-				 ps.setString(4, ((Adresse) obj).getHausnummer());
+				 ps.setString(2, ((Adresse) obj).getStrasse());
+				 ps.setString(3, ((Adresse) obj).getHausnummer());
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
 			if(obj instanceof Ansprechpartner){
@@ -216,11 +215,10 @@ public class dbConnect {
 		
 		
 			if(obj instanceof Adresse){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `unternehmen_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?, ?)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?)");
 				 ps.setString(1, ((Adresse) obj).getPlz());
-				 ps.setInt(2, ((Adresse) obj).getUnternehmen().getId());
-				 ps.setString(3, ((Adresse) obj).getStrasse());
-				 ps.setString(4, ((Adresse) obj).getHausnummer());
+				 ps.setString(2, ((Adresse) obj).getStrasse());
+				 ps.setString(3, ((Adresse) obj).getHausnummer());
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
 			if(obj instanceof Ansprechpartner){
@@ -350,10 +348,9 @@ public class dbConnect {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
 				String ort = getOrtByPlz(plz);
-				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
-				adresse = new Adresse(id, plz, ort, unternehmen, strasse, hausnummer);
+				adresse = new Adresse(id, plz, ort, strasse, hausnummer);
 			}
 			res.close();
 			return adresse;
@@ -377,8 +374,8 @@ public class dbConnect {
 	}
 	public boolean changeAdresse(Adresse altAdresse, Adresse neuAdresse) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `adresse` SET `adresse_plz_id` = ?, `unternehmen_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
-				new Object[] { neuAdresse.getPlz(), neuAdresse.getUnternehmen().getId(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
+				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
+				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
 		if(i!=0){
 			return true;
 		}
