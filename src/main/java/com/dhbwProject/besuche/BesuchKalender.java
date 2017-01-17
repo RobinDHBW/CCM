@@ -153,13 +153,11 @@ protected void initEventMoveHandler(){
 	
 	protected void refreshCalendarEvents(){		
 		this.eventContainer.removeAllItems();
-//		dbConnect connection = (dbConnect)this.getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-//		for(Besuch b : connection.get..b.)
-//			this.eventContainer.addBean(new TerminEvent(b));
-		try {
-			this.eventContainer.addBean(new BesuchEvent(this.dbConnection.getBesuchById(1)));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		Benutzer b = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+		try{
+			for(Besuch t  :this.dbConnection.getBesuchByBenutzer(b))
+				this.eventContainer.addBean(new BesuchEvent(t));
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}

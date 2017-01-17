@@ -5,10 +5,8 @@ import java.sql.SQLException;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
-import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
-import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
@@ -113,6 +111,7 @@ public class LookupUnternehmen extends Window{
 			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
 				for(Adresse a  : u.getlAdresse()){
 					Item itm = container.addItem(new ItemId(u.getId(), a.getId()));
+					itm.getItemProperty("Firma").setValue(u.getName());
 					TextArea taStandort = new TextArea();
 					taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
 					taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
@@ -121,7 +120,7 @@ public class LookupUnternehmen extends Window{
 				}
 			}
 		}catch(SQLException e){
-			
+			e.printStackTrace();
 		}
 	}
 	
