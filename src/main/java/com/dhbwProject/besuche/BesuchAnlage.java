@@ -1,4 +1,4 @@
-package com.dhbwProject.termine;
+package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -13,15 +13,15 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class TerminAnlage extends Window {
+public class BesuchAnlage extends Window {
 	private static final long serialVersionUID = 1L;
 	private dbConnect dbConnection;
 	
-	private TerminFields fields;
+	private BesuchFelder fields;
 	private VerticalLayout vlLayout;
 	private Button btnCreate;	
 	
-	public TerminAnlage(){
+	public BesuchAnlage(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.setContent(this.initContent());
 		
@@ -35,14 +35,14 @@ public class TerminAnlage extends Window {
 		setModal(false);
 	}
 	
-	public TerminAnlage(Date date){
+	public BesuchAnlage(Date date){
 		this();
 		this.fields.setDateStart(date);
 		this.fields.setDateEnd(date);
 	}
 	
 	private void initFields(){
-		this.fields = new TerminFields();
+		this.fields = new BesuchFelder();
 		this.btnCreate = new Button("Termin erstellen");
 		this.btnCreate.setIcon(FontAwesome.PLUS);
 		this.btnCreate.setWidth("300px");

@@ -1,4 +1,4 @@
-package com.dhbwProject.termine;
+package com.dhbwProject.besuche;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Status;
 import com.dhbwProject.benutzer.LookupBenutzer;
 import com.dhbwProject.unternehmen.LookupAdresse;
 import com.dhbwProject.unternehmen.LookupAnsprechpartner;
@@ -15,14 +16,17 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class TerminFields extends VerticalLayout {
+public class BesuchFelder extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 	
 	private TextField tfTitel;
+	
+	private OptionGroup ogStatus;
 	
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
@@ -40,9 +44,10 @@ public class TerminFields extends VerticalLayout {
 	private Benutzer autor;
 	private Adresse adresse;
 	private Ansprechpartner ansprechpartner;
+	private Status staus;
 	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 
-	public TerminFields() {
+	public BesuchFelder() {
 		this.setSizeUndefined();
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(true, true, true, true));
@@ -61,6 +66,15 @@ public class TerminFields extends VerticalLayout {
 		this.tfTitel.setInputPrompt("Titel");
 		this.tfTitel.setWidth("300px");
 		this.addComponent(this.tfTitel);
+	}
+	
+	protected void initOgStatus(){
+		/*
+		 * Hier bräuchte ich eine getAllStatus-Methode aus dem dbConnect
+		 * damit ich die Options befüllen kann
+		 * */
+//		this.ogStatus = new OptionGroup();
+//		this.ogStatus.container
 	}
 
 	protected void initFieldStartDate() {

@@ -1,4 +1,4 @@
-package com.dhbwProject.termine;
+package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -9,7 +9,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.DummyDataManager;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
@@ -33,19 +32,17 @@ import com.vaadin.ui.components.calendar.handler.BasicForwardHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.BackwardEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandler;
 
-public class TermineCalendar extends Calendar{
+public class BesuchKalender extends Calendar{
 	private static final long serialVersionUID = 1L;
 	private LocalDateTime date;
 	private dbConnect dbConnection;
-//	private DummyDataManager dummyData;
-	private BeanItemContainer<TerminEvent> eventContainer;
+	private BeanItemContainer<BesuchEvent> eventContainer;
 	
 	private GregorianCalendar dateStart;
 	private GregorianCalendar dateEnd;
 	
-	public TermineCalendar(){
+	public BesuchKalender(){
 		super();
-//		this.dbConnection = (dbConnect)VaadinService.getCurrentRequest().getWrappedSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		
 		this.date = LocalDateTime.now();
@@ -55,9 +52,7 @@ public class TermineCalendar extends Calendar{
 		this.refreshTime();
 		this.setLocale(Locale.GERMANY);
 		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
-//		super.setSizeFull();
-//		this.dummyData = dummyData;
-		this.eventContainer = new BeanItemContainer<TerminEvent>(TerminEvent.class);
+		this.eventContainer = new BeanItemContainer<BesuchEvent>(BesuchEvent.class);
 		this.setContainerDataSource(eventContainer);
 		
 		this.initDateClickHandler();
@@ -78,7 +73,7 @@ public class TermineCalendar extends Calendar{
 
 			@Override
 			public void dateClick(DateClickEvent event) {
-				TerminAnlage anlage = new TerminAnlage(event.getDate());
+				BesuchAnlage anlage = new BesuchAnlage(event.getDate());
 				anlage.addCloseListener(close ->{
 					refreshCalendarEvents();
 				});
@@ -93,8 +88,8 @@ public class TermineCalendar extends Calendar{
 
 			@Override
 			public void eventClick(EventClick event) {
-				TerminEvent e = (TerminEvent)event.getCalendarEvent();//So irgendwie
-				TerminBearbeitung bearbeitung = new TerminBearbeitung(e.getBesuch());
+				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();//So irgendwie
+				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
 				bearbeitung.addCloseListener(close ->{
 					refreshCalendarEvents();
 				});
@@ -109,7 +104,7 @@ protected void initEventMoveHandler(){
 
 			@Override
 			public void eventMove(MoveEvent event) {
-				TerminEvent e = (TerminEvent)event.getCalendarEvent();
+				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
 				Besuch bAlt = e.getBesuch();
 				Besuch bNeu = new Besuch(bAlt.getId(), bAlt.getName(),
 						e.getStart(), e.getEnd(), bAlt.getAdresse(), bAlt.getStatus(),
@@ -119,7 +114,7 @@ protected void initEventMoveHandler(){
 				try {
 					if(dbConnection.changeBesuch(bNeu, bAlt)){
 						eventContainer.removeItem(e);
-						eventContainer.addBean(new TerminEvent(dbConnection.getBesuchById(bAlt.getId())));	
+						eventContainer.addBean(new BesuchEvent(dbConnection.getBesuchById(bAlt.getId())));	
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -162,7 +157,7 @@ protected void initEventMoveHandler(){
 //		for(Besuch b : connection.get..b.)
 //			this.eventContainer.addBean(new TerminEvent(b));
 		try {
-			this.eventContainer.addBean(new TerminEvent(this.dbConnection.getBesuchById(1)));
+			this.eventContainer.addBean(new BesuchEvent(this.dbConnection.getBesuchById(1)));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

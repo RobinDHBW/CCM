@@ -13,7 +13,7 @@ import com.dhbwProject.views.ViewBenutzer;
 import com.dhbwProject.views.ViewLogin;
 import com.dhbwProject.views.ViewRolle;
 import com.dhbwProject.views.ViewStartseite;
-import com.dhbwProject.views.ViewTermin;
+import com.dhbwProject.views.ViewBesuch;
 import com.dhbwProject.views.ViewUnternehmen;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -133,7 +133,7 @@ public class CCM_UI extends UI {
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BENUTZER, ViewBenutzer.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_UNTERNEHMEN, ViewUnternehmen.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_ROLLE, ViewRolle.class);
-		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, ViewTermin.class);
+		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BESUCH, ViewBesuch.class);
 //		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin(this.dummyData));
 		
 		/*	Dieser ViewChangeListener prueft ob sich ein Benutzer an der Session angemeldet hat

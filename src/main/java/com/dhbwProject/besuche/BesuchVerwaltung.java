@@ -1,4 +1,4 @@
-package com.dhbwProject.termine;
+package com.dhbwProject.besuche;
 
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.MarginInfo;
@@ -9,17 +9,17 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.VerticalLayout;
 
-public class TerminVerwaltung extends CustomComponent {
+public class BesuchVerwaltung extends CustomComponent {
 	private static final long serialVersionUID = 1L;
 
 	private HorizontalLayout hlFields;
 	private VerticalLayout vlLayout;
 
-	private TermineCalendar calendar;
+	private BesuchKalender calendar;
 	private Button btnBackward;
 	private Button btnForward;
 
-	public TerminVerwaltung() {
+	public BesuchVerwaltung() {
 		this.initFields();
 		this.initVlLayout();
 	}
@@ -46,7 +46,7 @@ public class TerminVerwaltung extends CustomComponent {
 		hlFields.addComponent(this.btnBackward);
 		hlFields.setComponentAlignment(this.btnBackward, Alignment.TOP_LEFT);
 		
-		this.calendar = new TermineCalendar();
+		this.calendar = new BesuchKalender();
 		hlFields.addComponent(this.calendar);
 		hlFields.setComponentAlignment(this.calendar, Alignment.TOP_CENTER);
 		

@@ -1,15 +1,15 @@
-package com.dhbwProject.termine;
+package com.dhbwProject.besuche;
 
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.ui.components.calendar.event.BasicEvent;
 
-public class TerminEvent extends BasicEvent {
+public class BesuchEvent extends BasicEvent {
 	private static final long serialVersionUID = 1L;
-	private Besuch termin;
+	private Besuch besuch;
 	
-	public TerminEvent(Besuch b){
+	public BesuchEvent(Besuch b){
 		super();
-		this.termin = b;
+		this.besuch = b;
 		super.setCaption(b.getName());	
 		super.setDescription(b.getStartDate().toString()+" bis "+b.getEndDate().toString());
 		super.setStart(b.getStartDate());
@@ -20,11 +20,11 @@ public class TerminEvent extends BasicEvent {
 	}
 	
 	public void setBesuch(Besuch b){
-		this.termin = b;
+		this.besuch = b;
 	}
 	
 	public Besuch getBesuch(){
-		return this.termin;
+		return this.besuch;
 	}
 
 }

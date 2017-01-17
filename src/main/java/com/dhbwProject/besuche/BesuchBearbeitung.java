@@ -1,4 +1,4 @@
-package com.dhbwProject.termine;
+package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
 
@@ -13,16 +13,16 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-public class TerminBearbeitung extends Window {
+public class BesuchBearbeitung extends Window {
 	private static final long serialVersionUID = 1L;
 	private dbConnect dbConnection;
 	private Besuch besuch;
 	
 	private VerticalLayout vlLayout;
-	private TerminFields fields;
+	private BesuchFelder fields;
 	private Button btnUpdate;
 	
-	public TerminBearbeitung(){
+	public BesuchBearbeitung(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.setContent(this.initContent());
 		
@@ -36,7 +36,7 @@ public class TerminBearbeitung extends Window {
 		
 	}
 	
-	public TerminBearbeitung(Besuch b){
+	public BesuchBearbeitung(Besuch b){
 		this();
 		this.besuch = b;	
 		//Probeweise--------------------------------------------
@@ -57,7 +57,7 @@ public class TerminBearbeitung extends Window {
 	}
 	
 	private void initFields(){
-		this.fields = new TerminFields();
+		this.fields = new BesuchFelder();
 		this.btnUpdate = new Button("Bearbeiten");
 		this.btnUpdate.setIcon(FontAwesome.CHECK);
 		this.btnUpdate.addClickListener(listener ->{
