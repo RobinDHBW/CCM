@@ -69,7 +69,7 @@ public class dbConnect {
 	}
 	private int executeUpdate(String sql, Object... objects) throws SQLException  {
 		
-			PreparedStatement ps = con.prepareStatement(sql);
+			PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			int q = 0;
 			for (Object e : objects) {
 				q++;
@@ -84,9 +84,13 @@ public class dbConnect {
 					ps.setString(q, s);
 				}
 			}
-			int result = ps.executeUpdate();
-			//ps.close();
-			return result;
+			ps.executeUpdate();
+			ResultSet result = ps.getGeneratedKeys();
+			 result.next();
+			 int auto_id = result.getInt(1);
+			 result.close();
+			 ps.close();
+			 return auto_id;
 
 		
 	}
@@ -215,37 +219,68 @@ public class dbConnect {
 		
 		
 			if(obj instanceof Adresse){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Adresse) obj).getPlz());
 				 ps.setString(2, ((Adresse) obj).getStrasse());
 				 ps.setString(3, ((Adresse) obj).getHausnummer());
-				 int result = ps.executeUpdate();ps.close();return result;
+				 ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
+				 ps.close();
+				 return auto_id;
 			}else
 			if(obj instanceof Ansprechpartner){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`) VALUES (?, ?, ?)");
-				 ps.setString(1, ((Ansprechpartner) obj).getVorname());
-				 ps.setString(2, ((Ansprechpartner) obj).getNachname());
-				 ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
-				 int result = ps.executeUpdate();ps.close();return result;
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				ps.setString(1, ((Ansprechpartner) obj).getVorname());
+				ps.setString(2, ((Ansprechpartner) obj).getNachname());
+				ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
+				ps.executeUpdate();
+				ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
+				 ps.close();
+				 return auto_id;
+
 			}else
 			if(obj instanceof Benutzer){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Benutzer) obj).getVorname());
 				 ps.setString(2, ((Benutzer) obj).getNachname());
 				 ps.setString(3, ((Benutzer) obj).getId());
 				 ps.setInt(4, ((Benutzer) obj).getRolle().getId());
 				 ps.setInt(5, ((Benutzer) obj).getBeruf().getId());
-				 int result = ps.executeUpdate();ps.close();return result;
+				 ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
+				 ps.close();
+				 return auto_id;
 			}else
 			if(obj instanceof Berechtigung){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `berechtigung` (`berechtigung_id`, `berechtigung_bezeichnung`) VALUES (NULL, ?)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `berechtigung` (`berechtigung_id`, `berechtigung_bezeichnung`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Berechtigung) obj).getBezeichnung());
-				 int result = ps.executeUpdate();ps.close();return result;
+				 ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
+				 ps.close();
+				 return auto_id;
 			}else
 			if(obj instanceof Beruf){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `beruf` (`beruf_id`, `beruf_bezeichnung`) VALUES (NULL, ?)");
 				 ps.setString(1, ((Beruf) obj).getBezeichnung());
-				 int result = ps.executeUpdate();ps.close();return result;
+				 ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
+				 ps.close();
+				 return auto_id;
 			}else
 			if(obj instanceof Besuch){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `besuch` (`besuch_id`, `adresse_id`, `besuch_timestamp`, `besuch_beginn`, `besuch_ende`, `besuch_name`, `besuch_autor`, `status_id`, `ansprechpartner_id`) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -264,7 +299,7 @@ public class dbConnect {
 				 rs.close();
 				 LinkedList<Benutzer> lBenutzer = ((Besuch) obj).getBesucher();
 				 for(Benutzer e : lBenutzer){
-					 PreparedStatement ps2 = con.prepareStatement("INSERT INTO `benutzer_besuch` (`benutzer_besuch_id`, `benutzer_id`, `besuch_id`) VALUES (NULL, ?, ?)");
+					 PreparedStatement ps2 = con.prepareStatement("INSERT INTO `benutzer_besuch` (`benutzer_besuch_id`, `benutzer_id`, `besuch_id`) VALUES (NULL, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 					 ps2.setString(1, e.getId());
 					 ps2.setInt(2, auto_id);
 					 ps2.executeUpdate();
@@ -274,7 +309,7 @@ public class dbConnect {
 				 return p;
 				 }else
 			if(obj instanceof Gespraechsnotiz){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
 				 FileInputStream inputNotiz = null;
 				 FileInputStream inputBild = null;
 				try{
@@ -289,7 +324,13 @@ public class dbConnect {
 				}
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
-				 int result = ps.executeUpdate();ps.close();return result;
+				 ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
+				 ps.close();
+				 return auto_id;
 			}else
 			if (obj instanceof Rolle) {
 				PreparedStatement ps = con.prepareStatement(
@@ -305,7 +346,7 @@ public class dbConnect {
 				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
 				for (Berechtigung e : lBerechtigung) {
 					PreparedStatement ps2 = con.prepareStatement(
-							"INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)");
+							"INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 					ps2.setInt(1, e.getId());
 					ps2.setInt(2, auto_id);
 					ps2.executeUpdate();
@@ -315,25 +356,37 @@ public class dbConnect {
 				return p;
 			} else
 			if(obj instanceof Status){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `status` (`status_id`, `status_bezeichnung`) VALUES (NULL, ?)");
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `status` (`status_id`, `status_bezeichnung`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Status) obj).getBezeichnung());
-				 int result = ps.executeUpdate();
+				ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
 				 ps.close();
-				 return result;
+				 return auto_id;
 			}else
 				if(obj instanceof Studiengang){
-					PreparedStatement ps = con.prepareStatement("INSERT INTO `studiengang` (`studiengang_id`, `studiengang_bezeichnung`) VALUES (NULL, ?)");
+					PreparedStatement ps = con.prepareStatement("INSERT INTO `studiengang` (`studiengang_id`, `studiengang_bezeichnung`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
 					 ps.setString(1, ((Studiengang) obj).getBezeichnung());
-					 int result = ps.executeUpdate();
+					 ps.executeUpdate();
+					 ResultSet result = ps.getGeneratedKeys();
+					 result.next();
+					 int auto_id = result.getInt(1);
+					 result.close();
 					 ps.close();
-					 return result;
+					 return auto_id;
 			}else
 			if(obj instanceof Unternehmen){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`) VALUES (NULL, ?)");
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Unternehmen) obj).getName());
-				 int result = ps.executeUpdate();
+				 ps.executeUpdate();
+				 ResultSet result = ps.getGeneratedKeys();
+				 result.next();
+				 int auto_id = result.getInt(1);
+				 result.close();
 				 ps.close();
-				 return result;
+				 return auto_id;
 			}
 			
 		
@@ -399,19 +452,15 @@ public class dbConnect {
 			res.close();
 		return ort;
 	}
-	public boolean createAdresse(Adresse adresse) throws SQLException {
+	public Adresse createAdresse(Adresse adresse) throws SQLException {
 		int i = executeInsert(adresse);
-		if(i==1)return true;
-		return false;
+		return getAdresseById(i);
 	}
-	public boolean changeAdresse(Adresse altAdresse, Adresse neuAdresse) throws SQLException {
+	public Adresse changeAdresse(Adresse altAdresse, Adresse neuAdresse) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
 				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
-		if(i!=0){
-			return true;
-		}
-		return false;
+		return getAdresseById(i);
 	}
 	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
@@ -454,20 +503,16 @@ public class dbConnect {
 				res.close();
 		return lAnsprechpartner;
 	}
-	public boolean createAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException {
+	public Ansprechpartner createAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException {
 		int i = executeInsert(ansprechpartner);
-		if(i==1)return true;
-		return false;
+		return getAnsprechpartnerById(i);
 
 	}
-	public boolean changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) throws SQLException {
+	public Ansprechpartner changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
 				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), altAnsprechpartner.getId() });
-		if(i!=0){
-			return true;
-		}
-		return false;
+		return getAnsprechpartnerById(i);
 	
 	}
 	public Ansprechpartner getAnsprechpartnerById(int pId) throws SQLException{
@@ -535,7 +580,7 @@ public class dbConnect {
 			res.close();
 		return benutzer;
 	}
-	public boolean createBenutzer(Benutzer b) throws SQLException {
+	public Benutzer createBenutzer(Benutzer b) throws SQLException {
 		Beruf beruf = getBerufByBezeichnung(b.getBeruf().getBezeichnung());
 		Rolle rolle = getRolleByBezeichnung(b.getRolle().getBezeichnung());
 		PreparedStatement ps = con.prepareStatement(
@@ -556,16 +601,13 @@ public class dbConnect {
 			ps2.executeUpdate();
 			ps2.close();
 		}
-		return true;
+		return getBenutzerById(b.getId());
 	}
-	public boolean changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
+	public Benutzer changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
 				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), altBenutzer.getId() });
-		if(i!=0){
-			return true;
-		}
-		return false;
+		return getBenutzerById(neuBenutzer.getId());
 	}
 	public boolean deleteBenutzer(Benutzer benutzer) throws SQLException {
 		int i = executeDelete(benutzer);
@@ -609,19 +651,15 @@ public class dbConnect {
 				res.close();
 		return lBerechtigung;
 	}
-	public boolean createBerechtigung(Berechtigung berechtigung) throws SQLException {
+	public Berechtigung createBerechtigung(Berechtigung berechtigung) throws SQLException {
 		int i = executeInsert(berechtigung);
-		if(i==1)return true;
-		return false;
+		return getBerechtigunById(i);
 	}
-	public boolean changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) throws SQLException {
+	public Berechtigung changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `berechtigung` SET `berechtigung_bezeichnung` = ? WHERE `berechtigung`.`berechtigung_id` = ?",
 				new Object[] { neuBerechtigung.getBezeichnung(), altBerechtigung.getId()});
-		if(i!=0){
-			return true;
-		}
-		return false;
+		return getBerechtigunById(i);
 	}
 	public Berechtigung getBerechtigunById(int pId) throws SQLException{
 		Berechtigung berechtigung = null;
@@ -672,24 +710,20 @@ public class dbConnect {
 			res1.close();
 		return beruf;
 	}
-	public boolean createBeruf(Beruf beruf) throws SQLException {
+	public Beruf createBeruf(Beruf beruf) throws SQLException {
 		int i = executeInsert(beruf);
-		if(i==1)return true;
-		return false;
+		return getBerufById(i);
 	}
 	public boolean deleteBeruf(Beruf beruf) throws SQLException{
 		int i = executeDelete(beruf);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeBeruf(Beruf altBeruf, Beruf neuBeruf) throws SQLException {
+	public Beruf changeBeruf(Beruf altBeruf, Beruf neuBeruf) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `beruf` SET `beruf_bezeichnung` = ? WHERE `beruf`.`beruf_id` = 1 ",
 				new Object[] { neuBeruf.getBezeichnung(), altBeruf.getId()});
-		if(i!=0){
-			return true;
-		}
-		return false;
+		return getBerufById(i);
 	}
 
 	// Besuch
@@ -747,17 +781,16 @@ public class dbConnect {
 			res.close();
 		return besuch;
 	}
-	public boolean createBesuch(Besuch besuch) throws SQLException {
+	public Besuch createBesuch(Besuch besuch) throws SQLException {
 		int i = executeInsert(besuch);
-		if(i==1)return true;
-		return false;
+		return getBesuchById(i);
 	}
 	public boolean deleteBesuch(Besuch besuch) throws SQLException{
 		int i = executeDelete(besuch);
 		if(i==1)return true;
 		return false;
 	}
-	public boolean changeBesuch(Besuch neuBesuch, Besuch altBesuch) throws SQLException {
+	public Besuch changeBesuch(Besuch neuBesuch, Besuch altBesuch) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `besuch` SET `adresse_id` = ?, `besuch_beginn` = ?, `besuch_ende` = ?, `besuch_name` = ?, `besuch_autor` = ?, `status_id` = ?, `ansprechpartner_id` = ? WHERE `besuch`.`besuch_id` = ? ",
 				new Object[] { neuBesuch.getAdresse().getId(), neuBesuch.getStartDate(), neuBesuch.getEndDate(), neuBesuch.getName(), neuBesuch.getAutor().getId(), neuBesuch.getStatus().getId(), neuBesuch.getAnsprechpartner().getId(), altBesuch.getId()});
@@ -775,10 +808,7 @@ public class dbConnect {
 			ps2.close();
 			}
 
-		if (i != 0) {
-			return true;
-		}
-		return false;
+		return getBesuchById(i);
 	}
 	
 	// Gespraechsnotiz
@@ -823,16 +853,53 @@ public class dbConnect {
 		
 		return gespraechsnotiz;
 	}
-	public boolean createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) throws SQLException {
+	public Gespraechsnotiz createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) throws SQLException {
 		int i = executeInsert(gespraechsnotiz);
-		if(i==1)return true;
-		return false;
+		return getGespraechsnotizById(i);
 
 	}
-	public boolean changeGespraechsnotiz(Gespraechsnotiz altGespraechsnotiz, Gespraechsnotiz neuGespraechsnotiz) throws SQLException {
+	public Gespraechsnotiz getGespraechsnotizById(int pId) throws SQLException{
+		Gespraechsnotiz gespraechsnotiz = null;
+		ResultSet res = executeQuery("SELECT * FROM `gespraechsnotizen` WHERE `gespraechsnotiz_id` = ?", new Object[]{(Object) new Integer(pId)});
+		try{
+			while (res.next()) {
+				int id = res.getInt("gespraechsnotiz_id");
+				File notizfile = new File("notiz");
+				FileOutputStream output1 = new FileOutputStream(notizfile);
+				
+				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
+				byte[] notiz = new byte[1024];
+				while (input1.read(notiz) > 0) {
+					output1.write(notiz);
+				}
+				output1.close();
+				
+				File file = new File("bild");
+				FileOutputStream output2 = new FileOutputStream(file);
+
+				InputStream input2 = res.getBinaryStream("resume");
+				byte[] bild = new byte[1024];
+				while (input2.read(bild) > 0) {
+					output2.write(bild);
+				}
+				output2.close();
+				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
+				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
+				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
+				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
+			}
+		} catch (IOException e) {
+			
+		}
+		
+	
+		res.close();
+	return gespraechsnotiz;
+	}
+	public Gespraechsnotiz changeGespraechsnotiz(Gespraechsnotiz altGespraechsnotiz, Gespraechsnotiz neuGespraechsnotiz) throws SQLException {
 		deleteGespreachsnotiz(altGespraechsnotiz);
-		boolean i = createGespraechsnotiz(neuGespraechsnotiz);
-		return i;
+		return createGespraechsnotiz(neuGespraechsnotiz);
+
 	}
 	public boolean deleteGespreachsnotiz(Gespraechsnotiz gespreachsnotiz) throws SQLException{
 		int i = executeDelete(gespreachsnotiz);
@@ -871,12 +938,11 @@ public class dbConnect {
 			res.close();
 		return rolle2;
 	}
-	public boolean createRolle(Rolle rolle) throws SQLException {
+	public Rolle createRolle(Rolle rolle) throws SQLException {
 		int i = executeInsert(rolle);
-		if(i==1)return true;
-		return false;
+		return getRolleById(i);
 	}
-	public boolean changeRolle(Rolle altRolle, Rolle neuRolle) throws SQLException {
+	public Rolle changeRolle(Rolle altRolle, Rolle neuRolle) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `rolle` `rolle_bezeichnung` = ? WHERE `rolle`.`rolle_id` = ? ",
 				new Object[] { neuRolle.getBezeichnung(), altRolle.getId()});
@@ -893,10 +959,7 @@ public class dbConnect {
 				ps2.executeUpdate();
 				ps2.close();
 				}
-		if (i != 0) {
-			return true;
-		}
-		return false;
+		return getRolleById(i);
 	}
 	
 	public boolean deleteRolle(Rolle rolle) throws SQLException{
@@ -918,20 +981,16 @@ public class dbConnect {
 			res.close();
 		return status;
 	}
-	public boolean createStatus(Status status) throws SQLException {
+	public Status createStatus(Status status) throws SQLException {
 		int i = executeInsert(status);
-		if(i==1)return true;
-		return false;
+		return getStatusById(i);
 
 	}
-	public boolean changeStatus(Status altStatus, Status neuStatus) throws SQLException {
+	public Status changeStatus(Status altStatus, Status neuStatus) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `status` SET`status_bezeichnung` = ? WHERE `status`.`status_id` = ? ",
 				new Object[] {neuStatus.getBezeichnung(), altStatus.getId()});
-		if (i != 0) {
-			return true;
-		}
-		return false;
+		return getStatusById(i);
 	}
 	public boolean deleteStatus(Status status) throws SQLException{
 		int i = executeDelete(status);
@@ -989,10 +1048,9 @@ public class dbConnect {
 				res.close();
 			return lStudiengang;
 		}
-	public boolean createStudiengang(Studiengang studiengang) throws SQLException{
+	public Studiengang createStudiengang(Studiengang studiengang) throws SQLException{
 		int i = executeInsert(studiengang);
-		if(i==1)return true;
-		return false;
+		return getStudiengangById(i);
 
 	}
 	
@@ -1057,20 +1115,16 @@ public class dbConnect {
 		return unternehmen;
 
 	}
-	public boolean createUnternehmen(Unternehmen unternehmen) throws SQLException {
+	public Unternehmen createUnternehmen(Unternehmen unternehmen) throws SQLException {
 		int i = executeInsert(unternehmen);
-		if(i==1)return true;
-		return false;
+		return getUnternehmenById(i);
 
 	}
-	public boolean changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) throws SQLException {
+	public Unternehmen changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `unternehmen` SET `unternehmen_name` = ? WHERE `unternehmen`.`unternehmen_id` = ? ",
 				new Object[] { neuUnternehmen.getName(), altUnternehmen.getId()});
-		if (i != 0) {
-			return true;
-		}
-		return false;
+		return getUnternehmenById(i);
 	}
 	public boolean deleteUnternehmen(Unternehmen unternehmen) throws SQLException{
 		int i = executeDelete(unternehmen);
