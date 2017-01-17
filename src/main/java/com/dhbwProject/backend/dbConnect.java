@@ -345,9 +345,9 @@ public class dbConnect {
 	public Adresse getAdresseById(int pId) throws SQLException {
 		Adresse adresse = null;
 		
-			ResultSet res = executeQuery("select * from Adress where id = ?", (Object[]) new Integer[] { pId });
+			ResultSet res = executeQuery("select * from adresse where adresse_id = ?", (Object[]) new Integer[] { pId });
 			while (res.next()) {
-				int id = res.getInt("adressen_id");
+				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
 				String ort = getOrtByPlz(plz);
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
@@ -386,16 +386,16 @@ public class dbConnect {
 	}
 	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-		ResultSet res = executeQuery("select * from adresse a, Unternehmen u where u.unternehmen_id = a.unternehmen_id and unternehmen_id = ?", new Object[]{(Object) new Integer(pUnternehmen.getId())});
+		ResultSet res = executeQuery("select * from adresse a, Unternehmen u where u.unternehmen_id = a.unternehmen_id and u.unternehmen_id = ?", new Object[]{(Object) new Integer(pUnternehmen.getId())});
 		
 			while(res.next()){
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id"); 
 				String ort = getOrtByPlz(plz); 
-				Unternehmen unternehmen = getUnternehmenById(id);
+				//Unternehmen unternehmen = getUnternehmenById(id);
 				String strasse = res.getString("adresse_strasse"); 
 				String hausnummer = res.getString("adresse_hausnummer");
-				lAdresse.add(new Adresse(id, plz, ort, unternehmen, strasse, hausnummer));
+				lAdresse.add(new Adresse(id, plz, ort, strasse, hausnummer));
 			}
 		
 			res.close();
@@ -403,15 +403,16 @@ public class dbConnect {
 	}
 	
 	// Ansprechpartner
-	public LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
-		ResultSet res = executeQuery("Select * from Ansprechpartner where Unternehmen_id = ?", new Object[] {(Object) unternehmen.getName()});
+	private LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
+		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {(Object) unternehmen.getName()});
 		LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 		
 			while(res.next()){
 				int id = res.getInt("ansprechpartner_id");
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
-				Adresse adresse = getAdresseById(res.getInt("adressen_id"));
+				Adresse adresse = null;
+				//adresse = getAdresseById(res.getInt("adressen_id"));
 				String email = res.getString("ansprechpartner_emailadresse");
 				String telefon = res.getString("ansprechpartner_telefonnummer");
 				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
@@ -967,7 +968,7 @@ public class dbConnect {
 				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 				LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
 				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
+				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
 				lAdresse = getAdresseByUnternehmen(unternehmen);
 			}
 			res.close();

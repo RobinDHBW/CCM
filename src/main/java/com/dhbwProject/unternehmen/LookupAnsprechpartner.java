@@ -122,7 +122,7 @@ public class LookupAnsprechpartner extends Window{
 		this.container = new IndexedContainer();
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
-		for(Ansprechpartner a : this.dbConnection.getAnsprechpartnerByUnternehmen(this.aReferenz.getUnternehmen())){
+		for(Ansprechpartner a : this.dbConnection.getUnternehmenById(this.aReferenz.getUnternehmen().getId()).getlAnsprechpartner()){
 			Item itm = this.container.addItem(a.getId());
 			itm.getItemProperty("nachname").setValue(a.getNachname());
 			itm.getItemProperty("vorname").setValue(a.getVorname());
