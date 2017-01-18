@@ -12,7 +12,7 @@ $v-font-family: "Open Sans", sans-serif;
 $v-border-radius: 4px;
 
 // Affects the color of some component elements, e.g Button, Panel title, etc
-$v-background-color: hsl(210, 0%, 98%);
+$v-background-color: white //hsl(210, 0%, 98%);
 // Affects the color of content areas, e.g  Panel and Window content, TextField input etc
 //$v-app-background-color: white;
 
@@ -47,12 +47,13 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
 	font-weight:bold;
 	cursor: pointer;
 	white-space: nowrap;
-	margin: 0;
-	padding:0;
+	margin: 3px 6px 3px;
+	padding:4px;
 	
   
   
 }
+
 .v-button-caption{
  	font-size: 12pt;
     font-weight: bold;
@@ -63,17 +64,33 @@ background-color:#5d6a72;
 color: #dcdfe0;
 font-color: #dcdfe0;
 font-weight:bold;
+text-align:left;
+padding: 6px 6px 6px 6px;
+	
 }
-
-.v-button-caption-navi{
+.v-button-navi .v-icon {
+	vertical-align:right;
+	margin-right:3px;
+	margin-left:3px;
+	border:none;
+	}
+.v-button .v-icon{
+	vertical-align:right;
+	margin-right:3px;
+	margin-left:3px;
+	border:none;
+	}
+.v-button-navi-wrap .v-button-navi-caption{
 	font-size: 12pt;
     font-weight: bold;
     font-color: #dcdfe0;
     text-align: left;
-
+	padding: 6px;
 }
-.v-button:focus -v-button-wrap{
-	background: red;
+//Während der Button angeclickt ist = focus; greifen für alle Buttons die folgenden Styling Regeln:
+.v-button:focus .v-button-wrap{
+	background:#dcdfe0;
+	color:black;
 	boxshadow:black;
 
 }
@@ -82,8 +99,8 @@ font-weight:bold;
 //Native-Button Styling
 .v-nativebutton-btnwhite{
 	border:none;
-	background-color:white;
 	background:white;
+	background-color:white;
 	width:50px;
 	font-weight:bold;
 	font-color:black;
@@ -100,8 +117,33 @@ font-weight:bold;
 	font-color:#5d6a72;   //dunkelgrau
 	
 } 
-
-
+//Momentan nicht verwendet.
+.v-button-btnwhitelogo{
+	border:none;
+	background-color:white;
+	background:white;
+	width:100%;
+	font-weight:bold;
+	font-color:white;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding:6px;
+	
+}  
+  
+.v-button-btnwhitelogo .v-button-caption{
+	font-size: 12pt;
+	font-weight:bold;
+	font-color:white;   
+	
+} 
+v-button-btnwhitelogo .v-button-icon{
+	border:none;
+	width:100%;
+	color:white;
+	
+} 
 //Panel Header Style
 .v-panel-pnheader{
   max-height: 120px;

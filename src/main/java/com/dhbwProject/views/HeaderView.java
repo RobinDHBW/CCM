@@ -8,6 +8,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -30,6 +31,12 @@ public class HeaderView extends CustomComponent{
 		    new ThemeResource("logodhbw.gif"));
 	dhbwLogo.setHeight("-1px");
 	dhbwLogo.setWidth("-1px");
+	
+	/*Button imageButton = new Button();
+	imageButton.setIcon(new ThemeResource("logodhbw.gif"));
+	imageButton.setStyleName("btnwhitelogo");
+	imageButton.setHeight("-1px");
+	imageButton.setWidth("-1px");*/
 		hL.addComponent(dhbwLogo);
 		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
 	
