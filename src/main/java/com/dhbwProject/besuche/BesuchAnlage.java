@@ -22,6 +22,7 @@ import com.vaadin.ui.Window;
 public class BesuchAnlage extends Window {
 	private static final long serialVersionUID = 1L;
 	private dbConnect dbConnection;
+	private Besuch bAnlage;
 	
 	private BesuchFelder fields;
 	private VerticalLayout vlLayout;
@@ -54,7 +55,7 @@ public class BesuchAnlage extends Window {
 		this.btnCreate.setWidth("300px");
 		this.btnCreate.addClickListener(listener ->{
 			try {
-				this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+				this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
 						fields.getDateStart(), fields.getDateEnd(),
 						fields.getAdresse(), new Status(1, ""), fields.getAnsprechpartner(),
 						fields.getTeilnehmenr(), null, fields.getAutor()));				
@@ -79,6 +80,10 @@ public class BesuchAnlage extends Window {
 		Panel p = new Panel();
 		p.setContent(vlLayout);
 		return p;
+	}
+	
+	protected Besuch getAnlage(){
+		return this.bAnlage;
 	}
 
 }

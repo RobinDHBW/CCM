@@ -1,10 +1,16 @@
 package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Ansprechpartner;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
+import com.dhbwProject.backend.beans.Status;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Alignment;
@@ -16,7 +22,8 @@ import com.vaadin.ui.Window;
 public class BesuchBearbeitung extends Window {
 	private static final long serialVersionUID = 1L;
 	private dbConnect dbConnection;
-	private Besuch besuch;
+	private Besuch bAlt;
+	private Besuch bNeu;
 	
 	private VerticalLayout vlLayout;
 	private BesuchFelder fields;
@@ -38,7 +45,7 @@ public class BesuchBearbeitung extends Window {
 	
 	public BesuchBearbeitung(Besuch b){
 		this();
-		this.besuch = b;	
+		this.bAlt = b;	
 		//Probeweise--------------------------------------------
 		if(b.getAutor().equals(VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER)))
 			setCaption("<center><b>Sie bearbeiten einen Termin von:</b></center>"+
@@ -48,11 +55,13 @@ public class BesuchBearbeitung extends Window {
 					"<center><p><b>"+b.getAutor().getNachname()+", "+b.getAutor().getVorname()+"</b></p></center>");	
 		//------------------------------------------------------
 		this.fields.setTitel(b.getName());
+		this.fields.setStatus(b.getStatus());
 		this.fields.setAutor(b.getAutor());
 		this.fields.setDateStart(b.getStartDate());
 		this.fields.setDateEnd(b.getEndDate());
 		this.fields.setTeilnehmenr(b.getBesucher());
 		this.fields.setAdresse(b.getAdresse());
+//		this.fields.setUnternehmen();
 		this.fields.setAnsprechpartner(b.getAnsprechpartner());
 	}
 	
@@ -62,7 +71,10 @@ public class BesuchBearbeitung extends Window {
 		this.btnUpdate.setIcon(FontAwesome.CHECK);
 		this.btnUpdate.addClickListener(listener ->{
 			try {
-				this.dbConnection.changeBesuch(null, this.besuch);
+				this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
+						fields.getDateStart(), fields.getDateEnd(),
+						fields.getAdresse(), new Status(1, ""), fields.getAnsprechpartner(),
+						fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -84,6 +96,10 @@ public class BesuchBearbeitung extends Window {
 		Panel p = new Panel();
 		p.setContent(this.vlLayout);
 		return p;
+	}
+	
+	protected Besuch getBearbeitung(){
+		return this.bNeu;
 	}
 	
 }

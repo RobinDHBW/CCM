@@ -19,6 +19,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
@@ -88,7 +89,7 @@ public class BesuchKalender extends Calendar{
 
 			@Override
 			public void eventClick(EventClick event) {
-				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();//So irgendwie
+				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
 				bearbeitung.addCloseListener(close ->{
 					refreshCalendarEvents();

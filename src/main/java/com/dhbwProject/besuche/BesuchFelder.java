@@ -19,7 +19,6 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -29,7 +28,8 @@ public class BesuchFelder extends VerticalLayout {
 	
 	private TextField tfTitel;
 	
-	private OptionGroup ogStatus;
+	private TextField tfStatus;
+	private Button btnLookupStatus;
 	
 	private DateField dfDateStart;
 	private DateField dfDateEnd;
@@ -48,7 +48,7 @@ public class BesuchFelder extends VerticalLayout {
 	private Adresse adresse;
 	private Unternehmen unternehmen;
 	private Ansprechpartner ansprechpartner;
-	private Status staus;
+	private Status status;
 	private LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 
 	public BesuchFelder() {
@@ -57,6 +57,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.setMargin(new MarginInfo(true, true, true, true));
 		
 		this.initFieldTitel();
+		this.initFieldStatus();
 		this.initFieldStartDate();
 		this.initFieldEndDate();
 		this.initFieldAdresse();
@@ -72,13 +73,26 @@ public class BesuchFelder extends VerticalLayout {
 		this.addComponent(this.tfTitel);
 	}
 	
-	protected void initOgStatus(){
-		/*
-		 * Hier bräuchte ich eine getAllStatus-Methode aus dem dbConnect
-		 * damit ich die Options befüllen kann
-		 * */
-//		this.ogStatus = new OptionGroup();
-//		this.ogStatus.container
+	protected void initFieldStatus(){
+		this.tfStatus = new TextField();
+		this.tfStatus.setWidth("300px");
+		
+		this.btnLookupStatus = new Button();
+		this.btnLookupStatus.setIcon(FontAwesome.REPLY);
+		this.btnLookupStatus.setWidth("50px");
+		this.btnLookupStatus.addClickListener(click ->{
+			LookupStatus status = new LookupStatus();
+			status.addCloseListener(close ->{
+				if(status.getSelection() != null)
+					this.setStatus(status.getSelection());
+			});
+			getUI().addWindow(status);
+		});
+		HorizontalLayout hlStatus = new HorizontalLayout(this.tfStatus, this.btnLookupStatus);
+		hlStatus.setSpacing(true);
+		hlStatus.setCaption("Status");
+		this.addComponent(hlStatus);
+		
 	}
 
 	protected void initFieldStartDate() {
@@ -112,15 +126,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupAdresse = new Button();
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
 		this.btnLookupAdresse.setWidth("50px");
-		this.btnLookupAdresse.addClickListener(listener -> {
-//			LookupAdresse lookup = new LookupAdresse();
-//			lookup.addCloseListener(CloseListener -> {
-//				if(lookup.getSelection() != null){
-//					this.setAdresse(lookup.getSelection());
-//				}
-//			});
-//			this.getUI().addWindow(lookup);
-			
+		this.btnLookupAdresse.addClickListener(listener -> {			
 			LookupUnternehmen lookup = new LookupUnternehmen();
 			lookup.addCloseListener(close ->{
 				if(lookup.getSelectionUnternehmen() != null)
@@ -213,6 +219,15 @@ public class BesuchFelder extends VerticalLayout {
 	
 	protected void setTitel(String s){
 		this.tfTitel.setValue(s);
+	}
+	
+	protected Status getStatus(){
+		return this.status;
+	}
+	
+	protected void setStatus(Status s){
+		this.status = s;
+		this.tfStatus.setValue(s.getBezeichnung());
 	}
 	
 	protected Date getDateStart() {
