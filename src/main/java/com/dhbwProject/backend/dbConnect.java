@@ -611,7 +611,7 @@ public class dbConnect {
 	public Benutzer changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
-				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), altBenutzer.getId() });
+				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(),neuBenutzer.getRolle().getId(), altBenutzer.getId() });
 		return getBenutzerById(neuBenutzer.getId());
 	}
 	public boolean deleteBenutzer(Benutzer benutzer) throws SQLException {
