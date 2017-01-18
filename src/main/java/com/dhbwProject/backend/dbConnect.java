@@ -690,6 +690,21 @@ public class dbConnect {
 	}
 	
 	// Beruf
+	public LinkedList<Beruf> getAllBeruf() throws SQLException{
+		LinkedList<Beruf> lBeruf = new LinkedList<Beruf>();
+		ResultSet res = executeQuery("select * from beruf", new Object[]{});
+		Beruf beruf = null;
+		
+			while (res.next()) {
+				int id = res.getInt("beruf_id");
+				String bezeichnung = res.getString("beruf_bezeichnung");
+				beruf = new Beruf(id, bezeichnung);
+				lBeruf.add(beruf);
+			}
+		
+			res.close();
+		return lBeruf;
+	}
 	public Beruf getBerufById(int beruf_id) throws SQLException{
 		ResultSet res = executeQuery("select * from beruf where beruf_id = ?", new Object[]{(Object) new Integer(beruf_id)});
 		Beruf beruf = null;
@@ -913,6 +928,24 @@ public class dbConnect {
 	}
 	
 	// Rolle
+	public LinkedList<Rolle> getAllRolle() throws SQLException{
+		Rolle rolle1 = null;
+		Rolle rolle2 = null;
+		ResultSet res = null;
+		LinkedList<Rolle> lRolle = new LinkedList<Rolle>();
+		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
+		
+			res = executeQuery("select * from rolle", new Object[]{});
+			while (res.next()) {
+				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
+				lBerechtigung = getBerechtigungByRolle(rolle1);
+				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
+				lRolle.add(rolle2);
+			}
+		
+			res.close();
+		return lRolle;
+	}
 	public Rolle getRolleById(int id) throws SQLException{
 		Rolle rolle1 = null;
 		Rolle rolle2 = null;
@@ -1018,6 +1051,22 @@ public class dbConnect {
 	}
 	
 	// Studiengang
+	public LinkedList<Studiengang> getAllStudiengang() throws SQLException{
+		LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
+		Studiengang studiengang = null;
+		ResultSet res = null;
+		
+			res = executeQuery("SELECT * FROM studiengang",
+					new Object[] {  });
+			while (res.next()) {
+				int id = res.getInt("studiengang_id");
+				String name = res.getString("studiengang_bezeichnung");
+				studiengang = new Studiengang(id, name);
+				lStudiengang.add(studiengang);
+			}
+			res.close();
+		return lStudiengang;
+	}
 	public Studiengang getStudiengangById(int pId) throws SQLException {
 		Studiengang studiengang = null;
 		ResultSet res = null;
