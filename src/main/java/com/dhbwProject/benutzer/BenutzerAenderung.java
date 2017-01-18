@@ -48,10 +48,16 @@ public class BenutzerAenderung extends CustomComponent {
 			LookupBenutzer bLookup = new LookupBenutzer();
 			bLookup.addCloseListener(event -> {
 				b = bLookup.getSelection();
+				if (b != null) {
+				fields.setID(b);
 				fields.setVorname(b);
 				fields.setNachname(b);
+				fields.setBeruf(b);
+				fields.setRolle(b);
+				fields.setStudiengang(b);
 				fields.enableFields(true);
 				btnAendern.setEnabled(true);
+				}
 			});
 			this.getUI().addWindow(bLookup);
 		});
@@ -63,8 +69,7 @@ public class BenutzerAenderung extends CustomComponent {
 		this.btnAendern.setCaption("Ändern");
 		this.btnAendern.setEnabled(false);
 		this.btnAendern.addClickListener(listener ->{
-			//Später wird mehr erfolgen hier
-			String id = fields.getVorname().substring(0, 1) + fields.getNachname();
+			
 			
 			Rolle rolle = null;
 			try {
@@ -75,19 +80,20 @@ public class BenutzerAenderung extends CustomComponent {
 			}
 			Beruf beruf = null;
 			try {
-				beruf = dbConnect.getBerufByBezeichnung("Studiengangsleiter");
+				beruf = dbConnect.getBerufByBezeichnung(fields.getBeruf());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 			LinkedList<Studiengang> stg = new LinkedList<Studiengang>();
-			try {
-				stg.add(dbConnect.getStudiengangByBezeichnung("Wirtschaftsinformatik"));
-			} catch (SQLException e) {
-				System.out.println("Fehler bei getStudiengangByBezeichnung");
-				e.printStackTrace();
+			for (String stud : fields.getStudiengang()) {
+				try {
+					stg.add(dbConnect.getStudiengangByBezeichnung(stud));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			
-			Benutzer neu = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
+			Benutzer neu = new Benutzer(fields.getID(), fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
 			try {
 				dbConnect.changeBenutzer(b, neu);
 			} catch (SQLException e) {
