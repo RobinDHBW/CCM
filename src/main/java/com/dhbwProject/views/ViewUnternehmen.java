@@ -5,6 +5,7 @@ import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.unternehmen.UnternehmenAenderung;
 import com.dhbwProject.unternehmen.UnternehmenAnlage;
 import com.dhbwProject.unternehmen.UnternehmenAnzeigen;
+import com.dhbwProject.unternehmen.UnternehmenVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -14,6 +15,7 @@ import com.vaadin.ui.VerticalLayout;
 public class ViewUnternehmen extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	private TabSheet tbContent;
+	private UnternehmenVerwaltung verwaltung;
 	
 	public ViewUnternehmen(){
 		this.setSizeFull();
@@ -22,21 +24,6 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 		
 		
 	}
-	/* 
-	 * 
-	 * private LayoutUnternehmen content;
-	
-	public ViewUnternehmen(){
-	this.setSizeFull();
-	this.setCaption(CCM_Constants.VIEW_NAME_UNTERNEHMEN);
-	this.content = new LayoutUnternehmen();
-	//Hier wird zunächst der Header eingefügt.
-//	this.addComponent(new HeaderView());
-	this.addComponent(this.content);
-	}
-	
-	Habe ich (Flo) mal auskommentiert, verstehe den Sinn/Nutzen nicht
-*/ 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
@@ -45,9 +32,8 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 	
 	private void initTbContent(){
 		this.tbContent = new TabSheet();
-		this.tbContent.addTab(new UnternehmenAnlage(), "Unternehmen anlegen", FontAwesome.AMAZON);
-		this.tbContent.addTab(new UnternehmenAenderung(), "Unternehmen bearbeiten", FontAwesome.APPLE);
-		this.tbContent.addTab(new UnternehmenAnzeigen(), "Unternehmen anzeigen", FontAwesome.LIST);
+		this.verwaltung = new UnternehmenVerwaltung();
+		this.tbContent.addTab(this.verwaltung, "Verwaltung");
 		this.addComponent(tbContent);
 	}
 

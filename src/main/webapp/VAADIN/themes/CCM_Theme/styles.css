@@ -1585,17 +1585,6 @@ div.v-layout.v-horizontal.v-widget {
 	border-radius: 4px;
 }
 
-.CCM_Theme .v-app-loading:after {
-	position: fixed;
-	z-index: 100;
-	top: 45%;
-	padding-top: 47px;
-	text-align: center;
-	left: 0;
-	right: 0;
-	content: "Bitte warten, CRM System wird geladen.";
-}
-
 .CCM_Theme .v-loading-indicator {
 	position: fixed !important;
 	z-index: 99999;
@@ -13003,8 +12992,8 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 	cursor: pointer;
 	white-space: nowrap;
-	margin: 0;
-	padding: 0;
+	margin: 3px 6px 3px;
+	padding: 4px;
 }
 
 .CCM_Theme .v-button-caption {
@@ -13018,24 +13007,42 @@ div.v-layout.v-horizontal.v-widget {
 	color: #dcdfe0;
 	font-color: #dcdfe0;
 	font-weight: bold;
+	text-align: left;
+	padding: 6px 6px 6px 6px;
 }
 
-.CCM_Theme .v-button-caption-navi {
+.CCM_Theme .v-button-navi .v-icon {
+	vertical-align: right;
+	margin-right: 3px;
+	margin-left: 3px;
+	border: none;
+}
+
+.CCM_Theme .v-button .v-icon {
+	vertical-align: right;
+	margin-right: 3px;
+	margin-left: 3px;
+	border: none;
+}
+
+.CCM_Theme .v-button-navi-wrap .v-button-navi-caption {
 	font-size: 12pt;
 	font-weight: bold;
 	font-color: #dcdfe0;
 	text-align: left;
+	padding: 6px;
 }
 
-.CCM_Theme .v-button:focus -v-button-wrap {
-	background: red;
+.CCM_Theme .v-button:focus .v-button-wrap {
+	background: #dcdfe0;
+	color: black;
 	boxshadow: black;
 }
 
 .CCM_Theme .v-nativebutton-btnwhite {
 	border: none;
-	background-color: white;
 	background: white;
+	background-color: white;
 	width: 50px;
 	font-weight: bold;
 	font-color: black;
@@ -13049,6 +13056,31 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 12pt;
 	font-weight: bold;
 	font-color: #5d6a72;
+}
+
+.CCM_Theme .v-button-btnwhitelogo {
+	border: none;
+	background-color: white;
+	background: white;
+	width: 100%;
+	font-weight: bold;
+	font-color: white;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding: 6px;
+}
+
+.CCM_Theme .v-button-btnwhitelogo .v-button-caption {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: white;
+}
+
+.CCM_Theme v-button-btnwhitelogo .v-button-icon {
+	border: none;
+	width: 100%;
+	color: white;
 }
 
 .CCM_Theme .v-panel-pnheader {
