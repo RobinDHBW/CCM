@@ -20,11 +20,11 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 public class BesuchBearbeitung extends Window {
+	public static final String BERECHTIGUNG = "BesuchBearbeitung";
 	private static final long serialVersionUID = 1L;
 	private dbConnect dbConnection;
 	private Besuch bAlt;
 	private Besuch bNeu;
-	
 	private VerticalLayout vlLayout;
 	private BesuchFelder fields;
 	private Button btnUpdate;

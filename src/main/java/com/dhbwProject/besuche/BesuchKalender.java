@@ -89,6 +89,13 @@ public class BesuchKalender extends Calendar{
 
 			@Override
 			public void eventClick(EventClick event) {
+				int i=0;
+				try {
+					i = dbConnection.checkBerechtigung((Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER), BesuchBearbeitung.BERECHTIGUNG);
+				} catch (SQLException e1) {
+					System.out.println("Fehler bei der Berechtigungsprüfung!");
+				}
+				if(i>1){
 				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
 				bearbeitung.addCloseListener(close ->{
@@ -96,7 +103,7 @@ public class BesuchKalender extends Calendar{
 				});
 				getUI().addWindow(bearbeitung);	
 			}		
-		});			
+		}});		
 	}
 	
 protected void initEventMoveHandler(){

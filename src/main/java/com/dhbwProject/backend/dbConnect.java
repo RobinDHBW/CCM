@@ -929,6 +929,17 @@ public class dbConnect {
 	}
 	
 	// Rolle
+	public int checkBerechtigung(Benutzer pBenutzer, String berechtigung) throws SQLException{
+		Benutzer benutzer = getBenutzerById(pBenutzer.getId());
+		Rolle rolle = benutzer.getRolle();
+		int i=0;
+		for(Berechtigung b : rolle.getBerechtigung()){
+			if(b.getBezeichnung().contains(berechtigung)){
+				i = new Integer(b.getBezeichnung().substring(berechtigung.length())).intValue();
+			}
+		}
+		return i;
+	}
 	public LinkedList<Rolle> getAllRolle() throws SQLException{
 		Rolle rolle1 = null;
 		Rolle rolle2 = null;
