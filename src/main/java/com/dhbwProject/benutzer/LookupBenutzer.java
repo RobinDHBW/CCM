@@ -32,8 +32,7 @@ public class LookupBenutzer extends Window{
 	private ListSelect select;
 	private IndexedContainer container;
 	private Button btnOk;
-	private LinkedList<Benutzer> lBenutzerSelection;
-//	private DummyDataManager dummyData;
+	private LinkedList<Benutzer> lBenutzerSelection = new LinkedList<Benutzer>();
 	private dbConnect dbConnection;
 	private Benutzer bSelection;
 	
@@ -51,10 +50,9 @@ public class LookupBenutzer extends Window{
 		this.setHeight("500px");
 	}
 	
-	public LookupBenutzer(LinkedList<Benutzer> benutzerSelection){
+	public LookupBenutzer(boolean multiSelect){
 		this();
-		this.lBenutzerSelection = benutzerSelection;
-		this.select.setMultiSelect(true);
+		this.select.setMultiSelect(multiSelect);
 	}
 
 	private void initFields(){
@@ -138,7 +136,16 @@ public class LookupBenutzer extends Window{
 		}
 	}
 	
+	public boolean removeAutorFromList(){
+		Benutzer autor = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+		return this.container.removeItem(autor.getId());
+	}
+	
 	public Benutzer getSelection(){
 		return this.bSelection;
+	}
+	
+	public LinkedList<Benutzer> getLSelection(){
+		return this.lBenutzerSelection;
 	}
 }

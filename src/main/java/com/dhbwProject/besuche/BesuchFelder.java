@@ -188,9 +188,10 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupParticipants.setWidth("50px");
 		this.btnLookupParticipants.addClickListener(listener -> {
 			this.lBenutzer.clear();
-			LookupBenutzer lookup = new LookupBenutzer(this.lBenutzer);
+			LookupBenutzer lookup = new LookupBenutzer(true);
+			lookup.removeAutorFromList();
 			lookup.addCloseListener(CloseListener -> {
-				this.setTeilnehmenr(this.lBenutzer);
+				this.setTeilnehmenr(lookup.getLSelection());
 			});
 			this.getUI().addWindow(lookup);
 		});
@@ -287,6 +288,7 @@ public class BesuchFelder extends VerticalLayout {
 
 	protected void setTeilnehmenr(LinkedList<Benutzer> lBenutzer) {
 		this.lBenutzer = lBenutzer;
+		this.addTeilnehmer((Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER));
 		String value = "";
 		for (Benutzer b : this.lBenutzer)
 			value = value + b.getNachname() + ", " + b.getVorname() + "\n";
@@ -296,7 +298,9 @@ public class BesuchFelder extends VerticalLayout {
 	}
 
 	protected boolean addTeilnehmer(Benutzer b) {
-		return this.lBenutzer.add(b);
+		if(!this.lBenutzer.contains(b))
+			return this.lBenutzer.add(b);
+		return false;
 	}
 
 	protected boolean removeTeilnehmer(Benutzer b) {
