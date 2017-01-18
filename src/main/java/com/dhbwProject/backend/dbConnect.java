@@ -815,18 +815,19 @@ public class dbConnect {
 				"UPDATE `besuch` SET `adresse_id` = ?, `besuch_beginn` = ?, `besuch_ende` = ?, `besuch_name` = ?, `besuch_autor` = ?, `status_id` = ?, `ansprechpartner_id` = ? WHERE `besuch`.`besuch_id` = ? ",
 				new Object[] { neuBesuch.getAdresse().getId(), neuBesuch.getStartDate(), neuBesuch.getEndDate(), neuBesuch.getName(), neuBesuch.getAutor().getId(), neuBesuch.getStatus().getId(), neuBesuch.getAnsprechpartner().getId(), altBesuch.getId()});
 		
-			PreparedStatement ps1 = con.prepareStatement("DELETE FROM benutzer_besuch WHERE besuch_id = ?");
-			ps1.setInt(1, altBesuch.getId());
-			ps1.executeUpdate();
-			ps1.close();
-			LinkedList<Benutzer> lBenutzer = getBenutzerByBesuchId(altBesuch.getId());
-			for(Benutzer e : lBenutzer){
+		
+		PreparedStatement ps1 = con.prepareStatement("DELETE FROM benutzer_besuch WHERE besuch_id = ?");
+		ps1.setInt(1, altBesuch.getId());
+		ps1.executeUpdate();
+		ps1.close();
+		LinkedList<Benutzer> lBenutzer = neuBesuch.getBesucher();
+		for(Benutzer e : lBenutzer){
 			PreparedStatement ps2 = con.prepareStatement("INSERT INTO `benutzer_besuch` (`benutzer_besuch_id`, `benutzer_id`, `besuch_id`) VALUES (NULL, ?, ?)");
-			ps2.setInt(1, altBesuch.getId());
-			ps2.setString(2, e.getId());
+			ps2.setString(1, e.getId());
+			ps2.setInt(2, altBesuch.getId());
 			ps2.executeUpdate();
 			ps2.close();
-			}
+		}
 
 		return getBesuchById(altBesuch.getId());
 	}
