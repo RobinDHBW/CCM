@@ -85,12 +85,17 @@ public class dbConnect {
 				}
 			}
 			ps.executeUpdate();
+			try{
 			ResultSet result = ps.getGeneratedKeys();
 			 result.next();
 			 int auto_id = result.getInt(1);
 			 result.close();
 			 ps.close();
 			 return auto_id;
+			}catch (SQLException e){
+				 ps.close();
+				 return -1;
+			}
 
 		
 	}
@@ -460,7 +465,7 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
 				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
-		return getAdresseById(i);
+		return getAdresseById(altAdresse.getId());
 	}
 	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
@@ -512,7 +517,7 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
 				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), altAnsprechpartner.getId() });
-		return getAnsprechpartnerById(i);
+		return getAnsprechpartnerById(altAnsprechpartner.getId());
 	
 	}
 	public Ansprechpartner getAnsprechpartnerById(int pId) throws SQLException{
@@ -659,7 +664,7 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `berechtigung` SET `berechtigung_bezeichnung` = ? WHERE `berechtigung`.`berechtigung_id` = ?",
 				new Object[] { neuBerechtigung.getBezeichnung(), altBerechtigung.getId()});
-		return getBerechtigunById(i);
+		return getBerechtigunById(altBerechtigung.getId());
 	}
 	public Berechtigung getBerechtigunById(int pId) throws SQLException{
 		Berechtigung berechtigung = null;
@@ -723,7 +728,7 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `beruf` SET `beruf_bezeichnung` = ? WHERE `beruf`.`beruf_id` = 1 ",
 				new Object[] { neuBeruf.getBezeichnung(), altBeruf.getId()});
-		return getBerufById(i);
+		return getBerufById(altBeruf.getId());
 	}
 
 	// Besuch
@@ -808,7 +813,7 @@ public class dbConnect {
 			ps2.close();
 			}
 
-		return getBesuchById(i);
+		return getBesuchById(altBesuch.getId());
 	}
 	
 	// Gespraechsnotiz
@@ -959,7 +964,7 @@ public class dbConnect {
 				ps2.executeUpdate();
 				ps2.close();
 				}
-		return getRolleById(i);
+		return getRolleById(altRolle.getId());
 	}
 	
 	public boolean deleteRolle(Rolle rolle) throws SQLException{
@@ -1004,7 +1009,7 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `status` SET`status_bezeichnung` = ? WHERE `status`.`status_id` = ? ",
 				new Object[] {neuStatus.getBezeichnung(), altStatus.getId()});
-		return getStatusById(i);
+		return getStatusById(altStatus.getId());
 	}
 	public boolean deleteStatus(Status status) throws SQLException{
 		int i = executeDelete(status);
@@ -1138,7 +1143,7 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `unternehmen` SET `unternehmen_name` = ? WHERE `unternehmen`.`unternehmen_id` = ? ",
 				new Object[] { neuUnternehmen.getName(), altUnternehmen.getId()});
-		return getUnternehmenById(i);
+		return getUnternehmenById(altUnternehmen.getId());
 	}
 	public boolean deleteUnternehmen(Unternehmen unternehmen) throws SQLException{
 		int i = executeDelete(unternehmen);
