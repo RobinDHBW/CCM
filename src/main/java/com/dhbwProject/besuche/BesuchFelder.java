@@ -68,7 +68,6 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldTitel() {
 		this.tfTitel = new TextField();
 		this.tfTitel.setCaption("Titel");
-		this.tfTitel.setInputPrompt("Titel");
 		this.tfTitel.setWidth("300px");
 		this.addComponent(this.tfTitel);
 	}
@@ -76,6 +75,7 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldStatus(){
 		this.tfStatus = new TextField();
 		this.tfStatus.setWidth("300px");
+		this.tfStatus.setReadOnly(true);
 		
 		this.btnLookupStatus = new Button();
 		this.btnLookupStatus.setIcon(FontAwesome.REPLY);
@@ -116,12 +116,12 @@ public class BesuchFelder extends VerticalLayout {
 		HorizontalLayout hlUnternehmen = new HorizontalLayout();
 		
 		this.tfUnternehmen = new TextField();
-		this.tfUnternehmen.setInputPrompt("Unternehmen");
 		this.tfUnternehmen.setWidth("300px");
+		this.tfUnternehmen.setReadOnly(true);
 		
 		this.taAdresse = new TextArea();
-		this.taAdresse.setInputPrompt("Standort");
 		this.taAdresse.setWidth("300px");
+		this.taAdresse.setReadOnly(true);
 
 		this.btnLookupAdresse = new Button();
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
@@ -153,8 +153,8 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldAnsprechpartner() {
 		HorizontalLayout hlAnsprechpartner = new HorizontalLayout();
 		this.tfAnsprechpartner = new TextField();
-		this.tfAnsprechpartner.setInputPrompt("Ansprechpartner");
 		this.tfAnsprechpartner.setWidth("300px");
+		this.tfAnsprechpartner.setReadOnly(true);
 
 		this.btnLookupAnsprechpartner = new Button();
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
@@ -180,8 +180,8 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldParticipants() {
 		HorizontalLayout hlParticipants = new HorizontalLayout();
 		this.taParticipants = new TextArea();
-		this.taParticipants.setInputPrompt("Teilnehmer");
 		this.taParticipants.setWidth("300px");
+		this.taParticipants.setReadOnly(true);
 
 		this.btnLookupParticipants = new Button();
 		this.btnLookupParticipants.setIcon(FontAwesome.REPLY);
@@ -227,7 +227,9 @@ public class BesuchFelder extends VerticalLayout {
 	
 	protected void setStatus(Status s){
 		this.status = s;
+		this.tfStatus.setReadOnly(false);
 		this.tfStatus.setValue(s.getBezeichnung());
+		this.tfStatus.setReadOnly(true);
 	}
 	
 	protected Date getDateStart() {
@@ -252,7 +254,9 @@ public class BesuchFelder extends VerticalLayout {
 
 	protected void setAdresse(Adresse a) {
 		this.adresse = a;
+		this.taAdresse.setReadOnly(false);
 		this.taAdresse.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+		this.taAdresse.setReadOnly(true);
 	}
 	
 	protected Unternehmen getUnternehmen(){
@@ -261,7 +265,9 @@ public class BesuchFelder extends VerticalLayout {
 	
 	protected void setUnternehmen(Unternehmen u){
 		this.unternehmen = u;
+		this.tfUnternehmen.setReadOnly(false);
 		this.tfUnternehmen.setValue(u.getName());
+		this.tfUnternehmen.setReadOnly(true);
 	}
 
 	protected Ansprechpartner getAnsprechpartner() {
@@ -270,7 +276,9 @@ public class BesuchFelder extends VerticalLayout {
 
 	protected void setAnsprechpartner(Ansprechpartner a) {
 		this.ansprechpartner = a;
+		this.tfAnsprechpartner.setReadOnly(false);
 		this.tfAnsprechpartner.setValue(a.getNachname()+", "+a.getVorname());
+		this.tfAnsprechpartner.setReadOnly(true);
 	}
 
 	protected LinkedList<Benutzer> getTeilnehmenr() {
@@ -282,7 +290,9 @@ public class BesuchFelder extends VerticalLayout {
 		String value = "";
 		for (Benutzer b : this.lBenutzer)
 			value = value + b.getNachname() + ", " + b.getVorname() + "\n";
+		this.taParticipants.setReadOnly(false);
 		this.taParticipants.setValue(value);
+		this.taParticipants.setReadOnly(true);
 	}
 
 	protected boolean addTeilnehmer(Benutzer b) {
