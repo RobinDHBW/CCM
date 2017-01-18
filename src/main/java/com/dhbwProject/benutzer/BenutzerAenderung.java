@@ -3,13 +3,14 @@ package com.dhbwProject.benutzer;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import com.dhbwProject.backend.DummyDataManager;
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Beruf;
 import com.dhbwProject.backend.beans.Rolle;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -19,13 +20,12 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 
 public class BenutzerAenderung extends CustomComponent {
-	private static final long serialVersionUID = 1L; // dass der gelb unterstrichene Klassenname nicht nervt
+	private static final long serialVersionUID = 1L;
 	
 	
 	private BenutzerFields fields;
 	private Button btnAendern;
 	private Button lookup;
-	private DummyDataManager dummyData = new DummyDataManager();
 	private dbConnect dbConnect;
 	private Benutzer b;
 	
@@ -35,7 +35,7 @@ public class BenutzerAenderung extends CustomComponent {
 	public BenutzerAenderung(){
 		this.fields = new BenutzerFields();
 		this.fields.enableFields(false);
-		this.dbConnect = new dbConnect();
+		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initLookup();
 		this.initCreateButton();
 		this.initLayout();
@@ -45,7 +45,7 @@ public class BenutzerAenderung extends CustomComponent {
 		lookup = new Button("Benutzer auswählen");
 		lookup.setIcon(FontAwesome.ANGLE_DOUBLE_RIGHT);
 		lookup.addClickListener(e -> {
-			LookupBenutzer bLookup = new LookupBenutzer(dummyData);
+			LookupBenutzer bLookup = new LookupBenutzer();
 			bLookup.addCloseListener(event -> {
 				b = bLookup.getSelection();
 				fields.setVorname(b);
@@ -66,7 +66,13 @@ public class BenutzerAenderung extends CustomComponent {
 			//Später wird mehr erfolgen hier
 			String id = fields.getVorname().substring(0, 1) + fields.getNachname();
 			
-			Rolle rolle = dbConnect.getRolleByBezeichnung("ccm_all");
+			Rolle rolle = null;
+			try {
+				rolle = dbConnect.getRolleByBezeichnung("ccm_all");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			Beruf beruf = null;
 			try {
 				beruf = dbConnect.getBerufByBezeichnung("Studiengangsleiter");
@@ -77,13 +83,17 @@ public class BenutzerAenderung extends CustomComponent {
 			try {
 				stg.add(dbConnect.getStudiengangByBezeichnung("Wirtschaftsinformatik"));
 			} catch (SQLException e) {
-				Notification.show("Fehler bei Studiengangfindung",
-		                Type.ERROR_MESSAGE);
+				System.out.println("Fehler bei getStudiengangByBezeichnung");
 				e.printStackTrace();
 			}
 			
 			Benutzer neu = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
-			dbConnect.changeBenutzer(b, neu);
+			try {
+				dbConnect.changeBenutzer(b, neu);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
 		});

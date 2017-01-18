@@ -3,6 +3,7 @@ package com.dhbwProject.benutzer;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Beruf;
@@ -10,6 +11,7 @@ import com.dhbwProject.backend.beans.Rolle;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -28,7 +30,7 @@ public class BenutzerAnlage extends CustomComponent {
 	
 	public BenutzerAnlage(){
 		this.fields = new BenutzerFields();
-		this.dbConnect = new dbConnect();
+		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initCreateButton();
 		this.initLayout();
 	}
@@ -78,8 +80,13 @@ public class BenutzerAnlage extends CustomComponent {
 		if (!fields.getVorname().equals("") && !fields.getNachname().equals("") /*&& !beruf.getValue().equals("")*/) {
 			String id = fields.getVorname().substring(0, 1) + fields.getNachname();
 			
-			Rolle rolle = dbConnect.getRolleByBezeichnung("ccm_all");
-//			Rolle rolle = dbConnect.getRolleById(1);
+			Rolle rolle = null;
+			try {
+				rolle = dbConnect.getRolleByBezeichnung("ccm_all");
+			} catch (SQLException e1) {
+				System.out.println("Fehler bei get RolleByBezeichnung");
+				e1.printStackTrace();
+			}
 			Beruf beruf = null;
 			try {
 				beruf = dbConnect.getBerufByBezeichnung("Studiengangsleiter");

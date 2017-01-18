@@ -1,12 +1,15 @@
 package com.dhbwProject.benutzer;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 
+import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -20,7 +23,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 	public BenutzerAnzeige() {
 		this.setSpacing(true);
 		this.setMargin(new MarginInfo(true, true, true, true));
-		this.dbConnect = new dbConnect();
+		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		initFields();
 		
 	}
@@ -48,7 +51,13 @@ public class BenutzerAnzeige extends VerticalLayout {
 		return container;
 	}
 	public IndexedContainer loadTableData() {
-		LinkedList<Benutzer> alleBenutzer = dbConnect.getAllBenutzer();
+		LinkedList<Benutzer> alleBenutzer = null;
+		try {
+			alleBenutzer = dbConnect.getAllBenutzer();
+		} catch (SQLException e) {
+			System.out.println("Fehler bei getAllBenutzer()");
+			e.printStackTrace();
+		}
 		
 		IndexedContainer container= new IndexedContainer();
 		container.addContainerProperty("ID", String.class, null);
