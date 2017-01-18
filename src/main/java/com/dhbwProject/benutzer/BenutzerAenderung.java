@@ -10,6 +10,7 @@ import com.dhbwProject.backend.beans.Beruf;
 import com.dhbwProject.backend.beans.Rolle;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -71,28 +72,68 @@ public class BenutzerAenderung extends CustomComponent {
 		this.btnAendern.addClickListener(listener ->{
 			
 			
-			Rolle rolle = null;
-			try {
-				rolle = dbConnect.getRolleByBezeichnung("ccm_all");
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if (fields.getID().equals("")) {
+				fields.getTfID().setComponentError(new UserError("ID eingeben"));
+			} else {
+				fields.getTfID().setComponentError(null);
 			}
-			Beruf beruf = null;
-			try {
-				beruf = dbConnect.getBerufByBezeichnung(fields.getBeruf());
-			} catch (SQLException e) {
-				e.printStackTrace();
+			
+			if (fields.getVorname().equals("")) {
+				fields.getTfVorname().setComponentError(new UserError("Vorname eingeben"));
+			} else {
+				fields.getTfVorname().setComponentError(null);
 			}
-			LinkedList<Studiengang> stg = new LinkedList<Studiengang>();
-			for (String stud : fields.getStudiengang()) {
+				
+			if (fields.getNachname().equals("")) {
+				fields.getTfNachname().setComponentError(new UserError("Nachname eingeben"));
+			} else {
+				fields.getTfNachname().setComponentError(null);
+			}
+			
+			if (fields.getBeruf() == null) {
+				fields.getCbBeruf().setComponentError(new UserError("Beruf auswählen"));
+			} else {
+				fields.getCbBeruf().setComponentError(null);
+			}
+			
+			if (fields.getRolle() == null) {
+				fields.getCbRolle().setComponentError(new UserError("Rolle auswählen"));
+			} else {
+				fields.getCbRolle().setComponentError(null);
+			}
+			
+			if (fields.getStudiengang().size() < 1) {
+				fields.getLsStudiengang().setComponentError(new UserError("Studiengang auswählen"));
+			} else {
+				fields.getLsStudiengang().setComponentError(null);
+			}
+			
+			if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
+					&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0) {
+				String id = fields.getID();
+				Rolle rolle = null;
 				try {
-					stg.add(dbConnect.getStudiengangByBezeichnung(stud));
+					rolle = dbConnect.getRolleByBezeichnung(fields.getRolle());
+				} catch (SQLException e1) {
+					System.out.println("Fehler bei get RolleByBezeichnung");
+					e1.printStackTrace();
+				}
+				Beruf beruf = null;
+				try {
+					beruf = dbConnect.getBerufByBezeichnung(fields.getBeruf());
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+				LinkedList<Studiengang> stg = new LinkedList<Studiengang>();
+				for (String stud : fields.getStudiengang()) {
+					try {
+						stg.add(dbConnect.getStudiengangByBezeichnung(stud));
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			Benutzer neu = new Benutzer(fields.getID(), fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
 			try {
 				dbConnect.changeBenutzer(b, neu);
@@ -102,6 +143,7 @@ public class BenutzerAenderung extends CustomComponent {
 			}
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
+			}
 		});
 		
 		this.fields.addComponent(btnAendern);

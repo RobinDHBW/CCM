@@ -98,7 +98,7 @@ public class BenutzerAnlage extends CustomComponent {
 		}
 		
 		if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
-				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 00) {
+				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0) {
 			String id = fields.getID();
 			Rolle rolle = null;
 			try {
