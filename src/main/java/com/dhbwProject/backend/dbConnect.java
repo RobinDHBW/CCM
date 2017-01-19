@@ -77,8 +77,8 @@ public class dbConnect {
 					Integer i = (Integer) e;
 					ps.setInt(q, i.intValue());
 				} else if(e instanceof Date){
-					java.sql.Date d = (java.sql.Date) e;
-					ps.setDate(q,  d);
+					java.sql.Timestamp d = new java.sql.Timestamp(((Date) e).getTime());
+					ps.setTimestamp(q,  d);
 				} else{
 					String s = (String) e;
 					ps.setString(q, s);
