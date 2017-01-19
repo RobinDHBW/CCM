@@ -4,8 +4,8 @@ import java.sql.SQLException;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
-import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
@@ -32,12 +32,12 @@ public class LookupAnsprechpartner extends Window{
 	private Button btnOK;
 	private IndexedContainer container;
 	private dbConnect dbConnection;
-	private Unternehmen uReferenz;
+	private Adresse aReferenz;
 	private Ansprechpartner aPSelect;
 	
-	public LookupAnsprechpartner(Unternehmen u){
+	public LookupAnsprechpartner(Adresse a){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-		this.uReferenz = u;
+		this.aReferenz = a;
 		this.initFields();
 		
 		this.layout = new VerticalLayout(this.fields);
@@ -116,7 +116,7 @@ public class LookupAnsprechpartner extends Window{
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
 		
-		for(Ansprechpartner a : uReferenz.getlAnsprechpartner()){
+		for(Ansprechpartner a : this.dbConnection.getAnsprechpartnerByAdresse(aReferenz)){
 			Item itm = this.container.addItem(a);
 			itm.getItemProperty("nachname").setValue(a.getNachname());
 			itm.getItemProperty("vorname").setValue(a.getVorname());

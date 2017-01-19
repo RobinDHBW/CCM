@@ -12,6 +12,9 @@ import com.dhbwProject.backend.beans.Unternehmen;
 import com.dhbwProject.benutzer.LookupBenutzer;
 import com.dhbwProject.unternehmen.LookupAnsprechpartner;
 import com.dhbwProject.unternehmen.LookupUnternehmen;
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.data.validator.DateRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -22,6 +25,7 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -70,16 +74,38 @@ public class BesuchFelder extends VerticalLayout {
 		this.initValidators();
 	}
 	
-	protected void initValidators(){
+	protected void initValidators(){		
 		this.tfTitel.addValidator(new StringLengthValidator("Titel ist zu kurz oder zu lang", 1, 20, false));
 		this.tfStatus.addValidator(new NullValidator("Status muss ausgewählt sein", false));
-		this.dfDateStart.addValidator(new DateRangeValidator("Start ist größer als Ende",
-				this.dfDateStart.getValue(), this.dfDateEnd.getValue(), Resolution.MINUTE));
-		this.dfDateEnd.addValidator(new DateRangeValidator("Start ist größer als Ende",
-				this.dfDateStart.getValue(), this.dfDateEnd.getValue(), Resolution.MINUTE));
 		this.tfUnternehmen.addValidator(new NullValidator("Unternehmen muss ausgewählt sein", false));
 		this.taAdresse.addValidator(new NullValidator("Adresse muss ausgewählt sein", false));
 		this.tfAnsprechpartner.addValidator(new NullValidator("Ansprechpartner muss ausgewählt sein", false));
+		this.dfDateStart.addValidator(new DateValidator("Beginn muss kleiner dem Ende sein", 1));
+		this.dfDateEnd.addValidator(new DateValidator("Ende muss größer als der Start sein", 0));
+//		this.dfDateStart.validate();
+//		this.dfDateEnd.validate();
+		this.dfDateStart.addValueChangeListener(valueChange ->{
+			if(this.dfDateEnd.getValue() != null)
+				try{
+					this.dfDateEnd.setValidationVisible(false);
+					this.dfDateEnd.validate();
+				}catch(InvalidValueException e){
+					this.dfDateEnd.setValidationVisible(true);
+				}
+		});
+		
+		this.dfDateEnd.addValueChangeListener(valueChange ->{
+			if(this.dfDateStart.getValue() != null)
+				try{
+					this.dfDateStart.setValidationVisible(false);
+					this.dfDateStart.validate();
+				}catch(InvalidValueException e){
+					this.dfDateStart.setValidationVisible(true);
+				}
+		});
+		
+		
+		
 	}
 
 	protected void initFieldTitel() {
@@ -185,7 +211,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
-			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.unternehmen);
+			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse);
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getAnsprechpartner() != null){
 					this.setAnsprechpartner(lookup.getAnsprechpartner());
@@ -354,6 +380,35 @@ public class BesuchFelder extends VerticalLayout {
 				&& this.status != null)
 			return true;
 		return false;
+	}
+	
+	private class DateValidator extends AbstractValidator<Date>{
+
+		private int zustand;
+		public DateValidator(String errorMessage, int z) {
+			super(errorMessage);
+			this.zustand = z;
+		}
+
+		@Override
+		protected boolean isValidValue(Date value) {
+			switch(zustand){
+			case 0:
+				if(dfDateStart.getValue().compareTo(dfDateEnd.getValue()) <=0)
+					return true;
+			case 1:
+				if(dfDateEnd.getValue().compareTo(dfDateStart.getValue()) >=0)
+					return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public Class<Date> getType() {
+			return Date.class;
+		}
+		
 	}
 
 }

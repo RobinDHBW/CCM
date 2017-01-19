@@ -67,7 +67,12 @@ public class BesuchBearbeitung extends Window {
 //		this.fields.setDateEnd(new Date(b.getEndDate().getTime()));
 		this.fields.setTeilnehmenr(b.getBesucher());
 		this.fields.setAdresse(b.getAdresse());
-//		this.fields.setUnternehmen();
+		try {
+			this.fields.setUnternehmen(this.dbConnection.getUnternehmenByAdresse(b.getAdresse()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.fields.setAnsprechpartner(b.getAnsprechpartner());
 	}
 	
