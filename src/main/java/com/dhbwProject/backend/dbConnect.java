@@ -624,8 +624,7 @@ public class dbConnect {
 		ps1.setString(1, altBenutzer.getId());
 		ps1.executeUpdate();
 		ps1.close();
-		LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(altBenutzer);
-		for (Studiengang e : lStudiengang) {
+		for (Studiengang e : neuBenutzer.getStudiengang()) {
 			PreparedStatement ps2 = con.prepareStatement(
 					"INSERT INTO `studiengang_benutzer` (`studiengang_benutzer_id`, `studiengang_id`, `benutzer_id`) VALUES (NULL, ?, ?)");
 			ps2.setString(1, altBenutzer.getId());
