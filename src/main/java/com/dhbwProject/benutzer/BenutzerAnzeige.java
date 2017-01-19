@@ -76,7 +76,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 					studiengang = studiengang.concat(b.getStudiengang().get(j).getBezeichnung());
 				}
 				else {
-					studiengang = studiengang.concat(b.getStudiengang().get(j).getBezeichnung() + " ,");
+					studiengang = studiengang.concat(b.getStudiengang().get(j).getBezeichnung() + ", ");
 				}
 			}
 			Item item = container.addItem(i);
