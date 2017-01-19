@@ -44,14 +44,13 @@ public class ViewLogin extends CustomComponent implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		this.userField.focus();
-		
 	}
 	
 	private void initPwField(){
 		this.pwField = new PasswordField("Passwort");
 		this.pwField.setWidth("300px");
 		this.pwField.setRequired(true);
-		this.pwField.addValidator(new PasswordValidator());
+		this.pwField.addValidator(new PasswordValidator(userField.getValue()));
 		this.pwField.setValue("");
 		this.pwField.setNullRepresentation("");
 	}
@@ -69,22 +68,14 @@ public class ViewLogin extends CustomComponent implements View{
 		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.setClickShortcut(KeyCode.ENTER);
 		this.btnLogin.addClickListener(listener ->{
-			if (!this.userField.isValid() || !this.pwField.isValid())
+			if (!this.userField.isValid())
 	            return;
-			/*	An dieser Stelle erfolgt spaeter ein Backendzugriff
-			 *	um einen Datenbankabgleich zu tätigen, anstatt einen
-			 *	dummy-user abgleich zu taetigen*/
-	        boolean isValid = this.userField.getValue().equals("Alpha")
-	                && this.pwField.getValue().equals("123");
-
-	        if (isValid) {
-	        	//Den Benutzer speichern wir uns in die Session, damit können wir überall darauf zugreifen
-//	            this.getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, new Benutzer("0", "Alpha", "Version", null, null, null));
+			else if(this.pwField.isValid()){
 	            try {
 	            	VaadinSession.getCurrent().lock();
 					VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById("mmustermann"));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+//	            	VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById(this.userField.getValue()));
+	            } catch (SQLException e) {
 					e.printStackTrace();
 				}finally{
 					VaadinSession.getCurrent().unlock();
@@ -109,7 +100,6 @@ public class ViewLogin extends CustomComponent implements View{
         this.vlLayout = new VerticalLayout(this.vlFields);
         this.vlLayout.setSizeFull();
         this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
-//        this.vlLayout.setStyleName(Reindeer.LAYOUT_BLUE);
         this.setCompositionRoot(this.vlLayout);	
 	}
 
