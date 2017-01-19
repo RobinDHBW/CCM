@@ -3,18 +3,22 @@ package com.dhbwProject.views;
 import java.sql.SQLException;
 
 import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.PasswordValidator;
+import com.dhbwProject.backend.PasswordHasher;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
+import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -50,7 +54,7 @@ public class ViewLogin extends CustomComponent implements View{
 		this.pwField = new PasswordField("Passwort");
 		this.pwField.setWidth("300px");
 		this.pwField.setRequired(true);
-		this.pwField.addValidator(new PasswordValidator(userField.getValue()));
+		this.pwField.addValidator(new PasswordValidator());
 		this.pwField.setValue("");
 		this.pwField.setNullRepresentation("");
 	}
@@ -73,8 +77,8 @@ public class ViewLogin extends CustomComponent implements View{
 			else if(this.pwField.isValid()){
 	            try {
 	            	VaadinSession.getCurrent().lock();
-					VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById("mmustermann"));
-//	            	VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById(this.userField.getValue()));
+//					VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById("mmustermann"));
+	            	VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_USER, this.dbConnection.getBenutzerById(this.userField.getValue()));
 	            } catch (SQLException e) {
 					e.printStackTrace();
 				}finally{
@@ -84,6 +88,10 @@ public class ViewLogin extends CustomComponent implements View{
 	        } else {
 	            this.pwField.setValue(null);
 	            this.pwField.focus();
+	            Notification message = new Notification("Benutzername oder Passwort ist falsch");
+	            message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+	            message.setPosition(Position.TOP_CENTER);
+	            message.show(Page.getCurrent());
 	        }	
 		});	
 	}
@@ -101,6 +109,43 @@ public class ViewLogin extends CustomComponent implements View{
         this.vlLayout.setSizeFull();
         this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
         this.setCompositionRoot(this.vlLayout);	
+	}
+	
+	private class PasswordValidator extends AbstractValidator<String>{
+		private static final long serialVersionUID = 1L;
+
+		public PasswordValidator() {
+			super("Passwort oder Benutzername ist fehlerhaft!");
+		}
+
+		@Override
+		protected boolean isValidValue(String value) {
+			//-Prüfung Benutzer
+			Benutzer bUser;
+			if(userField.getValue() == null || userField.getValue().length() <1)
+				return false;
+			else
+				try{
+					bUser = dbConnection.getBenutzerById(userField.getValue());
+				}catch(Exception e){
+					return false;
+				}
+			
+			//-Prüfung Passwort
+			if (value == null || value.length() <1) 
+				return false;
+			else
+				try{
+					return dbConnection.checkPassword(PasswordHasher.md5(value), bUser);
+				} catch (Exception e) {
+					return false;
+				}
+		}
+
+		@Override
+		public Class<String> getType() {
+			return String.class;
+		}
 	}
 
 }
