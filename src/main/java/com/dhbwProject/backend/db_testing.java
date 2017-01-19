@@ -31,7 +31,7 @@ public class db_testing extends TestCase {
 		}catch(SQLException e1){
 		try {
 			Studiengang studiengang = new Studiengang(0, "Wirtschaftsinformatik");
-			assertTrue(connection.createStudiengang(studiengang));
+			assertTrue(connection.createStudiengang(studiengang).equals(studiengang));
 			Studiengang p = connection.getStudiengangByBezeichnung("Wirtschaftsinformatik");
 			assertTrue(studiengang.equals(p));
 			
@@ -71,7 +71,7 @@ public class db_testing extends TestCase {
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
 			
 			Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, lStudiengang);
-			assertTrue(connection.createBenutzer(b));
+			assertTrue(connection.createBenutzer(b).equals(b));
 			Benutzer p = connection.getBenutzerById("fgustavson");
 			assertTrue(b.equals(p));
 			
@@ -127,6 +127,31 @@ public class db_testing extends TestCase {
 				e.printStackTrace();
 			}
 		}
+	}
+	public void testPassword() {
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e1) {
+			
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			
+			e1.printStackTrace();
+		}
+		try {
+			Beruf beruf = new Beruf(1, "Studiengangsleiter");
+			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
+			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
+			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
+			Benutzer b = new Benutzer("mmustermann", "", "", beruf, rolle, lStudiengang);
+			connection.createPassword(PasswordHasher.md5("password"), b);
+			assertTrue(connection.checkPassword(PasswordHasher.md5("password"), b));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 
