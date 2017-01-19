@@ -630,6 +630,19 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
 				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(),neuBenutzer.getRolle().getId(), altBenutzer.getId() });
+		PreparedStatement ps1 = con.prepareStatement("DELETE FROM studiengang_benutzer WHERE benutzer_id = ?");
+		ps1.setString(1, altBenutzer.getId());
+		ps1.executeUpdate();
+		ps1.close();
+		LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(altBenutzer);
+		for (Studiengang e : lStudiengang) {
+			PreparedStatement ps2 = con.prepareStatement(
+					"INSERT INTO `studiengang_benutzer` (`studiengang_benutzer_id`, `studiengang_id`, `benutzer_id`) VALUES (NULL, ?, ?)");
+			ps2.setString(1, altBenutzer.getId());
+			ps2.setInt(2, e.getId());
+			ps2.executeUpdate();
+			ps2.close();
+		}
 		return getBenutzerById(neuBenutzer.getId());
 	}
 	public boolean deleteBenutzer(Benutzer benutzer) throws SQLException {
