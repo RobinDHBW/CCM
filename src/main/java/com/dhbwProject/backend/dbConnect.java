@@ -54,8 +54,8 @@ public class dbConnect {
 					Integer i = (Integer) e;
 					preparedStatement.setInt(q, i.intValue());
 				} else if(e instanceof Date){
-					java.sql.Date d = (java.sql.Date) e;
-					preparedStatement.setDate(q,  d);
+					java.sql.Timestamp d = (java.sql.Timestamp) e;
+					preparedStatement.setTimestamp(q,  d);
 				} else{
 					String s = (String) e;
 					preparedStatement.setString(q, s);
@@ -140,8 +140,8 @@ public class dbConnect {
 						"DELETE FROM `besuch` WHERE `adresse_id` = ? AND `besuch_beginn` = ? AND `besuch_ende` = ? AND `besuch_name` = ? AND `besuch_autor` = ? AND `status_id` = ? AND `ansprechpartner_id` = ?)",
 						Statement.RETURN_GENERATED_KEYS);
 				ps.setInt(1, ((Besuch) obj).getAdresse().getId());
-				 ps.setDate(2, ((Besuch) obj).getStartDate());
-				 ps.setDate(3, ((Besuch) obj).getEndDate());
+				 ps.setTimestamp(2, ((Besuch) obj).getStartDate());
+				 ps.setTimestamp(3, ((Besuch) obj).getEndDate());
 				 ps.setString(4, ((Besuch) obj).getName());
 				 ps.setString(5, ((Besuch) obj).getAutor().getId()); //@Robin Bahr 09.01.2017 20:59 Uhr
 				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
@@ -290,8 +290,8 @@ public class dbConnect {
 			if(obj instanceof Besuch){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `besuch` (`besuch_id`, `adresse_id`, `besuch_timestamp`, `besuch_beginn`, `besuch_ende`, `besuch_name`, `besuch_autor`, `status_id`, `ansprechpartner_id`) VALUES (NULL, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setInt(1, ((Besuch) obj).getAdresse().getId());
-				 ps.setDate(2, ((Besuch) obj).getStartDate());
-				 ps.setDate(3, ((Besuch) obj).getEndDate());
+				 ps.setTimestamp(2, ((Besuch) obj).getStartDate());
+				 ps.setTimestamp(3, ((Besuch) obj).getEndDate());
 				 ps.setString(4, ((Besuch) obj).getName());
 				 ps.setString(5, ((Besuch) obj).getAutor().getId());//@Robin Bahr 09.01.2017 20:59 Uhr
 				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
@@ -754,9 +754,9 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
-				java.sql.Date timestamp = res.getDate("besuch_timestamp");
-				java.sql.Date startDate = res.getDate("besuch_beginn");
-				java.sql.Date endDate = res.getDate("besuch_ende");
+				java.sql.Timestamp timestamp = res.getTimestamp("besuch_timestamp");
+				java.sql.Timestamp startDate = res.getTimestamp("besuch_beginn");
+				java.sql.Timestamp endDate = res.getTimestamp("besuch_ende");
 				String name = res.getString("besuch_name");
 				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
 				Status status = getStatusById(res.getInt("status_id"));
@@ -788,8 +788,8 @@ public class dbConnect {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
 				Date timestamp = res.getDate("besuch_timestamp");
-				java.sql.Date startDate = res.getDate("besuch_beginn");
-				java.sql.Date endDate = res.getDate("besuch_ende");
+				java.sql.Timestamp startDate = res.getTimestamp("besuch_beginn");
+				java.sql.Timestamp endDate = res.getTimestamp("besuch_ende");
 				String name = res.getString("besuch_name");
 				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
 				Status status = getStatusById(res.getInt("status_id"));
