@@ -12,9 +12,10 @@ $v-font-family: "Open Sans", sans-serif;
 $v-border-radius: 4px;
 
 // Affects the color of some component elements, e.g Button, Panel title, etc
-$v-background-color: white //hsl(210, 0%, 98%);
+$v-background-color: white; 
+//hsl(210, 0%, 98%);
 // Affects the color of content areas, e.g  Panel and Window content, TextField input etc
-//$v-app-background-color: white;
+$v-app-background-color: white;
 
 $v-app-loading-text: "Bitte warten, CRM System wird geladen.";
 
@@ -87,6 +88,8 @@ padding: 6px 6px 6px 6px;
     text-align: left;
 	padding: 6px;
 }
+
+
 //Während der Button angeclickt ist = focus; greifen für alle Buttons die folgenden Styling Regeln:
 .v-button:focus .v-button-wrap{
 	background:#dcdfe0;
@@ -112,6 +115,28 @@ padding: 6px 6px 6px 6px;
 }  
   
 .v-nativebutton-btnwhite .v-nativebutton-caption{
+	font-size: 12pt;
+	font-weight:bold;
+	font-color:#5d6a72;   //dunkelgrau
+	
+} 
+
+.v-nativebutton-btnwhiteeins{
+	border:none;
+	border-color: white;
+	background:white;
+	background-color:white;
+	width:-1px;
+	font-weight:bold;
+	font-color:black;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding:0;
+	
+}  
+  
+.v-nativebutton-btnwhiteeins .v-nativebutton-caption{
 	font-size: 12pt;
 	font-weight:bold;
 	font-color:#5d6a72;   //dunkelgrau
@@ -172,9 +197,10 @@ text-decoration:none;
 .v-label{
 
 color:black;
-margin: 0px 0px 5px 0px;
-width: -1;
-
+margin: 0px 200px 5px 200px;
+padding: 0px 20px 0px 20px;
+width: 50%;
+text-align: center;
 } 
 
 //Calendar Style
