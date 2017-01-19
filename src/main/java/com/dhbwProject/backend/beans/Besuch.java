@@ -7,8 +7,8 @@ public class Besuch {
 	
 	private int id;
 	private String name;
-	private java.sql.Date startDate;
-	private java.sql.Date endDate;
+	private java.sql.Timestamp startDate;
+	private java.sql.Timestamp endDate;
 	private Adresse adresse;
 	private Ansprechpartner ansprechpartner;
 	private LinkedList<Benutzer> besucher;
@@ -21,8 +21,8 @@ public class Besuch {
 		super();
 		this.id = id;
 		this.name = name;
-		this.startDate = new java.sql.Date(startDate.getTime());
-		this.endDate = new java.sql.Date(endDate.getTime());
+		this.startDate = new java.sql.Timestamp(startDate.getTime());
+		this.endDate = new java.sql.Timestamp(endDate.getTime());
 		this.adresse = adresse;
 		this.ansprechpartner = ansprechpartner;
 		this.besucher = besucher;
@@ -42,11 +42,11 @@ public class Besuch {
 		return name;
 	}
 
-	public java.sql.Date getStartDate() {
+	public java.sql.Timestamp getStartDate() {
 		return startDate;
 	}
 
-	public java.sql.Date getEndDate() {
+	public java.sql.Timestamp getEndDate() {
 		return endDate;
 	}
 

@@ -3,16 +3,20 @@ package com.dhbwProject.backend;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class PasswordHasher {
+public abstract class PasswordHasher {
 
+	/* By Robin Bahr 19.01.2017------------------------------------------------------
+	 * 
 	public static void main(String[] args) {
 		md5(password);
 	}
 
 	static String password = "testpw";
 
+	*/
+	
 //	Methode um aus dem Passwort ein 128bit Hash zu erzeugen
-	public static String md5(String password) {
+	public static synchronized String md5(String password) {
 
 		String generatedPassword = null;
 

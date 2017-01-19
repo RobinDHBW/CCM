@@ -40,7 +40,7 @@ public class BenutzerAnlage extends CustomComponent {
 	private void initCreateButton() {
 		this.btnErstellen = new Button();
 		this.btnErstellen.setIcon(FontAwesome.PLUS);
-		this.btnErstellen.setCaption("Erstellen");
+		this.btnErstellen.setCaption("Anlegen");
 		this.btnErstellen.addClickListener(listener ->{
 			//Erfolgt später
 			createBenutzer();
@@ -61,6 +61,12 @@ public class BenutzerAnlage extends CustomComponent {
 	}
 	
 	public void createBenutzer() {
+		if (fields.getID().equals("")) {
+			fields.getTfID().setComponentError(new UserError("ID eingeben"));
+		} else {
+			fields.getTfID().setComponentError(null);
+		}
+		
 		if (fields.getVorname().equals("")) {
 			fields.getTfVorname().setComponentError(new UserError("Vorname eingeben"));
 		} else {
@@ -72,30 +78,51 @@ public class BenutzerAnlage extends CustomComponent {
 		} else {
 			fields.getTfNachname().setComponentError(null);
 		}
-//		if (beruf.getValue().equals("")) {
-//			beruf.setComponentError(new UserError("Beruf eingeben"));
-//		} else {
-//			beruf.setComponentError(null);
-//		}
-		if (!fields.getVorname().equals("") && !fields.getNachname().equals("") /*&& !beruf.getValue().equals("")*/) {
-			String id = fields.getVorname().substring(0, 1) + fields.getNachname();
-			
+		
+		if (fields.getBeruf() == null) {
+			fields.getCbBeruf().setComponentError(new UserError("Beruf auswählen"));
+		} else {
+			fields.getCbBeruf().setComponentError(null);
+		}
+		
+		if (fields.getRolle() == null) {
+			fields.getCbRolle().setComponentError(new UserError("Rolle auswählen"));
+		} else {
+			fields.getCbRolle().setComponentError(null);
+		}
+		
+		if (fields.getStudiengang().size() < 1) {
+			fields.getLsStudiengang().setComponentError(new UserError("Studiengang auswählen"));
+		} else {
+			fields.getLsStudiengang().setComponentError(null);
+		}
+		
+		if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
+				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0) {
+			String id = fields.getID();
 			Rolle rolle = null;
 			try {
-				rolle = dbConnect.getRolleByBezeichnung("ccm_all");
+				rolle = dbConnect.getRolleByBezeichnung(fields.getRolle());
 			} catch (SQLException e1) {
 				System.out.println("Fehler bei get RolleByBezeichnung");
 				e1.printStackTrace();
 			}
 			Beruf beruf = null;
 			try {
-				beruf = dbConnect.getBerufByBezeichnung("Studiengangsleiter");
+				beruf = dbConnect.getBerufByBezeichnung(fields.getBeruf());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			LinkedList<Studiengang> stg = new LinkedList<Studiengang>();
-			stg.add(new Studiengang(0, "Wirtschaftsinformatik"));
+			for (String stud : fields.getStudiengang()) {
+				try {
+					stg.add(dbConnect.getStudiengangByBezeichnung(stud));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
 			try {
 				this.dbConnect.createBenutzer(benutzer);

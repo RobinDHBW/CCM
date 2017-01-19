@@ -82,15 +82,11 @@ public class LookupUnternehmen extends Window{
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);
 	    this.btnOk.addClickListener(listener ->{
-	    	if(this.tblSelect.getValue() != null)
-				try {
-					ItemId id = (ItemId)this.tblSelect.getValue();
-					this.uSelect = this.dbConnection.getUnternehmenById(id.idUnternehmen);
-					this.aSelect = this.dbConnection.getAdresseById(id.idAdresse);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+	    	if(this.tblSelect.getValue() != null){
+				ItemId id = (ItemId)this.tblSelect.getValue();
+				this.uSelect = id.uItem;
+				this.aSelect = id.aItem;
+	    	}
 	    	this.close();
 	    });
 	    
@@ -110,7 +106,7 @@ public class LookupUnternehmen extends Window{
 		try{
 			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
 				for(Adresse a  : u.getlAdresse()){
-					Item itm = container.addItem(new ItemId(u.getId(), a.getId()));
+					Item itm = container.addItem(new ItemId(u, a));
 					itm.getItemProperty("Firma").setValue(u.getName());
 					TextArea taStandort = new TextArea();
 					taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
@@ -133,12 +129,12 @@ public class LookupUnternehmen extends Window{
 	}
 	
 	private class ItemId{
-		private int idUnternehmen;
-		private int idAdresse;
+		private Unternehmen uItem;
+		private Adresse aItem;
 		
-		private ItemId(int uId, int aId){
-			this.idUnternehmen = uId;
-			this.idAdresse = aId;
+		private ItemId(Unternehmen u, Adresse a){
+			this.uItem = u;
+			this.aItem = a;
 		}
 	}
 	

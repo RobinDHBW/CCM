@@ -73,7 +73,7 @@ public class BesuchBearbeitung extends Window {
 			try {
 				this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
 						fields.getDateStart(), fields.getDateEnd(),
-						fields.getAdresse(), new Status(1, ""), fields.getAnsprechpartner(),
+						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 						fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block

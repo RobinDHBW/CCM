@@ -57,7 +57,7 @@ public class BesuchAnlage extends Window {
 			try {
 				this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
 						fields.getDateStart(), fields.getDateEnd(),
-						fields.getAdresse(), new Status(1, ""), fields.getAnsprechpartner(),
+						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 						fields.getTeilnehmenr(), null, fields.getAutor()));				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
