@@ -107,21 +107,16 @@ protected void initEventMoveHandler(){
 			public void eventMove(MoveEvent event) {
 				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
 				Besuch bAlt = e.getBesuch();
-				Besuch bNeu = new Besuch(bAlt.getId(), bAlt.getName(),
+				Besuch bNeu = new Besuch(0, bAlt.getName(),
 						e.getStart(), e.getEnd(), bAlt.getAdresse(), bAlt.getStatus(),
 						bAlt.getAnsprechpartner(), bAlt.getBesucher(),null , bAlt.getAutor());
-				
-				
-//				try {
-//					if(dbConnection.changeBesuch(bNeu, bAlt)){
-//						eventContainer.removeItem(e);
-//						eventContainer.addBean(new BesuchEvent(dbConnection.getBesuchById(bAlt.getId())));	
-//					}
-//				} catch (SQLException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
-				
+				try {
+					dbConnection.changeBesuch(bNeu, bAlt);
+					refreshCalendarEvents();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
 			}
 		});
 	}

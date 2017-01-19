@@ -97,12 +97,7 @@ public class LookupAnsprechpartner extends Window{
 	    this.btnOK.setIcon(FontAwesome.UPLOAD);
 	    this.btnOK.addClickListener(listener ->{
 	    	if(this.select.getValue() != null)
-				try {
-					this.aPSelect = this.dbConnection.getAnsprechpartnerById((int)this.select.getValue());
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				this.aPSelect = (Ansprechpartner)this.select.getValue();
 	    	this.close();
 	    });
 	    
@@ -121,15 +116,8 @@ public class LookupAnsprechpartner extends Window{
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
 		
-		
-//		Ansprechpartner a1 = this.dbConnection.getAnsprechpartnerById(1);
-//		Item itm1 = this.container.addItem(1);
-//		itm1.getItemProperty("nachname").setValue(a1.getNachname());
-//		itm1.getItemProperty("vorname").setValue(a1.getVorname());
-		
-		
 		for(Ansprechpartner a : uReferenz.getlAnsprechpartner()){
-			Item itm = this.container.addItem(a.getId());
+			Item itm = this.container.addItem(a);
 			itm.getItemProperty("nachname").setValue(a.getNachname());
 			itm.getItemProperty("vorname").setValue(a.getVorname());
 		}

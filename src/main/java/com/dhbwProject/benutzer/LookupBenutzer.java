@@ -93,16 +93,12 @@ public class LookupBenutzer extends Window{
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{
-	    	try{
 	    	if(select.isMultiSelect()){
-	    		Set <Item>values=(Set<Item>) this.select.getValue();
+	    		Set <Item>values = (Set<Item>) this.select.getValue();
 	    		for(Object o : values)
-	    			this.lBenutzerSelection.add(this.dbConnection.getBenutzerById(o.toString()));
+	    			this.lBenutzerSelection.add((Benutzer)o);
 	    	}else
-	    		this.bSelection = this.dbConnection.getBenutzerById(this.select.getValue().toString());
-	    	}catch(SQLException e){
-	    		
-	    	}
+	    		this.bSelection = (Benutzer)this.select.getValue();
 	    	this.close();	
 	    });
 	    
@@ -123,7 +119,7 @@ public class LookupBenutzer extends Window{
 		this.container.addContainerProperty("vorname", String.class, null);
 		try {
 			for(Benutzer b : this.dbConnection.getAllBenutzer()){
-				Item itm = container.addItem(b.getId());
+				Item itm = container.addItem(b);
 				itm.getItemProperty("nachname").setValue(b.getNachname()+",");
 				itm.getItemProperty("vorname").setValue(b.getVorname());
 			}
@@ -138,7 +134,10 @@ public class LookupBenutzer extends Window{
 	
 	public boolean removeAutorFromList(){
 		Benutzer autor = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
-		return this.container.removeItem(autor.getId());
+		for(Object o : container.getItemIds())
+			if(o.equals(autor))
+				return this.container.removeItem(o);
+		return false;
 	}
 	
 	public Benutzer getSelection(){
