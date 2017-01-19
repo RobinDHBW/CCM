@@ -12,6 +12,9 @@ import com.dhbwProject.backend.beans.Unternehmen;
 import com.dhbwProject.benutzer.LookupBenutzer;
 import com.dhbwProject.unternehmen.LookupAnsprechpartner;
 import com.dhbwProject.unternehmen.LookupUnternehmen;
+import com.vaadin.data.validator.DateRangeValidator;
+import com.vaadin.data.validator.NullValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
@@ -22,6 +25,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
 
 public class BesuchFelder extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
@@ -63,6 +67,19 @@ public class BesuchFelder extends VerticalLayout {
 		this.initFieldAdresse();
 		this.initFieldAnsprechpartner();
 		this.initFieldParticipants();
+		this.initValidators();
+	}
+	
+	protected void initValidators(){
+		this.tfTitel.addValidator(new StringLengthValidator("Titel ist zu kurz oder zu lang", 1, 20, false));
+		this.tfStatus.addValidator(new NullValidator("Status muss ausgewählt sein", false));
+		this.dfDateStart.addValidator(new DateRangeValidator("Start ist größer als Ende",
+				this.dfDateStart.getValue(), this.dfDateEnd.getValue(), Resolution.MINUTE));
+		this.dfDateEnd.addValidator(new DateRangeValidator("Start ist größer als Ende",
+				this.dfDateStart.getValue(), this.dfDateEnd.getValue(), Resolution.MINUTE));
+		this.tfUnternehmen.addValidator(new NullValidator("Unternehmen muss ausgewählt sein", false));
+		this.taAdresse.addValidator(new NullValidator("Adresse muss ausgewählt sein", false));
+		this.tfAnsprechpartner.addValidator(new NullValidator("Ansprechpartner muss ausgewählt sein", false));
 	}
 
 	protected void initFieldTitel() {
@@ -75,6 +92,8 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldStatus(){
 		this.tfStatus = new TextField();
 		this.tfStatus.setWidth("300px");
+		this.tfStatus.setNullRepresentation("");
+		this.tfStatus.setValue(null);
 		this.tfStatus.setReadOnly(true);
 		
 		this.btnLookupStatus = new Button();
@@ -117,10 +136,14 @@ public class BesuchFelder extends VerticalLayout {
 		
 		this.tfUnternehmen = new TextField();
 		this.tfUnternehmen.setWidth("300px");
+		this.tfUnternehmen.setNullRepresentation("");
+		this.tfUnternehmen.setValue(null);
 		this.tfUnternehmen.setReadOnly(true);
 		
 		this.taAdresse = new TextArea();
 		this.taAdresse.setWidth("300px");
+		this.taAdresse.setNullRepresentation("");
+		this.taAdresse.setValue(null);
 		this.taAdresse.setReadOnly(true);
 
 		this.btnLookupAdresse = new Button();
@@ -154,6 +177,8 @@ public class BesuchFelder extends VerticalLayout {
 		HorizontalLayout hlAnsprechpartner = new HorizontalLayout();
 		this.tfAnsprechpartner = new TextField();
 		this.tfAnsprechpartner.setWidth("300px");
+		this.tfAnsprechpartner.setNullRepresentation("");
+		this.tfAnsprechpartner.setValue(null);
 		this.tfAnsprechpartner.setReadOnly(true);
 
 		this.btnLookupAnsprechpartner = new Button();
@@ -298,13 +323,37 @@ public class BesuchFelder extends VerticalLayout {
 	}
 
 	protected boolean addTeilnehmer(Benutzer b) {
-		if(!this.lBenutzer.contains(b))
-			return this.lBenutzer.add(b);
+		if(!this.lBenutzer.contains(b)){
+			boolean bReturn = this.lBenutzer.add(b);
+			String value = "";
+			for (Benutzer bb : this.lBenutzer)
+				value = value + bb.getNachname() + ", " + bb.getVorname() + "\n";
+			this.taParticipants.setReadOnly(false);
+			this.taParticipants.setValue(value);
+			this.taParticipants.setReadOnly(true);
+			return bReturn;
+		}
 		return false;
 	}
 
 	protected boolean removeTeilnehmer(Benutzer b) {
 		return this.lBenutzer.remove(b);
+	}
+	
+	protected boolean isValid(){
+		boolean fieldsAreValid = this.tfTitel.isValid() 
+				&& this.dfDateStart.isValid() 
+				&& this.dfDateEnd.isValid();
+		
+		if(!fieldsAreValid)
+			return false;
+		else if(this.adresse != null
+				&& this.autor != null
+				&& this.taParticipants != null
+				&& this.ansprechpartner != null
+				&& this.status != null)
+			return true;
+		return false;
 	}
 
 }

@@ -12,12 +12,16 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
 import com.dhbwProject.backend.beans.Status;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class BesuchAnlage extends Window {
 	private static final long serialVersionUID = 1L;
@@ -50,20 +54,29 @@ public class BesuchAnlage extends Window {
 	
 	private void initFields(){
 		this.fields = new BesuchFelder();
+		this.fields.addTeilnehmer((Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER));
 		this.btnCreate = new Button("Termin erstellen");
 		this.btnCreate.setIcon(FontAwesome.PLUS);
 		this.btnCreate.setWidth("300px");
 		this.btnCreate.addClickListener(listener ->{
-			try {
-				this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+			if(fields.isValid()){
+				try {
+					this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
 						fields.getDateStart(), fields.getDateEnd(),
 						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 						fields.getTeilnehmenr(), null, fields.getAutor()));				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			this.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				this.close();
+		}else{
+			Notification meldung = new Notification("Plichtfelder müssen gefüllt werden");
+			meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+			meldung.setPosition(Position.TOP_CENTER);
+			meldung.show(Page.getCurrent());
+			return;
+		}
 		});
 		this.fields.addComponent(this.btnCreate);
 	}
