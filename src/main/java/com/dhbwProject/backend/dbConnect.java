@@ -224,10 +224,11 @@ public class dbConnect {
 		
 		
 			if(obj instanceof Adresse){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`, `adresse_ort`) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Adresse) obj).getPlz());
 				 ps.setString(2, ((Adresse) obj).getStrasse());
 				 ps.setString(3, ((Adresse) obj).getHausnummer());
+				 ps.setString(4, ((Adresse) obj).getOrt());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -405,7 +406,7 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
-				String ort = getOrtByPlz(plz);
+				String ort = res.getString("adresse_ort");
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
 				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer);
@@ -421,7 +422,7 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
-				String ort = getOrtByPlz(plz);
+				String ort = res.getString("adresse_ort");
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
 				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer);
@@ -437,7 +438,7 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
-				String ort = getOrtByPlz(plz);
+				String ort = res.getString("adresse_ort");
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
 				adresse = new Adresse(id, plz, ort, strasse, hausnummer);
@@ -446,25 +447,14 @@ public class dbConnect {
 			return adresse;
 		
 	}
-	private String getOrtByPlz(String plz) throws SQLException {
-		String ort = null;
-		ResultSet res = null;
-		
-			res = executeQuery("select * from ort where ort_plz = ?", (Object[]) new String[] { plz });
-			while (res.next()) {
-				ort = res.getString("ort_name");;
-			}
-			res.close();
-		return ort;
-	}
 	public Adresse createAdresse(Adresse adresse) throws SQLException {
 		int i = executeInsert(adresse);
 		return getAdresseById(i);
 	}
 	public Adresse changeAdresse(Adresse altAdresse, Adresse neuAdresse) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
-				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
+				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ?, adresse_ort = ? WHERE `adresse`.`adresse_id` = ? ",
+				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), neuAdresse.getOrt(), altAdresse.getId() });
 		return getAdresseById(altAdresse.getId());
 	}
 	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
@@ -474,7 +464,7 @@ public class dbConnect {
 			while(res.next()){
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id"); 
-				String ort = getOrtByPlz(plz); 
+				String ort = res.getString("adresse_ort"); 
 				//Unternehmen unternehmen = getUnternehmenById(id);
 				String strasse = res.getString("adresse_strasse"); 
 				String hausnummer = res.getString("adresse_hausnummer");
