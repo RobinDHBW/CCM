@@ -82,8 +82,6 @@ public class BesuchFelder extends VerticalLayout {
 		this.tfAnsprechpartner.addValidator(new NullValidator("Ansprechpartner muss ausgewählt sein", false));
 		this.dfDateStart.addValidator(new DateValidator("Beginn muss kleiner dem Ende sein", 1));
 		this.dfDateEnd.addValidator(new DateValidator("Ende muss größer als der Start sein", 0));
-//		this.dfDateStart.validate();
-//		this.dfDateEnd.validate();
 		this.dfDateStart.addValueChangeListener(valueChange ->{
 			if(this.dfDateEnd.getValue() != null)
 				try{
@@ -394,10 +392,10 @@ public class BesuchFelder extends VerticalLayout {
 		protected boolean isValidValue(Date value) {
 			switch(zustand){
 			case 0:
-				if(dfDateStart.getValue().compareTo(dfDateEnd.getValue()) <=0)
+				if(dfDateStart.getValue().compareTo(dfDateEnd.getValue()) <0)
 					return true;
 			case 1:
-				if(dfDateEnd.getValue().compareTo(dfDateStart.getValue()) >=0)
+				if(dfDateEnd.getValue().compareTo(dfDateStart.getValue()) >0)
 					return true;
 			default:
 				return false;
