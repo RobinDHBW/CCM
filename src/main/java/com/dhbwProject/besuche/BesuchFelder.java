@@ -19,7 +19,9 @@ import com.vaadin.data.validator.DateRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
@@ -29,6 +31,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 
 public class BesuchFelder extends VerticalLayout {
@@ -209,6 +212,14 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupAnsprechpartner.setIcon(FontAwesome.REPLY);
 		this.btnLookupAnsprechpartner.setWidth("50px");
 		this.btnLookupAnsprechpartner.addClickListener(listener -> {
+			if(this.adresse == null){
+				Notification message = new Notification("Sie müssen zunächst ein Unternehmen wählen!");
+				message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+				message.setPosition(Position.TOP_CENTER);
+				message.show(Page.getCurrent());
+				return;
+			}
+			
 			LookupAnsprechpartner lookup = new LookupAnsprechpartner(this.adresse);
 			lookup.addCloseListener(CloseListener -> {
 				if(lookup.getAnsprechpartner() != null){
