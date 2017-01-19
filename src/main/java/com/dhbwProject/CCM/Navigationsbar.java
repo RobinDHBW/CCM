@@ -15,6 +15,20 @@ public class Navigationsbar extends CssLayout{
 	public Navigationsbar(CCM_Navigator nav){
 		this.setSizeFull();
 		this.navNavigator = nav;
+		
+		/*TEMPORÄR
+		 * */
+		Button btnChangePW = new Button("PW ändern");
+		btnChangePW.setWidth("100%");
+		btnChangePW.addClickListener(click ->{
+			PasswordChanger changer = new PasswordChanger(true);
+			getUI().addWindow(changer);
+		});
+		this.addComponent(btnChangePW);
+		/*TEMPORÄR ENDE
+		 * */
+		
+		
 		this.initLogoutButton();
 		this.initNaviButtons();
 		
