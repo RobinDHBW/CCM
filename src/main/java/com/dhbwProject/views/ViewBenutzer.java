@@ -20,6 +20,8 @@ public class ViewBenutzer extends VerticalLayout implements View {
 		this.setSizeFull();
 		this.setCaption(CCM_Constants.VIEW_NAME_BENUTZER);
 		this.initTbContent();
+		FooterView fv= new FooterView();
+		this.addComponent(fv);
 	}
 
 	@Override

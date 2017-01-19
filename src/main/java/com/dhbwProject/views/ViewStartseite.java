@@ -35,12 +35,14 @@ public class ViewStartseite extends VerticalLayout implements View {
 		 		 deinBesuch.setStyleName("btnwhiteeins");
 		BesuchVerwaltung bv = new BesuchVerwaltung();
 		 
+		FooterView fv = new FooterView();
 		this.addComponent(welcome);
 		this.setComponentAlignment(welcome,Alignment.BOTTOM_CENTER);
 		
 		this.addComponent(deinBesuch);
 		this.setComponentAlignment(deinBesuch, Alignment.BOTTOM_CENTER);
 		this.addComponent(bv);
+		this.addComponent(fv);
 		
 	
 	}

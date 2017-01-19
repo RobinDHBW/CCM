@@ -16,24 +16,24 @@ public class FooterView extends CustomComponent{
 		HorizontalLayout hL = new HorizontalLayout();
 		Panel pnFooter = new Panel(); 
 		pnFooter.setStyleName(ValoTheme.PANEL_BORDERLESS);
-		pnFooter.setHeight("40px");
+		pnFooter.setHeight("20px");
 		pnFooter.setWidth("100%");
 		 hL.setMargin(new MarginInfo(true, true, false, true)); //top right bottom left
 		pnFooter.setContent(hL);
-		Label impressum = new Label("Impressum");
-		Label whiteL = new Label(" ");
-		Label version = new Label("Version" + "1.0");
+		Label impressum = new Label("Impressum      |      Version: 1.0 ");
+		impressum.setWidth("-1px");
+		//Label whiteL = new Label(" ");
+		//Label version = new Label("Version 1.0");
 		hL.addComponent(impressum);
-		hL.setComponentAlignment(impressum, Alignment.TOP_LEFT);
-		hL.addComponent(whiteL);
-		hL.addComponent(version);
-		hL.setComponentAlignment(version,Alignment.TOP_RIGHT);
+		hL.setComponentAlignment(impressum, Alignment.TOP_RIGHT);
+		//hL.addComponent(version);
+		//hL.setComponentAlignment(version,Alignment.TOP_RIGHT);
 
 
 		hL.setSizeFull();
-		hL.setHeight("50px");
+		hL.setHeight("40px");
 		pnFooter.setSizeFull();
-		pnFooter.setHeight("50px");
+		pnFooter.setHeight("40px");
 		setSizeFull();
 		
 		setCompositionRoot(pnFooter);
