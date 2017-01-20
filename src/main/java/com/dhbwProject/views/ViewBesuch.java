@@ -1,6 +1,7 @@
 package com.dhbwProject.views;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.besuche.BesuchUebersicht;
 import com.dhbwProject.besuche.BesuchVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -13,6 +14,7 @@ public class ViewBesuch extends CustomComponent implements View {
 
 	private TabSheet tbContent;	
 	private BesuchVerwaltung verwaltung;
+	private BesuchUebersicht uebersicht;
 	
 	public ViewBesuch(){
 		this.setSizeFull();
@@ -30,7 +32,9 @@ public class ViewBesuch extends CustomComponent implements View {
 	private void initTbContent(){
 		this.tbContent = new TabSheet();
 		this.verwaltung = new BesuchVerwaltung();
+		this.uebersicht = new BesuchUebersicht();
 		this.tbContent.addTab(this.verwaltung, "Meine Termine", FontAwesome.USER);
+		this.tbContent.addTab(this.uebersicht, "Gesamtübersicht", FontAwesome.LIST);
 		this.setCompositionRoot(this.tbContent);
 	}
 
