@@ -9,11 +9,19 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class BesuchUebersicht extends CustomComponent{
@@ -21,6 +29,7 @@ public class BesuchUebersicht extends CustomComponent{
 	
 	private dbConnect dbConnection;
 	private Benutzer bUser;
+	private MenuBar mbMenu;
 	private Table tblBesuche;
 	private IndexedContainer container;
 	private VerticalLayout vlLayout;
@@ -32,8 +41,9 @@ public class BesuchUebersicht extends CustomComponent{
 	}
 	
 	private void initLayout(){
+		this.initMenu();
 		this.initTable();
-		this.vlLayout = new VerticalLayout(tblBesuche);
+		this.vlLayout = new VerticalLayout(mbMenu, tblBesuche);
 		this.vlLayout.setMargin(true);
 		this.refreshContainer();
 		this.setCompositionRoot(vlLayout);
@@ -44,6 +54,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.initContainer();
 		this.tblBesuche.setContainerDataSource(this.container);
 		this.tblBesuche.setStyleName(ValoTheme.TABLE_BORDERLESS);
+		this.tblBesuche.setSelectable(true);
 	}
 	
 	private void initContainer(){
@@ -76,11 +87,77 @@ public class BesuchUebersicht extends CustomComponent{
 				b.getAdresse().getStrasse()+
 				"\n"+b.getAdresse().getOrt());
 				
-				itm.getItemProperty("Adresse").setValue(taAdresse);
+				itm.getItemProperty("Adresse").setValue(taAdresse);	
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	private void initMenu(){
+		this.mbMenu = new MenuBar();
+		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
+		
+		
+		
+		MenuItem itmAdd = mbMenu.addItem("Hinzufügen", FontAwesome.PLUS, new MenuBar.Command() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				BesuchAnlage anlage = new BesuchAnlage();
+				getUI().addWindow(anlage);
+			}
+		});
+		
+		MenuItem itmChange = mbMenu.addItem("Bearbeiten", FontAwesome.COGS, new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				Notification message = new Notification("");
+				message.setPosition(Position.TOP_CENTER);
+				if(tblBesuche.getValue() == null){
+					message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+					message.setCaption("Wählen Sie zunächst einen Termin");
+					message.show(Page.getCurrent());
+					return;
+				}
+				Besuch b = (Besuch)tblBesuche.getValue();
+				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(b);
+				getUI().addWindow(bearbeitung);	
+			}
+		});
+		
+		MenuItem itmRemove = mbMenu.addItem("Entfernen", FontAwesome.TRASH, new MenuBar.Command(){
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				Notification message = new Notification("");
+				message.setPosition(Position.TOP_CENTER);
+				if(tblBesuche.getValue() == null){
+					message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+					message.setCaption("Wählen Sie zunächst einen Termin");
+					message.show(Page.getCurrent());
+					return;
+				}
+				Besuch b = (Besuch)tblBesuche.getValue();
+				BesuchEntfernen entfernen = new BesuchEntfernen(b.getName());
+				entfernen.addCloseListener(close ->{
+					if(entfernen.getResult()){
+						//remove ....
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
+						message.show(Page.getCurrent());
+					}else{
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption("Der Termin: "+b.getName()+"wurde nicht entfernt");
+						message.show(Page.getCurrent());
+					}
+				});
+				getUI().addWindow(entfernen);
+			}
+		});
 	}
 	
 

@@ -401,6 +401,9 @@ public class BesuchFelder extends VerticalLayout {
 
 		@Override
 		protected boolean isValidValue(Date value) {
+			if(dfDateStart.getValue() == null || dfDateEnd.getValue() == null)
+				return false;
+			
 			switch(zustand){
 			case 0:
 				if(dfDateStart.getValue().compareTo(dfDateEnd.getValue()) <0)
