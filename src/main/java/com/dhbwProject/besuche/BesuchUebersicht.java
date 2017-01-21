@@ -68,30 +68,54 @@ public class BesuchUebersicht extends CustomComponent{
 	
 	private void refreshContainer(){
 		this.container.removeAllItems();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		try{
-			for(Besuch b : this.dbConnection.getBesuchByBenutzer(this.bUser)){
-				Item itm = this.container.addItem(b);
-				itm.getItemProperty("Titel").setValue(b.getName());
-				itm.getItemProperty("Start").setValue(dateFormat.format(b.getStartDate()));
-				itm.getItemProperty("Ende").setValue(dateFormat.format(b.getEndDate()));
-				
-				//ITERATIV IST DAS HIER ECHT SCHLECHT-----------------------------------------------
-				itm.getItemProperty("Unternehmen").setValue(dbConnection.getUnternehmenByAdresse(b.getAdresse()).getName());
-				//----------------------------------------------------------------------------------
-				
-				TextArea taAdresse = new TextArea();
-				taAdresse.setHeight("100px");
-				taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-				taAdresse.setValue(b.getAdresse().getPlz()+"\n"+
-				b.getAdresse().getStrasse()+
-				"\n"+b.getAdresse().getOrt());
-				
-				itm.getItemProperty("Adresse").setValue(taAdresse);	
-			}
+			for(Besuch b : this.dbConnection.getBesuchByBenutzer(this.bUser))
+				this.addItem(b);
+//				Item itm = this.container.addItem(b);
+//				itm.getItemProperty("Titel").setValue(b.getName());
+//				itm.getItemProperty("Start").setValue(dateFormat.format(b.getStartDate()));
+//				itm.getItemProperty("Ende").setValue(dateFormat.format(b.getEndDate()));
+//				
+//				//ITERATIV IST DAS HIER ECHT SCHLECHT-----------------------------------------------
+//				itm.getItemProperty("Unternehmen").setValue(dbConnection.getUnternehmenByAdresse(b.getAdresse()).getName());
+//				//----------------------------------------------------------------------------------
+//				
+//				TextArea taAdresse = new TextArea();
+//				taAdresse.setHeight("100px");
+//				taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+//				taAdresse.setValue(b.getAdresse().getPlz()+"\n"+
+//				b.getAdresse().getStrasse()+
+//				"\n"+b.getAdresse().getOrt());
+//				
+//				itm.getItemProperty("Adresse").setValue(taAdresse);	
+//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	private void addItem(Besuch b) throws Exception{
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		Item itm = this.container.addItem(b);
+		if(b.getStatus() != null)
+			tblBesuche.setItemIcon(b, FontAwesome.CHECK);
+		itm.getItemProperty("Titel").setValue(b.getName());
+		itm.getItemProperty("Start").setValue(dateFormat.format(b.getStartDate()));
+		itm.getItemProperty("Ende").setValue(dateFormat.format(b.getEndDate()));
+		
+		//ITERATIV IST DAS HIER ECHT SCHLECHT-----------------------------------------------
+		itm.getItemProperty("Unternehmen").setValue(dbConnection.getUnternehmenByAdresse(b.getAdresse()).getName());
+		//----------------------------------------------------------------------------------
+		
+		TextArea taAdresse = new TextArea();
+		taAdresse.setHeight("100px");
+		taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+		taAdresse.setValue(b.getAdresse().getPlz()+"\n"+
+		b.getAdresse().getStrasse()+
+		"\n"+b.getAdresse().getOrt());
+		
+		itm.getItemProperty("Adresse").setValue(taAdresse);	
 	}
 	
 	private void initMenu(){
@@ -106,6 +130,18 @@ public class BesuchUebersicht extends CustomComponent{
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				BesuchAnlage anlage = new BesuchAnlage();
+				anlage.addCloseListener(close ->{
+					if(anlage.getAnlage() == null)
+						return;
+					else{
+						try {
+							addItem(anlage.getAnlage());
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 				getUI().addWindow(anlage);
 			}
 		});
@@ -124,6 +160,18 @@ public class BesuchUebersicht extends CustomComponent{
 				}
 				Besuch b = (Besuch)tblBesuche.getValue();
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(b);
+				bearbeitung.addCloseListener(close ->{
+					if(bearbeitung.getBearbeitung() == null)
+						return;
+					else{
+						container.removeItem(b);
+						try {
+							addItem(bearbeitung.getBearbeitung());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 				getUI().addWindow(bearbeitung);	
 			}
 		});
