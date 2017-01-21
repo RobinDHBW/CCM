@@ -1,14 +1,9 @@
 package com.dhbwProject.views;
 
 import com.dhbwProject.backend.CCM_Constants;
-// import com.dhbwProject.unternehmen.LayoutUnternehmen;
-import com.dhbwProject.unternehmen.UnternehmenAenderung;
-import com.dhbwProject.unternehmen.UnternehmenAnlage;
-import com.dhbwProject.unternehmen.UnternehmenAnzeigen;
 import com.dhbwProject.unternehmen.UnternehmenVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 

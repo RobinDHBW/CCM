@@ -29,6 +29,7 @@ public class EMailThread extends Thread {
 	public static void main(String[] args){
 		ArrayList<String> alBenutzerMails = new ArrayList<String>();
 		alBenutzerMails.add("thyeria@gmx.de");
+		alBenutzerMails.add("fluhrerflo@gmail.com");
 		EMailThread eMailThread = new EMailThread(alBenutzerMails, "TestOutOfThread", "Here is the Content");
 		eMailThread.start();
 	}

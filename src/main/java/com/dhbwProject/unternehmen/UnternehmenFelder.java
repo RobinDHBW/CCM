@@ -22,6 +22,8 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.addComponent(tfName);
 		
 		this.ogKennzeichen = new OptionGroup();
+		this.ogKennzeichen.setWidth("300px");
+		this.ogKennzeichen.setHeight("150px");
 		this.ogKennzeichen.setCaption("Kennzeichen");
 		this.ogKennzeichen.addItem("Premiumpartner");
 		this.ogKennzeichen.addItem("Sonstiger Partner");
@@ -42,6 +44,10 @@ public class UnternehmenFelder extends VerticalLayout {
 	
 	protected void setKennzeichen(String s){
 		
+	}
+	
+	protected boolean areFieldsValid(){
+		return true;
 	}
 	
 }

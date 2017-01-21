@@ -1,10 +1,7 @@
 package com.dhbwProject.unternehmen;
 
-import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -14,8 +11,8 @@ public class AdresseFelder extends VerticalLayout{
 	
 	private TextField tfStrasse;
 	private TextField tfHausnummer;
-	
-	private ComboBox cbOrt;
+	private TextField tfPlz;
+	private TextField tfOrt;
 	
 	public AdresseFelder(){
 		this.setSpacing(true);
@@ -24,6 +21,12 @@ public class AdresseFelder extends VerticalLayout{
 	}
 	
 	private void initFields(){		
+		this.tfPlz = new TextField();
+		this.tfPlz.setCaption("PLZ:");
+		this.tfPlz.setWidth("300px");
+		this.tfPlz.addValidator(new StringLengthValidator("Eine Postleitzahl ist immer 5 Zeichen lang", 5, 5, false));
+		this.addComponent(tfPlz);
+		
 		this.tfStrasse = new TextField();
 		this.tfStrasse.setCaption("Straße:");
 		this.tfStrasse.setWidth("300px");
@@ -34,36 +37,45 @@ public class AdresseFelder extends VerticalLayout{
 		this.tfHausnummer.setWidth("300px");
 		this.addComponent(tfHausnummer);
 		
-		
-		dbConnect connection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-		this.cbOrt = new ComboBox();
-		this.cbOrt.setCaption("Ort:");
-		this.cbOrt.setWidth("300px");
-		this.addComponent(this.cbOrt);
+		this.tfOrt = new TextField();
+		this.tfOrt.setCaption("Ort:");
+		this.tfOrt.setWidth("300px");
+		this.addComponent(this.tfOrt);
 	}
 	
-//	private String getPlz(){
-//		return this.tfPlz.getValue();
-//	}
-//	
-//	private void setPlz(String plz){
-//		this.tfPlz.setValue(plz);
-//	}
-//	
-	private String getStrasse(){
+	protected String getPlz(){
+		return this.tfPlz.getValue();
+	}
+	
+	protected void setPlz(String plz){
+		this.tfPlz.setValue(plz);
+	}
+	
+	protected String getStrasse(){
 		return this.tfStrasse.getValue();
 	}
 	
-	private void setStrasse(String strasse){
+	protected void setStrasse(String strasse){
 		this.tfStrasse.setValue(strasse);
 	}
 	
-//	private String getOrt(){
-//		return this.tfOrt.getValue();
-//	}
-//	
-//	private void setOrt(String ort){
-//		this.tfOrt.setValue(ort);
-//	}
+	protected String getOrt(){
+		return this.tfOrt.getValue();
+	}
+	
+	protected void setOrt(String ort){
+		this.tfOrt.setValue(ort);
+	}
+	
+	protected String getHausnummer(){
+		return this.tfHausnummer.getValue();
+	}
+	
+	protected void setHausnummer(String s){
+		this.tfHausnummer.setValue(s);
+	}
 
+	protected boolean areFieldsValid(){
+		return true;
+	}
 }
