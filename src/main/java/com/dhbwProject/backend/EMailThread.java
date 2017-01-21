@@ -6,21 +6,35 @@ import java.util.Collection;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
-public abstract class E_MailFactory {
+public class EMailThread extends Thread {
+	
+	private Collection<String> empfaenger;
+	private String eMailTitel;
+	private String eMailInhalt;
+	private boolean bResult = false;
+	
+	public EMailThread(Collection<String> empfaenger, String eMailTitel, String eMailInhalt){
+		this.empfaenger = empfaenger;
+		this.eMailTitel = eMailTitel;
+		this.eMailInhalt = eMailInhalt;
+	}
+	
+	@Override
+	public void run(){
+		this.bResult = this.sendMail();
+	}
 	
 	
 	//Zum testen---------------------------------------------------------------------
 	public static void main(String[] args){
 		ArrayList<String> alBenutzerMails = new ArrayList<String>();
 		alBenutzerMails.add("thyeria@gmx.de");
-		if(sendMail(alBenutzerMails, "TestOutOfCCM", "Here is the Content"))
-			System.out.println("E-Mail versandt");
-		else
-			System.out.println("E-Mail nicht versandt");
+		EMailThread eMailThread = new EMailThread(alBenutzerMails, "TestOutOfThread", "Here is the Content");
+		eMailThread.start();
 	}
 	//---------------------------------------------------------------------------------
 	
-	public static synchronized boolean sendMail(Collection<String> recipients, String eMailTitel, String eMailContent){
+	private boolean sendMail(){
 		HtmlEmail email = new HtmlEmail();
         email.setHostName(CCM_Constants.E_MAIL_HOST);
         email.setSmtpPort(CCM_Constants.E_MAIL_PORT);
@@ -29,9 +43,9 @@ public abstract class E_MailFactory {
         
         try{
         	email.setFrom(CCM_Constants.E_MAIL_USERNAME);
-        	email.addTo(recipients.toArray(new String[]{}));
-        	email.setSubject(eMailTitel);
-        	email.setHtmlMsg(eMailContent);
+        	email.addTo(this.empfaenger.toArray(new String[]{}));
+        	email.setSubject(this.eMailTitel);
+        	email.setHtmlMsg(this.eMailInhalt);
         	email.send();
         	return true;
         }catch(NullPointerException e){
@@ -42,6 +56,10 @@ public abstract class E_MailFactory {
         	e.printStackTrace();
         	return false;
         }
+	}
+	
+	public boolean getResult(){
+		return this.bResult;
 	}
 
 }
