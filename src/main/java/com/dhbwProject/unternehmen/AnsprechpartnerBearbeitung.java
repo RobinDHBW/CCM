@@ -67,8 +67,8 @@ public class AnsprechpartnerBearbeitung extends Window {
 			this.fields.setAdresse(aSelect.getAdresse());
 			this.fields.setVorname(aSelect.getVorname());
 			this.fields.setNachname(aSelect.getNachname());
-			this.fields.setEmail("NVA");
-			this.fields.setTelefonnummer("NVA");
+			this.fields.setEmail(aSelect.getEmailadresse());
+			this.fields.setTelefonnummer(aSelect.getTelefonnummer());
 		});
 		
 		VerticalLayout vlLayout = new VerticalLayout(this.mbMenu, tblAnsprechpartner, fields);
