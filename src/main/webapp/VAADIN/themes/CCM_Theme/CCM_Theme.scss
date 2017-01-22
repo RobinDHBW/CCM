@@ -43,8 +43,8 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
 .v-button{
 
 	border: none;
-	background: #323D43; //dunkelgrau wie auf der Homepage
-	color: #dcdfe0;
+	background:#323D43; //dunkelgrau wie auf der Homepage
+	color:#dcdfe0;
 	font-weight:bold;
 	cursor: pointer;
 	white-space: nowrap;
@@ -67,6 +67,7 @@ font-color: #dcdfe0;
 font-weight:bold;
 text-align:left;
 padding: 6px 6px 6px 6px;
+width:90%;
 	
 }
 .v-button-navi .v-icon {
@@ -82,17 +83,17 @@ padding: 6px 6px 6px 6px;
 	border:none;
 	}
 .v-button-navi-wrap .v-button-navi-caption{
-	font-size: 12pt;
-    font-weight: bold;
-    font-color: #dcdfe0;
-    text-align: left;
-	padding: 6px;
+	font-size:12pt;
+    font-weight:bold;
+    font-color:#dcdfe0;
+    text-align:left;
+	padding:6px;
 }
 
 
 //Während der Button angeclickt ist = focus; greifen für alle Buttons die folgenden Styling Regeln:
 .v-button:focus .v-button-wrap{
-	background:#dcdfe0;
+//	background:#dcdfe0;
 	color:black;
 	boxshadow:black;
 
@@ -109,7 +110,7 @@ padding: 6px 6px 6px 6px;
 	font-color:black;
 	cursor: pointer;
 	white-space: nowrap;
-	margin: 0;
+	margin:0;
 	padding:0;
 	
 }  
@@ -123,7 +124,7 @@ padding: 6px 6px 6px 6px;
 
 .v-nativebutton-btnwhiteeins{
 	border:none;
-	border-color: white;
+	border-color:white;
 	background:white;
 	background-color:white;
 	width:-1px;
@@ -171,8 +172,8 @@ v-button-btnwhitelogo .v-button-icon{
 } 
 //Panel Header Style
 .v-panel-pnheader{
-  max-height: 120px;
-  background: white;
+  max-height:120px;
+  background:white;
   width: 100%;
   padding:0px 0px 0px 0px;
   margin:0;
@@ -182,10 +183,13 @@ v-button-btnwhitelogo .v-button-icon{
 
 
 
-//Textfield Style
+//Textfield und PasswordField nutzen denselben default Stylename
 .v-textfield{
-color: black
+	color:black
+	width:300px;
 }
+
+
 
 //Table Style
 .base .v-table-drag .v-table-body{
@@ -279,13 +283,13 @@ color:white;
 
 
 .v-calendar-event-besucht{
-background:white ;
+background:#dcdfe0;
 color:black;	
 	
 }
 
 .v-calendar-event-besucht-all-day{
-background:white;
+background:#dcdfe0;
 color:black;	
 	
 }

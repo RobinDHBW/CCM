@@ -19,7 +19,7 @@ public class Navigationsbar extends CssLayout{
 		/*TEMPORÄR
 		 * */
 		Button btnChangePW = new Button("PW ändern");
-		btnChangePW.setWidth("100%");
+		btnChangePW.setWidth("90%");
 		btnChangePW.addClickListener(click ->{
 			PasswordChanger changer = new PasswordChanger(true);
 			getUI().addWindow(changer);
@@ -36,7 +36,7 @@ public class Navigationsbar extends CssLayout{
 	
 	private void initLogoutButton(){
 		Button btnLogout = new Button();
-		btnLogout.setWidth("100%");
+		btnLogout.setWidth("90%");
 		btnLogout.setCaption("Abmelden");
 		btnLogout.setIcon(FontAwesome.SIGN_OUT);
 		btnLogout.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
@@ -81,7 +81,7 @@ public class Navigationsbar extends CssLayout{
 		private static final long serialVersionUID = 1L;
 
 		private NaviButton(String viewName){
-			this.setWidth("100%");
+			//this.setWidth("100%");
 			this.setCaption(viewName);
 			this.addClickListener(listener ->{
 				navNavigator.navigateTo(viewName);
