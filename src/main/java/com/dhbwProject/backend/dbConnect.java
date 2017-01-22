@@ -77,8 +77,8 @@ public class dbConnect {
 					Integer i = (Integer) e;
 					ps.setInt(q, i.intValue());
 				} else if(e instanceof Date){
-					java.sql.Date d = (java.sql.Date) e;
-					ps.setDate(q,  d);
+					java.sql.Timestamp d = new java.sql.Timestamp(((Date) e).getTime());
+					ps.setTimestamp(q,  d);
 				} else{
 					String s = (String) e;
 					ps.setString(q, s);
@@ -224,10 +224,12 @@ public class dbConnect {
 		
 		
 			if(obj instanceof Adresse){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`, `adresse_ort`, `unternehmen_id`) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Adresse) obj).getPlz());
 				 ps.setString(2, ((Adresse) obj).getStrasse());
 				 ps.setString(3, ((Adresse) obj).getHausnummer());
+				 ps.setString(4, ((Adresse) obj).getOrt());
+				 ps.setInt(5, ((Adresse) obj).getUnternehmen().getId());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -237,10 +239,11 @@ public class dbConnect {
 				 return auto_id;
 			}else
 			if(obj instanceof Ansprechpartner){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`, `ansprechpartner_unternehmen_id`) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, ((Ansprechpartner) obj).getVorname());
 				ps.setString(2, ((Ansprechpartner) obj).getNachname());
 				ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
+				ps.setInt(4,  getUnternehmenByAdresse(((Ansprechpartner) obj).getAdresse()).getId());
 				ps.executeUpdate();
 				ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -405,10 +408,11 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
-				String ort = getOrtByPlz(plz);
+				String ort = res.getString("adresse_ort");
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
-				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer);
+				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
+				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer, unternehmen);
 				lAdresse.add(adresse);
 			}
 		
@@ -421,10 +425,11 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
-				String ort = getOrtByPlz(plz);
+				String ort = res.getString("adresse_ort");
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
-				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer);
+				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
+				Adresse adresse = new Adresse(id, plz, ort, strasse, hausnummer, unternehmen);
 				lAdresse.add(adresse);
 			}
 		
@@ -437,25 +442,15 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id");
-				String ort = getOrtByPlz(plz);
+				String ort = res.getString("adresse_ort");
 				String strasse = res.getString("adresse_strasse");
 				String hausnummer = res.getString("adresse_hausnummer");
-				adresse = new Adresse(id, plz, ort, strasse, hausnummer);
+				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
+				adresse = new Adresse(id, plz, ort, strasse, hausnummer, unternehmen);
 			}
 			res.close();
 			return adresse;
 		
-	}
-	private String getOrtByPlz(String plz) throws SQLException {
-		String ort = null;
-		ResultSet res = null;
-		
-			res = executeQuery("select * from ort where ort_plz = ?", (Object[]) new String[] { plz });
-			while (res.next()) {
-				ort = res.getString("ort_name");;
-			}
-			res.close();
-		return ort;
 	}
 	public Adresse createAdresse(Adresse adresse) throws SQLException {
 		int i = executeInsert(adresse);
@@ -463,22 +458,22 @@ public class dbConnect {
 	}
 	public Adresse changeAdresse(Adresse altAdresse, Adresse neuAdresse) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ? WHERE `adresse`.`adresse_id` = ? ",
-				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), altAdresse.getId() });
+				"UPDATE `adresse` SET `adresse_plz_id` = ?, `adresse_strasse` = ?, `adresse_hausnummer` = ?, adresse_ort = ? WHERE `adresse`.`adresse_id` = ? ",
+				new Object[] { neuAdresse.getPlz(), neuAdresse.getStrasse(), neuAdresse.getHausnummer(), neuAdresse.getOrt(), altAdresse.getId() });
 		return getAdresseById(altAdresse.getId());
 	}
-	private LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
+	public LinkedList<Adresse> getAdresseByUnternehmen(Unternehmen pUnternehmen) throws SQLException {
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
 		ResultSet res = executeQuery("select * from adresse a, Unternehmen u where u.unternehmen_id = a.unternehmen_id and u.unternehmen_id = ?", new Object[]{(Object) new Integer(pUnternehmen.getId())});
 		
 			while(res.next()){
 				int id = res.getInt("adresse_id");
 				String plz = res.getString("adresse_plz_id"); 
-				String ort = getOrtByPlz(plz); 
-				//Unternehmen unternehmen = getUnternehmenById(id);
+				String ort = res.getString("adresse_ort"); 
 				String strasse = res.getString("adresse_strasse"); 
 				String hausnummer = res.getString("adresse_hausnummer");
-				lAdresse.add(new Adresse(id, plz, ort, strasse, hausnummer));
+				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
+				lAdresse.add(new Adresse(id, plz, ort, strasse, hausnummer, unternehmen));
 			}
 		
 			res.close();
@@ -495,7 +490,7 @@ public class dbConnect {
 				String vorname = res.getString("ansprechpartner_vorname");
 				String nachname = res.getString("ansprechpartner_nachname");
 				Adresse adresse = null;
-				//adresse = getAdresseById(res.getInt("adresse_id"));
+				adresse = getAdresseById(res.getInt("adresse_id"));
 				String email = res.getString("ansprechpartner_emailadresse");
 				String telefon = res.getString("ansprechpartner_telefonnummer");
 				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
@@ -504,8 +499,26 @@ public class dbConnect {
 				lAnsprechpartner.add(ansprechpartner);
 			}
 			res.close();
-
-				res.close();
+		return lAnsprechpartner;
+	}
+	public LinkedList<Ansprechpartner> getAnsprechpartnerByAdresse(Adresse pAdresse) throws SQLException{
+		ResultSet res = executeQuery("Select * from ansprechpartner where adresse_id = ?", new Object[] {(Object) new Integer(pAdresse.getId())});
+		LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+		
+			while(res.next()){
+				int id = res.getInt("ansprechpartner_id");
+				String vorname = res.getString("ansprechpartner_vorname");
+				String nachname = res.getString("ansprechpartner_nachname");
+				Adresse adresse = null;
+				adresse = getAdresseById(res.getInt("adresse_id"));
+				String email = res.getString("ansprechpartner_emailadresse");
+				String telefon = res.getString("ansprechpartner_telefonnummer");
+				Ansprechpartner ansprechpartner = new Ansprechpartner(id, vorname, nachname, adresse, null, email, telefon);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByAnsprechpartner(ansprechpartner);
+				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang, email, telefon);
+				lAnsprechpartner.add(ansprechpartner);
+			}
+			res.close();
 		return lAnsprechpartner;
 	}
 	public Ansprechpartner createAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException {
@@ -521,7 +534,7 @@ public class dbConnect {
 	
 	}
 	public Ansprechpartner getAnsprechpartnerById(int pId) throws SQLException{
-		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {new Integer(pId)});
+		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_id = ?", new Object[] {new Integer(pId)});
 		Ansprechpartner ansprechpartner = null;
 		
 			while(res.next()){
@@ -536,10 +549,6 @@ public class dbConnect {
 				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang, email, telefon);
 			}
 			res.close();
-		
-			
-			
-				res.close();
 		return ansprechpartner;
 	}
 	public boolean deleteAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException{
@@ -612,6 +621,18 @@ public class dbConnect {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
 				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(),neuBenutzer.getRolle().getId(), altBenutzer.getId() });
+		PreparedStatement ps1 = con.prepareStatement("DELETE FROM studiengang_benutzer WHERE benutzer_id = ?");
+		ps1.setString(1, altBenutzer.getId());
+		ps1.executeUpdate();
+		ps1.close();
+		for (Studiengang e : neuBenutzer.getStudiengang()) {
+			PreparedStatement ps2 = con.prepareStatement(
+					"INSERT INTO `studiengang_benutzer` (`studiengang_benutzer_id`, `studiengang_id`, `benutzer_id`) VALUES (NULL, ?, ?)");
+			ps2.setInt(1, e.getId());
+			ps2.setString(2, altBenutzer.getId());
+			ps2.executeUpdate();
+			ps2.close();
+		}
 		return getBenutzerById(neuBenutzer.getId());
 	}
 	public boolean deleteBenutzer(Benutzer benutzer) throws SQLException {
@@ -1145,12 +1166,12 @@ public class dbConnect {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
 				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
-				LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
-				lAdresse = getAdresseByUnternehmen(unternehmen);
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
+				//LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+				//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+				unternehmen = new Unternehmen(id, name, kennzeichen);
+				//lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
+				//lAdresse = getAdresseByUnternehmen(unternehmen);
+				unternehmen = new Unternehmen(id, name, kennzeichen);
 				lUnternehmen.add(unternehmen);
 			}
 			res.close();
@@ -1165,12 +1186,12 @@ public class dbConnect {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
 				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
-				LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
-				lAdresse = getAdresseByUnternehmen(unternehmen);
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
+				//LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+				//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+				unternehmen = new Unternehmen(id, name,  kennzeichen);
+				//lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
+				//lAdresse = getAdresseByUnternehmen(unternehmen);
+				unternehmen = new Unternehmen(id, name,  kennzeichen);
 			}
 			res.close();
 		return unternehmen;
@@ -1184,11 +1205,11 @@ public class dbConnect {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
 				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
-				LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
-				lAdresse = getAdresseByUnternehmen(unternehmen);
+				//LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+				//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+				unternehmen = new Unternehmen(id, name, kennzeichen);
+				//lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
+				//lAdresse = getAdresseByUnternehmen(unternehmen);
 			}
 			res.close();
 
@@ -1203,11 +1224,12 @@ public class dbConnect {
 					int id = res.getInt("unternehmen_id");
 					String name = res.getString("unternehmen_name");
 					String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-					LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
-					LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-					unternehmen = new Unternehmen(id, name, lAnsprechpartner, lAdresse, kennzeichen);
-					lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
-					lAdresse = getAdresseByUnternehmen(unternehmen);
+
+//					LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+					//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+					unternehmen = new Unternehmen(id, name, kennzeichen);
+//					lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
+					//lAdresse = getAdresseByUnternehmen(unternehmen);
 				}
 				res.close();
 

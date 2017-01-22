@@ -50,12 +50,11 @@ public class CCM_UI extends UI {
 		try {
 			this.dbConnection = new dbConnect();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		try{
 			VaadinSession.getCurrent().lock();
 			VaadinSession.getCurrent().getSession().setAttribute(CCM_Constants.SESSION_VALUE_CONNECTION, this.dbConnection);
@@ -63,8 +62,15 @@ public class CCM_UI extends UI {
 			VaadinSession.getCurrent().unlock();
 		}
 		
-//		VaadinService.getCurrentRequest().getWrappedSession().
-//		setAttribute(CCM_Constants.SESSION_VALUE_CONNECTION, this.dbConnection);
+		this.addDetachListener(detach ->{
+			try {
+				this.dbConnection.close();
+				System.out.println("Session detached");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		
 		this.setSizeFull();		
 		this.initViewNavigator();
 		this.initContentLayout();

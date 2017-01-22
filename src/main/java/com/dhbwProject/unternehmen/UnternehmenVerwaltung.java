@@ -9,14 +9,18 @@ import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class UnternehmenVerwaltung extends CustomComponent {
@@ -46,6 +50,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.tblUnternehmen.setContainerDataSource(this.container);
 		
 		this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
+		this.vlLayout.setMargin(true);
 		this.vlLayout.setSizeFull();
 		this.setCompositionRoot(this.vlLayout);	
 	}
@@ -53,22 +58,48 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
 		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
-		MenuItem itmUnternehmenAnlage = this.mbMenu.addItem("Hinzufügen",
+		Notification message = new Notification("Bitte wählen Sie ein Unternehmen");
+		message.setPosition(Position.TOP_CENTER);
+		message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+		
+		MenuItem itmUnternehmenAnlage = this.mbMenu.addItem("Unternehmen",
 				FontAwesome.PLUS, new MenuBar.Command() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void menuSelected(MenuItem selectedItem) {
-						Window w = new Window();
-						w.setContent(new UnternehmenAnlage());
-						w.center();
-						w.setWidth("400px");
-						w.setHeight("600px");
-						w.setClosable(true);
-						w.setModal(false);
-						getUI().addWindow(w);
+						UnternehmenAnlage anlage = new UnternehmenAnlage();
+						anlage.addCloseListener(close ->{
+							if(anlage.getUnternehmenNeu() == null || anlage.getAdresseNeu() == null)
+								return;
+							else{
+								addItem(anlage.getAdresseNeu());
+							}
+						});
+						getUI().addWindow(anlage);
 					}
 				});
+		
+		MenuItem itmAdressAnlage = this.mbMenu.addItem("Adresse", FontAwesome.PLUS, new MenuBar.Command() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				if(tblUnternehmen.getValue() == null){
+					message.show(Page.getCurrent());
+					return;
+				}
+				AdresseAnlage anlage = new AdresseAnlage(((Adresse)tblUnternehmen.getValue()).getUnternehmen());
+				anlage.addCloseListener(close ->{
+					if(anlage.getAdresseNeu() == null)
+						return;
+					else
+						addItem(anlage.getAdresseNeu());
+				});
+				getUI().addWindow(anlage);
+				
+			}
+		});
 		
 		MenuItem itmUnternehmenBearbeitung = this.mbMenu.addItem("Bearbeiten",
 				FontAwesome.COGS, new MenuBar.Command() {
@@ -76,7 +107,18 @@ public class UnternehmenVerwaltung extends CustomComponent {
 
 					@Override
 					public void menuSelected(MenuItem selectedItem) {
-						UnternehmenBearbeitung bearbeitung = new UnternehmenBearbeitung(((ItemId)tblUnternehmen.getValue()).u);
+						if(tblUnternehmen.getValue() == null){
+							message.show(Page.getCurrent());
+							return;
+						}
+						
+						UnternehmenBearbeitung bearbeitung = new UnternehmenBearbeitung(((Adresse)tblUnternehmen.getValue()).getUnternehmen(), ((Adresse)tblUnternehmen.getValue()));
+						bearbeitung.addCloseListener(close ->{
+							if(bearbeitung.getAdresseChange() == null || bearbeitung.getUnternehmenChange() == null)
+								return;
+							refreshContainer();
+							
+						});
 						getUI().addWindow(bearbeitung);
 					}
 				});
@@ -87,9 +129,14 @@ public class UnternehmenVerwaltung extends CustomComponent {
 
 					@Override
 					public void menuSelected(MenuItem selectedItem) {
-						Unternehmen u = ((ItemId)tblUnternehmen.getValue()).u;
-						Adresse a = ((ItemId)tblUnternehmen.getValue()).a; 
-						AnsprechpartnerBearbeitung bearbeitung = new AnsprechpartnerBearbeitung(u, a);
+						if(tblUnternehmen.getValue() == null){
+							message.show(Page.getCurrent());
+							return;
+						}
+						
+						Unternehmen u = ((Adresse)tblUnternehmen.getValue()).getUnternehmen();
+						Adresse a = ((Adresse)tblUnternehmen.getValue()); 
+						AnsprechpartnerBearbeitung bearbeitung = new AnsprechpartnerBearbeitung(a);
 						getUI().addWindow(bearbeitung);	
 					}
 				});
@@ -97,38 +144,32 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	
 	private void initContainer(){
 		this.container = new IndexedContainer();
-		this.container.addContainerProperty("Kennzeichen", FontAwesome.class, null);
+		this.container.addContainerProperty("Kennzeichen", String.class, "NVA");
 		this.container.addContainerProperty("Name", String.class, null);
 		this.container.addContainerProperty("Adresse", TextArea.class, null);	
+		refreshContainer();
+	}
+	
+	private void refreshContainer(){
+		this.container.removeAllItems();
 		try{
-			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
-				for(Adresse a: u.getlAdresse()){
-					Item itm = this.container.addItem(new ItemId(u, a));
-					itm.getItemProperty("Kennzeichen").setValue(FontAwesome.CLOSE);
-					itm.getItemProperty("Name").setValue(u.getName());
-					
-					TextArea taAdresse = new TextArea();
-					taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-					taAdresse.setHeight("100px");
-					taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
-					itm.getItemProperty("Adresse").setValue(taAdresse);
-				}
-			}
+			for(Adresse a : this.dbConnection.getAllAdresse())
+				this.addItem(a);
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
 	
-	private class ItemId{
-		private Unternehmen u;
-		private Adresse a;
+	private void addItem(Adresse a){
+		Item itm = this.container.addItem(a);
+		itm.getItemProperty("Name").setValue(a.getUnternehmen().getName());
 		
-		private ItemId(Unternehmen u, Adresse a){
-			this.u = u;
-			this.a = a;
-		}
-	}
-	
-	
+		TextArea taAdresse = new TextArea();
+		taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+		taAdresse.setHeight("100px");
+		taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
+		itm.getItemProperty("Adresse").setValue(taAdresse);
+	}	
 
 }
+

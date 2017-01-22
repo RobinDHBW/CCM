@@ -2,7 +2,7 @@ package com.dhbwProject.unternehmen;
 
 import com.dhbwProject.backend.beans.Adresse;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.ui.TextArea;
+//import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -10,7 +10,7 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 	
 	private Adresse adresse;
-	private TextArea taAdresse;
+//	private TextArea taAdresse;
 	private TextField tfNameAnsprechpartner;
 	private TextField tfVornameAnsprechpartner;
 	private TextField tfTelefonnummer;
@@ -21,13 +21,18 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 		this.initFields();
 	}
 	
+	public AnsprechpartnerFelder(Adresse a){
+		this();
+		this.setAdresse(a);
+	}
+	
 	private void initFields(){
-		this.taAdresse = new TextArea();
-		this.taAdresse.setReadOnly(true);
-		this.taAdresse.setCaption("Adresse:");
-		this.taAdresse.setHeight("100px");
-		this.taAdresse.setWidth("300px");
-		this.addComponent(taAdresse);
+//		this.taAdresse = new TextArea();
+//		this.taAdresse.setReadOnly(true);
+//		this.taAdresse.setCaption("Adresse:");
+//		this.taAdresse.setHeight("100px");
+//		this.taAdresse.setWidth("300px");
+//		this.addComponent(taAdresse);
 		
 		this.tfVornameAnsprechpartner = new TextField("Ansprechpartner:");
 		this.tfVornameAnsprechpartner.setCaption("Vorname:");
@@ -58,9 +63,9 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	
 	public void setAdresse(Adresse a){
 		this.adresse = a;
-		this.taAdresse.setReadOnly(false);
-		this.taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
-		this.taAdresse.setReadOnly(true);
+//		this.taAdresse.setReadOnly(false);
+//		this.taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
+//		this.taAdresse.setReadOnly(true);
 	}
 	
 	public String getVorname(){
@@ -95,7 +100,9 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 		this.tfEmail.setValue(s);
 	}
 	
-	
+	public boolean areFieldsValid(){
+		return true;
+	}
 
 }
 

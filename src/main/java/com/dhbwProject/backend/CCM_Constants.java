@@ -16,5 +16,11 @@ public interface CCM_Constants {
 	public static final String SESSION_VALUE_USER = "User";
 	public static final String SESSION_VALUE_CONNECTION = "dbConnection";
 	
+	public static final String E_MAIL_HOST = "smtp.gmail.com";
+	public static final int E_MAIL_PORT = 465;
+	public static final boolean E_MAIL_SSL = true;
+	public static final String E_MAIL_USERNAME = "ccmsys@gmail.com";
+	public static final String E_MAIL_PASSWORT = "ccmBenachrichtigung";
+	
 
 }

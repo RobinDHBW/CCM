@@ -38,7 +38,7 @@ public abstract class PasswordHasher {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		System.out.println(generatedPassword);
+//		System.out.println(generatedPassword);
 
 		return generatedPassword;
 

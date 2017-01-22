@@ -11,6 +11,7 @@ import com.dhbwProject.backend.beans.Beruf;
 import com.dhbwProject.backend.beans.Rolle;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ComboBox;
@@ -162,7 +163,10 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	public void setStudiengang (Benutzer b){
-		this.lsStudiengang.setValue(b.getStudiengang().get(0).getBezeichnung());
+		this.lsStudiengang.clear();
+		for (Studiengang st : b.getStudiengang()) {
+			this.lsStudiengang.select(st.getBezeichnung());
+		}
 	}
 	
 	public LinkedList<String> getStudiengang (){
@@ -206,8 +210,6 @@ public class BenutzerFields extends VerticalLayout{
 		this.cbRolle.setEnabled(bool);
 		this.lsStudiengang.setEnabled(bool);
 	}
-	
-	
 	
 
 }

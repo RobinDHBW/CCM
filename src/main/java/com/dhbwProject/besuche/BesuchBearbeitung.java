@@ -12,12 +12,16 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
 import com.dhbwProject.backend.beans.Status;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class BesuchBearbeitung extends Window {
 	public static final String BERECHTIGUNG = "BesuchBearbeitung";
@@ -59,9 +63,16 @@ public class BesuchBearbeitung extends Window {
 		this.fields.setAutor(b.getAutor());
 		this.fields.setDateStart(b.getStartDate());
 		this.fields.setDateEnd(b.getEndDate());
+//		this.fields.setDateStart(new Date(b.getStartDate().getTime()));
+//		this.fields.setDateEnd(new Date(b.getEndDate().getTime()));
 		this.fields.setTeilnehmenr(b.getBesucher());
 		this.fields.setAdresse(b.getAdresse());
-//		this.fields.setUnternehmen();
+		try {
+			this.fields.setUnternehmen(this.dbConnection.getUnternehmenByAdresse(b.getAdresse()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.fields.setAnsprechpartner(b.getAnsprechpartner());
 	}
 	
@@ -70,16 +81,24 @@ public class BesuchBearbeitung extends Window {
 		this.btnUpdate = new Button("Bearbeiten");
 		this.btnUpdate.setIcon(FontAwesome.CHECK);
 		this.btnUpdate.addClickListener(listener ->{
-			try {
-				this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
+			if(fields.isValid()){
+				try {
+					this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
 						fields.getDateStart(), fields.getDateEnd(),
 						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 						fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				this.close();
+			}else{
+				Notification meldung = new Notification("Plichtfelder müssen gefüllt werden");
+				meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+				meldung.setPosition(Position.TOP_CENTER);
+				meldung.show(Page.getCurrent());
+				return;
 			}
-			this.close();
 		});
 		this.fields.addComponent(this.btnUpdate);
 	}
