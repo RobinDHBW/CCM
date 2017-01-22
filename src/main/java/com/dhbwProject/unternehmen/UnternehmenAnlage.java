@@ -54,11 +54,13 @@ public class UnternehmenAnlage extends Window {
 			}
 			
 			try{
-				this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), null, null);
-				this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), uNeu);
+				this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), null);
+				
 //				HIER MÜSSEN NOCH DIE METHODEN ANGEPASST WERDEN
-				dbConnection.createUnternehmen(uNeu);
-//				dbConnection.createAdresse(aNeu);
+				
+				Unternehmen pNeu = dbConnection.createUnternehmen(uNeu);
+				this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), pNeu);
+				dbConnection.createAdresse(aNeu);
 				message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 				message.setCaption(uNeu.getName()+" wurde hinzugefügt");
 				message.show(Page.getCurrent());

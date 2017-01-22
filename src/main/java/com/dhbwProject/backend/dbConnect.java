@@ -1157,12 +1157,12 @@ public class dbConnect {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
 				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+				//LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 				//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
+				unternehmen = new Unternehmen(id, name, kennzeichen);
+				//lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
 				//lAdresse = getAdresseByUnternehmen(unternehmen);
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, kennzeichen);
+				unternehmen = new Unternehmen(id, name, kennzeichen);
 				lUnternehmen.add(unternehmen);
 			}
 			res.close();
@@ -1177,12 +1177,12 @@ public class dbConnect {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
 				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+				//LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 				//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
+				unternehmen = new Unternehmen(id, name,  kennzeichen);
+				//lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen); 
 				//lAdresse = getAdresseByUnternehmen(unternehmen);
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, kennzeichen);
+				unternehmen = new Unternehmen(id, name,  kennzeichen);
 			}
 			res.close();
 		return unternehmen;
@@ -1196,10 +1196,10 @@ public class dbConnect {
 				int id = res.getInt("unternehmen_id");
 				String name = res.getString("unternehmen_name");
 				String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-				LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+				//LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 				//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-				unternehmen = new Unternehmen(id, name, lAnsprechpartner, kennzeichen);
-				lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
+				unternehmen = new Unternehmen(id, name, kennzeichen);
+				//lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
 				//lAdresse = getAdresseByUnternehmen(unternehmen);
 			}
 			res.close();
@@ -1215,10 +1215,10 @@ public class dbConnect {
 					int id = res.getInt("unternehmen_id");
 					String name = res.getString("unternehmen_name");
 					String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
-					LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+//					LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 					//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-					unternehmen = new Unternehmen(id, name, lAnsprechpartner, kennzeichen);
-					lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
+					unternehmen = new Unternehmen(id, name, kennzeichen);
+//					lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
 					//lAdresse = getAdresseByUnternehmen(unternehmen);
 				}
 				res.close();
