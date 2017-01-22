@@ -106,13 +106,13 @@ public class AnsprechpartnerBearbeitung extends Window {
 						return;
 					}
 						Ansprechpartner aNeu = new Ansprechpartner(0, felder.getVorname(), 
-								felder.getNachname(), adresse, null, "", "");
+								felder.getNachname(), adresse, null, felder.getEmail(), felder.getTelefonnummer());
 						try{
 							addItem(dbConnection.createAnsprechpartner(aNeu));
 							message.setCaption(aNeu.getNachname()+", "+aNeu.getVorname()+" erfolgreich angelegt");
 							message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 							message.show(Page.getCurrent());
-							close();
+							w.close();
 						}catch(SQLException e){
 							e.printStackTrace();
 						}
