@@ -60,7 +60,6 @@ public class AnsprechpartnerBearbeitung extends Window {
 		this.tblAnsprechpartner.setContainerDataSource(container);
 		this.tblAnsprechpartner.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblAnsprechpartner.addStyleName(ValoTheme.TABLE_NO_STRIPES);
-//		this.tblAnsprechpartner.addStyleName(ValoTheme.TABLE_COMPACT);
 		this.tblAnsprechpartner.addValueChangeListener(valueChange ->{
 			if(tblAnsprechpartner.getValue() == null)
 				return;
@@ -96,6 +95,7 @@ public class AnsprechpartnerBearbeitung extends Window {
 				w.setWidth("400px");
 				w.setHeight("500px");
 				AnsprechpartnerFelder felder = new AnsprechpartnerFelder(adresse);
+				felder.setAdresse(adresse);
 				Button btnAnlage = new Button("Hinzufügen");
 				btnAnlage.addClickListener(click ->{
 					Notification message = new Notification("");
@@ -106,8 +106,8 @@ public class AnsprechpartnerBearbeitung extends Window {
 						message.show(Page.getCurrent());
 						return;
 					}
-						Ansprechpartner aNeu = new Ansprechpartner(0, fields.getVorname(), 
-								fields.getNachname(), fields.getAdresse(), null, "", "");
+						Ansprechpartner aNeu = new Ansprechpartner(0, felder.getVorname(), 
+								felder.getNachname(), felder.getAdresse(), null, "", "");
 						try{
 							addItem(dbConnection.createAnsprechpartner(aNeu));
 							message.setCaption(aNeu.getNachname()+", "+aNeu.getVorname()+" erfolgreich angelegt");

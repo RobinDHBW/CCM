@@ -23,8 +23,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class AdresseAnlage extends Window {
 	private static final long serialVersionUID = 1L;
 	private Adresse aNeu;
-	private Unternehmen uAlt;
-	private Unternehmen uNeu;
+	private Unternehmen uReferenz;
 	private dbConnect dbConnection;
 	
 	private AdresseFelder fields;
@@ -45,7 +44,7 @@ public class AdresseAnlage extends Window {
 	
 	public AdresseAnlage(Unternehmen u){
 		this();
-		this.uAlt = u;
+		this.uReferenz = u;
 	}
 	
 	private Panel initContent(){
@@ -63,11 +62,8 @@ public class AdresseAnlage extends Window {
 				return;
 			}
 			try{
-				this.aNeu = new Adresse(0, fields.getPlz(), fields.getOrt(), fields.getStrasse(), fields.getHausnummer(), uNeu);
-				dbConnection.createAdresse(aNeu);
-//				uNeu = new Unternehmen(0, uAlt.getName(), uAlt.getlAnsprechpartner(), uAlt.getlAdresse(), "A");
-//				uNeu.getlAdresse().add(aNeu);
-//				dbConnection.changeUnternehmen(uAlt, uNeu);
+				this.aNeu = new Adresse(0, fields.getPlz(), fields.getOrt(), fields.getStrasse(), fields.getHausnummer(), uReferenz);
+				this.aNeu = dbConnection.createAdresse(aNeu);
 				message.setCaption("Adresse wurde angelegt");
 				message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 				message.show(Page.getCurrent());
@@ -84,6 +80,10 @@ public class AdresseAnlage extends Window {
 		Panel p = new Panel();
 		p.setContent(layout);
 		return p;
+	}
+	
+	protected Adresse getAdresseNeu(){
+		return aNeu;
 	}
 
 }

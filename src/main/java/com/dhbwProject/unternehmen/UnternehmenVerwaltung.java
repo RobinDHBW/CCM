@@ -73,7 +73,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 							if(anlage.getUnternehmenNeu() == null || anlage.getAdresseNeu() == null)
 								return;
 							else{
-								addItem(anlage.getUnternehmenNeu(), anlage.getAdresseNeu());
+								addItem(anlage.getAdresseNeu());
 							}
 						});
 						getUI().addWindow(anlage);
@@ -89,7 +89,13 @@ public class UnternehmenVerwaltung extends CustomComponent {
 					message.show(Page.getCurrent());
 					return;
 				}
-				AdresseAnlage anlage = new AdresseAnlage(((ItemId)tblUnternehmen.getValue()).u);
+				AdresseAnlage anlage = new AdresseAnlage(((Adresse)tblUnternehmen.getValue()).getUnternehmen());
+				anlage.addCloseListener(close ->{
+					if(anlage.getAdresseNeu() == null)
+						return;
+					else
+						addItem(anlage.getAdresseNeu());
+				});
 				getUI().addWindow(anlage);
 				
 			}
@@ -106,12 +112,10 @@ public class UnternehmenVerwaltung extends CustomComponent {
 							return;
 						}
 						
-						UnternehmenBearbeitung bearbeitung = new UnternehmenBearbeitung(((ItemId)tblUnternehmen.getValue()).u, ((ItemId)tblUnternehmen.getValue()).a);
+						UnternehmenBearbeitung bearbeitung = new UnternehmenBearbeitung(((Adresse)tblUnternehmen.getValue()).getUnternehmen(), ((Adresse)tblUnternehmen.getValue()));
 						bearbeitung.addCloseListener(close ->{
 							if(bearbeitung.getAdresseChange() == null || bearbeitung.getUnternehmenChange() == null)
 								return;
-//							container.removeItem((ItemId)tblUnternehmen.getValue());
-//							addItem(bearbeitung.getUnternehmenChange(), bearbeitung.getAdresseChange());
 							refreshContainer();
 							
 						});
@@ -130,8 +134,8 @@ public class UnternehmenVerwaltung extends CustomComponent {
 							return;
 						}
 						
-						Unternehmen u = ((ItemId)tblUnternehmen.getValue()).u;
-						Adresse a = ((ItemId)tblUnternehmen.getValue()).a; 
+						Unternehmen u = ((Adresse)tblUnternehmen.getValue()).getUnternehmen();
+						Adresse a = ((Adresse)tblUnternehmen.getValue()); 
 						AnsprechpartnerBearbeitung bearbeitung = new AnsprechpartnerBearbeitung(a);
 						getUI().addWindow(bearbeitung);	
 					}
@@ -140,7 +144,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	
 	private void initContainer(){
 		this.container = new IndexedContainer();
-		this.container.addContainerProperty("Kennzeichen", TextField.class, null);
+		this.container.addContainerProperty("Kennzeichen", String.class, "NVA");
 		this.container.addContainerProperty("Name", String.class, null);
 		this.container.addContainerProperty("Adresse", TextArea.class, null);	
 		refreshContainer();
@@ -149,44 +153,23 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	private void refreshContainer(){
 		this.container.removeAllItems();
 		try{
-			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
-				for(Adresse a: this.dbConnection.getAdresseByUnternehmen(u)){
-					this.addItem(u, a);
-				}
-			}
+			for(Adresse a : this.dbConnection.getAllAdresse())
+				this.addItem(a);
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
 	}
 	
-	private void addItem(Unternehmen u, Adresse a){
-		Item itm = this.container.addItem(new ItemId(u, a));
-		TextField tfKennzeichen = new TextField();
-		tfKennzeichen.setIcon(FontAwesome.CLOSE);
-		tfKennzeichen.setValue(null);
-		tfKennzeichen.setNullRepresentation("");
-		tfKennzeichen.setWidth("40px");
-		itm.getItemProperty("Kennzeichen").setValue(tfKennzeichen);
-		itm.getItemProperty("Name").setValue(u.getName());
+	private void addItem(Adresse a){
+		Item itm = this.container.addItem(a);
+		itm.getItemProperty("Name").setValue(a.getUnternehmen().getName());
 		
 		TextArea taAdresse = new TextArea();
 		taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
 		taAdresse.setHeight("100px");
 		taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
 		itm.getItemProperty("Adresse").setValue(taAdresse);
-	}
-	
-	private class ItemId{
-		private Unternehmen u;
-		private Adresse a;
-		
-		private ItemId(Unternehmen u, Adresse a){
-			this.u = u;
-			this.a = a;
-		}
-	}
-	
-	
+	}	
 
 }
 
