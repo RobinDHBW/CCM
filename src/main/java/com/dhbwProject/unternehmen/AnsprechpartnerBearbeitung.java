@@ -83,6 +83,8 @@ public class AnsprechpartnerBearbeitung extends Window {
 	
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
+		Notification message = new Notification("");
+		message.setPosition(Position.TOP_CENTER);
 		
 		MenuItem itmAnlage = this.mbMenu.addItem("Hinzufügen", FontAwesome.PLUS, new MenuBar.Command() {
 			
@@ -95,11 +97,8 @@ public class AnsprechpartnerBearbeitung extends Window {
 				w.setWidth("400px");
 				w.setHeight("500px");
 				AnsprechpartnerFelder felder = new AnsprechpartnerFelder(adresse);
-				felder.setAdresse(adresse);
 				Button btnAnlage = new Button("Hinzufügen");
 				btnAnlage.addClickListener(click ->{
-					Notification message = new Notification("");
-					message.setPosition(Position.TOP_CENTER);
 					if(!felder.areFieldsValid()){
 						message.setCaption("Füllen Sie die fehlenden Felder aus");
 						message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
@@ -107,7 +106,7 @@ public class AnsprechpartnerBearbeitung extends Window {
 						return;
 					}
 						Ansprechpartner aNeu = new Ansprechpartner(0, felder.getVorname(), 
-								felder.getNachname(), felder.getAdresse(), null, "", "");
+								felder.getNachname(), adresse, null, "", "");
 						try{
 							addItem(dbConnection.createAnsprechpartner(aNeu));
 							message.setCaption(aNeu.getNachname()+", "+aNeu.getVorname()+" erfolgreich angelegt");
@@ -137,8 +136,6 @@ public class AnsprechpartnerBearbeitung extends Window {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				Notification message = new Notification("");
-				message.setPosition(Position.TOP_CENTER);
 				if(tblAnsprechpartner.getValue() == null){
 					message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
 					message.setCaption("Bitte wählen Sie einen Ansprechpartner aus");
