@@ -68,28 +68,9 @@ public class BesuchUebersicht extends CustomComponent{
 	
 	private void refreshContainer(){
 		this.container.removeAllItems();
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		try{
 			for(Besuch b : this.dbConnection.getBesuchByBenutzer(this.bUser))
 				this.addItem(b);
-//				Item itm = this.container.addItem(b);
-//				itm.getItemProperty("Titel").setValue(b.getName());
-//				itm.getItemProperty("Start").setValue(dateFormat.format(b.getStartDate()));
-//				itm.getItemProperty("Ende").setValue(dateFormat.format(b.getEndDate()));
-//				
-//				//ITERATIV IST DAS HIER ECHT SCHLECHT-----------------------------------------------
-//				itm.getItemProperty("Unternehmen").setValue(dbConnection.getUnternehmenByAdresse(b.getAdresse()).getName());
-//				//----------------------------------------------------------------------------------
-//				
-//				TextArea taAdresse = new TextArea();
-//				taAdresse.setHeight("100px");
-//				taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-//				taAdresse.setValue(b.getAdresse().getPlz()+"\n"+
-//				b.getAdresse().getStrasse()+
-//				"\n"+b.getAdresse().getOrt());
-//				
-//				itm.getItemProperty("Adresse").setValue(taAdresse);	
-//			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -173,6 +154,16 @@ public class BesuchUebersicht extends CustomComponent{
 					}
 				});
 				getUI().addWindow(bearbeitung);	
+			}
+		});
+		
+		MenuItem itmBenachrichtigung = mbMenu.addItem("Benachrichtigung", FontAwesome.COMMENTS, new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				BesuchBenachrichtigung benachrichtigung = new BesuchBenachrichtigung();
+				getUI().addWindow(benachrichtigung);
+				
 			}
 		});
 		

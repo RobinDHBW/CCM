@@ -392,7 +392,7 @@ public class BesuchFelder extends VerticalLayout {
 	}
 	
 	private class DateValidator extends AbstractValidator<Date>{
-
+		private static final long serialVersionUID = 1L;
 		private int zustand;
 		public DateValidator(String errorMessage, int z) {
 			super(errorMessage);
