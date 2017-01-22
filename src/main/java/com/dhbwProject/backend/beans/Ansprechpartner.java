@@ -61,4 +61,12 @@ public class Ansprechpartner {
 		this.lStudiengang = lStudiengang;
 	}
 
+	public String getEmailadresse() {
+		return email;
+	}
+
+	public String getTelefonnummer() {
+		return telefonnummer;
+	}
+
 }

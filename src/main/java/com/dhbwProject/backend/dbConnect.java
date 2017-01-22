@@ -239,12 +239,15 @@ public class dbConnect {
 				 return auto_id;
 			}else
 			if(obj instanceof Ansprechpartner){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`, `ansprechpartner_unternehmen_id`) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_id`, `ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`, `ansprechpartner_emailadresse`, `ansprechpartner_telefonnummer`, `ansprechpartner_unternehmen_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, ((Ansprechpartner) obj).getVorname());
 				ps.setString(2, ((Ansprechpartner) obj).getNachname());
 				ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
+				ps.setString(4, ((Ansprechpartner) obj).getEmailadresse());
+				ps.setString(5, ((Ansprechpartner) obj).getTelefonnummer());
 //				ps.setInt(4,  getUnternehmenByAdresse(((Ansprechpartner) obj).getAdresse()).getId());
-				ps.setInt(4,  ((Ansprechpartner) obj).getAdresse().getUnternehmen().getId()); //By Robin Bahr 22.01.2017 22:30 Uhr
+				ps.setInt(6,  ((Ansprechpartner) obj).getAdresse().getUnternehmen().getId()); //By Robin Bahr 22.01.2017 22:30 Uhr
+				
 				ps.executeUpdate();
 				ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -529,8 +532,8 @@ public class dbConnect {
 	}
 	public Ansprechpartner changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
-				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), altAnsprechpartner.getId() });
+				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ?, `adresse_id` = ?, `ansprechpartner_emailadresse` = ?, `ansprechpartner_telefonnummer` = ?, `ansprechpartner_unternehmen_id` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
+				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getEmailadresse(), neuAnsprechpartner.getTelefonnummer(), neuAnsprechpartner.getAdresse().getUnternehmen().getId(), altAnsprechpartner.getId() });
 		return getAnsprechpartnerById(altAnsprechpartner.getId());
 	
 	}

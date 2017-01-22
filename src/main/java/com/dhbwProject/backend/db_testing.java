@@ -1,6 +1,7 @@
 package com.dhbwProject.backend;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.beans.*;
@@ -10,6 +11,32 @@ public class db_testing extends TestCase {
 
 	public db_testing(String name) {
 		super(name);
+	}
+	
+	public void testNotiz(){
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e3) {
+			
+			e3.printStackTrace();
+		} catch (SQLException e3) {
+			
+			e3.printStackTrace();
+		}
+		int id = 0;
+		byte[] notiz = null;
+		byte[] bild = null;
+		Unternehmen unternehmen = null;
+		Besuch besuch = null;
+		Date timestamp = null;
+		Gespraechsnotiz gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
+		try {
+			connection.createGespraechsnotiz(gespraechsnotiz);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void testInsertStudiengang(){
