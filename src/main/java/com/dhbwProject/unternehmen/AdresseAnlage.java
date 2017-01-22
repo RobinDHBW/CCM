@@ -63,7 +63,7 @@ public class AdresseAnlage extends Window {
 				return;
 			}
 			try{
-				this.aNeu = new Adresse(0, fields.getPlz(), fields.getOrt(), fields.getStrasse(), fields.getHausnummer());
+				this.aNeu = new Adresse(0, fields.getPlz(), fields.getOrt(), fields.getStrasse(), fields.getHausnummer(), uNeu);
 				dbConnection.createAdresse(aNeu);
 //				uNeu = new Unternehmen(0, uAlt.getName(), uAlt.getlAnsprechpartner(), uAlt.getlAdresse(), "A");
 //				uNeu.getlAdresse().add(aNeu);
