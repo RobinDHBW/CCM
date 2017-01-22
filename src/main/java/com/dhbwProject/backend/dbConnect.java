@@ -332,7 +332,7 @@ public class dbConnect {
 					ps.setBinaryStream(2, inputBild);
 				
 				} catch (FileNotFoundException e) {
-					
+					System.out.println("File not found");
 				}
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
@@ -390,8 +390,9 @@ public class dbConnect {
 					 return auto_id;
 			}else
 			if(obj instanceof Unternehmen){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`, `unternehmen_abc_kennzeichen`) VALUES (NULL, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Unternehmen) obj).getName());
+				 ps.setString(2, ((Unternehmen) obj).getKennzeichen());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -1235,8 +1236,8 @@ public class dbConnect {
 	}
 	public Unternehmen changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `unternehmen` SET `unternehmen_name` = ? WHERE `unternehmen`.`unternehmen_id` = ? ",
-				new Object[] { neuUnternehmen.getName(), altUnternehmen.getId()});
+				"UPDATE `unternehmen` SET `unternehmen_name` = ?, `unternehmen_abc_kennzeichen` = ?  WHERE `unternehmen`.`unternehmen_id` = ? ",
+				new Object[] { neuUnternehmen.getName(), neuUnternehmen.getKennzeichen(), altUnternehmen.getId()});
 		return getUnternehmenById(altUnternehmen.getId());
 	}
 	public boolean deleteUnternehmen(Unternehmen unternehmen) throws SQLException{
