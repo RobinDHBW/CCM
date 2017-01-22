@@ -534,7 +534,7 @@ public class dbConnect {
 	
 	}
 	public Ansprechpartner getAnsprechpartnerById(int pId) throws SQLException{
-		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {new Integer(pId)});
+		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_id = ?", new Object[] {new Integer(pId)});
 		Ansprechpartner ansprechpartner = null;
 		
 			while(res.next()){
@@ -549,10 +549,6 @@ public class dbConnect {
 				ansprechpartner =  new Ansprechpartner(id, vorname, nachname, adresse, lStudiengang, email, telefon);
 			}
 			res.close();
-		
-			
-			
-				res.close();
 		return ansprechpartner;
 	}
 	public boolean deleteAnsprechpartner(Ansprechpartner ansprechpartner) throws SQLException{
