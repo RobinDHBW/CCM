@@ -224,11 +224,12 @@ public class dbConnect {
 		
 		
 			if(obj instanceof Adresse){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`, `adresse_ort`) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `adresse` (`adresse_plz_id`, `adresse_strasse`, `adresse_hausnummer`, `adresse_ort`, `unternehmen_id`) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Adresse) obj).getPlz());
 				 ps.setString(2, ((Adresse) obj).getStrasse());
 				 ps.setString(3, ((Adresse) obj).getHausnummer());
 				 ps.setString(4, ((Adresse) obj).getOrt());
+				 ps.setInt(5, ((Adresse) obj).getUnternehmen().getId());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();

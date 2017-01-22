@@ -16,6 +16,7 @@ public class Adresse {
 		this.ort = ort;
 		this.strasse = strasse;
 		this.hausnummer = hausnummer;
+		this.unternehmen = unternehmen;
 	}
 
 	public int getId() {

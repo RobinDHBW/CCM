@@ -55,9 +55,7 @@ public class UnternehmenAnlage extends Window {
 			
 			try{
 				this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), null);
-				
 //				HIER MÜSSEN NOCH DIE METHODEN ANGEPASST WERDEN
-				
 				Unternehmen pNeu = dbConnection.createUnternehmen(uNeu);
 				this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), pNeu);
 				dbConnection.createAdresse(aNeu);
