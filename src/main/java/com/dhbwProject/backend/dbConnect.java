@@ -239,10 +239,11 @@ public class dbConnect {
 				 return auto_id;
 			}else
 			if(obj instanceof Ansprechpartner){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`, `ansprechpartner_unternehmen_id`) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, ((Ansprechpartner) obj).getVorname());
 				ps.setString(2, ((Ansprechpartner) obj).getNachname());
 				ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
+				ps.setInt(4,  getUnternehmenByAdresse(((Ansprechpartner) obj).getAdresse()).getId());
 				ps.executeUpdate();
 				ResultSet result = ps.getGeneratedKeys();
 				 result.next();
