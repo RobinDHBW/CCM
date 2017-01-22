@@ -7,15 +7,13 @@ public class Unternehmen {
 	private int id;
 	private String name;
 	private LinkedList<Ansprechpartner> lAnsprechpartner;
-	private LinkedList<Adresse> lAdresse;
 	private String kennzeichen;
 	
-	public Unternehmen(int id, String name, LinkedList<Ansprechpartner> lAnsprechpartner, LinkedList<Adresse> lAdresse, String kennzeichen) {
+	public Unternehmen(int id, String name, LinkedList<Ansprechpartner> lAnsprechpartner, String kennzeichen) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.lAnsprechpartner = lAnsprechpartner;
-		this.lAdresse = lAdresse;
 		this.kennzeichen = kennzeichen;
 	}
 	public Unternehmen() {
@@ -30,9 +28,6 @@ public class Unternehmen {
 	}
 	public LinkedList<Ansprechpartner> getlAnsprechpartner() {
 		return lAnsprechpartner;
-	}
-	public LinkedList<Adresse> getlAdresse() {
-		return lAdresse;
 	}
 
 }

@@ -54,8 +54,8 @@ public class UnternehmenAnlage extends Window {
 			}
 			
 			try{
-				this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), null, null, fieldsUnternehmen.getKennzeichen());
-				this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer());
+				this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), null, null);
+				this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), uNeu);
 //				HIER MÜSSEN NOCH DIE METHODEN ANGEPASST WERDEN
 				dbConnection.createUnternehmen(uNeu);
 //				dbConnection.createAdresse(aNeu);

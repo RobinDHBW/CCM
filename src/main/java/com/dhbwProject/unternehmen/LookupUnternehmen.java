@@ -105,7 +105,7 @@ public class LookupUnternehmen extends Window{
 
 		try{
 			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
-				for(Adresse a  : u.getlAdresse()){
+				for(Adresse a  :  this.dbConnection.getAdresseByUnternehmen(u)){
 					Item itm = container.addItem(new ItemId(u, a));
 					itm.getItemProperty("Firma").setValue(u.getName());
 					TextArea taStandort = new TextArea();

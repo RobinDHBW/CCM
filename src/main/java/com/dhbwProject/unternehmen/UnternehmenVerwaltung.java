@@ -150,7 +150,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.container.removeAllItems();
 		try{
 			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
-				for(Adresse a: u.getlAdresse()){
+				for(Adresse a: this.dbConnection.getAdresseByUnternehmen(u)){
 					this.addItem(u, a);
 				}
 			}

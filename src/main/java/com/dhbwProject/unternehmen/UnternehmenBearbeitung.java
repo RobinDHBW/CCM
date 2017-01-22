@@ -71,8 +71,8 @@ public class UnternehmenBearbeitung extends Window{
 				return;
 			}
 			dbConnect connection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-			this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), uAlt.getlAnsprechpartner(), uAlt.getlAdresse(), fieldsUnternehmen.getKennzeichen());
-			this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer());
+			this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), uAlt.getlAnsprechpartner(), fieldsUnternehmen.getKennzeichen());
+			this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), uNeu);
 			try {
 				uNeu = connection.changeUnternehmen(uAlt, uNeu);
 				aNeu = connection.changeAdresse(aAlt, aNeu);
