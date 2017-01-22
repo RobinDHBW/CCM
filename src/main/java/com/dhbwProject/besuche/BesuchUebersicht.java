@@ -84,10 +84,7 @@ public class BesuchUebersicht extends CustomComponent{
 		itm.getItemProperty("Titel").setValue(b.getName());
 		itm.getItemProperty("Start").setValue(dateFormat.format(b.getStartDate()));
 		itm.getItemProperty("Ende").setValue(dateFormat.format(b.getEndDate()));
-		
-		//ITERATIV IST DAS HIER ECHT SCHLECHT-----------------------------------------------
-		itm.getItemProperty("Unternehmen").setValue(dbConnection.getUnternehmenByAdresse(b.getAdresse()).getName());
-		//----------------------------------------------------------------------------------
+		itm.getItemProperty("Unternehmen").setValue(b.getAdresse().getUnternehmen().getName());
 		
 		TextArea taAdresse = new TextArea();
 		taAdresse.setHeight("100px");
