@@ -61,20 +61,22 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		Notification message = new Notification("Bitte wählen Sie ein Unternehmen");
 		message.setPosition(Position.TOP_CENTER);
 		message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+		
 		MenuItem itmUnternehmenAnlage = this.mbMenu.addItem("Unternehmen",
 				FontAwesome.PLUS, new MenuBar.Command() {
 					private static final long serialVersionUID = 1L;
 
 					@Override
 					public void menuSelected(MenuItem selectedItem) {
-						Window w = new Window();
-						w.setContent(new UnternehmenAnlage());
-						w.center();
-						w.setWidth("400px");
-						w.setHeight("600px");
-						w.setClosable(true);
-						w.setModal(false);
-						getUI().addWindow(w);
+						UnternehmenAnlage anlage = new UnternehmenAnlage();
+						anlage.addCloseListener(close ->{
+							if(anlage.getUnternehmenNeu() == null || anlage.getAdresseNeu() == null)
+								return;
+							else{
+								addItem(anlage.getUnternehmenNeu(), anlage.getAdresseNeu());
+							}
+						});
+						getUI().addWindow(anlage);
 					}
 				});
 		
@@ -187,3 +189,4 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	
 
 }
+

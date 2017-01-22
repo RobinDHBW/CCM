@@ -1,5 +1,7 @@
 package com.dhbwProject.unternehmen;
 
+import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -8,7 +10,7 @@ public class UnternehmenFelder extends VerticalLayout {
 	private static final long serialVersionUID = 1L; // dass net gelb unterstreicht
 	
 	private TextField tfName;
-	private OptionGroup ogKennzeichen;
+	private ComboBox cbKennzeichen;
 	
 	public UnternehmenFelder(){
 		this.setSpacing(true);
@@ -21,13 +23,13 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.tfName.setCaption("Firma");
 		this.addComponent(tfName);
 		
-		this.ogKennzeichen = new OptionGroup();
-		this.ogKennzeichen.setWidth("300px");
-		this.ogKennzeichen.setHeight("150px");
-		this.ogKennzeichen.setCaption("Kennzeichen");
-		this.ogKennzeichen.addItem("Premiumpartner");
-		this.ogKennzeichen.addItem("Sonstiger Partner");
-		this.addComponent(ogKennzeichen);
+		this.cbKennzeichen = new ComboBox();
+		this.cbKennzeichen.setWidth("300px");
+		this.cbKennzeichen.addContainerProperty("Kennzeichen", String.class, null);
+		this.cbKennzeichen.addItem("A").getItemProperty("Kennzeichen").setValue("Premiumpartner");
+		this.cbKennzeichen.addItem("B").getItemProperty("Kennzeichen").setValue("Sonstige Partner");
+		this.cbKennzeichen.setItemCaptionMode(ItemCaptionMode.ITEM);
+		this.addComponent(cbKennzeichen);
 	}
 
 	protected String getName(){
@@ -39,11 +41,11 @@ public class UnternehmenFelder extends VerticalLayout {
 	}
 	
 	protected String getKennzeichen(){
-		return "A";
+		return (String)this.cbKennzeichen.getValue();
 	}
 	
 	protected void setKennzeichen(String s){
-		
+		this.cbKennzeichen.setValue(s);
 	}
 	
 	protected boolean areFieldsValid(){
@@ -51,3 +53,5 @@ public class UnternehmenFelder extends VerticalLayout {
 	}
 	
 }
+
+
