@@ -20,6 +20,7 @@ public class Navigationsbar extends CssLayout{
 		 * */
 		Button btnChangePW = new Button("PW ändern");
 		btnChangePW.setWidth("90%");
+		btnChangePW.addStyleName("navi");
 		btnChangePW.addClickListener(click ->{
 			PasswordChanger changer = new PasswordChanger(true);
 			getUI().addWindow(changer);

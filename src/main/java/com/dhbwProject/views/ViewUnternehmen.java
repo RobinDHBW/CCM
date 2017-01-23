@@ -16,6 +16,8 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 		this.setSizeFull();
 		this.setCaption(CCM_Constants.VIEW_NAME_UNTERNEHMEN);
 		this.initTbContent();
+		FooterView fv= new FooterView();
+		this.addComponent(fv);
 		
 		
 	}
