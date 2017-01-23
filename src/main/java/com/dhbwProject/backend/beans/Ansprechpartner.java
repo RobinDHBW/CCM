@@ -11,6 +11,8 @@ public class Ansprechpartner {
 		this.nachname = nachname;
 		this.adresse = adresse;
 		this.lStudiengang = lStudiengang;
+		this.email = email;
+		this.telefonnummer = telefonnummer;
 	}
 
 	private int id;

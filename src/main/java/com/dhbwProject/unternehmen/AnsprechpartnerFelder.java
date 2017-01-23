@@ -1,8 +1,8 @@
 package com.dhbwProject.unternehmen;
-
 import com.dhbwProject.backend.beans.Adresse;
-import com.vaadin.server.FontAwesome;
-//import com.vaadin.ui.TextArea;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -28,25 +28,28 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	private void initFields(){		
 		this.tfVornameAnsprechpartner = new TextField("Ansprechpartner:");
 		this.tfVornameAnsprechpartner.setCaption("Vorname:");
-		this.setWidth("300px");
+		this.tfVornameAnsprechpartner.setWidth("300px");
+		this.tfVornameAnsprechpartner.addValidator(new StringLengthValidator("Tragen Sie einen Nachnamen ein", 1, 40, false));
 		this.addComponent(tfVornameAnsprechpartner);
 		
 		this.tfNameAnsprechpartner = new TextField();
 		this.tfNameAnsprechpartner.setCaption("Nachname:");
-		this.setWidth("300px");
+		this.tfNameAnsprechpartner.setWidth("300px");
+		this.tfNameAnsprechpartner.addValidator(new StringLengthValidator("Tragen Sie einen Vornamen ein", 1, 40, false));
 		this.addComponent(tfNameAnsprechpartner);
 		
 		this.tfTelefonnummer = new TextField();
 		this.tfTelefonnummer.setCaption("Telefonnummer:");
-		this.setWidth("300px");
+		this.tfTelefonnummer.setNullRepresentation("");
+		this.tfTelefonnummer.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
-		this.tfTelefonnummer.setIcon(FontAwesome.WHATSAPP);
 		
 		this.tfEmail = new TextField();
 		this.tfEmail.setCaption("E-Mail:");
-		this.setWidth("300px");
+		this.tfEmail.setNullRepresentation("");
+		this.tfEmail.setWidth("300px");
+		this.tfEmail.addValidator(new EmailValidator("Tragen Sie eine gültige e-Mail ein"));
 		this.addComponent(tfEmail);
-		this.tfEmail.setIcon(FontAwesome.AT);
 	}
 	
 	public Adresse getAdresse(){
@@ -90,7 +93,13 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	}
 	
 	public boolean areFieldsValid(){
-		return true;
+		try{
+			Integer.parseInt(this.tfTelefonnummer.getValue());
+		}catch(NumberFormatException e){
+			this.tfTelefonnummer.setComponentError(new UserError("Eine Telefonnummer besteht aus Zahlen zwischen 0 und 9"));
+			return false;
+		}
+		return (this.tfNameAnsprechpartner.isValid() && this.tfVornameAnsprechpartner.isValid() && this.tfEmail.isValid() && this.tfTelefonnummer.isValid());
 	}
 
 }
