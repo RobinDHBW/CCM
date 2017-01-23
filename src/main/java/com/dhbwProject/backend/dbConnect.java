@@ -325,10 +325,12 @@ public class dbConnect {
 				 FileInputStream inputNotiz = null;
 				 FileInputStream inputBild = null;
 				try{
-					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz().toString());
+//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
 					ps.setBinaryStream(1, inputNotiz);
 
-					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild().toString());
+//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
 					ps.setBinaryStream(2, inputBild);
 				
 				} catch (FileNotFoundException e) {
@@ -870,19 +872,21 @@ public class dbConnect {
 				FileOutputStream output1 = new FileOutputStream(notizfile);
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				byte[] notiz = new byte[1024];
-				while (input1.read(notiz) > 0) {
-					output1.write(notiz);
+				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
+				byte[] nb = new byte[1024];
+				while (input1.read(nb) > 0) {
+					output1.write(nb);
 				}
 				output1.close();
 				
 				File file = new File("bild");
 				FileOutputStream output2 = new FileOutputStream(file);
 
-				InputStream input2 = res.getBinaryStream("resume");
-				byte[] bild = new byte[1024];
-				while (input2.read(bild) > 0) {
-					output2.write(bild);
+				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
+				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
+				byte[] bb = new byte[1024];
+				while (input2.read(bb) > 0) {
+					output2.write(bb);
 				}
 				output2.close();
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
@@ -910,24 +914,30 @@ public class dbConnect {
 		ResultSet res = executeQuery("SELECT * FROM `gespraechsnotizen` WHERE `gespraechsnotiz_id` = ?", new Object[]{(Object) new Integer(pId)});
 		try{
 			while (res.next()) {
+				
 				int id = res.getInt("gespraechsnotiz_id");
-				File notizfile = new File("notiz");
+				
+				File notizfile = new File("C:/Users/CCM/Desktop/" + "NOTIZ1" + ".txt");
+				notizfile.createNewFile();
 				FileOutputStream output1 = new FileOutputStream(notizfile);
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				byte[] notiz = new byte[1024];
-				while (input1.read(notiz) > 0) {
-					output1.write(notiz);
+				File notiz = new File("C:/Users/CCM/Desktop/" + "NOTIZ2");
+				byte[] nb = new byte[1024];
+				while (input1.read(nb) > 0) {
+					output1.write(nb);
 				}
 				output1.close();
 				
-				File file = new File("bild");
-				FileOutputStream output2 = new FileOutputStream(file);
+				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
+				bildfile.createNewFile();
+				FileOutputStream output2 = new FileOutputStream(bildfile);
 
-				InputStream input2 = res.getBinaryStream("resume");
-				byte[] bild = new byte[1024];
-				while (input2.read(bild) > 0) {
-					output2.write(bild);
+				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
+				File bild = new File("C:/Users/CCM/Desktop/" + "BILD2");
+				byte[] bb = new byte[1024];
+				while (input2.read(bb) > 0) {
+					output2.write(bb);
 				}
 				output2.close();
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));

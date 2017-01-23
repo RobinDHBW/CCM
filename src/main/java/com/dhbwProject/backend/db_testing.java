@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import com.dhbwProject.backend.beans.*;
 import junit.framework.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,7 +19,7 @@ public class db_testing extends TestCase {
 		super(name);
 	}
 
-	public void testNotiz() {
+	public void testCreateNotiz() {
 		dbConnect connection = null;
 		try {
 			connection = new dbConnect();
@@ -31,19 +32,21 @@ public class db_testing extends TestCase {
 		}
 		int id = 0;
 
-		byte[] notiz = null;
-		Path path = Paths.get("C:/Users/CCM/Desktop/test.txt");
-		try {
-			notiz = Files.readAllBytes(path);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		byte[] bild = null;
-		try {
-			bild = Files.readAllBytes(path);
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
+//		byte[] notiz = null;
+//		Path path = Paths.get("C:/Users/CCM/Desktop/test.txt");
+//		try {
+//			notiz = Files.readAllBytes(path);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+//		byte[] bild = null;
+//		try {
+//			bild = Files.readAllBytes(path);
+//		} catch (IOException e2) {
+//			e2.printStackTrace();
+//		}
+		File notiz = new File("C:/Users/CCM/Desktop/test.txt");
+		File bild = new File("C:/Users/CCM/Desktop/test.txt");
 		Besuch besuch = null;
 		Unternehmen unternehmen = null;
 		try {
@@ -57,6 +60,41 @@ public class db_testing extends TestCase {
 		Gespraechsnotiz gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
 		try {
 			connection.createGespraechsnotiz(gespraechsnotiz);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(true);
+	}
+	public void testGetNotiz() {
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e3) {
+
+			e3.printStackTrace();
+		} catch (SQLException e3) {
+
+			e3.printStackTrace();
+		}
+		int id = 0;
+
+//		byte[] notiz = null;
+//		Path path = Paths.get("C:/Users/CCM/Desktop/test.txt");
+//		try {
+//			notiz = Files.readAllBytes(path);
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+//		byte[] bild = null;
+//		try {
+//			bild = Files.readAllBytes(path);
+//		} catch (IOException e2) {
+//			e2.printStackTrace();
+//		}
+		try{
+		Gespraechsnotiz gespraechsnotiz = connection.getGespraechsnotizById(1);
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
