@@ -37,6 +37,12 @@ public class HeaderView extends CustomComponent{
 	imageButton.setStyleName("btnwhitelogo");
 	imageButton.setHeight("-1px");
 	imageButton.setWidth("-1px");*/
+	
+	
+	Image ccmLogo= new Image(" ", new ThemeResource("ccmlogo.png"));
+	ccmLogo.setHeight("-1px");
+	ccmLogo.setWidth("-1px");
+	
 		hL.addComponent(dhbwLogo);
 		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
 	
@@ -45,7 +51,8 @@ public class HeaderView extends CustomComponent{
 	logoutB.setCaption("Abmelden");*/
 	whiteL.setWidth("100%");
 	hL.addComponent(whiteL);
-
+	hL.addComponent(ccmLogo);
+	hL.setComponentAlignment(ccmLogo, Alignment.TOP_RIGHT);
 	/*hL.addComponent(logoutB);
 	hL.setComponentAlignment(logoutB, Alignment.TOP_RIGHT);*/
 	hL.setSizeFull();

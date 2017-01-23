@@ -1557,6 +1557,179 @@ div.v-layout.v-horizontal.v-widget {
 	vertical-align: top;
 }
 
+.v-button:focus .v-button-wrap {
+	color: black;
+	boxshadow: black;
+}
+
+.v-nativebutton-btnwhite {
+	border: none;
+	background: white;
+	background-color: white;
+	width: 50px;
+	font-weight: bold;
+	font-color: black;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+.v-nativebutton-btnwhite .v-nativebutton-caption {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: #5d6a72;
+}
+
+.v-nativebutton-btnwhiteeins {
+	border: none;
+	border-color: white;
+	background: white;
+	background-color: white;
+	width: -1px;
+	font-weight: bold;
+	font-color: black;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+.v-nativebutton-btnwhiteeins .v-nativebutton-caption {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: #5d6a72;
+}
+
+.v-button-btnwhitelogo {
+	border: none;
+	background-color: white;
+	background: white;
+	width: 100%;
+	font-weight: bold;
+	font-color: white;
+	cursor: pointer;
+	white-space: nowrap;
+	margin: 0;
+	padding: 6px;
+}
+
+.v-button-btnwhitelogo .v-button-caption {
+	font-size: 12pt;
+	font-weight: bold;
+	font-color: white;
+}
+
+v-button-btnwhitelogo .v-button-icon {
+	border: none;
+	width: 100%;
+	color: white;
+}
+
+.v-panel-pnheader {
+	max-height: 120px;
+	background: white;
+	width: 100%;
+	padding: 0px 0px 0px 0px;
+	margin: 0;
+	overflow: hidden;
+}
+
+.base .v-table-drag .v-table-body {
+	border-color: white;
+	text-decoration: none;
+}
+
+.v-label {
+	color: black;
+	margin: 0px 200px 5px 200px;
+	padding: 0px 20px 0px 20px;
+	width: 50%;
+	text-align: center;
+}
+
+.v-calendar-times {
+	width: 51 px;
+}
+
+.v-calendar-time {
+	text-align: right;
+	color: 0;
+	border-right: 1px solid;
+}
+
+.v-calendar {
+	min-height: 200px;
+	min-weight: 100%;
+	background: white;
+	overflow: hidden;
+}
+
+.v-calendar-current-time {
+	overflow: hidden;
+	background: #e00019;
+}
+
+.v-calendar-month-day-selected {
+	background-color: #7b858c;
+}
+
+.v-calendar-month-day-today {
+	background-color: #e00019;
+}
+
+.v-calendar-header-day-today {
+	color: #e00019;
+	font-weight: bold;
+}
+
+.v-calendar-event-month::before, v.overlay-container {
+	content: " ";
+	margin-right: 2px;
+}
+
+.v-calendar-event-month::before, v.overlay-container {
+	content: " ";
+	margin-right: 2px;
+}
+
+.v-calendar-event-geplant-month::before, v.overlay-container {
+	content: "-";
+	margin-right: 2px;
+}
+
+.v-calendar-event-month-besucht::before, v.overlay-container {
+	content: "";
+	margin-right: 2px;
+}
+
+.v-calendar-event-geplant {
+	background: #5d6a72;
+	color: white;
+}
+
+.v-calendar-event-geplant-all-day {
+	background: #5d6a72;
+	color: white;
+}
+
+.v-calendar-event-besucht {
+	background: #dcdfe0;
+	color: black;
+}
+
+.v-calendar-event-besucht-all-day {
+	background: #dcdfe0;
+	color: black;
+}
+
+.v-tabsheet-tabsheetpanel {
+	overflow: hidden;
+	height: -1px;
+	width: -1px;
+	min-height: 300px;
+}
+
 .CCM_Theme.v-app, .CCM_Theme.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;
 	
@@ -12736,6 +12909,7 @@ div.v-layout.v-horizontal.v-widget {
 	font-size: 12pt;
 	font-weight: bold;
 	font-color: #dcdfe0;
+	padding: 0px 0px 0px 0px;
 }
 
 .CCM_Theme .v-button-navi {
@@ -12748,17 +12922,8 @@ div.v-layout.v-horizontal.v-widget {
 	width: 90%;
 }
 
-.CCM_Theme .v-button-navi .v-icon {
-	vertical-align: right;
-	margin-right: 3px;
-	margin-left: 3px;
-	border: none;
-}
-
 .CCM_Theme .v-button .v-icon {
-	vertical-align: right;
 	margin-right: 3px;
-	margin-left: 3px;
 	border: none;
 }
 
@@ -12767,178 +12932,5 @@ div.v-layout.v-horizontal.v-widget {
 	font-weight: bold;
 	font-color: #dcdfe0;
 	text-align: left;
-	padding: 6px;
-}
-
-.CCM_Theme .v-button:focus .v-button-wrap {
-	color: black;
-	boxshadow: black;
-}
-
-.CCM_Theme .v-nativebutton-btnwhite {
-	border: none;
-	background: white;
-	background-color: white;
-	width: 50px;
-	font-weight: bold;
-	font-color: black;
-	cursor: pointer;
-	white-space: nowrap;
-	margin: 0;
-	padding: 0;
-}
-
-.CCM_Theme .v-nativebutton-btnwhite .v-nativebutton-caption {
-	font-size: 12pt;
-	font-weight: bold;
-	font-color: #5d6a72;
-}
-
-.CCM_Theme .v-nativebutton-btnwhiteeins {
-	border: none;
-	border-color: white;
-	background: white;
-	background-color: white;
-	width: -1px;
-	font-weight: bold;
-	font-color: black;
-	cursor: pointer;
-	white-space: nowrap;
-	margin: 0;
-	padding: 0;
-}
-
-.CCM_Theme .v-nativebutton-btnwhiteeins .v-nativebutton-caption {
-	font-size: 12pt;
-	font-weight: bold;
-	font-color: #5d6a72;
-}
-
-.CCM_Theme .v-button-btnwhitelogo {
-	border: none;
-	background-color: white;
-	background: white;
-	width: 100%;
-	font-weight: bold;
-	font-color: white;
-	cursor: pointer;
-	white-space: nowrap;
-	margin: 0;
-	padding: 6px;
-}
-
-.CCM_Theme .v-button-btnwhitelogo .v-button-caption {
-	font-size: 12pt;
-	font-weight: bold;
-	font-color: white;
-}
-
-.CCM_Theme v-button-btnwhitelogo .v-button-icon {
-	border: none;
-	width: 100%;
-	color: white;
-}
-
-.CCM_Theme .v-panel-pnheader {
-	max-height: 120px;
-	background: white;
-	width: 100%;
-	padding: 0px 0px 0px 0px;
-	margin: 0;
-	overflow: hidden;
-}
-
-.CCM_Theme .base .v-table-drag .v-table-body {
-	border-color: white;
-	text-decoration: none;
-}
-
-.CCM_Theme .v-label {
-	color: black;
-	margin: 0px 200px 5px 200px;
-	padding: 0px 20px 0px 20px;
-	width: 50%;
-	text-align: center;
-}
-
-.CCM_Theme .v-calendar-times {
-	width: 51 px;
-}
-
-.CCM_Theme .v-calendar-time {
-	text-align: right;
-	color: 0;
-	border-right: 1px solid;
-}
-
-.CCM_Theme .v-calendar {
-	min-height: 200px;
-	min-weight: 100%;
-	background: white;
-	overflow: hidden;
-}
-
-.CCM_Theme .v-calendar-current-time {
-	overflow: hidden;
-	background: #e00019;
-}
-
-.CCM_Theme .v-calendar-month-day-selected {
-	background-color: #7b858c;
-}
-
-.CCM_Theme .v-calendar-month-day-today {
-	background-color: #e00019;
-}
-
-.CCM_Theme .v-calendar-header-day-today {
-	color: #e00019;
-	font-weight: bold;
-}
-
-.CCM_Theme .v-calendar-event-month::before, .CCM_Theme v.overlay-container {
-	content: " ";
-	margin-right: 2px;
-}
-
-.CCM_Theme .v-calendar-event-month::before, .CCM_Theme v.overlay-container {
-	content: " ";
-	margin-right: 2px;
-}
-
-.CCM_Theme .v-calendar-event-geplant-month::before, .CCM_Theme v.overlay-container {
-	content: "-";
-	margin-right: 2px;
-}
-
-.CCM_Theme .v-calendar-event-month-besucht::before, .CCM_Theme v.overlay-container {
-	content: "";
-	margin-right: 2px;
-}
-
-.CCM_Theme .v-calendar-event-geplant {
-	background: #5d6a72;
-	color: white;
-}
-
-.CCM_Theme .v-calendar-event-geplant-all-day {
-	background: #5d6a72;
-	color: white;
-}
-
-.CCM_Theme .v-calendar-event-besucht {
-	background: #dcdfe0;
-	color: black;
-}
-
-.CCM_Theme .v-calendar-event-besucht-all-day {
-	background: #dcdfe0;
-	color: black;
-}
-
-.CCM_Theme .v-tabsheet-tabsheetpanel {
-	overflow: hidden;
-	height: -1px;
-	width: -1px;
-	min-height: 300px;
+	padding: 6px 6px 6px 0px;
 }

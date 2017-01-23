@@ -25,7 +25,8 @@ $v-app-loading-text: "Bitte warten, CRM System wird geladen.";
 //$v-shadow-opacity: 5%;
 
 // Defines colors for indicating status (focus, success, failure)
-$v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color automatically
+$v-focus-color:#8c0011;
+//valo-focus-color(); // Calculates a suitable color automatically
 //$v-friendly-color: #2c9720;
 //$v-error-indicator-color: #ed473b;
 
@@ -59,6 +60,7 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
  	font-size: 12pt;
     font-weight: bold;
     font-color: #dcdfe0;
+    padding:0px 0px 0px 0px;
 }
 .v-button-navi{
 background-color:#5d6a72;
@@ -69,17 +71,17 @@ text-align:left;
 padding: 6px 6px 6px 6px;
 width:90%;
 	
+ //.v-icon {
+ //   float: left;
+//	vertical-align:left;
+//	margin-right:3px;
+//	margin-left:3px;
+//	border:none;
+//	}
 }
-.v-button-navi .v-icon {
-	vertical-align:right;
-	margin-right:3px;
-	margin-left:3px;
-	border:none;
-	}
 .v-button .v-icon{
-	vertical-align:right;
+	//vertical-align:right;
 	margin-right:3px;
-	margin-left:3px;
 	border:none;
 	}
 .v-button-navi-wrap .v-button-navi-caption{
@@ -87,13 +89,14 @@ width:90%;
     font-weight:bold;
     font-color:#dcdfe0;
     text-align:left;
-	padding:6px;
+	padding:6px 6px 6px 0px;
 }
 
 
+	}
 //Während der Button angeclickt ist = focus; greifen für alle Buttons die folgenden Styling Regeln:
 .v-button:focus .v-button-wrap{
-//	background:#dcdfe0;
+
 	color:black;
 	boxshadow:black;
 
@@ -201,9 +204,9 @@ text-decoration:none;
 .v-label{
 
 color:black;
-margin: 0px 200px 5px 200px;
-padding: 0px 20px 0px 20px;
-width: 50%;
+margin:0px 200px 5px 200px;
+padding:0px 20px 0px 20px;
+width:50%;
 text-align: center;
 } 
 
@@ -212,7 +215,6 @@ text-align: center;
 width: 51 px;
 }
 .v-calendar-time{
-
 text-align:right;
 color:000;
 border-right: 1px solid;
