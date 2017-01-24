@@ -160,7 +160,7 @@ public class db_testing extends TestCase {
 				LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 				lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
 
-				Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, lStudiengang);
+				Benutzer b = new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de", "01234 1233");
 				assertTrue(connection.createBenutzer(b).equals(b));
 				Benutzer p = connection.getBenutzerById("fgustavson");
 				assertTrue(b.equals(p));
@@ -195,8 +195,8 @@ public class db_testing extends TestCase {
 			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
 			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
-			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, lStudiengang));
-			lBen.add(new Benutzer("mmustermann", "Max", "Mustermann", beruf, rolle, null));
+			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de", "01234 1233"));
+			lBen.add(new Benutzer("mmustermann", "Max", "Mustermann", beruf, rolle, null, "max.mustermann@web.de", "01234 1179"));
 			int i = 0;
 			LinkedList<Benutzer> dbBen = connection.getAllBenutzer();
 			Benutzer p;
@@ -234,7 +234,7 @@ public class db_testing extends TestCase {
 			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
 			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
-			Benutzer b = new Benutzer("mmustermann", "", "", beruf, rolle, lStudiengang);
+			Benutzer b = new Benutzer("mmustermann", "", "", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de", "01234 1233");
 			connection.createPassword(PasswordHasher.md5("password"), b);
 			assertTrue(connection.checkPassword(PasswordHasher.md5("password"), b));
 		} catch (SQLException e) {

@@ -576,10 +576,12 @@ public class dbConnect {
 				String nachname = res.getString("nachname");
 				Beruf beruf = getBerufById(res.getInt("beruf_id"));
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
-				Benutzer ben = new Benutzer(id, vorname, nachname, beruf, rolle, null);
-				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(ben);
-				ben = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
-				benArr.add(ben);
+				String email = res.getString("benutzer_email");
+				String telefon = res.getString("benutzer_telefon");
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
+				benArr.add(benutzer);
 			}
 		
 		return benArr;
@@ -594,9 +596,11 @@ public class dbConnect {
 			String nachname = res.getString("nachname");
 			Beruf beruf = getBerufById(res.getInt("beruf_id"));
 			Rolle rolle = getRolleById(res.getInt("rolle_id"));
-			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+			String email = res.getString("benutzer_email");
+			String telefon = res.getString("benutzer_telefon");
+			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
 			LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
+			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
 
 			res.close();
 		return benutzer;
@@ -605,12 +609,14 @@ public class dbConnect {
 		Beruf beruf = getBerufByBezeichnung(b.getBeruf().getBezeichnung());
 		Rolle rolle = getRolleByBezeichnung(b.getRolle().getBezeichnung());
 		PreparedStatement ps = con.prepareStatement(
-				"INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)");
+				"INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`, `benutzer_email`, `benutzer_telefon`) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		ps.setString(1, b.getVorname());
 		ps.setString(2, b.getNachname());
 		ps.setString(3, b.getId());
 		ps.setInt(4, beruf.getId());
 		ps.setInt(5, rolle.getId());
+		ps.setString(6, b.getEmail());
+		ps.setString(7, b.getTelefon());
 		ps.executeUpdate();
 		ps.close();
 		LinkedList<Studiengang> lStudiengang = b.getStudiengang();
@@ -626,8 +632,8 @@ public class dbConnect {
 	}
 	public Benutzer changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
-				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(),neuBenutzer.getRolle().getId(), altBenutzer.getId() });
+				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ?, `benutzer_email` = ?, `benutzer_telefon` = ?  WHERE `benutzer`.`benutzer_id` = ? ",
+				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), neuBenutzer.getRolle().getId(), neuBenutzer.getEmail(), neuBenutzer.getTelefon(), altBenutzer.getId() });
 		PreparedStatement ps1 = con.prepareStatement("DELETE FROM studiengang_benutzer WHERE benutzer_id = ?");
 		ps1.setString(1, altBenutzer.getId());
 		ps1.executeUpdate();
@@ -657,9 +663,11 @@ public class dbConnect {
 				String nachname = res.getString("nachname");
 				Beruf beruf = getBerufById(res.getInt("beruf_id")); 
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
-				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+				String email = res.getString("benutzer_email");
+				String telefon = res.getString("benutzer_telefon");
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
 				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
 				lBenutzer.add(benutzer);
 			}
 		
