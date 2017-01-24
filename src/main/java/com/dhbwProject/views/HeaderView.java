@@ -17,9 +17,8 @@ public class HeaderView extends CustomComponent{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public HeaderView()
-	{
+	private String statustext;
+	public HeaderView()	{
 	Panel pnHeader = new Panel(); 
 	pnHeader.setStyleName(ValoTheme.PANEL_BORDERLESS); //By Robin Bahr 07.01.2017
 	pnHeader.setHeight("40px");
@@ -46,11 +45,12 @@ public class HeaderView extends CustomComponent{
 		hL.addComponent(dhbwLogo);
 		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
 	
-	Label whiteL = new Label(" ");
+	Label whiteL = new Label(" test" + statustext);
 	/*Button logoutB = new Button();
 	logoutB.setCaption("Abmelden");*/
 	whiteL.setWidth("100%");
 	hL.addComponent(whiteL);
+	hL.setComponentAlignment(whiteL, Alignment.BOTTOM_CENTER);
 	hL.addComponent(ccmLogo);
 	hL.setComponentAlignment(ccmLogo, Alignment.TOP_RIGHT);
 	/*hL.addComponent(logoutB);
