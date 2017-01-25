@@ -18,6 +18,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class BenutzerFields extends VerticalLayout{
 	private static final long serialVersionUID = 1L;
@@ -89,7 +90,7 @@ public class BenutzerFields extends VerticalLayout{
 			this.cbBeruf.addItem(beruf.getBezeichnung());
 		}
 		this.cbBeruf.setNullSelectionAllowed(false);
-		this.cbBeruf.setTextInputAllowed(false);
+		this.cbBeruf.setTextInputAllowed(true); // selbe Begründung wie bei Rolle
 		this.cbBeruf.setWidth("300px");
 		this.addComponent(cbBeruf);
 	}
@@ -108,7 +109,7 @@ public class BenutzerFields extends VerticalLayout{
 			this.cbRolle.addItem(rolle.getBezeichnung());
 		}
 		this.cbRolle.setNullSelectionAllowed(false);
-		this.cbRolle.setTextInputAllowed(false);
+		this.cbRolle.setTextInputAllowed(true); // auf true gesetzt da dadurch das Styling bestimmt wird 25.01.2016 by Jasmin
 		this.cbRolle.setWidth("300px");
 		this.addComponent(cbRolle);
 	}
