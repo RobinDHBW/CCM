@@ -25,6 +25,8 @@ public class BenutzerFields extends VerticalLayout{
 	private TextField tfID;
 	private TextField tfVorname;
 	private TextField tfNachname;
+	private TextField tfTelefonnummer;
+	private TextField tfEmail;
 	private ComboBox cbBeruf;
 	private ComboBox cbRolle;
 	private ListSelect lsStudiengang;
@@ -43,12 +45,15 @@ public class BenutzerFields extends VerticalLayout{
 		this.initCbBerufe();
 		this.initCbRolle();
 		this.initLsStudiengang();
+		this.initTelefonnummer();
+		this.intitEmail();
 		
 	}
 	
 	private void initID() {
 		this.tfID = new TextField();
-		this.tfID.setInputPrompt("ID");
+		this.tfID.setInputPrompt("Anmeldename");
+//		this.tfID.setRequired(true);
 		this.tfID.setWidth("300px");
 		this.addComponent(tfID);
 	}
@@ -56,6 +61,7 @@ public class BenutzerFields extends VerticalLayout{
 	private void initVorname() {
 		this.tfVorname = new TextField();
 		this.tfVorname.setInputPrompt("Vorname");
+//		this.tfVorname.setRequired(true);
 		this.tfVorname.setWidth("300px");
 		this.addComponent(tfVorname);
 		
@@ -64,6 +70,7 @@ public class BenutzerFields extends VerticalLayout{
 	private void initNachname() {
 		this.tfNachname = new TextField();
 		this.tfNachname.setInputPrompt("Nachname");
+//		this.tfNachname.setRequired(true);
 		this.tfNachname.setWidth("300px");
 		this.addComponent(tfNachname);
 	}
@@ -71,6 +78,7 @@ public class BenutzerFields extends VerticalLayout{
 	private void initCbBerufe() {
 		this.cbBeruf = new ComboBox();
 		this.cbBeruf.setInputPrompt("Beruf");
+//		this.cbBeruf.setRequired(true);
 		try {
 			alleBerufe = dbConnect.getAllBeruf();
 		} catch (SQLException e) {
@@ -89,6 +97,7 @@ public class BenutzerFields extends VerticalLayout{
 	private void initCbRolle() {
 		this.cbRolle = new ComboBox();
 		this.cbRolle.setInputPrompt("Rolle");
+//		this.cbRolle.setRequired(true);
 		try {
 			alleRollen = dbConnect.getAllRolle();
 		} catch (SQLException e) {
@@ -108,6 +117,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang = new ListSelect();
 		this.lsStudiengang.setMultiSelect(true);
 		this.lsStudiengang.setCaption("Studiengang");
+//		this.lsStudiengang.setRequired(true);
 		try {
 			alleStudiengaenge = dbConnect.getAllStudiengang();
 		} catch (SQLException e) {
@@ -120,6 +130,22 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang.setRows(lsStudiengang.size());
 		this.lsStudiengang.setWidth("300px");
 		this.addComponent(lsStudiengang);
+	}
+	
+	private void initTelefonnummer() {
+		this.tfTelefonnummer = new TextField();
+		this.tfTelefonnummer.setInputPrompt("Telefonnummer");
+//		this.tfTelefonnummer.setRequired(true);
+		this.tfTelefonnummer.setWidth("300px");
+		this.addComponent(tfTelefonnummer);
+	}
+	
+	private void intitEmail() {
+		this.tfEmail = new TextField();
+		this.tfEmail.setInputPrompt("E-Mail");
+//		this.tfEmail.setRequired(true);
+		this.tfEmail.setWidth("300px");
+		this.addComponent(tfEmail);
 	}
 	
 	public void setID (Benutzer b){
@@ -178,6 +204,22 @@ public class BenutzerFields extends VerticalLayout{
 		return stg;
 	}
 	
+	public void setTelefonnummer (Benutzer b){
+		this.tfTelefonnummer.setValue(b.getTelefon());
+	}
+	
+	public String getTelefonnummer (){
+		return this.tfTelefonnummer.getValue();
+	}
+	
+	public void setEmail (Benutzer b){
+		this.tfEmail.setValue(b.getEmail());
+	}
+	
+	public String getEmail (){
+		return this.tfEmail.getValue();
+	}
+	
 	public TextField getTfID() {
 		return this.tfID;
 	}
@@ -201,14 +243,24 @@ public class BenutzerFields extends VerticalLayout{
 	public ListSelect getLsStudiengang() {
 		return this.lsStudiengang;
 	}
+	
+	public TextField getTfTelefonnummer() {
+		return this.tfTelefonnummer;
+	}
+	
+	public TextField getTfEmail() {
+		return this.tfEmail;
+	}
 
 	public void enableFields(boolean bool) {
-		this.tfID.setEnabled(bool);
+		this.tfID.setEnabled(false);
 		this.tfVorname.setEnabled(bool);
 		this.tfNachname.setEnabled(bool);
 		this.cbBeruf.setEnabled(bool);
 		this.cbRolle.setEnabled(bool);
 		this.lsStudiengang.setEnabled(bool);
+		this.tfTelefonnummer.setEnabled(bool);
+		this.tfEmail.setEnabled(bool);
 	}
 	
 
