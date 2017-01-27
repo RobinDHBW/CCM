@@ -633,7 +633,7 @@ public class dbConnect {
 	public Benutzer changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ?, `benutzer_email` = ?, `benutzer_telefon` = ?  WHERE `benutzer`.`benutzer_id` = ? ",
-				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), neuBenutzer.getRolle().getId(), neuBenutzer.getEmail(), neuBenutzer.getTelefon(), altBenutzer.getId() });
+				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getRolle().getId(), neuBenutzer.getBeruf().getId(), neuBenutzer.getEmail(), neuBenutzer.getTelefon(), altBenutzer.getId() });
 		PreparedStatement ps1 = con.prepareStatement("DELETE FROM studiengang_benutzer WHERE benutzer_id = ?");
 		ps1.setString(1, altBenutzer.getId());
 		ps1.executeUpdate();
