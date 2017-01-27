@@ -31,6 +31,8 @@ public class BenutzerAnlage extends CustomComponent {
 
 	private VerticalLayout vlLayout;
 	
+	public static final String BERECHTIGUNG = "BenutzerAnlage";
+	
 	public BenutzerAnlage(){
 		this.fields = new BenutzerFields();
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);

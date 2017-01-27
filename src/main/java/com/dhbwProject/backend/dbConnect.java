@@ -425,6 +425,7 @@ public class dbConnect {
 		
 		return lAdresse;
 	}
+
 	public LinkedList<Adresse> getAdresseByStudiengang(Studiengang studiengang) throws SQLException{
 		LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
 		ResultSet res = executeQuery("SELECT * FROM `adresse`, ansprechpartner,studiengang,studiengang_ansprechpartner WHERE ansprechpartner.adresse_id = adresse.adresse_id AND ansprechpartner.ansprechpartner_id = studiengang_ansprechpartner.ansprechpartner_id AND studiengang.studiengang_id = studiengang_ansprechpartner.studiengang_id AND studiengang.studiengang_id = ?", new Object[] {(Object) new Integer(studiengang.getId())});
@@ -633,7 +634,7 @@ public class dbConnect {
 	public Benutzer changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
 				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ?, `benutzer_email` = ?, `benutzer_telefon` = ?  WHERE `benutzer`.`benutzer_id` = ? ",
-				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), neuBenutzer.getRolle().getId(), neuBenutzer.getEmail(), neuBenutzer.getTelefon(), altBenutzer.getId() });
+				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getRolle().getId(), neuBenutzer.getBeruf().getId(), neuBenutzer.getEmail(), neuBenutzer.getTelefon(), altBenutzer.getId() });
 		PreparedStatement ps1 = con.prepareStatement("DELETE FROM studiengang_benutzer WHERE benutzer_id = ?");
 		ps1.setString(1, altBenutzer.getId());
 		ps1.executeUpdate();
