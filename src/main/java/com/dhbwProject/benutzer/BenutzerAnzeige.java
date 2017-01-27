@@ -35,21 +35,6 @@ public class BenutzerAnzeige extends VerticalLayout {
 		addComponent(benutzer);
 		
 	}
-	public IndexedContainer loadDummyData() {
-		IndexedContainer container= new IndexedContainer();
-		container.addContainerProperty("Vorname", String.class, null);
-		container.addContainerProperty("Nachname", String.class, null);
-		
-		//Dummywerte
-		String[] aVorname = {"Albert", "Herbert", "Yoshi", "Sakura", "Robin", "Simon", "Bosse", "Jasmin", "Florian", "Manuel", "Christian"};
-		String[] aNachname = {"Terbun", "Remus", "Suzuki", "Shizuki", "Bahr", "Schlarb", "Bosse", "Stribik", "Flurer", "Manu", "Zaengle"};		
-		for(int i = 0; i<aVorname.length; i++){
-			Item itm = container.addItem(i);
-			itm.getItemProperty("Vorname").setValue(aVorname[i]);
-			itm.getItemProperty("Nachname").setValue(aNachname[i]);
-		}
-		return container;
-	}
 	public IndexedContainer loadTableData() {
 		LinkedList<Benutzer> alleBenutzer = null;
 		try {
@@ -60,7 +45,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 		}
 		
 		IndexedContainer container= new IndexedContainer();
-		container.addContainerProperty("ID", String.class, null);
+		container.addContainerProperty("Benutzername", String.class, null);
 		container.addContainerProperty("Vorname", String.class, null);
 		container.addContainerProperty("Nachname", String.class, null);
 		container.addContainerProperty("Beruf", String.class, null);
@@ -80,7 +65,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 				}
 			}
 			Item item = container.addItem(i);
-			item.getItemProperty("ID").setValue(b.getId());
+			item.getItemProperty("Benutzername").setValue(b.getId());
 			item.getItemProperty("Vorname").setValue(b.getVorname());
 			item.getItemProperty("Nachname").setValue(b.getNachname());
 			item.getItemProperty("Beruf").setValue(b.getBeruf().getBezeichnung());

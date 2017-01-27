@@ -12,7 +12,9 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
@@ -41,6 +43,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	private void initContent(){
 		this.initMenu();
 		this.tblUnternehmen = new Table();
+		this.tblUnternehmen.setHeight("500px");
 		this.tblUnternehmen.setSelectable(true);
 		this.tblUnternehmen.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblUnternehmen.addStyleName(ValoTheme.TABLE_NO_STRIPES);
@@ -48,6 +51,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		
 		this.initContainer();
 		this.tblUnternehmen.setContainerDataSource(this.container);
+		this.tblUnternehmen.setColumnHeader("Kennzeichen", "");
 		
 		this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
 		this.vlLayout.setMargin(true);
@@ -136,7 +140,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 						
 						Unternehmen u = ((Adresse)tblUnternehmen.getValue()).getUnternehmen();
 						Adresse a = ((Adresse)tblUnternehmen.getValue()); 
-						AnsprechpartnerBearbeitung bearbeitung = new AnsprechpartnerBearbeitung(a);
+						AnsprechpartnerVerwaltung bearbeitung = new AnsprechpartnerVerwaltung(a);
 						getUI().addWindow(bearbeitung);	
 					}
 				});
@@ -144,7 +148,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	
 	private void initContainer(){
 		this.container = new IndexedContainer();
-		this.container.addContainerProperty("Kennzeichen", String.class, "NVA");
+		this.container.addContainerProperty("Kennzeichen", Label.class,null);
 		this.container.addContainerProperty("Name", String.class, null);
 		this.container.addContainerProperty("Adresse", TextArea.class, null);	
 		refreshContainer();
@@ -162,14 +166,15 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	
 	private void addItem(Adresse a){
 		Item itm = this.container.addItem(a);
+		if(a.getUnternehmen().getKennzeichen() != null && a.getUnternehmen().getKennzeichen().equals("A"))
+			itm.getItemProperty("Kennzeichen").setValue(new Label(FontAwesome.STAR.getHtml(), ContentMode.HTML));
 		itm.getItemProperty("Name").setValue(a.getUnternehmen().getName());
 		
 		TextArea taAdresse = new TextArea();
 		taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
 		taAdresse.setHeight("100px");
-		taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
+		taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+" "+a.getHausnummer()+"\n"+a.getOrt());
 		itm.getItemProperty("Adresse").setValue(taAdresse);
 	}	
 
 }
-

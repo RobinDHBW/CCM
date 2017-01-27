@@ -20,6 +20,8 @@ public class ViewRolle extends VerticalLayout implements View{
 		this.setSizeFull();
 		this.setCaption(CCM_Constants.VIEW_NAME_ROLLE);
 		this.initTbContent();
+		FooterView fv= new FooterView();
+		this.addComponent(fv);
 	}
 
 	@Override

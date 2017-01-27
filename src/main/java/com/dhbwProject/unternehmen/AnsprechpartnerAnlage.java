@@ -18,21 +18,19 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class AnsprechpartnerBearbeitung extends Window {
+public class AnsprechpartnerAnlage extends Window {
 	private static final long serialVersionUID = 1L;
 	
 	private dbConnect dbConnection;
 	private Adresse aReferenz;
-	private Ansprechpartner aAlt;
 	private Ansprechpartner aNeu;
 	
 	private AnsprechpartnerFelder fields;
 	private Button btnAnlage;
 	
-	public AnsprechpartnerBearbeitung(Ansprechpartner a, Adresse aReferenz){
+	public AnsprechpartnerAnlage(Adresse a){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-		this.aAlt = a;
-		this.aReferenz = aReferenz;
+		this.aReferenz = a;
 		this.center();
 		this.setWidth("350px");
 		this.setHeight("500px");
@@ -45,12 +43,7 @@ public class AnsprechpartnerBearbeitung extends Window {
 	
 	private Panel initContent(){
 		this.fields = new AnsprechpartnerFelder();
-		this.fields.setNachname(aAlt.getNachname());
-		this.fields.setVorname(aAlt.getVorname());
-		this.fields.setEmail(aAlt.getEmailadresse());
-		this.fields.setTelefonnummer(aAlt.getTelefonnummer());
-		
-		this.btnAnlage = new Button("Bearbeiten");
+		this.btnAnlage = new Button("Hinzufügen");
 		this.btnAnlage.setIcon(FontAwesome.PLUS);
 		this.btnAnlage.addClickListener(click ->{
 			Notification message = new Notification("");
@@ -64,10 +57,10 @@ public class AnsprechpartnerBearbeitung extends Window {
 			try{
 				aNeu = new Ansprechpartner(0, fields.getVorname(), 
 						fields.getNachname(), aReferenz, null, fields.getEmail(), fields.getTelefonnummer());
-				aNeu = dbConnection.changeAnsprechpartner(aAlt, aNeu);
+				aNeu = dbConnection.createAnsprechpartner(aNeu);
 				message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
-				message.setCaption(aNeu.getNachname()+", "+aNeu.getVorname()+" wurde geändert");
-				close(); 
+				message.setCaption(aNeu.getNachname()+", "+aNeu.getVorname()+" wurde hinzugefügt");
+				close();
 			}catch(SQLException e){
 				aNeu = null;
 				e.printStackTrace();
@@ -85,4 +78,3 @@ public class AnsprechpartnerBearbeitung extends Window {
 	}
 
 }
-

@@ -20,6 +20,7 @@ public class Navigationsbar extends CssLayout{
 		 * */
 		Button btnChangePW = new Button("PW ändern");
 		btnChangePW.setWidth("90%");
+		btnChangePW.addStyleName("navi");
 		btnChangePW.addClickListener(click ->{
 			PasswordChanger changer = new PasswordChanger(true);
 			getUI().addWindow(changer);
@@ -39,7 +40,7 @@ public class Navigationsbar extends CssLayout{
 		btnLogout.setWidth("90%");
 		btnLogout.setCaption("Abmelden");
 		btnLogout.setIcon(FontAwesome.SIGN_OUT);
-		btnLogout.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
+	//	btnLogout.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		btnLogout.addClickListener(click ->{
 			/*
 			 * Hier sollte statt der Schleife eher ein gesamter Resett der UI hin
@@ -91,7 +92,7 @@ public class Navigationsbar extends CssLayout{
 		private NaviButton(String viewName, FontAwesome icon){
 			this(viewName);
 			this.setIcon(icon);
-			this.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
+			//this.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 			this.addStyleName("navi");
 		}
 		

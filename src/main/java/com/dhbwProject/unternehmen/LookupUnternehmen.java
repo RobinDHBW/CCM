@@ -83,9 +83,9 @@ public class LookupUnternehmen extends Window{
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);
 	    this.btnOk.addClickListener(listener ->{
 	    	if(this.tblSelect.getValue() != null){
-				ItemId id = (ItemId)this.tblSelect.getValue();
-				this.uSelect = id.uItem;
-				this.aSelect = id.aItem;
+				Adresse a = (Adresse)tblSelect.getValue();
+	    		this.uSelect = a.getUnternehmen();
+				this.aSelect = a;
 	    	}
 	    	this.close();
 	    });
@@ -100,20 +100,18 @@ public class LookupUnternehmen extends Window{
 	
 	private void initContainer(){
 		this.container = new IndexedContainer();
-		container.addContainerProperty("Firma", String.class, null);
+		container.addContainerProperty("Unternehmen", String.class, null);
 		container.addContainerProperty("Standort", TextArea.class, null);
-
+		
 		try{
-			for(Unternehmen u : this.dbConnection.getAllUnternehmen()){
-				for(Adresse a  :  this.dbConnection.getAdresseByUnternehmen(u)){
-					Item itm = container.addItem(new ItemId(u, a));
-					itm.getItemProperty("Firma").setValue(u.getName());
-					TextArea taStandort = new TextArea();
-					taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
-					taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-					taStandort.setHeight("100px");
-					itm.getItemProperty("Standort").setValue(taStandort);
-				}
+			for(Adresse a : this.dbConnection.getAllAdresse()){
+				Item itm = container.addItem(a);
+				itm.getItemProperty("Unternehmen").setValue(a.getUnternehmen().getName());
+				TextArea taStandort = new TextArea();
+				taStandort.setValue(a.getStrasse()+"\n"+a.getPlz()+"\n"+a.getOrt());
+				taStandort.setHeight("100px");
+				taStandort.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+				itm.getItemProperty("Standort").setValue(taStandort);
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -127,16 +125,5 @@ public class LookupUnternehmen extends Window{
 	public Adresse getSelectionAdresse(){
 		return this.aSelect;
 	}
-	
-	private class ItemId{
-		private Unternehmen uItem;
-		private Adresse aItem;
-		
-		private ItemId(Unternehmen u, Adresse a){
-			this.uItem = u;
-			this.aItem = a;
-		}
-	}
-	
 	
 }

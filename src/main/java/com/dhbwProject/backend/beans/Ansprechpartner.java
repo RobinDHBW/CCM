@@ -11,6 +11,8 @@ public class Ansprechpartner {
 		this.nachname = nachname;
 		this.adresse = adresse;
 		this.lStudiengang = lStudiengang;
+		this.email = email;
+		this.telefonnummer = telefonnummer;
 	}
 
 	private int id;
@@ -59,6 +61,14 @@ public class Ansprechpartner {
 
 	public void setlStudiengang(LinkedList<Studiengang> lStudiengang) {
 		this.lStudiengang = lStudiengang;
+	}
+
+	public String getEmailadresse() {
+		return email;
+	}
+
+	public String getTelefonnummer() {
+		return telefonnummer;
 	}
 
 }

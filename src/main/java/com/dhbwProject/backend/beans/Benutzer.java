@@ -10,14 +10,26 @@ public class Benutzer {
 	private Beruf beruf;
 	private Rolle rolle;
 	private LinkedList<Studiengang> lStudiengang;
+	private String email;
+	private String telefon;
 
-	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle, LinkedList<Studiengang> lStudiengang) {
+	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle, LinkedList<Studiengang> lStudiengang, String email, String telefon) {
 		this.id = id;
 		this.vorname = vorname;
 		this.nachname = nachname;
 		this.beruf = beruf;
 		this.rolle = rolle;
 		this.lStudiengang = lStudiengang;
+		this.email = email;
+		this.telefon = telefon;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getTelefon() {
+		return telefon;
 	}
 
 	public String getVorname() {

@@ -46,7 +46,7 @@ public class UnternehmenBearbeitung extends Window{
 		this.aAlt = a;
 		
 		this.fieldsUnternehmen.setName(u.getName());
-//		setKennzeichen..a.
+		this.fieldsUnternehmen.setKennzeichen(u.getKennzeichen());
 		
 		this.fieldsAdresse.setPlz(a.getPlz());
 		this.fieldsAdresse.setStrasse(a.getStrasse());

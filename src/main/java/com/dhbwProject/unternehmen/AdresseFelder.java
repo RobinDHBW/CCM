@@ -2,6 +2,7 @@ package com.dhbwProject.unternehmen;
 
 import com.dhbwProject.backend.beans.Adresse;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -30,16 +31,19 @@ public class AdresseFelder extends VerticalLayout{
 		this.tfStrasse = new TextField();
 		this.tfStrasse.setCaption("Straße:");
 		this.tfStrasse.setWidth("300px");
+		this.tfStrasse.addValidator(new StringLengthValidator("Tragen Sie eine Straße ein", 1, 40, false));
 		this.addComponent(this.tfStrasse);
 		
 		this.tfHausnummer = new TextField();
 		this.tfHausnummer.setCaption("Hausnummer:");
 		this.tfHausnummer.setWidth("300px");
+		this.tfHausnummer.addValidator(new StringLengthValidator("Tragen Sie eine Hausnummer ein", 1, 10, false));
 		this.addComponent(tfHausnummer);
 		
 		this.tfOrt = new TextField();
 		this.tfOrt.setCaption("Ort:");
 		this.tfOrt.setWidth("300px");
+		this.tfOrt.addValidator(new StringLengthValidator("Tragen Sie einen Ort ein", 1, 40, false));
 		this.addComponent(this.tfOrt);
 	}
 	
@@ -76,6 +80,12 @@ public class AdresseFelder extends VerticalLayout{
 	}
 
 	protected boolean areFieldsValid(){
-		return true;
+		try{
+			Integer.parseInt(this.tfPlz.getValue());
+		}catch(NumberFormatException e){
+			this.tfPlz.setComponentError(new UserError("Eine Postleitzahl besteht lediglich aus Zahlen von 0 bis 9"));
+			return false;
+		}
+		return (this.tfPlz.isValid() && this.tfStrasse.isValid() && this.tfHausnummer.isValid() && this.tfOrt.isValid());
 	}
 }

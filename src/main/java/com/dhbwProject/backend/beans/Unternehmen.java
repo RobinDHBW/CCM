@@ -30,5 +30,8 @@ public class Unternehmen {
 //	public LinkedList<Ansprechpartner> getlAnsprechpartner() {
 //		return lAnsprechpartner;
 //	}
+	public String getKennzeichen() {
+		return kennzeichen;
+	}
 
 }

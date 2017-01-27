@@ -1,9 +1,12 @@
 package com.dhbwProject.benutzer;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.EMailThread;
+import com.dhbwProject.backend.PasswordHasher;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Beruf;
@@ -97,8 +100,21 @@ public class BenutzerAnlage extends CustomComponent {
 			fields.getLsStudiengang().setComponentError(null);
 		}
 		
+		if (fields.getTelefonnummer().equals("")) {
+			fields.getTfTelefonnummer().setComponentError(new UserError("Telefonnummer eingeben"));
+		} else {
+			fields.getTfTelefonnummer().setComponentError(null);
+		}
+		
+		if (fields.getEmail().equals("")) {
+			fields.getTfEmail().setComponentError(new UserError("E-Mail eingeben"));
+		} else {
+			fields.getTfEmail().setComponentError(null);
+		}
+		
 		if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
-				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0) {
+				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0
+				&& !fields.getTelefonnummer().equals("") && !fields.getEmail().equals("")) {
 			String id = fields.getID();
 			Rolle rolle = null;
 			try {
@@ -123,12 +139,29 @@ public class BenutzerAnlage extends CustomComponent {
 					e.printStackTrace();
 				}
 			}
-			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
+			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getEmail(),
+					fields.getTelefonnummer());
 			try {
 				this.dbConnect.createBenutzer(benutzer);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			try {
+				dbConnect.createPassword(PasswordHasher.md5("default"), benutzer);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			ArrayList<String> mailAdresse = new ArrayList<String>();
+			mailAdresse.add(fields.getEmail());
+			String betreff = "CCM Benutzerkonto";
+			String inhalt = "Guten Tag " + fields.getVorname() + " "
+					+ fields.getNachname() + ",<br><br> Im CRM-System ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
+					+ fields.getId() + " <br>Passwort: default <br><br> bitte ändern Sie dieses bei der ersten Anmeldung.";
+			EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
+			mail.start();
+			
 			Notification.show("Der Benutzer wurde angelegt",
                     Type.TRAY_NOTIFICATION);
 		}

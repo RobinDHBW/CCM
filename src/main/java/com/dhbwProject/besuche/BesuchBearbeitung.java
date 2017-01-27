@@ -1,16 +1,10 @@
 package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
-import com.dhbwProject.backend.beans.Adresse;
-import com.dhbwProject.backend.beans.Ansprechpartner;
-import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
-import com.dhbwProject.backend.beans.Status;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -63,16 +57,9 @@ public class BesuchBearbeitung extends Window {
 		this.fields.setAutor(b.getAutor());
 		this.fields.setDateStart(b.getStartDate());
 		this.fields.setDateEnd(b.getEndDate());
-//		this.fields.setDateStart(new Date(b.getStartDate().getTime()));
-//		this.fields.setDateEnd(new Date(b.getEndDate().getTime()));
 		this.fields.setTeilnehmenr(b.getBesucher());
+		this.fields.setUnternehmen(b.getAdresse().getUnternehmen());
 		this.fields.setAdresse(b.getAdresse());
-		try {
-			this.fields.setUnternehmen(this.dbConnection.getUnternehmenByAdresse(b.getAdresse()));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		this.fields.setAnsprechpartner(b.getAnsprechpartner());
 	}
 	

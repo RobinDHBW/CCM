@@ -1,8 +1,8 @@
 package com.dhbwProject.unternehmen;
-
 import com.dhbwProject.backend.beans.Adresse;
-import com.vaadin.server.FontAwesome;
-//import com.vaadin.ui.TextArea;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -10,7 +10,6 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 	
 	private Adresse adresse;
-//	private TextArea taAdresse;
 	private TextField tfNameAnsprechpartner;
 	private TextField tfVornameAnsprechpartner;
 	private TextField tfTelefonnummer;
@@ -26,35 +25,31 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 		this.setAdresse(a);
 	}
 	
-	private void initFields(){
-//		this.taAdresse = new TextArea();
-//		this.taAdresse.setReadOnly(true);
-//		this.taAdresse.setCaption("Adresse:");
-//		this.taAdresse.setHeight("100px");
-//		this.taAdresse.setWidth("300px");
-//		this.addComponent(taAdresse);
-		
+	private void initFields(){		
 		this.tfVornameAnsprechpartner = new TextField("Ansprechpartner:");
 		this.tfVornameAnsprechpartner.setCaption("Vorname:");
-		this.setWidth("300px");
+		this.tfVornameAnsprechpartner.setWidth("300px");
+		this.tfVornameAnsprechpartner.addValidator(new StringLengthValidator("Tragen Sie einen Nachnamen ein", 1, 40, false));
 		this.addComponent(tfVornameAnsprechpartner);
 		
 		this.tfNameAnsprechpartner = new TextField();
 		this.tfNameAnsprechpartner.setCaption("Nachname:");
-		this.setWidth("300px");
+		this.tfNameAnsprechpartner.setWidth("300px");
+		this.tfNameAnsprechpartner.addValidator(new StringLengthValidator("Tragen Sie einen Vornamen ein", 1, 40, false));
 		this.addComponent(tfNameAnsprechpartner);
 		
 		this.tfTelefonnummer = new TextField();
 		this.tfTelefonnummer.setCaption("Telefonnummer:");
-		this.setWidth("300px");
+		this.tfTelefonnummer.setNullRepresentation("");
+		this.tfTelefonnummer.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
-		this.tfTelefonnummer.setIcon(FontAwesome.WHATSAPP);
 		
 		this.tfEmail = new TextField();
 		this.tfEmail.setCaption("E-Mail:");
-		this.setWidth("300px");
+		this.tfEmail.setNullRepresentation("");
+		this.tfEmail.setWidth("300px");
+		this.tfEmail.addValidator(new EmailValidator("Tragen Sie eine gültige e-Mail ein"));
 		this.addComponent(tfEmail);
-		this.tfEmail.setIcon(FontAwesome.AT);
 	}
 	
 	public Adresse getAdresse(){
@@ -63,9 +58,6 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	
 	public void setAdresse(Adresse a){
 		this.adresse = a;
-//		this.taAdresse.setReadOnly(false);
-//		this.taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+"\n"+a.getOrt());
-//		this.taAdresse.setReadOnly(true);
 	}
 	
 	public String getVorname(){
@@ -101,7 +93,13 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	}
 	
 	public boolean areFieldsValid(){
-		return true;
+		try{
+			Integer.parseInt(this.tfTelefonnummer.getValue());
+		}catch(NumberFormatException e){
+			this.tfTelefonnummer.setComponentError(new UserError("Eine Telefonnummer besteht aus Zahlen zwischen 0 und 9"));
+			return false;
+		}
+		return (this.tfNameAnsprechpartner.isValid() && this.tfVornameAnsprechpartner.isValid() && this.tfEmail.isValid() && this.tfTelefonnummer.isValid());
 	}
 
 }

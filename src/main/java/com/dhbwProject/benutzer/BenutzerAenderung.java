@@ -56,6 +56,8 @@ public class BenutzerAenderung extends CustomComponent {
 				fields.setBeruf(b);
 				fields.setRolle(b);
 				fields.setStudiengang(b);
+				fields.setEmail(b);
+				fields.setTelefonnummer(b);
 				fields.enableFields(true);
 				btnAendern.setEnabled(true);
 				}
@@ -108,8 +110,21 @@ public class BenutzerAenderung extends CustomComponent {
 				fields.getLsStudiengang().setComponentError(null);
 			}
 			
+			if (fields.getTelefonnummer().equals("")) {
+				fields.getTfTelefonnummer().setComponentError(new UserError("Telefonnummer eingeben"));
+			} else {
+				fields.getTfTelefonnummer().setComponentError(null);
+			}
+			
+			if (fields.getEmail().equals("")) {
+				fields.getTfEmail().setComponentError(new UserError("E-Mail eingeben"));
+			} else {
+				fields.getTfEmail().setComponentError(null);
+			}
+			
 			if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
-					&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0) {
+					&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0
+					&& !fields.getTelefonnummer().equals("") && !fields.getEmail().equals("")) {
 				String id = fields.getID();
 				Rolle rolle = null;
 				try {
@@ -134,7 +149,8 @@ public class BenutzerAenderung extends CustomComponent {
 						e.printStackTrace();
 					}
 				}
-			Benutzer neu = new Benutzer(fields.getID(), fields.getVorname(), fields.getNachname(), beruf, rolle, stg);
+			Benutzer neu = new Benutzer(fields.getID(), fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getEmail(),
+					fields.getTelefonnummer());
 			try {
 				dbConnect.changeBenutzer(b, neu);
 			} catch (SQLException e) {

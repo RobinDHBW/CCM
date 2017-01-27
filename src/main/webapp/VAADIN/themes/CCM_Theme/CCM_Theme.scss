@@ -12,10 +12,14 @@ $v-font-family: "Open Sans", sans-serif;
 $v-border-radius: 4px;
 
 // Affects the color of some component elements, e.g Button, Panel title, etc
-$v-background-color: white; 
-//hsl(210, 0%, 98%);
+$v-background-color: #fff; 
+
 // Affects the color of content areas, e.g  Panel and Window content, TextField input etc
-$v-app-background-color: white;
+$v-app-background-color: #fff;
+$v-selection-overlay-background-color: #fff;
+
+//Zusatzstyling
+$v-overlay-shadow: 0 0 0 2px #fff;
 
 $v-app-loading-text: "Bitte warten, CRM System wird geladen.";
 
@@ -25,7 +29,8 @@ $v-app-loading-text: "Bitte warten, CRM System wird geladen.";
 //$v-shadow-opacity: 5%;
 
 // Defines colors for indicating status (focus, success, failure)
-$v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color automatically
+$v-focus-color:#8c0011;
+//valo-focus-color(); // Calculates a suitable color automatically
 //$v-friendly-color: #2c9720;
 //$v-error-indicator-color: #ed473b;
 
@@ -59,6 +64,7 @@ $v-focus-color:#8c0011; //valo-focus-color(); // Calculates a suitable color aut
  	font-size: 12pt;
     font-weight: bold;
     font-color: #dcdfe0;
+    padding:0px 0px 0px 0px;
 }
 .v-button-navi{
 background-color:#5d6a72;
@@ -69,17 +75,17 @@ text-align:left;
 padding: 6px 6px 6px 6px;
 width:90%;
 	
+ //.v-icon {
+ //   float: left;
+//	vertical-align:left;
+//	margin-right:3px;
+//	margin-left:3px;
+//	border:none;
+//	}
 }
-.v-button-navi .v-icon {
-	vertical-align:right;
-	margin-right:3px;
-	margin-left:3px;
-	border:none;
-	}
 .v-button .v-icon{
-	vertical-align:right;
+	//vertical-align:right;
 	margin-right:3px;
-	margin-left:3px;
 	border:none;
 	}
 .v-button-navi-wrap .v-button-navi-caption{
@@ -87,13 +93,14 @@ width:90%;
     font-weight:bold;
     font-color:#dcdfe0;
     text-align:left;
-	padding:6px;
+	padding:6px 6px 6px 0px;
 }
 
 
+	}
 //Während der Button angeclickt ist = focus; greifen für alle Buttons die folgenden Styling Regeln:
 .v-button:focus .v-button-wrap{
-//	background:#dcdfe0;
+
 	color:black;
 	boxshadow:black;
 
@@ -186,6 +193,7 @@ v-button-btnwhitelogo .v-button-icon{
 //Textfield und PasswordField nutzen denselben default Stylename
 .v-textfield{
 	color:black
+	background-color: white;
 	width:300px;
 }
 
@@ -195,15 +203,33 @@ v-button-btnwhitelogo .v-button-icon{
 .base .v-table-drag .v-table-body{
 border-color: white;
 text-decoration:none;
+color:black
+background:white;
 }
 
+.v-table-header{
+background:#5d6a72; //#8c0011;
+color:white;
+font-weight: bold;	
+}	
+.v-table-body{
+background-color:white;
+background:white;
+color:black;
+}
+.v-table-row.v-table-row,
+.v-table-row-odd.v-table-row {
+  background-color:white;
+  background:white;
+  color:black;
+}
 //Label Style
 .v-label{
 
 color:black;
-margin: 0px 200px 5px 200px;
-padding: 0px 20px 0px 20px;
-width: 50%;
+margin:0px 10px 5px 10px;
+padding:0px 20px 0px 20px;
+width:50%;
 text-align: center;
 } 
 
@@ -212,7 +238,6 @@ text-align: center;
 width: 51 px;
 }
 .v-calendar-time{
-
 text-align:right;
 color:000;
 border-right: 1px solid;
@@ -302,6 +327,14 @@ width:-1px;
 min-height:300px;
 
 }
+//Combobox 
 
+.valo-textfield-prompt-style{
+	background-color: white;
+	}
+ 
+ 
+ 
+ 
 }
 

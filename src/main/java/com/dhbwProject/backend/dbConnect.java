@@ -239,11 +239,15 @@ public class dbConnect {
 				 return auto_id;
 			}else
 			if(obj instanceof Ansprechpartner){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`, `ansprechpartner_unternehmen_id`) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `ansprechpartner` (`ansprechpartner_id`, `ansprechpartner_vorname`, `ansprechpartner_nachname`, `adresse_id`, `ansprechpartner_emailadresse`, `ansprechpartner_telefonnummer`, `ansprechpartner_unternehmen_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				ps.setString(1, ((Ansprechpartner) obj).getVorname());
 				ps.setString(2, ((Ansprechpartner) obj).getNachname());
 				ps.setInt(3, ((Ansprechpartner) obj).getAdresse().getId());
-				ps.setInt(4,  getUnternehmenByAdresse(((Ansprechpartner) obj).getAdresse()).getId());
+				ps.setString(4, ((Ansprechpartner) obj).getEmailadresse());
+				ps.setString(5, ((Ansprechpartner) obj).getTelefonnummer());
+//				ps.setInt(4,  getUnternehmenByAdresse(((Ansprechpartner) obj).getAdresse()).getId());
+				ps.setInt(6,  ((Ansprechpartner) obj).getAdresse().getUnternehmen().getId()); //By Robin Bahr 22.01.2017 22:30 Uhr
+				
 				ps.executeUpdate();
 				ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -321,14 +325,16 @@ public class dbConnect {
 				 FileInputStream inputNotiz = null;
 				 FileInputStream inputBild = null;
 				try{
-					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz().toString());
+//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
 					ps.setBinaryStream(1, inputNotiz);
 
-					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild().toString());
+//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
 					ps.setBinaryStream(2, inputBild);
 				
 				} catch (FileNotFoundException e) {
-					
+					System.out.println("File not found");
 				}
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
@@ -386,8 +392,9 @@ public class dbConnect {
 					 return auto_id;
 			}else
 			if(obj instanceof Unternehmen){
-				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement ps = con.prepareStatement("INSERT INTO `unternehmen` (`unternehmen_id`, `unternehmen_name`, `unternehmen_abc_kennzeichen`) VALUES (NULL, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Unternehmen) obj).getName());
+				 ps.setString(2, ((Unternehmen) obj).getKennzeichen());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -528,8 +535,8 @@ public class dbConnect {
 	}
 	public Ansprechpartner changeAnsprechpartner(Ansprechpartner altAnsprechpartner, Ansprechpartner neuAnsprechpartner) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
-				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), altAnsprechpartner.getId() });
+				"UPDATE `ansprechpartner` SET `adresse_id` = ?, `ansprechpartner_vorname` = ?, `ansprechpartner_nachname` = ?, `adresse_id` = ?, `ansprechpartner_emailadresse` = ?, `ansprechpartner_telefonnummer` = ?, `ansprechpartner_unternehmen_id` = ? WHERE `ansprechpartner`.`ansprechpartner_id` = ? ",
+				new Object[] { neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getVorname(), neuAnsprechpartner.getNachname(), neuAnsprechpartner.getAdresse().getId(), neuAnsprechpartner.getEmailadresse(), neuAnsprechpartner.getTelefonnummer(), neuAnsprechpartner.getAdresse().getUnternehmen().getId(), altAnsprechpartner.getId() });
 		return getAnsprechpartnerById(altAnsprechpartner.getId());
 	
 	}
@@ -569,10 +576,12 @@ public class dbConnect {
 				String nachname = res.getString("nachname");
 				Beruf beruf = getBerufById(res.getInt("beruf_id"));
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
-				Benutzer ben = new Benutzer(id, vorname, nachname, beruf, rolle, null);
-				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(ben);
-				ben = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
-				benArr.add(ben);
+				String email = res.getString("benutzer_email");
+				String telefon = res.getString("benutzer_telefon");
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
+				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
+				benArr.add(benutzer);
 			}
 		
 		return benArr;
@@ -587,9 +596,11 @@ public class dbConnect {
 			String nachname = res.getString("nachname");
 			Beruf beruf = getBerufById(res.getInt("beruf_id"));
 			Rolle rolle = getRolleById(res.getInt("rolle_id"));
-			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+			String email = res.getString("benutzer_email");
+			String telefon = res.getString("benutzer_telefon");
+			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
 			LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
+			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
 
 			res.close();
 		return benutzer;
@@ -598,12 +609,14 @@ public class dbConnect {
 		Beruf beruf = getBerufByBezeichnung(b.getBeruf().getBezeichnung());
 		Rolle rolle = getRolleByBezeichnung(b.getRolle().getBezeichnung());
 		PreparedStatement ps = con.prepareStatement(
-				"INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`) VALUES (?, ?, ?, ?, ?)");
+				"INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`, `benutzer_email`, `benutzer_telefon`) VALUES (?, ?, ?, ?, ?, ?, ?)");
 		ps.setString(1, b.getVorname());
 		ps.setString(2, b.getNachname());
 		ps.setString(3, b.getId());
 		ps.setInt(4, beruf.getId());
 		ps.setInt(5, rolle.getId());
+		ps.setString(6, b.getEmail());
+		ps.setString(7, b.getTelefon());
 		ps.executeUpdate();
 		ps.close();
 		LinkedList<Studiengang> lStudiengang = b.getStudiengang();
@@ -619,8 +632,8 @@ public class dbConnect {
 	}
 	public Benutzer changeBenutzer(Benutzer altBenutzer, Benutzer neuBenutzer) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ? WHERE `benutzer`.`benutzer_id` = ? ",
-				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(),neuBenutzer.getRolle().getId(), altBenutzer.getId() });
+				"UPDATE `benutzer` SET `vorname` = ?, `nachname` = ?, `benutzer_id` = ?, `rolle_id` = ?, `beruf_id` = ?, `benutzer_email` = ?, `benutzer_telefon` = ?  WHERE `benutzer`.`benutzer_id` = ? ",
+				new Object[] { neuBenutzer.getVorname(), neuBenutzer.getNachname(), neuBenutzer.getId(), neuBenutzer.getBeruf().getId(), neuBenutzer.getRolle().getId(), neuBenutzer.getEmail(), neuBenutzer.getTelefon(), altBenutzer.getId() });
 		PreparedStatement ps1 = con.prepareStatement("DELETE FROM studiengang_benutzer WHERE benutzer_id = ?");
 		ps1.setString(1, altBenutzer.getId());
 		ps1.executeUpdate();
@@ -650,9 +663,11 @@ public class dbConnect {
 				String nachname = res.getString("nachname");
 				Beruf beruf = getBerufById(res.getInt("beruf_id")); 
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
-				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null);
+				String email = res.getString("benutzer_email");
+				String telefon = res.getString("benutzer_telefon");
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
 				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
 				lBenutzer.add(benutzer);
 			}
 		
@@ -865,19 +880,21 @@ public class dbConnect {
 				FileOutputStream output1 = new FileOutputStream(notizfile);
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				byte[] notiz = new byte[1024];
-				while (input1.read(notiz) > 0) {
-					output1.write(notiz);
+				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
+				byte[] nb = new byte[1024];
+				while (input1.read(nb) > 0) {
+					output1.write(nb);
 				}
 				output1.close();
 				
 				File file = new File("bild");
 				FileOutputStream output2 = new FileOutputStream(file);
 
-				InputStream input2 = res.getBinaryStream("resume");
-				byte[] bild = new byte[1024];
-				while (input2.read(bild) > 0) {
-					output2.write(bild);
+				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
+				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
+				byte[] bb = new byte[1024];
+				while (input2.read(bb) > 0) {
+					output2.write(bb);
 				}
 				output2.close();
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
@@ -905,24 +922,30 @@ public class dbConnect {
 		ResultSet res = executeQuery("SELECT * FROM `gespraechsnotizen` WHERE `gespraechsnotiz_id` = ?", new Object[]{(Object) new Integer(pId)});
 		try{
 			while (res.next()) {
+				
 				int id = res.getInt("gespraechsnotiz_id");
-				File notizfile = new File("notiz");
+				
+				File notizfile = new File("C:/Users/CCM/Desktop/" + "NOTIZ1" + ".txt");
+				notizfile.createNewFile();
 				FileOutputStream output1 = new FileOutputStream(notizfile);
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				byte[] notiz = new byte[1024];
-				while (input1.read(notiz) > 0) {
-					output1.write(notiz);
+				File notiz = new File("C:/Users/CCM/Desktop/" + "NOTIZ2");
+				byte[] nb = new byte[1024];
+				while (input1.read(nb) > 0) {
+					output1.write(nb);
 				}
 				output1.close();
 				
-				File file = new File("bild");
-				FileOutputStream output2 = new FileOutputStream(file);
+				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
+				bildfile.createNewFile();
+				FileOutputStream output2 = new FileOutputStream(bildfile);
 
-				InputStream input2 = res.getBinaryStream("resume");
-				byte[] bild = new byte[1024];
-				while (input2.read(bild) > 0) {
-					output2.write(bild);
+				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
+				File bild = new File("C:/Users/CCM/Desktop/" + "BILD2");
+				byte[] bb = new byte[1024];
+				while (input2.read(bb) > 0) {
+					output2.write(bb);
 				}
 				output2.close();
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
@@ -1216,25 +1239,26 @@ public class dbConnect {
 		return unternehmen;
 
 	}
-	public Unternehmen getUnternehmenByAdresse(Adresse adresse) throws SQLException{
-		Unternehmen unternehmen = null;
-		ResultSet res = null;
-		res = executeQuery("SELECT * FROM `unternehmen`, `ansprechpartner`, `adresse` WHERE ansprechpartner.ansprechpartner_unternehmen_id = unternehmen.unternehmen_id AND adresse.adresse_id = ansprechpartner.adresse_id AND adresse.adresse_id = ?", new Object[]{(Object) new Integer(adresse.getId())});
-				while (res.next()) {
-					int id = res.getInt("unternehmen_id");
-					String name = res.getString("unternehmen_name");
-					String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
 
-//					LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
-					//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
-					unternehmen = new Unternehmen(id, name, kennzeichen);
-//					lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
-					//lAdresse = getAdresseByUnternehmen(unternehmen);
-				}
-				res.close();
-
-			return unternehmen;
-	}
+	//By Robin Bahr 22.01.2017 22:30 Uhr
+//	public Unternehmen getUnternehmenByAdresse(Adresse adresse) throws SQLException{
+//		Unternehmen unternehmen = null;
+//		ResultSet res = null;
+//		res = executeQuery("SELECT * FROM `unternehmen`, `ansprechpartner`, `adresse` WHERE ansprechpartner.ansprechpartner_unternehmen_id = unternehmen.unternehmen_id AND adresse.adresse_id = ansprechpartner.adresse_id AND adresse.adresse_id = ?", new Object[]{(Object) new Integer(adresse.getId())});
+//				while (res.next()) {
+//					int id = res.getInt("unternehmen_id");
+//					String name = res.getString("unternehmen_name");
+//					String kennzeichen = res.getString("unternehmen_abc_kennzeichen");
+////					LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
+//					//LinkedList<Adresse> lAdresse = new LinkedList<Adresse>();
+//					unternehmen = new Unternehmen(id, name, kennzeichen);
+////					lAnsprechpartner = getAnsprechpartnerByUnternehmen(unternehmen);
+//					//lAdresse = getAdresseByUnternehmen(unternehmen);
+//				}
+//				res.close();
+//
+//			return unternehmen;
+//	}
 	public Unternehmen createUnternehmen(Unternehmen unternehmen) throws SQLException {
 		int i = executeInsert(unternehmen);
 		return getUnternehmenById(i);
@@ -1242,8 +1266,8 @@ public class dbConnect {
 	}
 	public Unternehmen changeUnternehmen(Unternehmen altUnternehmen, Unternehmen neuUnternehmen) throws SQLException {
 		int i = executeUpdate(
-				"UPDATE `unternehmen` SET `unternehmen_name` = ? WHERE `unternehmen`.`unternehmen_id` = ? ",
-				new Object[] { neuUnternehmen.getName(), altUnternehmen.getId()});
+				"UPDATE `unternehmen` SET `unternehmen_name` = ?, `unternehmen_abc_kennzeichen` = ?  WHERE `unternehmen`.`unternehmen_id` = ? ",
+				new Object[] { neuUnternehmen.getName(), neuUnternehmen.getKennzeichen(), altUnternehmen.getId()});
 		return getUnternehmenById(altUnternehmen.getId());
 	}
 	public boolean deleteUnternehmen(Unternehmen unternehmen) throws SQLException{

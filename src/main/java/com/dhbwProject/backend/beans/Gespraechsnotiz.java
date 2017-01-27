@@ -1,5 +1,6 @@
 package com.dhbwProject.backend.beans;
 
+import java.io.File;
 import java.util.Date;
 
 import com.mysql.jdbc.Blob;
@@ -7,13 +8,13 @@ import com.mysql.jdbc.Blob;
 public class Gespraechsnotiz {
 	
 	private int id;
-	private byte[] notiz;
-	private byte[] bild;
+	private File notiz;
+	private File bild;
 	private Unternehmen unternehmen;
 	private Besuch besuch;
 	private Date timestamp;
 	
-	public Gespraechsnotiz(int id, byte[] notiz, byte[] bild, Unternehmen unternehmen, Besuch besuch, Date timestamp) {
+	public Gespraechsnotiz(int id, File notiz, File bild, Unternehmen unternehmen, Besuch besuch, Date timestamp) {
 		super();
 		this.id = id;
 		this.notiz = notiz;
@@ -28,11 +29,11 @@ public class Gespraechsnotiz {
 		return id;
 	}
 
-	public byte[] getNotiz() {
+	public File getNotiz() {
 		return notiz;
 	}
 
-	public byte[] getBild() {
+	public File getBild() {
 		return bild;
 	}
 

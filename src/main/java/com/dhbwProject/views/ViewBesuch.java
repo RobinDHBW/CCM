@@ -20,6 +20,8 @@ public class ViewBesuch extends CustomComponent implements View {
 		this.setSizeFull();
 		this.setCaption(CCM_Constants.VIEW_NAME_BESUCH);
 		this.initTbContent();
+		FooterView fv= new FooterView();
+		tbContent.addComponent(fv);
 		
 	}
 	
