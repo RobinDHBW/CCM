@@ -13,13 +13,20 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
@@ -59,6 +66,7 @@ public class BesuchUebersicht extends CustomComponent{
 	
 	private void initContainer(){
 		this.container = new IndexedContainer();
+		this.container.addContainerProperty("Status", Label.class, null);
 		this.container.addContainerProperty("Titel", String.class, null);
 		this.container.addContainerProperty("Start", String.class, null);
 		this.container.addContainerProperty("Ende", String.class, null);
@@ -79,8 +87,8 @@ public class BesuchUebersicht extends CustomComponent{
 	private void addItem(Besuch b) throws Exception{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		Item itm = this.container.addItem(b);
-		if(b.getStatus() != null)
-			tblBesuche.setItemIcon(b, FontAwesome.CHECK);
+		if(b.getStatus() != null && b.getStatus().getId() == 1)
+			itm.getItemProperty("Status").setValue(new Label(FontAwesome.CHECK.getHtml(), ContentMode.HTML));
 		itm.getItemProperty("Titel").setValue(b.getName());
 		itm.getItemProperty("Start").setValue(dateFormat.format(b.getStartDate()));
 		itm.getItemProperty("Ende").setValue(dateFormat.format(b.getEndDate()));
@@ -99,6 +107,16 @@ public class BesuchUebersicht extends CustomComponent{
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
 		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
+		
+		MenuItem itmSearch = mbMenu.addItem("Suchen", FontAwesome.SEARCH, new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				SuchfensterBesuch suche = new SuchfensterBesuch();
+				getUI().addWindow(suche);
+				
+			}
+		});
 		
 		
 		
@@ -196,5 +214,37 @@ public class BesuchUebersicht extends CustomComponent{
 		});
 	}
 	
-
+	private class SuchfensterBesuch extends Window{
+		
+		BesuchFelder fields;
+		Button btnOK;
+		
+		
+		private SuchfensterBesuch(){
+			this.center();
+			this.setClosable(true);
+			this.setModal(false);
+			this.setContent(this.initContent());
+			this.setWidth("400px");
+			this.setHeight("600px");
+		}
+		
+		private Panel initContent(){
+			fields = new BesuchFelder();
+			btnOK = new Button();
+			btnOK.setIcon(FontAwesome.SEARCH);
+			btnOK.addClickListener(click ->{
+				
+			});
+			
+			fields.addComponent(btnOK);
+			VerticalLayout layout = new VerticalLayout(fields);
+			layout.setComponentAlignment(fields, Alignment.TOP_CENTER);
+			return new Panel(layout);
+		}
+	}
+	
+	
+	
+	
 }
