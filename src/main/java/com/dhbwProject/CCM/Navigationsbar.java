@@ -25,14 +25,16 @@ public class Navigationsbar extends CssLayout{
 			PasswordChanger changer = new PasswordChanger(true);
 			getUI().addWindow(changer);
 		});
-		this.addComponent(btnChangePW);
+		//this.addComponent(btnChangePW);
 		/*TEMPORÄR ENDE
 		 * */
 		
 		
-		this.initLogoutButton();
-		this.initNaviButtons();
 		
+		this.initNaviButtons();
+		//Temporär soll der PW Ändern Button unter die üblichen Navigationsbuttons und über den Logout Button
+		this.addComponent(btnChangePW);
+		this.initLogoutButton();
 	}
 	
 	private void initLogoutButton(){

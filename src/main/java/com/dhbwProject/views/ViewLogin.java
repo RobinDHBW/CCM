@@ -75,6 +75,7 @@ public class ViewLogin extends CustomComponent implements View{
 		this.btnLogin = new Button();
 		this.btnLogin.setIcon(FontAwesome.SIGN_IN);
 		this.btnLogin.setWidth("100%");
+		this.btnLogin.setCaption("Anmelden"); //Beschriftung des Buttons
 //		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.setClickShortcut(KeyCode.ENTER);
 		this.btnLogin.addClickListener(listener ->{

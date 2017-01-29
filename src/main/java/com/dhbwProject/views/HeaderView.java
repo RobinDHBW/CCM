@@ -45,7 +45,7 @@ public class HeaderView extends CustomComponent{
 		hL.addComponent(dhbwLogo);
 		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
 	
-	Label whiteL = new Label(" test" + statustext);
+	Label whiteL = new Label(getStatustext());
 	/*Button logoutB = new Button();
 	logoutB.setCaption("Abmelden");*/
 	whiteL.setWidth("100%");
@@ -63,4 +63,11 @@ public class HeaderView extends CustomComponent{
 	
 	setCompositionRoot(pnHeader);
 	}
+	public String getStatustext() {
+		return statustext;
+	}
+	public void setStatustext(String statustext) {
+		this.statustext = statustext;
+	}
+	
 }
