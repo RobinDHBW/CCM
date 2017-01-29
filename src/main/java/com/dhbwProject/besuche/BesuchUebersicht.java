@@ -294,6 +294,7 @@ public class BesuchUebersicht extends CustomComponent{
 					if(benutzer.getSelection() == null)
 						return;
 					bFilter = benutzer.getSelection();
+					tfBenutzer.setValue(benutzer.getSelection().getNachname()+", "+benutzer.getSelection().getVorname());
 				});
 				getUI().addWindow(benutzer);
 			});
@@ -306,8 +307,10 @@ public class BesuchUebersicht extends CustomComponent{
 			btnOK.setCaption("Ausführen");
 			btnOK.addClickListener(click ->{
 				container.removeAllContainerFilters();
-				if(bFilter != null)
+				if(bFilter != null){
 					refreshContainer(bFilter);
+					bFilter = null;
+				}
 				for(Object pid : container.getContainerPropertyIds()){
 					switch(pid.toString()){
 					case "Titel":{
