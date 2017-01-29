@@ -7,18 +7,24 @@ import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
+import com.dhbwProject.backend.beans.Unternehmen;
+import com.dhbwProject.benutzer.LookupBenutzer;
+import com.dhbwProject.unternehmen.LookupUnternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -52,7 +58,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.initTable();
 		this.vlLayout = new VerticalLayout(mbMenu, tblBesuche);
 		this.vlLayout.setMargin(true);
-		this.refreshContainer();
+		this.refreshContainer(this.bUser);
 		this.setCompositionRoot(vlLayout);
 	}
 	
@@ -74,10 +80,10 @@ public class BesuchUebersicht extends CustomComponent{
 		this.container.addContainerProperty("Adresse", TextArea.class, null);
 	}
 	
-	private void refreshContainer(){
+	private void refreshContainer(Benutzer benutzer){
 		this.container.removeAllItems();
 		try{
-			for(Besuch b : this.dbConnection.getBesuchByBenutzer(this.bUser))
+			for(Besuch b : this.dbConnection.getBesuchByBenutzer(benutzer))
 				this.addItem(b);
 		}catch(Exception e){
 			e.printStackTrace();
@@ -215,13 +221,24 @@ public class BesuchUebersicht extends CustomComponent{
 	}
 	
 	private class SuchfensterBesuch extends Window{
+		private static final long serialVersionUID = 1L;
+		TextField tfTitel;
+		DateField dfStart;
+		DateField dfEnd;
+		TextField tfUnternehmen;
+		Button btnUnternehmen;
+		TextField tfBenutzer;
+		Button btnBenutzer;
 		
-		BesuchFelder fields;
+		Unternehmen uFilter;
+		Benutzer bFilter;
 		Button btnOK;
 		
 		
 		private SuchfensterBesuch(){
 			this.center();
+			this.setCaptionAsHtml(true);
+			this.setCaption("<center><h3>Suchfelder</h3></center>");
 			this.setClosable(true);
 			this.setModal(false);
 			this.setContent(this.initContent());
@@ -230,16 +247,94 @@ public class BesuchUebersicht extends CustomComponent{
 		}
 		
 		private Panel initContent(){
-			fields = new BesuchFelder();
-			btnOK = new Button();
-			btnOK.setIcon(FontAwesome.SEARCH);
-			btnOK.addClickListener(click ->{
-				
+			tfTitel = new TextField();
+			tfTitel.setWidth("300px");
+			tfTitel.setCaption("Titel: ");
+			
+			dfStart = new DateField();
+			dfStart.setResolution(Resolution.MINUTE);
+			dfStart.setWidth("300px");
+			dfStart.setCaption("Beginn: ");
+			
+			dfEnd = new DateField();
+			dfEnd.setResolution(Resolution.MINUTE);
+			dfEnd.setWidth("300px");
+			dfEnd.setCaption("Ende: ");
+			
+			tfUnternehmen = new TextField();
+			tfUnternehmen.setWidth("300px");
+			
+			btnUnternehmen = new Button();
+			btnUnternehmen.setIcon(FontAwesome.REPLY);
+			btnUnternehmen.setWidth("50px");
+			btnUnternehmen.addClickListener(click ->{
+				LookupUnternehmen unternehmen = new LookupUnternehmen();
+				unternehmen.addCloseListener(close ->{
+					if(unternehmen.getSelectionUnternehmen() == null)
+						return;
+					uFilter = unternehmen.getSelectionUnternehmen();
+					tfUnternehmen.setValue(unternehmen.getSelectionUnternehmen().getName());
+				});
+				getUI().addWindow(unternehmen);
 			});
 			
-			fields.addComponent(btnOK);
-			VerticalLayout layout = new VerticalLayout(fields);
-			layout.setComponentAlignment(fields, Alignment.TOP_CENTER);
+			HorizontalLayout hlUnternehmen = new HorizontalLayout(tfUnternehmen, btnUnternehmen);
+			hlUnternehmen.setSpacing(true);
+			hlUnternehmen.setCaption("Unternehmen: ");
+			
+			tfBenutzer = new TextField();
+			tfBenutzer.setWidth("300px");
+			
+			btnBenutzer = new Button();
+			btnBenutzer.setIcon(FontAwesome.REPLY);
+			btnBenutzer.setWidth("50px");
+			btnBenutzer.addClickListener(click ->{
+				LookupBenutzer benutzer = new LookupBenutzer();
+				benutzer.addCloseListener(close ->{
+					if(benutzer.getSelection() == null)
+						return;
+					bFilter = benutzer.getSelection();
+				});
+				getUI().addWindow(benutzer);
+			});
+			HorizontalLayout hlBenutzer = new HorizontalLayout(tfBenutzer, btnBenutzer);
+			hlBenutzer.setSpacing(true);
+			hlBenutzer.setCaption("Benutzer: ");
+			
+			btnOK = new Button();
+			btnOK.setIcon(FontAwesome.SEARCH);
+			btnOK.setCaption("Ausführen");
+			btnOK.addClickListener(click ->{
+				container.removeAllContainerFilters();
+				if(bFilter != null)
+					refreshContainer(bFilter);
+				for(Object pid : container.getContainerPropertyIds()){
+					switch(pid.toString()){
+					case "Titel":{
+						container.addContainerFilter(new SimpleStringFilter(pid, tfTitel.getValue(), true, false));
+						break;
+					}
+					case "Start":{
+						break;
+					}
+					case "Ende":{
+						break;
+					}
+					case "Unternehmen":{
+						if(uFilter != null)
+							container.addContainerFilter(new SimpleStringFilter(pid, uFilter.getName(), true, false));
+						break;
+					}
+					default :
+					
+					}
+				}
+			});
+			
+			VerticalLayout layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlBenutzer, btnOK);
+			VerticalLayout layout = new VerticalLayout(layoutFields);
+			layout.setComponentAlignment(layoutFields, Alignment.TOP_CENTER);
+			layout.setMargin(true);
 			return new Panel(layout);
 		}
 	}
