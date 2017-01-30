@@ -119,7 +119,8 @@ public class BesuchAnlage extends Window {
 				+"<b>Teilnehmener: </b>"+"<br>";
 		
 		for(Benutzer b : this.fields.getTeilnehmenr()){
-			eMailList.add(b.getEmail());
+			if(b.getEmail() != null)
+				eMailList.add(b.getEmail());
 			inhalt = inhalt+b.getNachname()+", "+ b.getVorname() + "<br>";
 		}
 		EMailThread thread = new EMailThread(eMailList, titel, inhalt);

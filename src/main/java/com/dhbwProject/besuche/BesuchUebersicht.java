@@ -1,11 +1,14 @@
 package com.dhbwProject.besuche;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.EMailThread;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
@@ -235,10 +238,15 @@ public class BesuchUebersicht extends CustomComponent{
 				BesuchEntfernen entfernen = new BesuchEntfernen(b.getName());
 				entfernen.addCloseListener(close ->{
 					if(entfernen.getResult()){
-						//remove ....
-						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
-						message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
-						message.show(Page.getCurrent());
+						try {
+							container.removeItem(dbConnection.deleteBenutzerFromBesuch(b, bUser));
+							sendMailByRemoveParticipant(b, bUser);
+							message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+							message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
+							message.show(Page.getCurrent());
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 					}else{
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption("Der Termin: "+b.getName()+"wurde nicht entfernt");
@@ -248,6 +256,20 @@ public class BesuchUebersicht extends CustomComponent{
 				getUI().addWindow(entfernen);
 			}
 		});
+	}
+	
+	private void sendMailByRemoveParticipant(Besuch besuch, Benutzer benutzer){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		ArrayList<String> eMailList = new ArrayList<String>();
+		String titel = "Terminabmeldung : "+besuch.getName();
+		String inhalt = "<b>Teilnehmenr: </b>"
+				+benutzer.getNachname()+", "+benutzer.getVorname()+"<br>"
+				+"wurde von dem Termin: "+besuch.getName()+" entfernt";
+			if(besuch.getAutor().getEmail() != null)
+				eMailList.add(besuch.getAutor().getEmail());
+		
+		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
+		thread.start();
 	}
 	
 	private class SuchfensterBesuch extends Window{
