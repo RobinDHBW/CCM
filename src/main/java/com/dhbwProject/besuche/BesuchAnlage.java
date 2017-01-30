@@ -126,5 +126,12 @@ public class BesuchAnlage extends Window {
 		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
 		thread.start();
 	}
+	
+//	private void erstelleBesuch() throws SQLException{
+//		this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+//				fields.getDateStart(), fields.getDateEnd(),
+//				fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
+//				fields.getTeilnehmenr(), null, fields.getAutor()));	
+//	}
 
 }

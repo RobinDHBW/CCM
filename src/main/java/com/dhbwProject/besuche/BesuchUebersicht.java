@@ -215,7 +215,16 @@ public class BesuchUebersicht extends CustomComponent{
 			
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				BesuchBenachrichtigung benachrichtigung = new BesuchBenachrichtigung();
+				Notification message = new Notification("");
+				message.setPosition(Position.TOP_CENTER);
+				if(tblBesuche.getValue() == null){
+					message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+					message.setCaption("Wählen Sie zunächst einen Termin");
+					message.show(Page.getCurrent());
+					return;
+				}
+				Besuch b = (Besuch)tblBesuche.getValue();
+				BesuchBenachrichtigung benachrichtigung = new BesuchBenachrichtigung(b);
 				getUI().addWindow(benachrichtigung);
 				
 			}
