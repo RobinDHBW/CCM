@@ -2,6 +2,8 @@ package com.dhbwProject.besuche;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.GregorianCalendar;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
@@ -21,7 +23,6 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
@@ -47,10 +48,22 @@ public class BesuchUebersicht extends CustomComponent{
 	private IndexedContainer container;
 	private VerticalLayout vlLayout;
 	
+	private Date currentTime;
+	private String titelAnzeige = null;
+	private Benutzer bAnzeige;
+	private Unternehmen uAnzeige;
+	private Date dStart;
+	private Date dEnd;
+	
 	public BesuchUebersicht(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+		this.bAnzeige = bUser;
+		LocalDateTime localDate = LocalDateTime.now();
+		this.currentTime = new Date(new GregorianCalendar(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth(), 00, 00).getTime().getTime());
+		dStart = currentTime;
 		this.initLayout();
+
 	}
 	
 	private void initLayout(){
@@ -58,7 +71,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.initTable();
 		this.vlLayout = new VerticalLayout(mbMenu, tblBesuche);
 		this.vlLayout.setMargin(true);
-		this.refreshContainer(this.bUser);
+		this.refreshContainer(this.bUser, currentTime, null);
 		this.setCompositionRoot(vlLayout);
 	}
 	
@@ -68,6 +81,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.tblBesuche.setContainerDataSource(this.container);
 		this.tblBesuche.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblBesuche.setSelectable(true);
+		this.tblBesuche.setHeight("500px");
 	}
 	
 	private void initContainer(){
@@ -80,11 +94,27 @@ public class BesuchUebersicht extends CustomComponent{
 		this.container.addContainerProperty("Adresse", TextArea.class, null);
 	}
 	
-	private void refreshContainer(Benutzer benutzer){
+	private void refreshContainer(Benutzer benutzer, Date dStart, Date dEnd){
 		this.container.removeAllItems();
 		try{
-			for(Besuch b : this.dbConnection.getBesuchByBenutzer(benutzer))
-				this.addItem(b);
+			for(Besuch b : this.dbConnection.getBesuchByBenutzer(benutzer)){
+				if(dStart !=null && dEnd != null){
+					if(b.getStartDate().after(dStart) && b.getEndDate().before(dEnd))
+						addItem(b);
+					continue;
+				}
+				if(dStart != null){
+					if(b.getStartDate().after(dStart))
+						addItem(b);
+					continue;
+				}
+				if(dEnd != null){
+					if(b.getEndDate().before(dEnd))
+						addItem(b);
+					continue;
+				}
+				addItem(b);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -230,9 +260,8 @@ public class BesuchUebersicht extends CustomComponent{
 		TextField tfBenutzer;
 		Button btnBenutzer;
 		
-		Unternehmen uFilter;
-		Benutzer bFilter;
 		Button btnOK;
+		Button btnReset;
 		
 		
 		private SuchfensterBesuch(){
@@ -244,25 +273,46 @@ public class BesuchUebersicht extends CustomComponent{
 			this.setContent(this.initContent());
 			this.setWidth("400px");
 			this.setHeight("600px");
+			setTitelAnzeige(titelAnzeige);
+			setBenutzer(bAnzeige);
+			setUnternehmen(uAnzeige);
 		}
 		
 		private Panel initContent(){
 			tfTitel = new TextField();
 			tfTitel.setWidth("300px");
 			tfTitel.setCaption("Titel: ");
+			tfTitel.addValueChangeListener(change ->{
+				if(change.getProperty().getValue() == null)
+					return;
+				setTitelAnzeige(change.getProperty().getValue().toString());
+			});
 			
 			dfStart = new DateField();
 			dfStart.setResolution(Resolution.MINUTE);
 			dfStart.setWidth("300px");
 			dfStart.setCaption("Beginn: ");
+			dfStart.setValue(dStart);
+			dfStart.addValueChangeListener(change ->{
+				if(change.getProperty().getValue() == null)
+						return;
+				dStart = new Date(((java.util.Date)change.getProperty().getValue()).getTime());
+			});
 			
 			dfEnd = new DateField();
 			dfEnd.setResolution(Resolution.MINUTE);
 			dfEnd.setWidth("300px");
 			dfEnd.setCaption("Ende: ");
+			dfEnd.setValue(dEnd);
+			dfEnd.addValueChangeListener(change ->{
+				if(change.getProperty().getValue() == null)
+					return;
+				dEnd = new Date(((java.util.Date)change.getProperty().getValue()).getTime());
+			});
 			
 			tfUnternehmen = new TextField();
 			tfUnternehmen.setWidth("300px");
+			tfUnternehmen.setReadOnly(true);
 			
 			btnUnternehmen = new Button();
 			btnUnternehmen.setIcon(FontAwesome.REPLY);
@@ -272,8 +322,7 @@ public class BesuchUebersicht extends CustomComponent{
 				unternehmen.addCloseListener(close ->{
 					if(unternehmen.getSelectionUnternehmen() == null)
 						return;
-					uFilter = unternehmen.getSelectionUnternehmen();
-					tfUnternehmen.setValue(unternehmen.getSelectionUnternehmen().getName());
+					setUnternehmen(unternehmen.getSelectionUnternehmen());
 				});
 				getUI().addWindow(unternehmen);
 			});
@@ -284,6 +333,7 @@ public class BesuchUebersicht extends CustomComponent{
 			
 			tfBenutzer = new TextField();
 			tfBenutzer.setWidth("300px");
+			tfBenutzer.setReadOnly(true);
 			
 			btnBenutzer = new Button();
 			btnBenutzer.setIcon(FontAwesome.REPLY);
@@ -293,8 +343,7 @@ public class BesuchUebersicht extends CustomComponent{
 				benutzer.addCloseListener(close ->{
 					if(benutzer.getSelection() == null)
 						return;
-					bFilter = benutzer.getSelection();
-					tfBenutzer.setValue(benutzer.getSelection().getNachname()+", "+benutzer.getSelection().getVorname());
+					setBenutzer(benutzer.getSelection());
 				});
 				getUI().addWindow(benutzer);
 			});
@@ -305,43 +354,79 @@ public class BesuchUebersicht extends CustomComponent{
 			btnOK = new Button();
 			btnOK.setIcon(FontAwesome.SEARCH);
 			btnOK.setCaption("Ausführen");
-			btnOK.addClickListener(click ->{
-				container.removeAllContainerFilters();
-				if(bFilter != null){
-					refreshContainer(bFilter);
-					bFilter = null;
-				}
-				for(Object pid : container.getContainerPropertyIds()){
-					switch(pid.toString()){
-					case "Titel":{
-						container.addContainerFilter(new SimpleStringFilter(pid, tfTitel.getValue(), true, false));
-						break;
-					}
-					case "Start":{
-						break;
-					}
-					case "Ende":{
-						break;
-					}
-					case "Unternehmen":{
-						if(uFilter != null)
-							container.addContainerFilter(new SimpleStringFilter(pid, uFilter.getName(), true, false));
-						break;
-					}
-					default :
-					
-					}
-				}
-			});
+			btnOK.addClickListener(click -> activateFilter());
 			
-			VerticalLayout layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlBenutzer, btnOK);
+			btnReset = new Button();
+			btnReset.setIcon(FontAwesome.REPLY_ALL);
+			btnReset.setCaption("Zurücksetzen");
+			btnReset.addClickListener(click ->{
+				setTitelAnzeige(null);
+				setBenutzer(bUser);
+				setUnternehmen(null);
+				dStart = currentTime;
+				dEnd = null;
+				dfStart.setValue(dStart);
+				dfEnd.setValue(dEnd);
+				activateFilter();
+			});
+			HorizontalLayout hlButtons = new HorizontalLayout(btnReset, btnOK);
+			hlButtons.setSpacing(true);
+			
+			VerticalLayout layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlBenutzer, hlButtons);
 			VerticalLayout layout = new VerticalLayout(layoutFields);
 			layout.setComponentAlignment(layoutFields, Alignment.TOP_CENTER);
 			layout.setMargin(true);
 			return new Panel(layout);
 		}
+		
+		private void setBenutzer(Benutzer b){
+			bAnzeige = b;
+			tfBenutzer.setReadOnly(false);
+			tfBenutzer.setValue(bAnzeige.getNachname()+", "+bAnzeige.getVorname());
+			tfBenutzer.setReadOnly(true);
+		}
+		
+		private void setUnternehmen(Unternehmen u){
+			uAnzeige = u;
+			tfUnternehmen.setReadOnly(false);
+			if(uAnzeige != null)
+				tfUnternehmen.setValue(u.getName());
+			else tfUnternehmen.setValue("");
+			tfUnternehmen.setReadOnly(true);
+		}
+		
+		private void setTitelAnzeige(String titel){
+			titelAnzeige = titel;
+			if(titelAnzeige != null)
+				tfTitel.setValue(titel);
+			else
+				tfTitel.setValue("");
+		}
+		
+		private void activateFilter(){
+			container.removeAllContainerFilters();
+			refreshContainer(bAnzeige, dStart, dEnd);
+			
+			for(Object pid : container.getContainerPropertyIds()){
+				switch(pid.toString()){
+				case "Titel":{
+					if(titelAnzeige != null)
+						container.addContainerFilter(new SimpleStringFilter(pid, titelAnzeige, true, false));
+					break;
+				}
+				case "Unternehmen":{
+					if(uAnzeige != null)
+						container.addContainerFilter(new SimpleStringFilter(pid, uAnzeige.getName(), true, false));
+					break;
+				}
+				default :
+				
+				}
+			}
+		}
 	}
 	
+
 	
 	
 	
