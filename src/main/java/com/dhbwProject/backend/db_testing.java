@@ -243,6 +243,32 @@ public class db_testing extends TestCase {
 		}
 
 	}
+	
+	public void testDeleteBenutzerFromBesuch() {
+		dbConnect connection = null;
+		try {
+			connection = new dbConnect();
+		} catch (ClassNotFoundException e1) {
+
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+
+			e1.printStackTrace();
+		}
+		try {
+			Beruf beruf = new Beruf(1, "Studiengangsleiter");
+			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
+			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
+			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
+			Benutzer b = new Benutzer("mmustermann", "", "", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de", "01234 1233");
+			connection.deleteBenutzerFromBesuch(connection.getBesuchByBenutzer(b).getFirst(), b);
+			assertTrue(true);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	public static void main(String[] args) {
 		junit.swingui.TestRunner.run(db_testing.class);

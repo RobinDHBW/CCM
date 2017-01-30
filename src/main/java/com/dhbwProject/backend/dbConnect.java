@@ -653,6 +653,12 @@ public class dbConnect {
 		if(i==1)return true;
 		return false;
 	}
+	public Besuch deleteBenutzerFromBesuch(Besuch besuch, Benutzer benutzer) throws SQLException{
+		int i = executeUpdate(
+				"DELETE FROM `benutzer_besuch` WHERE `benutzer_besuch`.`benutzer_id` = ? AND `benutzer_besuch`.`besuch_id` = ?",
+				new Object[] { benutzer.getId(), besuch.getId() });
+		return getBesuchById(besuch.getId());
+	}
 	public LinkedList<Benutzer> getBenutzerByBesuchId(int pId) throws SQLException{
 		LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 		ResultSet res = executeQuery("select * from benutzer b, besuch bs, benutzer_besuch bb where b.benutzer_id=bb.benutzer_id and bs.besuch_id = bb.besuch_id and bs.besuch_id = ?", new Object[]{(Object) new Integer(pId)});
