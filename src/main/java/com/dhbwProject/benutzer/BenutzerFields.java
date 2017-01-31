@@ -29,6 +29,7 @@ public class BenutzerFields extends VerticalLayout{
 	private TextField tfEmail;
 	private ComboBox cbBeruf;
 	private ComboBox cbRolle;
+	private ComboBox cbPassword;
 	private ListSelect lsStudiengang;
 	private dbConnect dbConnect;
 	private LinkedList<Beruf> alleBerufe;
@@ -47,6 +48,8 @@ public class BenutzerFields extends VerticalLayout{
 		this.initLsStudiengang();
 		this.initTelefonnummer();
 		this.intitEmail();
+		this.iniCbPassword();
+		
 		
 	}
 	
@@ -111,6 +114,21 @@ public class BenutzerFields extends VerticalLayout{
 		this.cbRolle.setTextInputAllowed(false);
 		this.cbRolle.setWidth("300px");
 		this.addComponent(cbRolle);
+	}
+	
+	
+//	Bosse
+	private void iniCbPassword(){
+		this.cbPassword = new ComboBox();
+		this.cbPassword.setInputPrompt("Passwort zurücksetzen?");
+		
+//		Hier fehlt noch die Ja/Nein Auswahl
+		
+		this.cbPassword.setNullSelectionAllowed(true);
+		this.cbPassword.setTextInputAllowed(false);
+		this.cbPassword.setWidth("300px");
+		this.addComponent(cbPassword);
+		
 	}
 	
 	private void initLsStudiengang() {
@@ -188,6 +206,16 @@ public class BenutzerFields extends VerticalLayout{
 		return (String) this.cbRolle.getValue();
 	}
 	
+//	Bosse
+	public void setPassword (Benutzer b){
+		this.cbPassword.setValue(b.getRolle().getBezeichnung());
+	}
+	
+	public String getPassword (){
+		return (String) this.cbPassword.getValue();
+	}
+	
+	
 	public void setStudiengang (Benutzer b){
 		this.lsStudiengang.clear();
 		for (Studiengang st : b.getStudiengang()) {
@@ -252,6 +280,12 @@ public class BenutzerFields extends VerticalLayout{
 		return this.tfEmail;
 	}
 
+//	Bosse
+	public ComboBox getCbPassword(){
+		return this.cbPassword;
+	}
+	
+	
 	public void enableFields(boolean bool) {
 		this.tfID.setEnabled(false);
 		this.tfVorname.setEnabled(bool);
@@ -261,7 +295,10 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang.setEnabled(bool);
 		this.tfTelefonnummer.setEnabled(bool);
 		this.tfEmail.setEnabled(bool);
+		this.cbPassword.setEnabled(true);
 	}
+
+	
 	
 
 }
