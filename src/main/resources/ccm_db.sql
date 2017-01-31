@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 25. Jan 2017 um 20:13
+-- Erstellungszeit: 31. Jan 2017 um 11:57
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 5.6.28
 
@@ -98,7 +98,8 @@ CREATE TABLE `benutzer` (
 
 INSERT INTO `benutzer` (`vorname`, `nachname`, `benutzer_id`, `rolle_id`, `beruf_id`, `benutzer_email`, `benutzer_telefon`) VALUES
 ('Friedrich', 'Gustavson', 'fgustavson', 1, 1, NULL, NULL),
-('Max', 'Mustermann', 'mmustermann', 1, 1, NULL, NULL);
+('Max', 'Mustermann', 'mmustermann', 1, 1, '1341231@reaf.de', '124234'),
+('Simon', 'Schlarb', 'ss', 1, 1, 'm.mayer96@t-online.de', '1234/5678');
 
 -- --------------------------------------------------------
 
@@ -117,9 +118,7 @@ CREATE TABLE `benutzer_besuch` (
 --
 
 INSERT INTO `benutzer_besuch` (`benutzer_besuch_id`, `benutzer_id`, `besuch_id`) VALUES
-(13, 'mmustermann', 5),
-(16, 'fgustavson', 6),
-(17, 'mmustermann', 6);
+(16, 'fgustavson', 6);
 
 -- --------------------------------------------------------
 
@@ -137,9 +136,42 @@ CREATE TABLE `berechtigung` (
 --
 
 INSERT INTO `berechtigung` (`berechtigung_id`, `berechtigung_bezeichnung`) VALUES
-(1, 'BesuchBearbeitung9'),
-(2, 'test'),
-(3, 'BesuchBearbeitung1');
+(1, 'Besuch9'),
+(3, 'Besuch1'),
+(4, 'Benutzer9'),
+(5, 'Unternehmen1'),
+(6, 'Unternehmen2'),
+(7, 'Unternehmen3'),
+(8, 'Unternehmen4'),
+(9, 'Unternehmen5'),
+(10, 'Unternehmen6'),
+(11, 'Unternehmen7'),
+(12, 'Unternehmen8'),
+(13, 'Unternehmen9'),
+(14, 'Rolle1'),
+(15, 'Rolle2'),
+(16, 'Rolle3'),
+(17, 'Rolle4'),
+(18, 'Rolle5'),
+(19, 'Rolle6'),
+(20, 'Rolle7'),
+(21, 'Rolle8'),
+(22, 'Rolle9'),
+(23, 'Besuch2'),
+(24, 'Besuch3'),
+(25, 'Besuch4'),
+(26, 'Besuch5'),
+(27, 'Besuch6'),
+(28, 'Besuch7'),
+(29, 'Besuch8'),
+(30, 'Benutzer1'),
+(31, 'Benutzer2'),
+(32, 'Benutzer3'),
+(33, 'Benutzer4'),
+(34, 'Benutzer5'),
+(35, 'Benutzer6'),
+(36, 'Benutzer7'),
+(37, 'Benutzer8');
 
 -- --------------------------------------------------------
 
@@ -201,15 +233,9 @@ CREATE TABLE `gespraechsnotizen` (
   `gespraechsnotiz_bild` longblob,
   `unternehmen_id` int(11) NOT NULL,
   `besuch_id` int(255) DEFAULT NULL,
-  `gespraechsnotiz_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `gespraechsnotiz_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `autor` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `gespraechsnotizen`
---
-
-INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES
-(8, 0x546573740d0a31, 0x546573740d0a31, 1, 1, '2017-01-23 00:24:08');
 
 -- --------------------------------------------------------
 
@@ -228,7 +254,8 @@ CREATE TABLE `password` (
 --
 
 INSERT INTO `password` (`password_hash`, `benutzer_id`, `password_id`) VALUES
-('5f4dcc3b5aa765d61d8327deb882cf99', 'mmustermann', 1);
+('5f4dcc3b5aa765d61d8327deb882cf99', 'mmustermann', 1),
+('c37bf859faf392800d739a41fe5af151', 'ss', 2);
 
 -- --------------------------------------------------------
 
@@ -267,7 +294,8 @@ CREATE TABLE `rolle_berechtigung` (
 
 INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES
 (2, 1, 3),
-(3, 2, 3);
+(3, 2, 3),
+(4, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -341,7 +369,9 @@ CREATE TABLE `studiengang_benutzer` (
 --
 
 INSERT INTO `studiengang_benutzer` (`studiengang_benutzer_id`, `studiengang_id`, `benutzer_id`) VALUES
-(3, 1, 'fgustavson');
+(3, 1, 'fgustavson'),
+(4, 1, 'ss'),
+(5, 1, 'mmustermann');
 
 -- --------------------------------------------------------
 
@@ -438,7 +468,8 @@ ALTER TABLE `besuch`
 ALTER TABLE `gespraechsnotizen`
   ADD PRIMARY KEY (`gespraechsnotiz_id`),
   ADD UNIQUE KEY `gespraechsnotizen_id` (`gespraechsnotiz_id`),
-  ADD KEY `unternehmen_id` (`unternehmen_id`) USING BTREE;
+  ADD KEY `unternehmen_id` (`unternehmen_id`) USING BTREE,
+  ADD KEY `autor` (`autor`);
 
 --
 -- Indizes für die Tabelle `password`
@@ -519,12 +550,12 @@ ALTER TABLE `ansprechpartner`
 -- AUTO_INCREMENT für Tabelle `benutzer_besuch`
 --
 ALTER TABLE `benutzer_besuch`
-  MODIFY `benutzer_besuch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `benutzer_besuch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT für Tabelle `berechtigung`
 --
 ALTER TABLE `berechtigung`
-  MODIFY `berechtigung_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `berechtigung_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT für Tabelle `besuch`
 --
@@ -534,12 +565,12 @@ ALTER TABLE `besuch`
 -- AUTO_INCREMENT für Tabelle `gespraechsnotizen`
 --
 ALTER TABLE `gespraechsnotizen`
-  MODIFY `gespraechsnotiz_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `gespraechsnotiz_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT für Tabelle `password`
 --
 ALTER TABLE `password`
-  MODIFY `password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `password_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT für Tabelle `rolle`
 --
@@ -549,7 +580,7 @@ ALTER TABLE `rolle`
 -- AUTO_INCREMENT für Tabelle `rolle_berechtigung`
 --
 ALTER TABLE `rolle_berechtigung`
-  MODIFY `rolle_berechtigung_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `rolle_berechtigung_id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT für Tabelle `status`
 --
@@ -569,7 +600,7 @@ ALTER TABLE `studiengang_ansprechpartner`
 -- AUTO_INCREMENT für Tabelle `studiengang_benutzer`
 --
 ALTER TABLE `studiengang_benutzer`
-  MODIFY `studiengang_benutzer_id` int(126) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `studiengang_benutzer_id` int(126) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT für Tabelle `unternehmen`
 --
@@ -596,30 +627,31 @@ ALTER TABLE `ansprechpartner`
 -- Constraints der Tabelle `benutzer`
 --
 ALTER TABLE `benutzer`
-  ADD CONSTRAINT `benutzer_ibfk_3` FOREIGN KEY (`beruf_id`) REFERENCES `beruf` (`beruf_id`),
-  ADD CONSTRAINT `benutzer_ibfk_4` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`rolle_id`);
+  ADD CONSTRAINT `benutzer_ibfk_3` FOREIGN KEY (`beruf_id`) REFERENCES `beruf` (`beruf_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `benutzer_ibfk_4` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`rolle_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `benutzer_besuch`
 --
 ALTER TABLE `benutzer_besuch`
-  ADD CONSTRAINT `benutzer_besuch_ibfk_1` FOREIGN KEY (`benutzer_id`) REFERENCES `benutzer` (`benutzer_id`),
-  ADD CONSTRAINT `benutzer_besuch_ibfk_2` FOREIGN KEY (`besuch_id`) REFERENCES `besuch` (`besuch_id`);
+  ADD CONSTRAINT `benutzer_besuch_ibfk_1` FOREIGN KEY (`benutzer_id`) REFERENCES `benutzer` (`benutzer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `benutzer_besuch_ibfk_2` FOREIGN KEY (`besuch_id`) REFERENCES `besuch` (`besuch_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `besuch`
 --
 ALTER TABLE `besuch`
-  ADD CONSTRAINT `besuch_ibfk_1` FOREIGN KEY (`besuch_autor`) REFERENCES `benutzer` (`benutzer_id`),
-  ADD CONSTRAINT `besuch_ibfk_2` FOREIGN KEY (`adresse_id`) REFERENCES `adresse` (`adresse_id`),
-  ADD CONSTRAINT `besuch_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`),
-  ADD CONSTRAINT `besuch_ibfk_4` FOREIGN KEY (`ansprechpartner_id`) REFERENCES `ansprechpartner` (`ansprechpartner_id`);
+  ADD CONSTRAINT `besuch_ibfk_1` FOREIGN KEY (`besuch_autor`) REFERENCES `benutzer` (`benutzer_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `besuch_ibfk_2` FOREIGN KEY (`adresse_id`) REFERENCES `adresse` (`adresse_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `besuch_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `besuch_ibfk_4` FOREIGN KEY (`ansprechpartner_id`) REFERENCES `ansprechpartner` (`ansprechpartner_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `gespraechsnotizen`
 --
 ALTER TABLE `gespraechsnotizen`
-  ADD CONSTRAINT `gespraechsnotizen_ibfk_1` FOREIGN KEY (`unternehmen_id`) REFERENCES `unternehmen` (`unternehmen_id`);
+  ADD CONSTRAINT `gespraechsnotizen_ibfk_1` FOREIGN KEY (`unternehmen_id`) REFERENCES `unternehmen` (`unternehmen_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `gespraechsnotizen_ibfk_2` FOREIGN KEY (`autor`) REFERENCES `benutzer` (`benutzer_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `password`
@@ -645,8 +677,8 @@ ALTER TABLE `studiengang_ansprechpartner`
 -- Constraints der Tabelle `studiengang_benutzer`
 --
 ALTER TABLE `studiengang_benutzer`
-  ADD CONSTRAINT `studiengang_benutzer_ibfk_1` FOREIGN KEY (`studiengang_id`) REFERENCES `studiengang` (`studiengang_id`),
-  ADD CONSTRAINT `studiengang_benutzer_ibfk_2` FOREIGN KEY (`benutzer_id`) REFERENCES `benutzer` (`benutzer_id`);
+  ADD CONSTRAINT `studiengang_benutzer_ibfk_1` FOREIGN KEY (`studiengang_id`) REFERENCES `studiengang` (`studiengang_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `studiengang_benutzer_ibfk_2` FOREIGN KEY (`benutzer_id`) REFERENCES `benutzer` (`benutzer_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

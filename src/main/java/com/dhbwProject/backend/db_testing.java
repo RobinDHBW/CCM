@@ -57,8 +57,10 @@ public class db_testing extends TestCase {
 			e1.printStackTrace();
 		}
 		Date timestamp = null;
-		Gespraechsnotiz gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
 		try {
+		Benutzer benutzer = connection.getBenutzerById("fgustavson");
+		Gespraechsnotiz gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp, benutzer);
+		
 			connection.createGespraechsnotiz(gespraechsnotiz);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

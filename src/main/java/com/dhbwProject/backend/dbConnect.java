@@ -321,7 +321,7 @@ public class dbConnect {
 				 return p;
 				 }else
 			if(obj instanceof Gespraechsnotiz){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`, `autor`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
 				 FileInputStream inputNotiz = null;
 				 FileInputStream inputBild = null;
 				try{
@@ -338,6 +338,7 @@ public class dbConnect {
 				}
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
+				 ps.setString(5, ((Gespraechsnotiz) obj).getAutor().getId());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -810,6 +811,27 @@ public class dbConnect {
 		return lBesuch;
 
 	}
+	public LinkedList<Besuch> getBesuchByAdresse(Adresse pAdresse) throws SQLException {
+		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
+		ResultSet res = executeQuery("select * from besuch where adresse_id = ?", new Object[] {(Object) pAdresse.getId()});
+		
+			while (res.next()) {
+				int id = res.getInt("besuch_id");
+				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
+				java.sql.Timestamp timestamp = res.getTimestamp("besuch_timestamp");
+				java.sql.Timestamp startDate = res.getTimestamp("besuch_beginn");
+				java.sql.Timestamp endDate = res.getTimestamp("besuch_ende");
+				String name = res.getString("besuch_name");
+				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
+				Status status = getStatusById(res.getInt("status_id"));
+				LinkedList<Benutzer> lBenutzer = getBenutzerByBesuchId(id);
+				Ansprechpartner ansprechpartner = getAnsprechpartnerById(res.getInt("ansprechpartner_id"));
+				lBesuch.add(new Besuch(id, name, startDate, endDate, adresse, status, ansprechpartner, lBenutzer, timestamp, autor));
+			}
+			res.close();
+		return lBesuch;
+
+	}
 	public LinkedList<Besuch> getBesuchByBenutzer(Benutzer benutzer) throws SQLException{
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
 		ResultSet res = executeQuery("select * from benutzer_besuch where benutzer_id = ?", new Object[] {(Object) benutzer.getId()});
@@ -875,10 +897,11 @@ public class dbConnect {
 	}
 	
 	// Gespraechsnotiz
-	public Gespraechsnotiz getGespraechsnotizByBesuch(Besuch pBesuch) throws SQLException {
+	public LinkedList<Gespraechsnotiz> getGespraechsnotizByBesuch(Besuch pBesuch) throws SQLException {
 		ResultSet res = executeQuery("Select * from gespraechsnotiz where besuch_id = ?",
 				new Object[] { new Integer(pBesuch.getId()) });
 		Gespraechsnotiz gespraechsnotiz = null;
+		LinkedList<Gespraechsnotiz> lGespraechsnotiz = new LinkedList<Gespraechsnotiz>();
 		try{
 			while (res.next()) {
 				int id = res.getInt("gespraechsnotiz_id");
@@ -906,7 +929,9 @@ public class dbConnect {
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
-				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
+				Benutzer autor = getBenutzerById(res.getString("autor"));
+				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp, autor);
+				lGespraechsnotiz.add(gespraechsnotiz);
 			}
 		} catch (IOException e) {
 			
@@ -916,7 +941,7 @@ public class dbConnect {
 		
 			
 		
-		return gespraechsnotiz;
+		return lGespraechsnotiz;
 	}
 	public Gespraechsnotiz createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) throws SQLException {
 		int i = executeInsert(gespraechsnotiz);
@@ -957,7 +982,8 @@ public class dbConnect {
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
-				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
+				Benutzer autor = getBenutzerById(res.getString("autor"));
+				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp, autor);
 			}
 		} catch (IOException e) {
 			
