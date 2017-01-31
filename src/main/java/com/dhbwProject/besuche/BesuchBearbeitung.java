@@ -1,9 +1,9 @@
 package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedList;
 
-import com.dhbwProject.CCM.BoolescheAbfrageFenster;
-import com.dhbwProject.backend.CCMFunctions;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Besuch;
@@ -108,12 +108,11 @@ public class BesuchBearbeitung extends Window {
 	private void bearbeiteBesuch() throws IllegalArgumentException, NullPointerException, SQLException{
 		Notification message = new Notification("");
 		message.setPosition(Position.TOP_CENTER);
-		if(CCMFunctions.isBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()),bAlt, fields.getDateStart())){
-			BoolescheAbfrageFenster abfrage = new BoolescheAbfrageFenster(
-					"<center>Das Unternehmen wir innerhalb von<br> 30 Tagen bereits besucht<br>" 
-					+ "Möchten Sie den Termin dennoch bearbeiten?</center>");
-			abfrage.addCloseListener(close ->{
-				if(abfrage.getResult()){
+		LinkedList<Besuch> lbKollision = checkBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()),bAlt, fields.getDateStart());
+		if(lbKollision.size() >0){
+			BesuchKollisionsanzeige anzeige = new BesuchKollisionsanzeige(lbKollision);
+			anzeige.addCloseListener(close ->{
+				if(anzeige.getResult()){
 						besuchBearbeitung();
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption(fields.getTitel()+" wurde erfolgreich bearbeitet");
@@ -125,7 +124,7 @@ public class BesuchBearbeitung extends Window {
 				}
 				close();
 			});
-			getUI().addWindow(abfrage);
+			getUI().addWindow(anzeige);
 		}else{
 			besuchBearbeitung();
 			close();
@@ -141,6 +140,21 @@ public class BesuchBearbeitung extends Window {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private LinkedList<Besuch> checkBesuchKollision(LinkedList<Besuch> lBesuch, Besuch bBasis, Date dStartNew){
+		LinkedList<Besuch> lbResult = new LinkedList<Besuch>();
+		for(Besuch b : lBesuch){
+			if(b.getId() == bBasis.getId())
+				continue;
+			if(differenzTage(b.getStartDate(), dStartNew) < CCM_Constants.BESUCH_KOLLISION_WERT)
+				lbResult.add(b);
+		}
+		return lbResult;	
+	}
+	
+	private long differenzTage(Date dAlt, Date dNeu){
+		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
 	}
 	
 }

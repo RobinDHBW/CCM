@@ -4,9 +4,8 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 
-import com.dhbwProject.CCM.BoolescheAbfrageFenster;
-import com.dhbwProject.backend.CCMFunctions;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.EMailThread;
 import com.dhbwProject.backend.dbConnect;
@@ -123,13 +122,11 @@ public class BesuchAnlage extends Window {
 	private void erstelleBesuch() throws IllegalArgumentException, NullPointerException, SQLException{
 		Notification message = new Notification("");
 		message.setPosition(Position.TOP_CENTER);
-		
-		if(CCMFunctions.isBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()), fields.getDateStart())){
-			BoolescheAbfrageFenster abfrage = new BoolescheAbfrageFenster(
-					"<center>Das Unternehmen wir innerhalb von<br> 30 Tagen bereits besucht<br>" 
-					+ "Möchten Sie den Termin dennoch erzeugen?</center>");
-			abfrage.addCloseListener(close ->{
-				if(abfrage.getResult()){
+		LinkedList<Besuch> lbKollision = checkBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()), fields.getDateStart());
+		if(lbKollision.size() > 0){
+			BesuchKollisionsanzeige anzeige = new BesuchKollisionsanzeige(lbKollision);
+			anzeige.addCloseListener(close ->{
+				if(anzeige.getResult()){
 						besuchErstellen();
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption(fields.getTitel()+" wurde erfolgreich erstellt");
@@ -141,13 +138,11 @@ public class BesuchAnlage extends Window {
 				}
 				close();
 			});
-			getUI().addWindow(abfrage);
+			getUI().addWindow(anzeige);
 		}else{
 			besuchErstellen();
 			close();
 		}
-		
-		
 	}
 	
 	private void besuchErstellen(){
@@ -159,6 +154,18 @@ public class BesuchAnlage extends Window {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}	
+	}
+	
+	private long differenzTage(Date dAlt, Date dNeu){
+		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
+	}
+
+	private LinkedList<Besuch> checkBesuchKollision(LinkedList<Besuch> lBesuch, Date dStartNew){
+	LinkedList<Besuch> lbKollision = new LinkedList<Besuch>();
+		for(Besuch b : lBesuch)
+			if(differenzTage(b.getStartDate(), dStartNew) < CCM_Constants.BESUCH_KOLLISION_WERT)
+			lbKollision.add(b);
+	return lbKollision;	
 	}
 
 }
