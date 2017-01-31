@@ -76,7 +76,6 @@ public class BesuchBearbeitung extends Window {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				this.close();
 			}else{
 				Notification meldung = new Notification("Plichtfelder müssen gefüllt werden");
 				meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
@@ -106,42 +105,41 @@ public class BesuchBearbeitung extends Window {
 		return this.bNeu;
 	}
 	
-	private void bearbeiteBesuch() throws SQLException{
+	private void bearbeiteBesuch() throws IllegalArgumentException, NullPointerException, SQLException{
 		Notification message = new Notification("");
 		message.setPosition(Position.TOP_CENTER);
-		if(CCMFunctions.isBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()), fields.getDateStart())){
+		if(CCMFunctions.isBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()),bAlt, fields.getDateStart())){
 			BoolescheAbfrageFenster abfrage = new BoolescheAbfrageFenster(
 					"<center>Das Unternehmen wir innerhalb von<br> 30 Tagen bereits besucht<br>" 
 					+ "Möchten Sie den Termin dennoch bearbeiten?</center>");
 			abfrage.addCloseListener(close ->{
 				if(abfrage.getResult()){
-					try{
-						this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
-								fields.getDateStart(), fields.getDateEnd(),
-								fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-								fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
-						if(this.bNeu == null)
-							System.out.println("ist null?");
-						if(this.bNeu != null)
-							System.out.println(bNeu.getName() +", "+bNeu.getStartDate().toString());
+						besuchBearbeitung();
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption(fields.getTitel()+" wurde erfolgreich bearbeitet");
 						message.show(Page.getCurrent());
-					}catch(SQLException e){
-						e.printStackTrace();
-					}
 				}else{
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption(fields.getTitel()+" wurde nicht bearbeitet");
 						message.show(Page.getCurrent());
 				}
+				close();
 			});
 			getUI().addWindow(abfrage);
 		}else{
+			besuchBearbeitung();
+			close();
+		}
+	}
+	
+	private void besuchBearbeitung(){
+		try {
 			this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
 					fields.getDateStart(), fields.getDateEnd(),
 					fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 					fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	

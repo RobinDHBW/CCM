@@ -67,7 +67,6 @@ public class BesuchAnlage extends Window {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				this.close();
 		}else{
 			Notification meldung = new Notification("Plichtfelder müssen gefüllt werden");
 			meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
@@ -131,45 +130,35 @@ public class BesuchAnlage extends Window {
 					+ "Möchten Sie den Termin dennoch erzeugen?</center>");
 			abfrage.addCloseListener(close ->{
 				if(abfrage.getResult()){
-					try{
-						this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
-							fields.getDateStart(), fields.getDateEnd(),
-							fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-							fields.getTeilnehmenr(), null, fields.getAutor()));	
+						besuchErstellen();
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption(fields.getTitel()+" wurde erfolgreich erstellt");
 						message.show(Page.getCurrent());
-					}catch(SQLException e){
-						e.printStackTrace();
-					}
 				}else{
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.setCaption(fields.getTitel()+" wurde nicht erstellt");
 						message.show(Page.getCurrent());
 				}
+				close();
 			});
 			getUI().addWindow(abfrage);
 		}else{
-			this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
-				fields.getDateStart(), fields.getDateEnd(),
-				fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-				fields.getTeilnehmenr(), null, fields.getAutor()));	
+			besuchErstellen();
+			close();
 		}
+		
+		
 	}
 	
-//	private boolean isKollision() throws SQLException{
-//		long differenz = 0;
-//		for(Besuch b : dbConnection.getBesuchByAdresse(fields.getAdresse())){
-//			differenz = differenzTage(b.getStartDate(), fields.getDateStart());
-//			if(differenz < 30)
-//				return true;
-//		}
-//		return false;
-//			
-//	}
-//	
-//	private long differenzTage(Date dAlt, Date dNeu){
-//		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
-//	}
+	private void besuchErstellen(){
+		try {
+			this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+					fields.getDateStart(), fields.getDateEnd(),
+					fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
+					fields.getTeilnehmenr(), null, fields.getAutor()));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+	}
 
 }

@@ -174,9 +174,7 @@ public class BesuchUebersicht extends CustomComponent{
 				anlage.addCloseListener(close ->{
 					if(anlage.getAnlage() != null){
 						try {
-							addItem(anlage.getAnlage());
-//							refreshContainer(bAnzeige, dStart, dEnd);
-							
+							addItem(anlage.getAnlage());						
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -202,7 +200,6 @@ public class BesuchUebersicht extends CustomComponent{
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(b);
 				bearbeitung.addCloseListener(close ->{
 					if(bearbeitung.getBearbeitung() != null){
-						System.out.println("Geklappt?");
 						container.removeItem(b);
 						try {
 							addItem(bearbeitung.getBearbeitung());

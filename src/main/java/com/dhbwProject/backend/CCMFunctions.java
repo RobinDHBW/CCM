@@ -21,8 +21,19 @@ public abstract class CCMFunctions {
 			if(differenz < CCM_Constants.BESUCH_KOLLISION_WERT)
 				return true;
 		}
-		return false;
-			
+		return false;	
+	}
+	
+	public static synchronized boolean isBesuchKollision(LinkedList<Besuch> lBesuch, Besuch bBasis, Date dStartNew){
+		long differenz = 0;
+		for(Besuch b : lBesuch){
+			if(b.getId() == bBasis.getId())
+				continue;
+			differenz = differenzTage(b.getStartDate(), dStartNew);
+			if(differenz < CCM_Constants.BESUCH_KOLLISION_WERT)
+				return true;
+		}
+		return false;	
 	}
 	
 	public static synchronized String md5(String password) {
