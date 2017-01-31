@@ -22,5 +22,7 @@ public interface CCM_Constants {
 	public static final String E_MAIL_USERNAME = "ccmsys@gmail.com";
 	public static final String E_MAIL_PASSWORT = "ccmBenachrichtigung";
 	
+	public static final long ONE_HOUR_AS_LONG = 60 * 60 * 1000L;
+	
 
 }

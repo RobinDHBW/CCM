@@ -75,7 +75,8 @@ public class BesuchBenachrichtigung extends Window {
 			this.btnOK.addClickListener(click ->{
 				//Gespraechsnotiz(int id, File notiz, File bild, Unternehmen unternehmen, Besuch besuch, Date timestamp)
 				try {
-					dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, new File(taNachricht.getValue()), null, bReferenz.getAdresse().getUnternehmen(), bReferenz, null));
+					dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, new File(taNachricht.getValue()),
+							null, bReferenz.getAdresse().getUnternehmen(), bReferenz, null, bUser));
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -116,12 +117,9 @@ public class BesuchBenachrichtigung extends Window {
 		
 		private void refreshValue() throws SQLException{
 			StringBuilder sbValue = new StringBuilder();
-//			for(Gespraechsnotiz g : dbConnection.getGespraechsnotizByBesuch(bReferenz))
-//				sbValue.append(g.getNotiz().toString()+"\n");
-			Gespraechsnotiz g = dbConnection.getGespraechsnotizByBesuch(bReferenz); 
-			
-			if(g != null)
-				sbValue.append(g.getNotiz().toString()); //TMPORÄR
+			for(Gespraechsnotiz g : dbConnection.getGespraechsnotizByBesuch(bReferenz))
+				if(g != null)
+					sbValue.append(g.getNotiz().toString()+"\n");
 			taNachricht.setValue(sbValue.toString());
 				
 		}

@@ -74,7 +74,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.initTable();
 		this.vlLayout = new VerticalLayout(mbMenu, tblBesuche);
 		this.vlLayout.setMargin(true);
-		this.refreshContainer(this.bUser, currentTime, null);
+		this.refreshContainer(this.bUser, dStart, dEnd);
 		this.setCompositionRoot(vlLayout);
 	}
 	
@@ -170,7 +170,8 @@ public class BesuchUebersicht extends CustomComponent{
 						return;
 					else{
 						try {
-							addItem(anlage.getAnlage());
+//							addItem(anlage.getAnlage());
+							refreshContainer(bAnzeige, dStart, dEnd);
 							
 						} catch (Exception e) {
 							e.printStackTrace();

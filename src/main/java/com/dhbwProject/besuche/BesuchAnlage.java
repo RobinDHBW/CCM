@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 
+import com.dhbwProject.CCM.BoolescheAbfrageFenster;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.EMailThread;
 import com.dhbwProject.backend.dbConnect;
@@ -65,10 +66,11 @@ public class BesuchAnlage extends Window {
 		this.btnCreate.addClickListener(listener ->{
 			if(fields.isValid()){
 				try {
-					this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
-						fields.getDateStart(), fields.getDateEnd(),
-						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-						fields.getTeilnehmenr(), null, fields.getAutor()));		
+//					this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+//						fields.getDateStart(), fields.getDateEnd(),
+//						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
+//						fields.getTeilnehmenr(), null, fields.getAutor()));		
+					erstelleBesuch();
 					
 					sendMail();
 				} catch (SQLException e) {
@@ -127,11 +129,55 @@ public class BesuchAnlage extends Window {
 		thread.start();
 	}
 	
-//	private void erstelleBesuch() throws SQLException{
-//		this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
-//				fields.getDateStart(), fields.getDateEnd(),
-//				fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-//				fields.getTeilnehmenr(), null, fields.getAutor()));	
-//	}
+	private void erstelleBesuch() throws IllegalArgumentException, NullPointerException, SQLException{
+		Notification message = new Notification("");
+		message.setPosition(Position.TOP_CENTER);
+		
+		if(isKollision()){
+			BoolescheAbfrageFenster abfrage = new BoolescheAbfrageFenster(
+					"<center>Das Unternehmen wir innerhalb von<br> 30 Tagen bereits besucht<br>" 
+					+ "Möchten Sie den Termin dennoch erzeugen?</center>");
+			abfrage.addCloseListener(close ->{
+				if(abfrage.getResult()){
+					try{
+						this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+							fields.getDateStart(), fields.getDateEnd(),
+							fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
+							fields.getTeilnehmenr(), null, fields.getAutor()));	
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption(fields.getTitel()+" wurde erfolgreich erstellt");
+						message.show(Page.getCurrent());
+					}catch(SQLException e){
+						e.printStackTrace();
+					}
+				}else{
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption(fields.getTitel()+" wurde nicht erstellt");
+						message.show(Page.getCurrent());
+				}
+			});
+			getUI().addWindow(abfrage);
+		}else{
+			this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
+				fields.getDateStart(), fields.getDateEnd(),
+				fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
+				fields.getTeilnehmenr(), null, fields.getAutor()));	
+		}
+	}
+	
+	private boolean isKollision() throws SQLException{
+		long differenz = 0;
+		for(Besuch b : dbConnection.getBesuchByAdresse(fields.getAdresse())){
+			differenz = differenzTage(b.getStartDate(), fields.getDateStart());
+			if(differenz < 30)
+				return true;
+		}
+		return false;
+			
+	}
+	
+	private long differenzTage(Date dAlt, Date dNeu){
+		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
+	}
 
 }
