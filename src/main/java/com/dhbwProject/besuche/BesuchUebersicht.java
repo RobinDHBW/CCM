@@ -99,6 +99,7 @@ public class BesuchUebersicht extends CustomComponent{
 	
 	private void refreshContainer(Benutzer benutzer, Date dStart, Date dEnd){
 		this.container.removeAllItems();
+		this.container.removeAllContainerFilters();
 		try{
 			for(Besuch b : this.dbConnection.getBesuchByBenutzer(benutzer)){
 				if(dStart !=null && dEnd != null){
@@ -118,6 +119,11 @@ public class BesuchUebersicht extends CustomComponent{
 				}
 				addItem(b);
 			}
+			if(titelAnzeige != null)
+				container.addContainerFilter(new SimpleStringFilter("Titel", titelAnzeige, true, false));
+			if(uAnzeige != null)
+				container.addContainerFilter(new SimpleStringFilter("Unternehmen", uAnzeige.getName(), true, false));
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -166,12 +172,10 @@ public class BesuchUebersicht extends CustomComponent{
 			public void menuSelected(MenuItem selectedItem) {
 				BesuchAnlage anlage = new BesuchAnlage();
 				anlage.addCloseListener(close ->{
-					if(anlage.getAnlage() == null)
-						return;
-					else{
+					if(anlage.getAnlage() != null){
 						try {
-//							addItem(anlage.getAnlage());
-							refreshContainer(bAnzeige, dStart, dEnd);
+							addItem(anlage.getAnlage());
+//							refreshContainer(bAnzeige, dStart, dEnd);
 							
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -197,9 +201,8 @@ public class BesuchUebersicht extends CustomComponent{
 				Besuch b = (Besuch)tblBesuche.getValue();
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(b);
 				bearbeitung.addCloseListener(close ->{
-					if(bearbeitung.getBearbeitung() == null)
-						return;
-					else{
+					if(bearbeitung.getBearbeitung() != null){
+						System.out.println("Geklappt?");
 						container.removeItem(b);
 						try {
 							addItem(bearbeitung.getBearbeitung());
@@ -386,7 +389,7 @@ public class BesuchUebersicht extends CustomComponent{
 			btnOK = new Button();
 			btnOK.setIcon(FontAwesome.SEARCH);
 			btnOK.setCaption("Ausführen");
-			btnOK.addClickListener(click -> activateFilter());
+			btnOK.addClickListener(click -> refreshContainer(bAnzeige, dStart, dEnd));
 			
 			btnReset = new Button();
 			btnReset.setIcon(FontAwesome.REPLY_ALL);
@@ -399,7 +402,8 @@ public class BesuchUebersicht extends CustomComponent{
 				dEnd = null;
 				dfStart.setValue(dStart);
 				dfEnd.setValue(dEnd);
-				activateFilter();
+//				activateFilter();
+				refreshContainer(bAnzeige, dStart, dEnd);
 			});
 			HorizontalLayout hlButtons = new HorizontalLayout(btnReset, btnOK);
 			hlButtons.setSpacing(true);
@@ -435,27 +439,27 @@ public class BesuchUebersicht extends CustomComponent{
 				tfTitel.setValue("");
 		}
 		
-		private void activateFilter(){
-			container.removeAllContainerFilters();
-			refreshContainer(bAnzeige, dStart, dEnd);
-			
-			for(Object pid : container.getContainerPropertyIds()){
-				switch(pid.toString()){
-				case "Titel":{
-					if(titelAnzeige != null)
-						container.addContainerFilter(new SimpleStringFilter(pid, titelAnzeige, true, false));
-					break;
-				}
-				case "Unternehmen":{
-					if(uAnzeige != null)
-						container.addContainerFilter(new SimpleStringFilter(pid, uAnzeige.getName(), true, false));
-					break;
-				}
-				default :
-				
-				}
-			}
-		}
+//		private void activateFilter(){
+//			container.removeAllContainerFilters();
+//			refreshContainer(bAnzeige, dStart, dEnd);
+//			
+//			for(Object pid : container.getContainerPropertyIds()){
+//				switch(pid.toString()){
+//				case "Titel":{
+//					if(titelAnzeige != null)
+//						container.addContainerFilter(new SimpleStringFilter(pid, titelAnzeige, true, false));
+//					break;
+//				}
+//				case "Unternehmen":{
+//					if(uAnzeige != null)
+//						container.addContainerFilter(new SimpleStringFilter(pid, uAnzeige.getName(), true, false));
+//					break;
+//				}
+//				default :
+//				
+//				}
+//			}
+//		}
 	}
 	
 

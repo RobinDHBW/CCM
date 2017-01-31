@@ -4,17 +4,14 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 
 import com.dhbwProject.CCM.BoolescheAbfrageFenster;
+import com.dhbwProject.backend.CCMFunctions;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.EMailThread;
 import com.dhbwProject.backend.dbConnect;
-import com.dhbwProject.backend.beans.Adresse;
-import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
-import com.dhbwProject.backend.beans.Status;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -22,7 +19,6 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -65,16 +61,10 @@ public class BesuchAnlage extends Window {
 		this.btnCreate.setWidth("300px");
 		this.btnCreate.addClickListener(listener ->{
 			if(fields.isValid()){
-				try {
-//					this.bAnlage = this.dbConnection.createBesuch(new Besuch(0, fields.getTitel(),
-//						fields.getDateStart(), fields.getDateEnd(),
-//						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-//						fields.getTeilnehmenr(), null, fields.getAutor()));		
-					erstelleBesuch();
-					
+				try {	
+					erstelleBesuch();		
 					sendMail();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				this.close();
@@ -125,15 +115,17 @@ public class BesuchAnlage extends Window {
 				eMailList.add(b.getEmail());
 			inhalt = inhalt+b.getNachname()+", "+ b.getVorname() + "<br>";
 		}
-		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
-		thread.start();
+		if(eMailList.size() >0){
+			EMailThread thread = new EMailThread(eMailList, titel, inhalt);
+			thread.start();
+		}
 	}
 	
 	private void erstelleBesuch() throws IllegalArgumentException, NullPointerException, SQLException{
 		Notification message = new Notification("");
 		message.setPosition(Position.TOP_CENTER);
 		
-		if(isKollision()){
+		if(CCMFunctions.isBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()), fields.getDateStart())){
 			BoolescheAbfrageFenster abfrage = new BoolescheAbfrageFenster(
 					"<center>Das Unternehmen wir innerhalb von<br> 30 Tagen bereits besucht<br>" 
 					+ "Möchten Sie den Termin dennoch erzeugen?</center>");
@@ -165,19 +157,19 @@ public class BesuchAnlage extends Window {
 		}
 	}
 	
-	private boolean isKollision() throws SQLException{
-		long differenz = 0;
-		for(Besuch b : dbConnection.getBesuchByAdresse(fields.getAdresse())){
-			differenz = differenzTage(b.getStartDate(), fields.getDateStart());
-			if(differenz < 30)
-				return true;
-		}
-		return false;
-			
-	}
-	
-	private long differenzTage(Date dAlt, Date dNeu){
-		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
-	}
+//	private boolean isKollision() throws SQLException{
+//		long differenz = 0;
+//		for(Besuch b : dbConnection.getBesuchByAdresse(fields.getAdresse())){
+//			differenz = differenzTage(b.getStartDate(), fields.getDateStart());
+//			if(differenz < 30)
+//				return true;
+//		}
+//		return false;
+//			
+//	}
+//	
+//	private long differenzTage(Date dAlt, Date dNeu){
+//		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
+//	}
 
 }

@@ -181,8 +181,11 @@ public class BesuchFelder extends VerticalLayout {
 			lookup.addCloseListener(close ->{
 				if(lookup.getSelectionUnternehmen() != null)
 					this.setUnternehmen(lookup.getSelectionUnternehmen());
-				if(lookup.getSelectionAdresse() != null)
+				if(lookup.getSelectionAdresse() != null){
+					if(this.adresse != null && !this.adresse.equals(lookup.getSelectionAdresse()))
+						this.setAnsprechpartner(null);
 					this.setAdresse(lookup.getSelectionAdresse());
+				}
 			});
 			this.getUI().addWindow(lookup);
 
@@ -338,7 +341,10 @@ public class BesuchFelder extends VerticalLayout {
 	protected void setAnsprechpartner(Ansprechpartner a) {
 		this.ansprechpartner = a;
 		this.tfAnsprechpartner.setReadOnly(false);
-		this.tfAnsprechpartner.setValue(a.getNachname()+", "+a.getVorname());
+		if(a != null)
+			this.tfAnsprechpartner.setValue(a.getNachname()+", "+a.getVorname());
+		else
+			this.tfAnsprechpartner.setValue("");
 		this.tfAnsprechpartner.setReadOnly(true);
 	}
 
