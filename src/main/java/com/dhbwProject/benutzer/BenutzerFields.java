@@ -35,6 +35,7 @@ public class BenutzerFields extends VerticalLayout{
 	private LinkedList<Beruf> alleBerufe;
 	private LinkedList<Rolle> alleRollen;
 	private LinkedList<Studiengang> alleStudiengaenge;
+	public static final String BERECHTIGUNG = "Password";
 	
 	public BenutzerFields() {
 		this.setSizeUndefined();
@@ -48,7 +49,13 @@ public class BenutzerFields extends VerticalLayout{
 		this.initLsStudiengang();
 		this.initTelefonnummer();
 		this.intitEmail();
-		this.iniCbPassword();
+		int i = 0;
+		try {
+			i = dbConnect.checkBerechtigung((Benutzer) VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER),BenutzerAnlage.BERECHTIGUNG);
+		} catch (SQLException e1) {
+			System.out.println("Fehler bei der Berechtigungsprüfung!");
+		}
+		if(i>1) this.iniCbPassword();
 		
 		
 	}
