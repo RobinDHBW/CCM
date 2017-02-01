@@ -14,7 +14,6 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
@@ -36,7 +35,6 @@ public class BenutzerFields extends VerticalLayout{
 	private LinkedList<Beruf> alleBerufe;
 	private LinkedList<Rolle> alleRollen;
 	private LinkedList<Studiengang> alleStudiengaenge;
-	private CheckBox chPassword;
 	
 	public BenutzerFields() {
 		this.setSizeUndefined();
@@ -50,7 +48,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.initLsStudiengang();
 		this.initTelefonnummer();
 		this.intitEmail();
-		this.initChPassword();
+		this.iniCbPassword();
 		
 		
 	}
@@ -120,13 +118,18 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 //	Bosse
-	private void initChPassword(){
-		this.chPassword = new CheckBox("Passwort zurücksetzen?");
-		this.chPassword.setValue(false);
-		this.chPassword.setWidth("300px");
-		this.addComponent(chPassword);
+	private void iniCbPassword(){
+		this.cbPassword = new ComboBox();
+		this.cbPassword.setInputPrompt("Passwort zurücksetzen?");
+		
+//		Hier fehlt noch die Ja/Nein Auswahl
+		
+		this.cbPassword.setNullSelectionAllowed(true);
+		this.cbPassword.setTextInputAllowed(false);
+		this.cbPassword.setWidth("300px");
+		this.addComponent(cbPassword);
+		
 	}
-	
 	
 	private void initLsStudiengang() {
 		this.lsStudiengang = new ListSelect();
@@ -206,15 +209,11 @@ public class BenutzerFields extends VerticalLayout{
 //	Bosse
 	public void setPassword (Benutzer b){
 		this.cbPassword.setValue(b.getRolle().getBezeichnung());
-		
 	}
 	
 	public String getPassword (){
 		return (String) this.cbPassword.getValue();
 	}
-	
-
-	
 	
 	
 	public void setStudiengang (Benutzer b){
@@ -282,8 +281,8 @@ public class BenutzerFields extends VerticalLayout{
 	}
 
 //	Bosse
-	public CheckBox getChPassword(){
-		return this.chPassword;
+	public ComboBox getCbPassword(){
+		return this.cbPassword;
 	}
 	
 	
@@ -296,7 +295,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang.setEnabled(bool);
 		this.tfTelefonnummer.setEnabled(bool);
 		this.tfEmail.setEnabled(bool);
-		this.chPassword.setEnabled(true);
+		this.cbPassword.setEnabled(true);
 	}
 
 	
