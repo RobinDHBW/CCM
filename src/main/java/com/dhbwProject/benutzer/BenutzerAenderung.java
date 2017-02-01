@@ -162,16 +162,6 @@ public class BenutzerAenderung extends CustomComponent {
 			}
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
-			
-			if (this.fields.getChPassword().getValue() == true) {
-				try {
-					dbConnect.changePassword("default", neu);
-					Notification.show("Das Passwort wurde auf default zurückgesetzt");
-				} catch (SQLException e) {
-					Notification.show("Das Passwort konnte nicht zurückgesetzt werden");
-				}
-				
-			}
 			}
 		});
 		
