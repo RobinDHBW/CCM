@@ -1,6 +1,7 @@
 package com.dhbwProject.besuche;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -73,9 +74,9 @@ public class BesuchBenachrichtigung extends Window {
 			this.btnOK = new Button("Senden");
 			this.btnOK.setIcon(FontAwesome.CHECK);
 			this.btnOK.addClickListener(click ->{
-				//Gespraechsnotiz(int id, File notiz, File bild, Unternehmen unternehmen, Besuch besuch, Date timestamp)
+				//(int id, byte[] notiz, byte[] bild, Unternehmen unternehmen, Besuch besuch, Date timestamp, Benutzer autor)
 				try {
-					dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, new File(taNachricht.getValue()),
+					dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, taNachricht.getValue().getBytes(),
 							null, bReferenz.getAdresse().getUnternehmen(), bReferenz, null, bUser));
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -102,6 +103,8 @@ public class BesuchBenachrichtigung extends Window {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch(UnsupportedEncodingException e){
+				e.printStackTrace();
 			}
 		}
 		
@@ -115,11 +118,14 @@ public class BesuchBenachrichtigung extends Window {
 			this.setCompositionRoot(vlFields);
 		}
 		
-		private void refreshValue() throws SQLException{
+		private void refreshValue() throws SQLException, UnsupportedEncodingException{
 			StringBuilder sbValue = new StringBuilder();
+			String tmpString = "";
 			for(Gespraechsnotiz g : dbConnection.getGespraechsnotizByBesuch(bReferenz))
-				if(g != null)
-					sbValue.append(g.getNotiz().toString()+"\n");
+				if(g != null){
+					tmpString = new String(g.getNotiz(), "UTF-8");
+					sbValue.append(tmpString+"\n");
+				}
 			taNachricht.setValue(sbValue.toString());
 				
 		}

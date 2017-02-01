@@ -331,8 +331,8 @@ public class dbConnect {
 				
 				//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
 				//					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
-									ByteArrayInputStream bildStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getBild());
-									ps.setBinaryStream(2, bildStream);
+//									ByteArrayInputStream bildStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getBild());
+									ps.setBinaryStream(2, null);
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
 				 ps.setString(5, ((Gespraechsnotiz) obj).getAutor().getId());
@@ -895,7 +895,7 @@ public class dbConnect {
 	
 	// Gespraechsnotiz
 	public LinkedList<Gespraechsnotiz> getGespraechsnotizByBesuch(Besuch pBesuch) throws SQLException {
-		ResultSet res = executeQuery("Select * from gespraechsnotiz where besuch_id = ?",
+		ResultSet res = executeQuery("Select * from gespraechsnotizen where besuch_id = ?",
 				new Object[] { new Integer(pBesuch.getId()) });
 		Gespraechsnotiz gespraechsnotiz = null;
 		LinkedList<Gespraechsnotiz> lGespraechsnotiz = new LinkedList<Gespraechsnotiz>();
@@ -911,6 +911,7 @@ public class dbConnect {
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
+
 				output1.close();
 				
 //				File file = new File("bild");
@@ -920,8 +921,12 @@ public class dbConnect {
 //				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
 				byte[] bb = new byte[1024];
 				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
-				while (input2.read(bb) > 0) {
-					output2.write(bb);
+				try{
+					while (input2.read(bb) > 0) {
+						output2.write(bb);
+					}
+				}catch(NullPointerException e){
+					
 				}
 				output2.close();
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
@@ -973,8 +978,12 @@ public class dbConnect {
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
 				byte[] bb = new byte[1024];
 				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
-				while (input2.read(bb) > 0) {
-					output2.write(bb);
+				try{
+					while (input2.read(bb) > 0) {
+						output2.write(bb);
+					}
+				}catch(NullPointerException e){
+					
 				}
 				output2.close();
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
