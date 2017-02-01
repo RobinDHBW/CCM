@@ -54,11 +54,11 @@ public class BenutzerFields extends VerticalLayout{
 
 		int i = 0;
 		try {
-			i = dbConnect.checkBerechtigung((Benutzer) VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER),BenutzerAnlage.BERECHTIGUNG);
+			i = dbConnect.checkBerechtigung((Benutzer) VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER),BenutzerFields.BERECHTIGUNG);
 		} catch (SQLException e1) {
 			System.out.println("Fehler bei der Berechtigungsprüfung!");
 		}
-		if(i>1) this.iniChPassword();
+		if(i>1) this.initChPassword();
 
 		
 		
@@ -305,7 +305,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang.setEnabled(bool);
 		this.tfTelefonnummer.setEnabled(bool);
 		this.tfEmail.setEnabled(bool);
-		this.chPassword.setEnabled(true);
+		//this.chPassword.setEnabled(true);
 	}
 
 	
