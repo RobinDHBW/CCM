@@ -159,8 +159,8 @@ public class BenutzerAnlage extends CustomComponent {
 			mailAdresse.add(fields.getEmail());
 			String betreff = "CCM Benutzerkonto";
 			String inhalt = "Guten Tag " + fields.getVorname() + " "
-					+ fields.getNachname() + ",<br><br> Im CRM-System ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
-					+ fields.getId() + " <br>Passwort: default <br><br> bitte ändern Sie dieses bei der ersten Anmeldung.";
+					+ fields.getNachname() + ",<br><br> Im CRM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
+					+ fields.getVorname() + " <br>Passwort: default <br><br> bitte ändern Sie das Passwort bei der ersten Anmeldung.";
 			EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
 			mail.start();
 			

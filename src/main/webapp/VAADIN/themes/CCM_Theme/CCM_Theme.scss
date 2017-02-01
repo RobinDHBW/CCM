@@ -21,7 +21,7 @@ $v-selection-overlay-background-color: #fff;
 //Zusatzstyling
 $v-overlay-shadow: 0 0 0 2px #fff;
 
-$v-app-loading-text: "Bitte warten, CRM System wird geladen.";
+$v-app-loading-text: "Bitte warten. Das Costumer Contact Management System wird geladen.";
 
 // Affects the visual appearance of all components
 //$v-gradient: v-linear 8%;
@@ -29,10 +29,9 @@ $v-app-loading-text: "Bitte warten, CRM System wird geladen.";
 //$v-shadow-opacity: 5%;
 
 // Defines colors for indicating status (focus, success, failure)
-$v-focus-color:#8c0011;
-//valo-focus-color(); // Calculates a suitable color automatically
-//$v-friendly-color: #2c9720;
-//$v-error-indicator-color: #ed473b;
+$v-focus-color:#8c0011; //dunkelrot
+$v-friendly-color: #7F7F7F; //grau
+$v-error-indicator-color: #c4272d;//rot
 
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
@@ -332,7 +331,23 @@ min-height:300px;
 .valo-textfield-prompt-style{
 	background-color: white;
 	}
- 
+ select.v-select-select {
+    background-color:#8c0011; 
+    border: none;
+    padding: 0;
+    margin: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 0px 0 0; 
+    background:#8c0011;
+}
  
  
  

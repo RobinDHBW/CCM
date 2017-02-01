@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.views.FooterView;
 import com.dhbwProject.views.HeaderView;
 import com.dhbwProject.views.ViewBenutzer;
@@ -150,10 +151,13 @@ public class CCM_UI extends UI {
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
                 if(isLoggedIn && !naviBar.isVisible())
                 	naviBar.setVisible(true);
+                 //	Benutzer user = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+                	//header.setStatustext("Herzlich willkommen, "+ "" + user.getVorname() + " " + user.getNachname()  );
 
                 if (!isLoggedIn && !isLoginView) {
                 	naviBar.setVisible(false); //das sollte ansich auch wieder rauskönnen
                     getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
+                 //   header.setStatustext("Hallo, bitte melden Sie sich am CCM System an.");
                     return false;
 
                 } else if (isLoggedIn && isLoginView)

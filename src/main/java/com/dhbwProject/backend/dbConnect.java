@@ -1,9 +1,9 @@
 package com.dhbwProject.backend;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -321,23 +321,21 @@ public class dbConnect {
 				 return p;
 				 }else
 			if(obj instanceof Gespraechsnotiz){
-				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
-				 FileInputStream inputNotiz = null;
-				 FileInputStream inputBild = null;
-				try{
-//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
-					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
-					ps.setBinaryStream(1, inputNotiz);
-
-//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
-					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
-					ps.setBinaryStream(2, inputBild);
+				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`, `autor`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
+//				 byte[] inputNotiz = null;
+//				 byte[] inputBild = null;
+				//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+				//					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
+									ByteArrayInputStream notizStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getNotiz());
+									ps.setBinaryStream(1, notizStream);
 				
-				} catch (FileNotFoundException e) {
-					System.out.println("File not found");
-				}
+				//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+				//					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
+									ByteArrayInputStream bildStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getBild());
+									ps.setBinaryStream(2, bildStream);
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
+				 ps.setString(5, ((Gespraechsnotiz) obj).getAutor().getId());
 				 ps.executeUpdate();
 				 ResultSet result = ps.getGeneratedKeys();
 				 result.next();
@@ -489,7 +487,7 @@ public class dbConnect {
 	}
 	
 	// Ansprechpartner
-	private LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
+	public LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
 		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {(Object) new Integer(unternehmen.getId())});
 		LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 		
@@ -654,6 +652,12 @@ public class dbConnect {
 		if(i==1)return true;
 		return false;
 	}
+	public Besuch deleteBenutzerFromBesuch(Besuch besuch, Benutzer benutzer) throws SQLException{
+		int i = executeUpdate(
+				"DELETE FROM `benutzer_besuch` WHERE `benutzer_besuch`.`benutzer_id` = ? AND `benutzer_besuch`.`besuch_id` = ?",
+				new Object[] { benutzer.getId(), besuch.getId() });
+		return getBesuchById(besuch.getId());
+	}
 	public LinkedList<Benutzer> getBenutzerByBesuchId(int pId) throws SQLException{
 		LinkedList<Benutzer> lBenutzer = new LinkedList<Benutzer>();
 		ResultSet res = executeQuery("select * from benutzer b, besuch bs, benutzer_besuch bb where b.benutzer_id=bb.benutzer_id and bs.besuch_id = bb.besuch_id and bs.besuch_id = ?", new Object[]{(Object) new Integer(pId)});
@@ -805,6 +809,27 @@ public class dbConnect {
 		return lBesuch;
 
 	}
+	public LinkedList<Besuch> getBesuchByAdresse(Adresse pAdresse) throws SQLException {
+		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
+		ResultSet res = executeQuery("select * from besuch where adresse_id = ?", new Object[] {(Object) pAdresse.getId()});
+		
+			while (res.next()) {
+				int id = res.getInt("besuch_id");
+				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
+				java.sql.Timestamp timestamp = res.getTimestamp("besuch_timestamp");
+				java.sql.Timestamp startDate = res.getTimestamp("besuch_beginn");
+				java.sql.Timestamp endDate = res.getTimestamp("besuch_ende");
+				String name = res.getString("besuch_name");
+				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
+				Status status = getStatusById(res.getInt("status_id"));
+				LinkedList<Benutzer> lBenutzer = getBenutzerByBesuchId(id);
+				Ansprechpartner ansprechpartner = getAnsprechpartnerById(res.getInt("ansprechpartner_id"));
+				lBesuch.add(new Besuch(id, name, startDate, endDate, adresse, status, ansprechpartner, lBenutzer, timestamp, autor));
+			}
+			res.close();
+		return lBesuch;
+
+	}
 	public LinkedList<Besuch> getBesuchByBenutzer(Benutzer benutzer) throws SQLException{
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
 		ResultSet res = executeQuery("select * from benutzer_besuch where benutzer_id = ?", new Object[] {(Object) benutzer.getId()});
@@ -870,30 +895,32 @@ public class dbConnect {
 	}
 	
 	// Gespraechsnotiz
-	public Gespraechsnotiz getGespraechsnotizByBesuch(Besuch pBesuch) throws SQLException {
+	public LinkedList<Gespraechsnotiz> getGespraechsnotizByBesuch(Besuch pBesuch) throws SQLException {
 		ResultSet res = executeQuery("Select * from gespraechsnotiz where besuch_id = ?",
 				new Object[] { new Integer(pBesuch.getId()) });
 		Gespraechsnotiz gespraechsnotiz = null;
+		LinkedList<Gespraechsnotiz> lGespraechsnotiz = new LinkedList<Gespraechsnotiz>();
 		try{
 			while (res.next()) {
 				int id = res.getInt("gespraechsnotiz_id");
-				File notizfile = new File("notiz");
-				FileOutputStream output1 = new FileOutputStream(notizfile);
-				
+//				File notizfile = new File("notiz");
+//				ByteOutputStream output1 = new ByteOutputStream(notizfile);
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
+//				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
 				byte[] nb = new byte[1024];
+				ByteArrayOutputStream output1 = new ByteArrayOutputStream();
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
 				output1.close();
 				
-				File file = new File("bild");
-				FileOutputStream output2 = new FileOutputStream(file);
+//				File file = new File("bild");
+//				FileOutputStream output2 = new FileOutputStream(file);
 
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
-				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
+//				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
 				byte[] bb = new byte[1024];
+				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
 				while (input2.read(bb) > 0) {
 					output2.write(bb);
 				}
@@ -901,7 +928,9 @@ public class dbConnect {
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
-				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
+				Benutzer autor = getBenutzerById(res.getString("autor"));
+				gespraechsnotiz = new Gespraechsnotiz(id, nb, bb, unternehmen, besuch, timestamp, autor);
+				lGespraechsnotiz.add(gespraechsnotiz);
 			}
 		} catch (IOException e) {
 			
@@ -911,7 +940,7 @@ public class dbConnect {
 		
 			
 		
-		return gespraechsnotiz;
+		return lGespraechsnotiz;
 	}
 	public Gespraechsnotiz createGespraechsnotiz(Gespraechsnotiz gespraechsnotiz) throws SQLException {
 		int i = executeInsert(gespraechsnotiz);
@@ -926,25 +955,25 @@ public class dbConnect {
 				
 				int id = res.getInt("gespraechsnotiz_id");
 				
-				File notizfile = new File("C:/Users/CCM/Desktop/" + "NOTIZ1" + ".txt");
-				notizfile.createNewFile();
-				FileOutputStream output1 = new FileOutputStream(notizfile);
+//				File notizfile = new File("C:/Users/CCM/Desktop/" + "NOTIZ1" + ".txt");
+//				notizfile.createNewFile();
+//				FileOutputStream output1 = new FileOutputStream(notizfile);
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				File notiz = new File("C:/Users/CCM/Desktop/" + "NOTIZ2");
 				byte[] nb = new byte[1024];
+				ByteArrayOutputStream output1 = new ByteArrayOutputStream();
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
 				output1.close();
 				
-				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
-				bildfile.createNewFile();
-				FileOutputStream output2 = new FileOutputStream(bildfile);
+//				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
+//				bildfile.createNewFile();
+//				FileOutputStream output2 = new FileOutputStream(bildfile);
 
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
-				File bild = new File("C:/Users/CCM/Desktop/" + "BILD2");
 				byte[] bb = new byte[1024];
+				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
 				while (input2.read(bb) > 0) {
 					output2.write(bb);
 				}
@@ -952,7 +981,8 @@ public class dbConnect {
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
-				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp);
+				Benutzer autor = getBenutzerById(res.getString("autor"));
+				gespraechsnotiz = new Gespraechsnotiz(id, nb, bb, unternehmen, besuch, timestamp, autor);
 			}
 		} catch (IOException e) {
 			

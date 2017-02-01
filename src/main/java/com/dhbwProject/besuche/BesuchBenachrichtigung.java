@@ -1,6 +1,17 @@
 package com.dhbwProject.besuche;
 
+import java.io.File;
+import java.sql.SQLException;
+import java.util.Date;
+
+import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Besuch;
+import com.dhbwProject.backend.beans.Gespraechsnotiz;
+import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;
@@ -14,8 +25,15 @@ public class BesuchBenachrichtigung extends Window {
 	private static final long serialVersionUID = 1L;
 	
 	private TabSheet tabSheet;
+	private dbConnect dbConnection;
 	
-	public BesuchBenachrichtigung(){
+	private Besuch bReferenz;
+	private Benutzer bUser;
+	
+	public BesuchBenachrichtigung(Besuch b){
+		bReferenz = b;
+		dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+		bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
 		this.center();
 		this.setWidth("400px");
 		this.setHeight("500px");
@@ -55,7 +73,13 @@ public class BesuchBenachrichtigung extends Window {
 			this.btnOK = new Button("Senden");
 			this.btnOK.setIcon(FontAwesome.CHECK);
 			this.btnOK.addClickListener(click ->{
-				
+				//Gespraechsnotiz(int id, File notiz, File bild, Unternehmen unternehmen, Besuch besuch, Date timestamp)
+				try {
+					dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, new File(taNachricht.getValue()),
+							null, bReferenz.getAdresse().getUnternehmen(), bReferenz, null, bUser));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			});
 			this.vlFields = new VerticalLayout(taNachricht, btnOK);
 			this.vlFields.setSpacing(true);
@@ -73,17 +97,31 @@ public class BesuchBenachrichtigung extends Window {
 		
 		private BenachrichtigungVerlauf(){
 			this.initContent();
+			try {
+				refreshValue();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		private void initContent(){
 			this.taNachricht = new TextArea();
 			this.taNachricht.setWidth("100%");
 			this.taNachricht.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-			this.taNachricht.setValue("Titel\nZeile\nZeile");
 			
 			this.vlFields = new VerticalLayout(taNachricht);
 			this.vlFields.setMargin(true);
 			this.setCompositionRoot(vlFields);
+		}
+		
+		private void refreshValue() throws SQLException{
+			StringBuilder sbValue = new StringBuilder();
+			for(Gespraechsnotiz g : dbConnection.getGespraechsnotizByBesuch(bReferenz))
+				if(g != null)
+					sbValue.append(g.getNotiz().toString()+"\n");
+			taNachricht.setValue(sbValue.toString());
+				
 		}
 	}
 

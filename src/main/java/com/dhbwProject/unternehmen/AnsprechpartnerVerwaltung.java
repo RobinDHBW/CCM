@@ -63,6 +63,7 @@ public class AnsprechpartnerVerwaltung extends Window {
 	
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
+		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
 		Notification message = new Notification("");
 		message.setPosition(Position.TOP_CENTER);
 		

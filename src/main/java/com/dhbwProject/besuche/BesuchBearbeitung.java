@@ -1,6 +1,8 @@
 package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
@@ -70,15 +72,10 @@ public class BesuchBearbeitung extends Window {
 		this.btnUpdate.addClickListener(listener ->{
 			if(fields.isValid()){
 				try {
-					this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
-						fields.getDateStart(), fields.getDateEnd(),
-						fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
-						fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
+					bearbeiteBesuch();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				this.close();
 			}else{
 				Notification meldung = new Notification("Plichtfelder müssen gefüllt werden");
 				meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
@@ -106,6 +103,58 @@ public class BesuchBearbeitung extends Window {
 	
 	protected Besuch getBearbeitung(){
 		return this.bNeu;
+	}
+	
+	private void bearbeiteBesuch() throws IllegalArgumentException, NullPointerException, SQLException{
+		Notification message = new Notification("");
+		message.setPosition(Position.TOP_CENTER);
+		LinkedList<Besuch> lbKollision = checkBesuchKollision(dbConnection.getBesuchByAdresse(fields.getAdresse()),bAlt, fields.getDateStart());
+		if(lbKollision.size() >0){
+			BesuchKollisionsanzeige anzeige = new BesuchKollisionsanzeige(lbKollision);
+			anzeige.addCloseListener(close ->{
+				if(anzeige.getResult()){
+						besuchBearbeitung();
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption(fields.getTitel()+" wurde erfolgreich bearbeitet");
+						message.show(Page.getCurrent());
+				}else{
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption(fields.getTitel()+" wurde nicht bearbeitet");
+						message.show(Page.getCurrent());
+				}
+				close();
+			});
+			getUI().addWindow(anzeige);
+		}else{
+			besuchBearbeitung();
+			close();
+		}
+	}
+	
+	private void besuchBearbeitung(){
+		try {
+			this.bNeu = this.dbConnection.changeBesuch(new Besuch(0, fields.getTitel(),
+					fields.getDateStart(), fields.getDateEnd(),
+					fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
+					fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private LinkedList<Besuch> checkBesuchKollision(LinkedList<Besuch> lBesuch, Besuch bBasis, Date dStartNew){
+		LinkedList<Besuch> lbResult = new LinkedList<Besuch>();
+		for(Besuch b : lBesuch){
+			if(b.getId() == bBasis.getId())
+				continue;
+			if(differenzTage(b.getStartDate(), dStartNew) < CCM_Constants.BESUCH_KOLLISION_WERT)
+				lbResult.add(b);
+		}
+		return lbResult;	
+	}
+	
+	private long differenzTage(Date dAlt, Date dNeu){
+		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
 	}
 	
 }

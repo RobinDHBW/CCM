@@ -1746,6 +1746,24 @@ v-button-btnwhitelogo .v-button-icon {
 	background-color: white;
 }
 
+select.v-select-select {
+	background-color: #8c0011;
+	border: none;
+	padding: 0;
+	margin: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0 0px 0 0;
+	background: #8c0011;
+}
+
 .CCM_Theme.v-app, .CCM_Theme.v-app-loading {
 	font: 300 16px/1.55 "Open Sans", sans-serif;
 	color: #474747;
@@ -1782,7 +1800,7 @@ v-button-btnwhitelogo .v-button-icon {
 	text-align: center;
 	left: 0;
 	right: 0;
-	content: "Bitte warten, CRM System wird geladen.";
+	content: "Bitte warten. Das Costumer Contact Management System wird geladen.";
 }
 
 .CCM_Theme .v-loading-indicator {
@@ -1887,7 +1905,7 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-errorindicator {
-	color: #ed473b;
+	color: #c4272d;
 	font-weight: 600;
 	width: 19px;
 	text-align: center;
@@ -1898,7 +1916,7 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-required-field-indicator {
-	color: #ed473b;
+	color: #c4272d;
 	padding: 0 0.2em;
 }
 
@@ -1982,7 +2000,7 @@ v-button-btnwhitelogo .v-button-icon {
 .CCM_Theme .v-tooltip .v-errormessage {
 	background-color: white;
 	background-color: #fff;
-	color: #ed473b;
+	color: #c4272d;
 	margin: -5px -9px;
 	padding: 5px 9px;
 	max-height: 10em;
@@ -2390,19 +2408,19 @@ v-button-btnwhitelogo .v-button-icon {
 .CCM_Theme .v-button-friendly {
 	height: 37px;
 	padding: 0 16px;
-	color: #eaf4e9;
+	color: #f2f2f2;
 	font-weight: 400;
 	
 	
 	border-radius: 4px;
-	border: 1px solid #227719;
-	border-top-color: #257d1a;
-	border-bottom-color: #1e6b15;
-	background-color: #2c9720;
-	background-image: -webkit-linear-gradient(top, #2f9f22 2%, #26881b 98%);
-	background-image: linear-gradient(to bottom,#2f9f22 2%, #26881b 98%);
-	-webkit-box-shadow: inset 0 1px 0 #46b33a, inset 0 -1px 0 #26811b, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: inset 0 1px 0 #46b33a, inset 0 -1px 0 #26811b, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border: 1px solid #646464;
+	border-top-color: #6c6c6c;
+	border-bottom-color: #575757;
+	background-color: #7F7F7F;
+	background-image: -webkit-linear-gradient(top, #898989 2%, #6f6f6f 98%);
+	background-image: linear-gradient(to bottom,#898989 2%, #6f6f6f 98%);
+	-webkit-box-shadow: inset 0 1px 0 #9c9c9c, inset 0 -1px 0 #6b6b6b, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 #9c9c9c, inset 0 -1px 0 #6b6b6b, 0 2px 3px rgba(0, 0, 0, 0.05);
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -2415,7 +2433,7 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-button-friendly:hover:after {
-	background-color: rgba(65, 211, 48, 0.1);
+	background-color: rgba(165, 165, 165, 0.1);
 }
 
 .CCM_Theme .v-button-friendly:focus:after {
@@ -2425,25 +2443,25 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-button-friendly:active:after {
-	background-color: rgba(14, 86, 6, 0.2);
+	background-color: rgba(64, 64, 64, 0.2);
 }
 
 .CCM_Theme .v-button-danger {
 	height: 37px;
 	padding: 0 16px;
-	color: #f9f0ef;
+	color: #f6eced;
 	font-weight: 400;
 	
 	
 	border-radius: 4px;
-	border: 1px solid #bb382e;
-	border-top-color: #bc3c31;
-	border-bottom-color: #b13028;
-	background-color: #ed473b;
-	background-image: -webkit-linear-gradient(top, #ee4c3f 2%, #e13e33 98%);
-	background-image: linear-gradient(to bottom,#ee4c3f 2%, #e13e33 98%);
-	-webkit-box-shadow: inset 0 1px 0 #ef786f, inset 0 -1px 0 #da3c31, 0 2px 3px rgba(0, 0, 0, 0.05);
-	box-shadow: inset 0 1px 0 #ef786f, inset 0 -1px 0 #da3c31, 0 2px 3px rgba(0, 0, 0, 0.05);
+	border: 1px solid #9a1e23;
+	border-top-color: #9e2125;
+	border-bottom-color: #901a1e;
+	background-color: #c4272d;
+	background-image: -webkit-linear-gradient(top, #c82a30 2%, #b72127 98%);
+	background-image: linear-gradient(to bottom,#c82a30 2%, #b72127 98%);
+	-webkit-box-shadow: inset 0 1px 0 #d45257, inset 0 -1px 0 #ae2127, 0 2px 3px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 #d45257, inset 0 -1px 0 #ae2127, 0 2px 3px rgba(0, 0, 0, 0.05);
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
@@ -2456,17 +2474,17 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-button-danger:hover:after {
-	background-color: rgba(243, 137, 129, 0.1);
+	background-color: rgba(222, 89, 95, 0.1);
 }
 
 .CCM_Theme .v-button-danger:focus:after {
-	border-color: #8c0011;
+	border: inherit;
 	-webkit-box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 	box-shadow: 0 0 0 2px rgba(140, 0, 17, 0.5);
 }
 
 .CCM_Theme .v-button-danger:active:after {
-	background-color: rgba(146, 12, 2, 0.2);
+	background-color: rgba(111, 6, 10, 0.2);
 }
 
 .CCM_Theme .v-button-borderless {
@@ -3266,14 +3284,14 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-filterselect-error .v-filterselect-input {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-filterselect-error .v-filterselect-button {
-	color: #ed473b;
-	border-color: #ed473b;
+	color: #c4272d;
+	border-color: #c4272d;
 }
 
 .CCM_Theme .v-filterselect-suggestpopup {
@@ -5113,12 +5131,12 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-grid-editor-cells > div .error::before {
-	border-top: 9px solid #ed473b;
+	border-top: 9px solid #c4272d;
 	border-right: 9px solid transparent;
 }
 
 .CCM_Theme .v-grid-editor-cells > div .error, .CCM_Theme .v-grid-editor-cells > div .error > input {
-	background-color: #fffbfb;
+	background-color: #fefafb;
 }
 
 .CCM_Theme .v-grid-editor-cells > div .v-textfield, .CCM_Theme .v-grid-editor-cells > div .v-textfield-focus, .CCM_Theme .v-grid-editor-cells > div .v-datefield, .CCM_Theme .v-grid-editor-cells > div .v-datefield .v-textfield-focus, .CCM_Theme .v-grid-editor-cells > div .v-filterselect-input, .CCM_Theme .v-grid-editor-cells > div .v-filterselect-input:focus {
@@ -5164,7 +5182,7 @@ v-button-btnwhitelogo .v-button-icon {
 
 .CCM_Theme .v-grid-editor-message > div:before {
 	display: inline-block;
-	color: #ed473b;
+	color: #c4272d;
 	font-weight: 600;
 	width: 19px;
 	text-align: center;
@@ -5303,9 +5321,9 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-textfield-error {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-textfield-borderless {
@@ -5779,9 +5797,9 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-textarea-error {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-textarea-borderless {
@@ -6136,14 +6154,14 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-datefield-error .v-datefield-textfield {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-datefield-error .v-datefield-button {
-	color: #ed473b;
-	border-color: #ed473b;
+	color: #c4272d;
+	border-color: #c4272d;
 }
 
 .CCM_Theme .v-datefield-full {
@@ -11167,9 +11185,9 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-select-twincol-error .v-select-twincol-options, .CCM_Theme .v-select-twincol-error .v-select-twincol-selections {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-select select {
@@ -11201,9 +11219,9 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-select-error .v-select-select {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-calendar-header-day {
@@ -11780,7 +11798,7 @@ v-button-btnwhitelogo .v-button-icon {
 .CCM_Theme .v-label-success, .CCM_Theme .v-label-failure {
 	background: white;
 	color: #474747;
-	border: 2px solid #2c9720;
+	border: 2px solid #7F7F7F;
 	border-radius: 4px;
 	padding: 7px 19px 7px 37px;
 	font-weight: 400;
@@ -11792,16 +11810,16 @@ v-button-btnwhitelogo .v-button-icon {
 	content: "\f00c";
 	margin-right: 0.5em;
 	margin-left: -19px;
-	color: #2c9720;
+	color: #7F7F7F;
 }
 
 .CCM_Theme .v-label-failure {
-	border-color: #ed473b;
+	border-color: #c4272d;
 }
 
 .CCM_Theme .v-label-failure:before {
 	content: "\f05e";
-	color: #ed473b;
+	color: #c4272d;
 }
 
 .CCM_Theme [draggable=true] {
@@ -11934,9 +11952,9 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-select-error .v-select-select {
-	border-color: #ed473b !important;
-	background: #fffbfb;
-	color: #6c2621;
+	border-color: #c4272d !important;
+	background: #fefafb;
+	color: #65282b;
 }
 
 .CCM_Theme .v-popupview {
@@ -12411,7 +12429,7 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-Notification.error {
-	background: #ed473b;
+	background: #c4272d;
 	font-weight: 400;
 	-webkit-box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
 	box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
@@ -12422,7 +12440,7 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-Notification.error .v-Notification-description {
-	color: #f4e0df;
+	color: #efd8d9;
 }
 
 .CCM_Theme .v-Notification.dark {
@@ -12563,11 +12581,11 @@ v-button-btnwhitelogo .v-button-icon {
 .CCM_Theme .v-Notification.success, .CCM_Theme .v-Notification.failure {
 	background: #fff;
 	color: #555;
-	border: 2px solid #2c9720;
+	border: 2px solid #7F7F7F;
 }
 
 .CCM_Theme .v-Notification.success .v-Notification-caption, .CCM_Theme .v-Notification.failure .v-Notification-caption {
-	color: #2c9720;
+	color: #7F7F7F;
 	font-weight: 400;
 }
 
@@ -12582,11 +12600,11 @@ v-button-btnwhitelogo .v-button-icon {
 }
 
 .CCM_Theme .v-Notification.failure {
-	border-color: #ed473b;
+	border-color: #c4272d;
 }
 
 .CCM_Theme .v-Notification.failure .v-Notification-caption {
-	color: #ed473b;
+	color: #c4272d;
 }
 
 .CCM_Theme .v-Notification.failure .v-Notification-caption:before {

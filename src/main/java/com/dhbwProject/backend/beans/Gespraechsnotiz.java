@@ -8,13 +8,14 @@ import com.mysql.jdbc.Blob;
 public class Gespraechsnotiz {
 	
 	private int id;
-	private File notiz;
-	private File bild;
+	private byte[] notiz;
+	private byte[] bild;
 	private Unternehmen unternehmen;
 	private Besuch besuch;
 	private Date timestamp;
+	private Benutzer autor;
 	
-	public Gespraechsnotiz(int id, File notiz, File bild, Unternehmen unternehmen, Besuch besuch, Date timestamp) {
+	public Gespraechsnotiz(int id, byte[] notiz, byte[] bild, Unternehmen unternehmen, Besuch besuch, Date timestamp, Benutzer autor) {
 		super();
 		this.id = id;
 		this.notiz = notiz;
@@ -22,6 +23,7 @@ public class Gespraechsnotiz {
 		this.unternehmen = unternehmen;
 		this.besuch = besuch;
 		this.timestamp = timestamp;
+		this. autor = autor;
 	}
 
 
@@ -29,11 +31,11 @@ public class Gespraechsnotiz {
 		return id;
 	}
 
-	public File getNotiz() {
+	public byte[] getNotiz() {
 		return notiz;
 	}
 
-	public File getBild() {
+	public byte[] getBild() {
 		return bild;
 	}
 
@@ -47,6 +49,9 @@ public class Gespraechsnotiz {
 
 	public Date getTimestamp() {
 		return timestamp;
+	}
+	public Benutzer getAutor(){
+		return autor;
 	}
 
 	//folgende Tabellen der DB müssenn noch im Bean implementiert werden:
