@@ -1,4 +1,4 @@
-package com.dhbwProject.benutzer;
+﻿package com.dhbwProject.benutzer;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -14,6 +14,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.TextField;
@@ -36,6 +37,7 @@ public class BenutzerFields extends VerticalLayout{
 	private LinkedList<Rolle> alleRollen;
 	private LinkedList<Studiengang> alleStudiengaenge;
 	public static final String BERECHTIGUNG = "Password";
+	private CheckBox chPassword;
 	
 	public BenutzerFields() {
 		this.setSizeUndefined();
@@ -49,13 +51,15 @@ public class BenutzerFields extends VerticalLayout{
 		this.initLsStudiengang();
 		this.initTelefonnummer();
 		this.intitEmail();
+
 		int i = 0;
 		try {
 			i = dbConnect.checkBerechtigung((Benutzer) VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER),BenutzerAnlage.BERECHTIGUNG);
 		} catch (SQLException e1) {
 			System.out.println("Fehler bei der Berechtigungsprüfung!");
 		}
-		if(i>1) this.iniCbPassword();
+		if(i>1) this.iniChPassword();
+
 		
 		
 	}
@@ -125,18 +129,13 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 //	Bosse
-	private void iniCbPassword(){
-		this.cbPassword = new ComboBox();
-		this.cbPassword.setInputPrompt("Passwort zurücksetzen?");
-		
-//		Hier fehlt noch die Ja/Nein Auswahl
-		
-		this.cbPassword.setNullSelectionAllowed(true);
-		this.cbPassword.setTextInputAllowed(false);
-		this.cbPassword.setWidth("300px");
-		this.addComponent(cbPassword);
-		
+	private void initChPassword(){
+		this.chPassword = new CheckBox("Passwort zurücksetzen?");
+		this.chPassword.setValue(false);
+		this.chPassword.setWidth("300px");
+		this.addComponent(chPassword);
 	}
+	
 	
 	private void initLsStudiengang() {
 		this.lsStudiengang = new ListSelect();
@@ -214,13 +213,17 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 //	Bosse
-	public void setPassword (Benutzer b){
-		this.cbPassword.setValue(b.getRolle().getBezeichnung());
+	public void setPassword (boolean b){
+		this.chPassword.setValue(b);
+		
 	}
 	
-	public String getPassword (){
-		return (String) this.cbPassword.getValue();
+	public boolean getPassword (){
+		return this.chPassword.getValue();
 	}
+	
+
+	
 	
 	
 	public void setStudiengang (Benutzer b){
@@ -288,8 +291,8 @@ public class BenutzerFields extends VerticalLayout{
 	}
 
 //	Bosse
-	public ComboBox getCbPassword(){
-		return this.cbPassword;
+	public CheckBox getChPassword(){
+		return this.chPassword;
 	}
 	
 	
@@ -302,7 +305,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang.setEnabled(bool);
 		this.tfTelefonnummer.setEnabled(bool);
 		this.tfEmail.setEnabled(bool);
-		this.cbPassword.setEnabled(true);
+		this.chPassword.setEnabled(true);
 	}
 
 	
