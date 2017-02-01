@@ -1,5 +1,7 @@
 package com.dhbwProject.backend;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -322,20 +324,17 @@ public class dbConnect {
 				 }else
 			if(obj instanceof Gespraechsnotiz){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`, `autor`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
-				 FileInputStream inputNotiz = null;
-				 FileInputStream inputBild = null;
-				try{
-//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
-					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
-					ps.setBinaryStream(1, inputNotiz);
-
-//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
-					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
-					ps.setBinaryStream(2, inputBild);
+				 byte[] inputNotiz = null;
+				 byte[] inputBild = null;
+				//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+				//					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
+									ByteArrayInputStream notizStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getNotiz());
+									ps.setBinaryStream(1, notizStream);
 				
-				} catch (FileNotFoundException e) {
-					System.out.println("File not found");
-				}
+				//					inputBild = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
+				//					inputBild = new FileInputStream(((Gespraechsnotiz) obj).getBild());
+									ByteArrayInputStream bildStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getBild());
+									ps.setBinaryStream(2, bildStream);
 				 ps.setInt(3, ((Gespraechsnotiz) obj).getUnternehmen().getId());
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
 				 ps.setString(5, ((Gespraechsnotiz) obj).getAutor().getId());
@@ -905,23 +904,24 @@ public class dbConnect {
 		try{
 			while (res.next()) {
 				int id = res.getInt("gespraechsnotiz_id");
-				File notizfile = new File("notiz");
-				FileOutputStream output1 = new FileOutputStream(notizfile);
-				
+//				File notizfile = new File("notiz");
+//				ByteOutputStream output1 = new ByteOutputStream(notizfile);
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
+//				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
 				byte[] nb = new byte[1024];
+				ByteArrayOutputStream output1 = null;
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
 				output1.close();
 				
-				File file = new File("bild");
-				FileOutputStream output2 = new FileOutputStream(file);
+//				File file = new File("bild");
+//				FileOutputStream output2 = new FileOutputStream(file);
 
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
-				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
+//				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
 				byte[] bb = new byte[1024];
+				ByteArrayOutputStream output2 = null;
 				while (input2.read(bb) > 0) {
 					output2.write(bb);
 				}
@@ -930,7 +930,7 @@ public class dbConnect {
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
 				Benutzer autor = getBenutzerById(res.getString("autor"));
-				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp, autor);
+				gespraechsnotiz = new Gespraechsnotiz(id, nb, bb, unternehmen, besuch, timestamp, autor);
 				lGespraechsnotiz.add(gespraechsnotiz);
 			}
 		} catch (IOException e) {
@@ -956,25 +956,25 @@ public class dbConnect {
 				
 				int id = res.getInt("gespraechsnotiz_id");
 				
-				File notizfile = new File("C:/Users/CCM/Desktop/" + "NOTIZ1" + ".txt");
-				notizfile.createNewFile();
-				FileOutputStream output1 = new FileOutputStream(notizfile);
+//				File notizfile = new File("C:/Users/CCM/Desktop/" + "NOTIZ1" + ".txt");
+//				notizfile.createNewFile();
+//				FileOutputStream output1 = new FileOutputStream(notizfile);
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
-				File notiz = new File("C:/Users/CCM/Desktop/" + "NOTIZ2");
 				byte[] nb = new byte[1024];
+				ByteArrayOutputStream output1 = null;
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
 				output1.close();
 				
-				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
-				bildfile.createNewFile();
-				FileOutputStream output2 = new FileOutputStream(bildfile);
+//				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
+//				bildfile.createNewFile();
+//				FileOutputStream output2 = new FileOutputStream(bildfile);
 
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
-				File bild = new File("C:/Users/CCM/Desktop/" + "BILD2");
 				byte[] bb = new byte[1024];
+				ByteArrayOutputStream output2 = null;
 				while (input2.read(bb) > 0) {
 					output2.write(bb);
 				}
@@ -983,7 +983,7 @@ public class dbConnect {
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
 				Benutzer autor = getBenutzerById(res.getString("autor"));
-				gespraechsnotiz = new Gespraechsnotiz(id, notiz, bild, unternehmen, besuch, timestamp, autor);
+				gespraechsnotiz = new Gespraechsnotiz(id, nb, bb, unternehmen, besuch, timestamp, autor);
 			}
 		} catch (IOException e) {
 			
