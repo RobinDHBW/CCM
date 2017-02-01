@@ -50,7 +50,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.initLsStudiengang();
 		this.initTelefonnummer();
 		this.intitEmail();
-		this.initChPassword();
+//		this.initChPassword();
 		
 		
 	}
@@ -120,7 +120,7 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 //	Bosse
-	private void initChPassword(){
+	protected void initChPassword(){
 		this.chPassword = new CheckBox("Passwort zurücksetzen?");
 		this.chPassword.setValue(false);
 		this.chPassword.setWidth("300px");
@@ -296,7 +296,6 @@ public class BenutzerFields extends VerticalLayout{
 		this.lsStudiengang.setEnabled(bool);
 		this.tfTelefonnummer.setEnabled(bool);
 		this.tfEmail.setEnabled(bool);
-		this.chPassword.setEnabled(true);
 	}
 
 	

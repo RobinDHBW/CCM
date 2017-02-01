@@ -37,6 +37,7 @@ public class BenutzerAenderung extends CustomComponent {
 	public BenutzerAenderung(){
 		this.fields = new BenutzerFields();
 		this.fields.enableFields(false);
+		this.fields.initChPassword();
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initLookup();
 		this.initCreateButton();
