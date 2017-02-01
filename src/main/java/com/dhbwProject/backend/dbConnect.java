@@ -916,10 +916,12 @@ public class dbConnect {
 				
 //				File file = new File("bild");
 //				FileOutputStream output2 = new FileOutputStream(file);
-
+				
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
+				byte[] bb = null;
 //				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
-				byte[] bb = new byte[1024];
+				if(input2 != null){
+				bb = new byte[1024];
 				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
 				try{
 					while (input2.read(bb) > 0) {
@@ -929,6 +931,7 @@ public class dbConnect {
 					
 				}
 				output2.close();
+				}
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
@@ -974,9 +977,11 @@ public class dbConnect {
 //				File bildfile = new File("C:/Users/CCM/Desktop/" + "BILD1" + ".txt");
 //				bildfile.createNewFile();
 //				FileOutputStream output2 = new FileOutputStream(bildfile);
-
+				
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
-				byte[] bb = new byte[1024];
+				byte[] bb = null;
+				if(input2 != null){
+				bb = new byte[1024];
 				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
 				try{
 					while (input2.read(bb) > 0) {
@@ -986,6 +991,7 @@ public class dbConnect {
 					
 				}
 				output2.close();
+				}
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
 				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
