@@ -2,10 +2,8 @@ package com.dhbwProject.backend;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -324,8 +322,8 @@ public class dbConnect {
 				 }else
 			if(obj instanceof Gespraechsnotiz){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`, `autor`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
-				 byte[] inputNotiz = null;
-				 byte[] inputBild = null;
+//				 byte[] inputNotiz = null;
+//				 byte[] inputBild = null;
 				//					inputNotiz = new FileInputStream("C:/Users/CCM/Desktop/test.txt");
 				//					inputNotiz = new FileInputStream(((Gespraechsnotiz) obj).getNotiz());
 									ByteArrayInputStream notizStream = new ByteArrayInputStream(((Gespraechsnotiz) obj).getNotiz());
@@ -488,7 +486,7 @@ public class dbConnect {
 	}
 	
 	// Ansprechpartner
-	private LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
+	public LinkedList<Ansprechpartner> getAnsprechpartnerByUnternehmen(Unternehmen unternehmen) throws SQLException {
 		ResultSet res = executeQuery("Select * from ansprechpartner where ansprechpartner_unternehmen_id = ?", new Object[] {(Object) new Integer(unternehmen.getId())});
 		LinkedList<Ansprechpartner> lAnsprechpartner = new LinkedList<Ansprechpartner>();
 		
@@ -909,7 +907,7 @@ public class dbConnect {
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
 //				File notiz = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "NOTIZ");
 				byte[] nb = new byte[1024];
-				ByteArrayOutputStream output1 = null;
+				ByteArrayOutputStream output1 = new ByteArrayOutputStream();
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
@@ -921,7 +919,7 @@ public class dbConnect {
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
 //				File bild = new File("C:/Users/CCM/Desktop/" + pBesuch.getId() + "BILD");
 				byte[] bb = new byte[1024];
-				ByteArrayOutputStream output2 = null;
+				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
 				while (input2.read(bb) > 0) {
 					output2.write(bb);
 				}
@@ -962,7 +960,7 @@ public class dbConnect {
 				
 				InputStream input1 = res.getBinaryStream("gespraechsnotiz_notiz");
 				byte[] nb = new byte[1024];
-				ByteArrayOutputStream output1 = null;
+				ByteArrayOutputStream output1 = new ByteArrayOutputStream();
 				while (input1.read(nb) > 0) {
 					output1.write(nb);
 				}
@@ -974,7 +972,7 @@ public class dbConnect {
 
 				InputStream input2 = res.getBinaryStream("gespraechsnotiz_bild");
 				byte[] bb = new byte[1024];
-				ByteArrayOutputStream output2 = null;
+				ByteArrayOutputStream output2 = new ByteArrayOutputStream();
 				while (input2.read(bb) > 0) {
 					output2.write(bb);
 				}

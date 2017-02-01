@@ -111,7 +111,8 @@ public class db_testing extends TestCase {
 		// }
 		try {
 			Gespraechsnotiz gespraechsnotiz = connection.getGespraechsnotizById(10);
-			System.out.println(new String(gespraechsnotiz.getNotiz(), "UTF8"));
+			String s = new String(gespraechsnotiz.getNotiz(), "UTF8");
+			System.out.println(s);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -186,7 +187,7 @@ public class db_testing extends TestCase {
 				assertTrue(b.equals(p));
 
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 			}
 		} finally {
 			try {
