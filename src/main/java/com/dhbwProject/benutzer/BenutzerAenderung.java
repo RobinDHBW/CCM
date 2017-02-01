@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
-import com.dhbwProject.backend.PasswordHasher;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Beruf;
@@ -59,7 +58,7 @@ public class BenutzerAenderung extends CustomComponent {
 				fields.setStudiengang(b);
 				fields.setEmail(b);
 				fields.setTelefonnummer(b);
-//				fields.setPassword(b);
+				fields.setPassword(b);
 				fields.enableFields(true);
 				btnAendern.setEnabled(true);
 				}
@@ -166,7 +165,7 @@ public class BenutzerAenderung extends CustomComponent {
 			
 			if (this.fields.getChPassword().getValue() == true) {
 				try {
-					dbConnect.changePassword(PasswordHasher.md5("default"), neu);
+					dbConnect.changePassword("default", neu);
 					Notification.show("Das Passwort wurde auf default zurückgesetzt");
 				} catch (SQLException e) {
 					Notification.show("Das Passwort konnte nicht zurückgesetzt werden");
