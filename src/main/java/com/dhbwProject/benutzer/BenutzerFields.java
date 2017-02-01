@@ -204,13 +204,13 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 //	Bosse
-	public void setPassword (Benutzer b){
-		this.cbPassword.setValue(b.getRolle().getBezeichnung());
+	public void setPassword (boolean b){
+		this.chPassword.setValue(b);
 		
 	}
 	
-	public String getPassword (){
-		return (String) this.cbPassword.getValue();
+	public boolean getPassword (){
+		return this.chPassword.getValue();
 	}
 	
 
