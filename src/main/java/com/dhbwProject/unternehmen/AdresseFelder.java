@@ -22,12 +22,6 @@ public class AdresseFelder extends VerticalLayout{
 	}
 	
 	private void initFields(){		
-		this.tfPlz = new TextField();
-		this.tfPlz.setCaption("PLZ:");
-		this.tfPlz.setWidth("300px");
-		this.tfPlz.addValidator(new StringLengthValidator("Eine Postleitzahl ist immer 5 Zeichen lang", 5, 5, false));
-		this.addComponent(tfPlz);
-		
 		this.tfStrasse = new TextField();
 		this.tfStrasse.setCaption("Straße:");
 		this.tfStrasse.setWidth("300px");
@@ -39,6 +33,12 @@ public class AdresseFelder extends VerticalLayout{
 		this.tfHausnummer.setWidth("300px");
 		this.tfHausnummer.addValidator(new StringLengthValidator("Tragen Sie eine Hausnummer ein", 1, 10, false));
 		this.addComponent(tfHausnummer);
+		
+		this.tfPlz = new TextField();
+		this.tfPlz.setCaption("PLZ:");
+		this.tfPlz.setWidth("300px");
+		this.tfPlz.addValidator(new StringLengthValidator("Eine Postleitzahl ist immer 5 Zeichen lang", 5, 5, false));
+		this.addComponent(tfPlz);
 		
 		this.tfOrt = new TextField();
 		this.tfOrt.setCaption("Ort:");
