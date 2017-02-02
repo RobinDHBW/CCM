@@ -157,4 +157,12 @@ public class BesuchBearbeitung extends Window {
 		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
 	}
 	
+	protected void setDateStart(Date dStart){
+		this.fields.setDateStart(dStart);
+	}
+	
+	protected void setDateEnd(Date dEnd){
+		this.fields.setDateEnd(dEnd);
+	}
+	
 }

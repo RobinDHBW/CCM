@@ -4,24 +4,16 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
-import com.dhbwProject.backend.beans.Adresse;
-import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
-import com.dhbwProject.backend.beans.Status;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Calendar;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventMoveHandler;
@@ -106,18 +98,14 @@ protected void initEventMoveHandler(){
 			@Override
 			public void eventMove(MoveEvent event) {
 				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
-				Besuch bAlt = e.getBesuch();
-				Besuch bNeu = new Besuch(0, bAlt.getName(),
-						e.getStart(), e.getEnd(), bAlt.getAdresse(), bAlt.getStatus(),
-						bAlt.getAnsprechpartner(), bAlt.getBesucher(),null , bAlt.getAutor());
-				try {
-					dbConnection.changeBesuch(bNeu, bAlt);
+				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
+				bearbeitung.setDateStart(e.getStart());
+				bearbeitung.setDateEnd(e.getEnd());
+				bearbeitung.addCloseListener(close ->{
 					refreshCalendarEvents();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
-			}
+				});
+				getUI().addWindow(bearbeitung);	
+			}	
 		});
 	}
 	

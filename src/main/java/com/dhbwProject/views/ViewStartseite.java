@@ -34,7 +34,7 @@ public class ViewStartseite extends VerticalLayout implements View {
 		 		 deinBesuch.setCaption("Ihre nächsten Besuche sind bei folgenden Unternehmen:");
 		 		 deinBesuch.setStyleName("btnwhiteeins");
 		BesuchVerwaltung bv = new BesuchVerwaltung();
-		 
+		 bv.refresh();
 		FooterView fv = new FooterView();
 		this.addComponent(welcome);
 		this.setComponentAlignment(welcome,Alignment.BOTTOM_CENTER);
