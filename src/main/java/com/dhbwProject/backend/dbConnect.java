@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,8 +16,6 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.beans.*;
-
-
 
 public class dbConnect {
 
@@ -45,32 +42,6 @@ public class dbConnect {
 		
 			
 		
-	}
-	
-	public static boolean isServerUp(int port) {
-	    boolean isUp = false;
-	    try {
-	        Socket socket = new Socket("127.0.0.1", port);
-	        // Server is up
-	        isUp = true;
-	        socket.close();
-	    }
-	    catch (IOException e)
-	    {
-	        // Server is down
-	    }
-	    return isUp;
-	}
-	
-	public static void startServers() throws IOException{
-	String s = System.getProperty("user.dir");
-	System.out.println(s);
-	
-		String command_Mysql = s +"\\src\\main\\resources\\mysql\\bin\\mysqld.exe";
-		Process process_Mysql = Runtime.getRuntime().exec(command_Mysql);
-		
-		String command_Apache= s +"\\src\\main\\resources\\apache\\bin\\httpd.exe";
-		Process process_Apache = Runtime.getRuntime().exec(command_Apache);
 	}
 
 	private ResultSet executeQuery(String sql, Object... objects) throws SQLException {

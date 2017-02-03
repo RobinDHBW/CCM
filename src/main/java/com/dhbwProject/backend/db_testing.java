@@ -296,13 +296,6 @@ public class db_testing extends TestCase {
 	}
 
 	public static void main(String[] args) {
-		try {
-			dbConnect.startServers();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		junit.swingui.TestRunner.run(db_testing.class);
 	}
 }
