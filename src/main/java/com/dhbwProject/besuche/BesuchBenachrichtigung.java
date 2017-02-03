@@ -3,8 +3,10 @@ package com.dhbwProject.besuche;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.EMailThread;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
@@ -35,6 +37,7 @@ public class BesuchBenachrichtigung extends Window {
 	
 	private Besuch bReferenz;
 	private Benutzer bUser;
+	private Gespraechsnotiz gNeu;
 	
 	public BesuchBenachrichtigung(Besuch b){
 		bReferenz = b;
@@ -67,16 +70,32 @@ public class BesuchBenachrichtigung extends Window {
 	
 	protected void createNachricht(){
 		try {
-			dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, nachricht.taNachricht.getValue().getBytes(),
+			gNeu = dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, nachricht.taNachricht.getValue().getBytes(),
 					null, bReferenz.getAdresse().getUnternehmen(), bReferenz, null, bUser));
-
+			if(nachricht.cbEmail.getValue() && gNeu != null)
+				sendMailByComment();
+			gNeu = null;
 			nachricht.taNachricht.setValue("");
 			verlauf.refreshValue();
 			tabSheet.setSelectedTab(0);
 		} catch (SQLException | UnsupportedEncodingException e) {
+			gNeu = null;
 			e.printStackTrace();
 		}
-	}	
+	}
+	
+	protected void sendMailByComment(){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		ArrayList<String> eMailList = new ArrayList<String>();
+		String titel = "Neue Nachricht zu: "+bReferenz.getName();
+		String inhalt = "<b>"+bUser.getNachname()+", "+bUser.getVorname()+": "+dateFormat.format(gNeu.getTimestamp())+"</b><br>"
+				+nachricht.taNachricht.getValue();
+		for(Benutzer b : bReferenz.getBesucher())
+			if(b.getEmail() != null)
+				eMailList.add(b.getEmail());
+		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
+		thread.start();
+	}
 	
 	private class NeueNachricht extends CustomComponent{
 		private static final long serialVersionUID = 1L;
