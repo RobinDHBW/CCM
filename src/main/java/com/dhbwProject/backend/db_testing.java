@@ -3,7 +3,6 @@ package com.dhbwProject.backend;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Scanner;
 
 import com.dhbwProject.backend.beans.*;
 import junit.framework.*;
@@ -299,21 +298,11 @@ public class db_testing extends TestCase {
 	public static void main(String[] args) {
 		try {
 			dbConnect.startServers();
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Scanner reader = new Scanner(System.in);  // Reading from System.in
-		System.out.println("Enter a number: ");
-		int n = reader.nextInt();
-		try {
-			dbConnect.stopServers();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		junit.swingui.TestRunner.run(db_testing.class);
+
+		junit.swingui.TestRunner.run(db_testing.class);
 	}
 }
