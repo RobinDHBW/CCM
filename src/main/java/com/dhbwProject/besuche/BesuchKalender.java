@@ -82,6 +82,8 @@ public class BesuchKalender extends Calendar{
 			public void dateClick(DateClickEvent event) {
 				BesuchAnlage anlage = new BesuchAnlage(event.getDate());
 				anlage.addCloseListener(close ->{
+					if(anlage.getAnlage() == null)
+						return;
 					refreshListBesuch();
 					refreshCalendarEvents();
 				});
@@ -99,6 +101,8 @@ public class BesuchKalender extends Calendar{
 				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
 				bearbeitung.addCloseListener(close ->{
+					if(bearbeitung.getBearbeitung() == null)
+						return;
 					refreshListBesuch();
 					refreshCalendarEvents();
 				});
@@ -118,6 +122,8 @@ protected void initEventMoveHandler(){
 				bearbeitung.setDateStart(e.getStart());
 				bearbeitung.setDateEnd(e.getEnd());
 				bearbeitung.addCloseListener(close ->{
+					if(bearbeitung.getBearbeitung() == null)
+						return;
 					refreshListBesuch();
 					refreshCalendarEvents();
 				});

@@ -138,6 +138,7 @@ public class BesuchBearbeitung extends Window {
 					fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 					fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
 		} catch (SQLException e) {
+			bNeu = null;
 			e.printStackTrace();
 		}
 	}
