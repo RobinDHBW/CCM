@@ -1,9 +1,12 @@
 package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -27,27 +30,38 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandl
 
 public class BesuchKalender extends Calendar{
 	private static final long serialVersionUID = 1L;
-	private LocalDateTime date;
+	
+	private int year;
+	private int month;
+	private int dayStart = 1;
+	private int dayEnd;
+	
+	private int firstDay;
+	private int lastDay;
+	
 	private dbConnect dbConnection;
+	private Benutzer bUser;
+	private LinkedList<Besuch> lBesuch;
 	private BeanItemContainer<BesuchEvent> eventContainer;
 	
-	private GregorianCalendar dateStart;
-	private GregorianCalendar dateEnd;
+	private LocalDateTime date;
+	private Date dateStart;
+	private Date dateEnd;
 	
 	public BesuchKalender(){
 		super();
+		this.bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+		refreshListBesuch();
+		resetDateRange();
+		refreshDateRange();
 		
-		this.date = LocalDateTime.now();
-		this.dateStart = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 01, 00, 00);
-		this.dateEnd = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue()-1, 31, 00, 00);
-		
-		this.refreshTime();
-		this.setLocale(Locale.GERMANY);
-		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
 		this.eventContainer = new BeanItemContainer<BesuchEvent>(BesuchEvent.class);
 		this.setContainerDataSource(eventContainer);
 		
+		this.setLocale(Locale.GERMANY);
+		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+	
 		this.initDateClickHandler();
 		this.initEventClickHandler();
 		this.initBackwardHandler();
@@ -55,9 +69,9 @@ public class BesuchKalender extends Calendar{
 		this.initEventMoveHandler();
 	}
 	
-	protected void refreshTime(){
-		super.setStartDate(dateStart.getTime());
-		super.setEndDate(dateEnd.getTime());
+	protected void setTime(){
+		super.setStartDate(dateStart);
+		super.setEndDate(dateEnd);
 	}
 	
 	protected void initDateClickHandler(){
@@ -68,6 +82,7 @@ public class BesuchKalender extends Calendar{
 			public void dateClick(DateClickEvent event) {
 				BesuchAnlage anlage = new BesuchAnlage(event.getDate());
 				anlage.addCloseListener(close ->{
+					refreshListBesuch();
 					refreshCalendarEvents();
 				});
 				getUI().addWindow(anlage);	
@@ -84,6 +99,7 @@ public class BesuchKalender extends Calendar{
 				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
 				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
 				bearbeitung.addCloseListener(close ->{
+					refreshListBesuch();
 					refreshCalendarEvents();
 				});
 				getUI().addWindow(bearbeitung);	
@@ -102,6 +118,7 @@ protected void initEventMoveHandler(){
 				bearbeitung.setDateStart(e.getStart());
 				bearbeitung.setDateEnd(e.getEnd());
 				bearbeitung.addCloseListener(close ->{
+					refreshListBesuch();
 					refreshCalendarEvents();
 				});
 				getUI().addWindow(bearbeitung);	
@@ -113,7 +130,8 @@ protected void initEventMoveHandler(){
 		this.setHandler(new BasicForwardHandler(){
 			private static final long serialVersionUID = 1L;
 			protected void setDates(ForwardEvent event, Date start, Date end) {
-			 	super.setDates(event, start, end);
+				increaseDateRange();
+			 	refreshCalendarEvents();
 			}
 		});
 	}
@@ -122,7 +140,8 @@ protected void initEventMoveHandler(){
 		this.setHandler(new BasicBackwardHandler(){
 			private static final long serialVersionUID = 1L;
 			 protected void setDates(BackwardEvent event, Date start, Date end) {
-				 super.setDates(event, start, end);
+				 decreaseDateRange();
+				 refreshCalendarEvents();
 			 }			
 		});	
 	}
@@ -136,14 +155,57 @@ protected void initEventMoveHandler(){
 	}
 	
 	protected void refreshCalendarEvents(){		
-		this.eventContainer.removeAllItems();
-		Benutzer b = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
-		try{
-			for(Besuch t  :this.dbConnection.getBesuchByBenutzer(b))
-				this.eventContainer.addBean(new BesuchEvent(t));
-		}catch(SQLException e){
+		this.eventContainer.removeAllItems();	
+			for(Besuch t  :this.lBesuch)
+				if(t.getStartDate().after(dateStart) && t.getEndDate().before(dateEnd))
+					this.eventContainer.addBean(new BesuchEvent(t));
+	}
+	
+	protected void increaseDateRange(){
+		if(month >=11){
+			month = 0;
+			year = year +1;
+		}else
+			this.month = month+1;
+		setSpezificDays();
+		refreshDateRange();
+	}
+
+	protected void decreaseDateRange(){
+		if(month <= 0){
+			month = 11;
+			year = year-1;
+		}else
+			month = month -1;
+		setSpezificDays();
+		refreshDateRange();
+	}
+	
+	private void refreshDateRange(){
+		this.dateStart = new GregorianCalendar(year, month, dayStart, 01, 01).getTime();
+		this.dateEnd = new GregorianCalendar(year, month, dayEnd, 23, 59).getTime();
+		this.setTime();
+	}
+	
+	private void setSpezificDays(){
+		this.dayEnd = YearMonth.of(year, month+1).lengthOfMonth();
+		this.firstDay = YearMonth.of(year, month+1).atDay(dayStart).getDayOfWeek().getValue();
+		this.lastDay = YearMonth.of(year, month+1).atDay(dayEnd).getDayOfWeek().getValue();
+	}
+	
+	protected void resetDateRange(){
+		this.date = LocalDateTime.now();
+		this.year = date.getYear();
+		this.month = date.getMonthValue()-1;
+		setSpezificDays();
+		refreshDateRange();
+	}
+	
+	protected void refreshListBesuch(){
+		try {
+			this.lBesuch = dbConnection.getBesuchByBenutzer(bUser);
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 }
