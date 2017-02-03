@@ -24,6 +24,7 @@ public class dbConnect {
 
 	private Connection con;
 	private PreparedStatement preparedStatement;
+	private static Process process_Mysql = null;
 
 	public dbConnect() throws ClassNotFoundException, SQLException {
 		
@@ -67,9 +68,21 @@ public class dbConnect {
 	System.out.println(s);
 	
 		String command_Mysql = s +"\\src\\main\\resources\\mysql\\bin\\mysqld.exe";
-		Process process_Mysql = Runtime.getRuntime().exec(command_Mysql);
+		process_Mysql = Runtime.getRuntime().exec(command_Mysql);
 		
 		String command_Apache= s +"\\src\\main\\resources\\apache\\bin\\httpd.exe";
+		Process process_Apache = Runtime.getRuntime().exec(command_Apache);
+	}
+	
+	public static void stopServers() throws IOException{
+	String s = System.getProperty("user.dir");
+	System.out.println(s);
+	
+		String command_Mysql = s +"\\src\\main\\resources\\mysql_stop.bat";
+//		Process process_Mysql = Runtime.getRuntime().exec(command_Mysql);
+		process_Mysql.destroy();
+		
+		String command_Apache= s +"\\src\\main\\resources\\apache_stop.bat";
 		Process process_Apache = Runtime.getRuntime().exec(command_Apache);
 	}
 
