@@ -103,6 +103,13 @@ public class BesuchKollisionsanzeige extends Window {
 				message.show(Page.getCurrent());
 				return;
 			}
+			if(taNachricht.getValue() == null || taNachricht.getValue().length() <= 0){
+				Notification message = new Notification("Schreiben Sie eine Nachricht");
+				message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+				message.setPosition(Position.TOP_CENTER);
+				message.show(Page.getCurrent());
+				return;
+			}
 			try {
 				Besuch b = (Besuch)this.tblBesuche.getValue();
 				Benutzer bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
