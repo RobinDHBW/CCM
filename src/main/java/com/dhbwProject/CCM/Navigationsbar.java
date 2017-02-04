@@ -72,9 +72,6 @@ public class Navigationsbar extends CssLayout{
 		NaviButton btnUnternehmen = new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, FontAwesome.BUILDING);
 		this.addComponent(btnUnternehmen);
 		
-		NaviButton btnRolle = new NaviButton(CCM_Constants.VIEW_NAME_ROLLE, FontAwesome.USER);
-		this.addComponent(btnRolle);
-		
 		NaviButton btnBesuch = new NaviButton(CCM_Constants.VIEW_NAME_BESUCH, FontAwesome.CALENDAR);
 		this.addComponent(btnBesuch);
 	}

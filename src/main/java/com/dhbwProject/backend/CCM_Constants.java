@@ -4,9 +4,8 @@ public interface CCM_Constants {
 	
 	public static final String VIEW_NAME_START = "Startseite";
 	public static final String VIEW_NAME_LOGIN = "Login";
-	public static final String VIEW_NAME_BENUTZER = "Benutzer";
+	public static final String VIEW_NAME_BENUTZER = "Benutzerverwaltung";
 	public static final String VIEW_NAME_UNTERNEHMEN = "Unternehmen";
-	public static final String VIEW_NAME_ROLLE = "Rolle";
 	public static final String VIEW_NAME_BESUCH = "Termine";
 	
 	public static final String COLOR_DHBW_RED = "";

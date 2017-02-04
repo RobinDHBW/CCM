@@ -21,21 +21,29 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
-public class BenutzerAnlage extends CustomComponent {
+public class BenutzerAnlage extends Window {
 
 	private BenutzerFields fields;
 	private Button btnErstellen;
 	private dbConnect dbConnect;
+	private Benutzer neu;
 
 	private VerticalLayout vlLayout;
 	
 	public BenutzerAnlage(){
 		this.fields = new BenutzerFields();
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-		this.initCreateButton();
-		this.initLayout();
+		
+		this.center();
+		this.setWidth("450px");
+		this.setHeight("500px");
+		this.setCaptionAsHtml(true);
+		this.setCaption("<center><h3>Benutzer hinzufügen</h3></center>");
+		this.setContent(initLayout());
 	}
 	
 
@@ -45,7 +53,6 @@ public class BenutzerAnlage extends CustomComponent {
 		this.btnErstellen.setIcon(FontAwesome.PLUS);
 		this.btnErstellen.setCaption("Anlegen");
 		this.btnErstellen.addClickListener(listener ->{
-			//Erfolgt später
 			createBenutzer();
 		});
 		
@@ -53,13 +60,16 @@ public class BenutzerAnlage extends CustomComponent {
 		
 	}
 	
-	private void initLayout(){
+	private Panel initLayout(){
+		this.initCreateButton();
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setSpacing(true);
 		this.vlLayout.setMargin(new MarginInfo(true, true, true, true));
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
-		this.setCompositionRoot(vlLayout);
+		Panel p = new Panel();
+		p.setContent(vlLayout);
+		return p;
 		
 	}
 	
@@ -95,9 +105,9 @@ public class BenutzerAnlage extends CustomComponent {
 		}
 		
 		if (fields.getStudiengang().size() < 1) {
-			fields.getLsStudiengang().setComponentError(new UserError("Studiengang auswählen"));
+			fields.getTaStudiengang().setComponentError(new UserError("Studiengang auswählen"));
 		} else {
-			fields.getLsStudiengang().setComponentError(null);
+			fields.getTaStudiengang().setComponentError(null);
 		}
 		
 		if (fields.getTelefonnummer().equals("")) {
@@ -142,7 +152,7 @@ public class BenutzerAnlage extends CustomComponent {
 			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getEmail(),
 					fields.getTelefonnummer());
 			try {
-				this.dbConnect.createBenutzer(benutzer);
+				this.neu = this.dbConnect.createBenutzer(benutzer);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -159,12 +169,23 @@ public class BenutzerAnlage extends CustomComponent {
 			String inhalt = "Guten Tag " + fields.getVorname() + " "
 					+ fields.getNachname() + ",<br><br> Im CRM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
 					+ fields.getVorname() + " <br>Passwort: default <br><br> bitte ändern Sie das Passwort bei der ersten Anmeldung.";
+			try {
 			EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
 			mail.start();
+			} catch (Exception e) {
+				Notification.show("E-Mail Adresse nicht korrekt", Type.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+			
+			this.close();
 			
 			Notification.show("Der Benutzer wurde angelegt",
                     Type.TRAY_NOTIFICATION);
 		}
+	}
+	
+	protected Benutzer getBenutzerNeu() {
+		return this.neu;
 	}
 
 }

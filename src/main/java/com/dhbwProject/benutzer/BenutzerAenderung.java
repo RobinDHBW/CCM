@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.PasswordHasher;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Beruf;
@@ -36,6 +37,7 @@ public class BenutzerAenderung extends CustomComponent {
 	public BenutzerAenderung(){
 		this.fields = new BenutzerFields();
 		this.fields.enableFields(false);
+		this.fields.initChPassword();
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initLookup();
 		this.initCreateButton();
@@ -55,10 +57,9 @@ public class BenutzerAenderung extends CustomComponent {
 				fields.setNachname(b);
 				fields.setBeruf(b);
 				fields.setRolle(b);
-				fields.setStudiengang(b);
+//				fields.setStudiengang(b);
 				fields.setEmail(b);
 				fields.setTelefonnummer(b);
-				fields.setPassword(b);
 				fields.enableFields(true);
 				btnAendern.setEnabled(true);
 				}
@@ -106,9 +107,9 @@ public class BenutzerAenderung extends CustomComponent {
 			}
 			
 			if (fields.getStudiengang().size() < 1) {
-				fields.getLsStudiengang().setComponentError(new UserError("Studiengang auswählen"));
+				fields.getTaStudiengang().setComponentError(new UserError("Studiengang auswählen"));
 			} else {
-				fields.getLsStudiengang().setComponentError(null);
+				fields.getTaStudiengang().setComponentError(null);
 			}
 			
 			if (fields.getTelefonnummer().equals("")) {
@@ -162,6 +163,16 @@ public class BenutzerAenderung extends CustomComponent {
 			}
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
+			
+			if (this.fields.getChPassword().getValue() == true) {
+					try {
+						dbConnect.changePassword(PasswordHasher.md5("default"), neu);
+						Notification.show("Das Passwort wurde auf default zurückgesetzt");
+					} catch (SQLException e) {
+						Notification.show("Das Passwort konnte nicht zurückgesetzt werden");
+					}
+					
+				}
 			}
 		});
 		

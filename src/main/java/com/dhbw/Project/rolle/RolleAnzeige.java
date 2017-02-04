@@ -1,4 +1,4 @@
-package com.dhbw.Project.rolle;
+package com.dhbwProject.rolle;
 
 import com.vaadin.ui.VerticalLayout;
 
