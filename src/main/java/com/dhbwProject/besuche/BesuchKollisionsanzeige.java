@@ -1,14 +1,28 @@
 package com.dhbwProject.besuche;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.EMailThread;
+import com.dhbwProject.backend.dbConnect;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
+import com.dhbwProject.backend.beans.Gespraechsnotiz;
+import com.vaadin.data.Item;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -19,7 +33,9 @@ public class BesuchKollisionsanzeige extends Window {
 	private Boolean bResult = false;
 	private LinkedList<Besuch> lBesuch;
 	
-	private TextArea taBesuche;
+	private Table tblBesuche;
+	private IndexedContainer container;
+	private TextArea taNachricht;
 	private Button btnYes;
 	private Button btnNo;
 	
@@ -30,7 +46,7 @@ public class BesuchKollisionsanzeige extends Window {
 		this.setHeight("600px");
 		this.setWidth("400px");
 		this.setCaptionAsHtml(true);
-		this.setCaption("<center>Es existieren bereits Besuche<br>im Zeitraum von + oder - 30 Tage<br>Diese Operation dennoch ausführen?</center>");
+		this.setCaption("<center>Termine im Zeitraum von 30 Tagen<br>Diese Operation dennoch ausführen?</center>");
 	}
 	
 	public BesuchKollisionsanzeige(LinkedList<Besuch> lBesuch){
@@ -39,22 +55,74 @@ public class BesuchKollisionsanzeige extends Window {
 		this.setContent(initContent());
 	}
 	
+	private void initContainer(){
+		this.container = new IndexedContainer();
+		container.addContainerProperty("Termine", TextArea.class, null);
+	}
+	
+	private void refreshContainer(){
+		container.removeAllItems();
+		for(Besuch b : this.lBesuch)
+			addItem(b);
+		
+	}
+	
+	private void addItem(Besuch b){
+		Item itm = container.addItem(b);
+		TextArea taBesuch = new TextArea();
+		taBesuch.setValue(stringPresentation(b));
+		taBesuch.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+		taBesuch.setHeight("100px");
+		taBesuch.setWidth("250px");
+		taBesuch.setReadOnly(true);
+		itm.getItemProperty("Termine").setValue(taBesuch);
+	}
+	
 	private Panel initContent(){
-		taBesuche = new TextArea();
-		taBesuche.setWidth("350px");
-		taBesuche.setHeight("300px");
-		taBesuche.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-		StringBuilder sbValue = new StringBuilder();
-		sbValue.append("Zeitnahe Termine: \n\n");
-		for(Besuch b : this.lBesuch){
-			sbValue.append(stringPresentation(b));
-			sbValue.append("\n \n");
-		}
-		taBesuche.setValue(sbValue.toString());
-		taBesuche.setReadOnly(true);
+		this.tblBesuche = new Table();
+		this.initContainer();
+		this.refreshContainer();
+		tblBesuche.setContainerDataSource(container);
+		tblBesuche.setHeight("250px");
+		tblBesuche.setWidth("100%");
+		tblBesuche.setSelectable(true);
+		
+		this.taNachricht = new TextArea();
+		this.taNachricht.setHeight("80px");
+		this.taNachricht.setWidth("100%");
+		this.taNachricht.setInputPrompt("Schreiben Sie eine Nachricht an den Autor eines kollidierenden Termins");
+		Button btnNachricht = new Button();
+		btnNachricht.setWidth("100%");
+		btnNachricht.setIcon(FontAwesome.COMMENT);
+		btnNachricht.setCaption("Nachricht senden");
+		btnNachricht.addClickListener(click ->{
+			if(this.tblBesuche.getValue() == null){
+				Notification message = new Notification("Wählen Sie einen kollidierenden Besuch");
+				message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
+				message.setPosition(Position.TOP_CENTER);
+				message.show(Page.getCurrent());
+				return;
+			}
+			try {
+				Besuch b = (Besuch)this.tblBesuche.getValue();
+				Benutzer bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+				dbConnect connection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+				Gespraechsnotiz gNeu = connection.createGespraechsnotiz(new Gespraechsnotiz(0, taNachricht.getValue().getBytes(),
+						null, b.getAdresse().getUnternehmen(), b, null, bUser));
+
+				if(gNeu != null)
+					this.sendMailByComment(b, bUser, gNeu);
+					
+				taNachricht.setValue("");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		});
+		VerticalLayout vlNachricht = new VerticalLayout(taNachricht, btnNachricht);
+		vlNachricht.setSpacing(true);
 		
 		btnYes = new Button();
-		btnYes.setWidth("150px");
+		btnYes.setWidth("100%");
 		btnYes.setCaption("Ja");
 		btnYes.setIcon(FontAwesome.CHECK);
 		btnYes.addClickListener(click ->{
@@ -63,7 +131,7 @@ public class BesuchKollisionsanzeige extends Window {
 		});
 		
 		btnNo = new Button();
-		btnNo.setWidth("150px");
+		btnNo.setWidth("100%");
 		btnNo.setCaption("Nein");
 		btnNo.setIcon(FontAwesome.CLOSE);
 		btnNo.addClickListener(click ->{
@@ -71,13 +139,14 @@ public class BesuchKollisionsanzeige extends Window {
 		});
 		
 		HorizontalLayout hlButtons = new HorizontalLayout(btnYes, btnNo);
+		hlButtons.setWidth("100%");
 		hlButtons.setSpacing(true);
-		hlButtons.setSizeUndefined();
-		VerticalLayout hlFields = new VerticalLayout(taBesuche, hlButtons);
+		VerticalLayout hlFields = new VerticalLayout(tblBesuche, vlNachricht, hlButtons);
 		hlFields.setSpacing(true);
-		hlFields.setSizeUndefined();
-		hlFields.setComponentAlignment(taBesuche, Alignment.TOP_CENTER);
+		hlFields.setComponentAlignment(tblBesuche, Alignment.TOP_CENTER);
+		hlFields.setComponentAlignment(vlNachricht, Alignment.TOP_CENTER);
 		hlFields.setComponentAlignment(hlButtons, Alignment.TOP_CENTER);
+		hlFields.setSizeFull();
 		VerticalLayout layout = new VerticalLayout(hlFields);
 		layout.setComponentAlignment(hlFields, Alignment.TOP_CENTER);
 		layout.setSizeFull();
@@ -88,14 +157,27 @@ public class BesuchKollisionsanzeige extends Window {
 	}
 	
 	private String stringPresentation(Besuch b){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-		return "Titel: "+b.getName()+"\n"
-		+"Zeitraum: "+dateFormat.format(b.getStartDate())+" bis: "+dateFormat.format(b.getEndDate())+"\n"
-		+"Autor: "+b.getAutor().getNachname()+", "+b.getAutor().getVorname();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		return b.getName()+"\n"
+			+dateFormat.format(b.getStartDate())+" Uhr \n"
+			+b.getAutor().getNachname()+", "+b.getAutor().getVorname();
 	}
 	
 	public boolean getResult(){
 		return bResult;
+	}
+	
+	private void sendMailByComment(Besuch bReferenz, Benutzer bUser, Gespraechsnotiz gNeu){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		ArrayList<String> eMailList = new ArrayList<String>();
+		String titel = "Neue Nachricht zu: "+bReferenz.getName();
+		String inhalt = "<b>"+bUser.getNachname()+", "+bUser.getVorname()+": "+dateFormat.format(gNeu.getTimestamp())+"</b><br>"
+				+taNachricht.getValue();
+		
+		if(bUser.getEmail() != null)
+			eMailList.add(bReferenz.getAutor().getEmail());
+		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
+		thread.start();
 	}
 	
 	

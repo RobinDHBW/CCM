@@ -33,7 +33,7 @@ public class BesuchKalender extends Calendar{
 	
 	private int year;
 	private int month;
-	private int dayStart = 1;
+	private final int dayStart = 1;
 	private int dayEnd;
 	
 	private int firstDay;
