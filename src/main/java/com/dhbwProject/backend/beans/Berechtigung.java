@@ -1,5 +1,7 @@
 package com.dhbwProject.backend.beans;
 
+
+// Simon: Wird nicht mehr verwendet
 public class Berechtigung {
 	
 	private int id;

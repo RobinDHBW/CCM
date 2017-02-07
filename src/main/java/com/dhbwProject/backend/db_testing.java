@@ -257,10 +257,10 @@ public class db_testing extends TestCase {
 			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
 			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
-			Benutzer b = new Benutzer("mmustermann", "", "", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de",
+			Benutzer b = new Benutzer("sschlarb", "", "", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de$ä",
 					"01234 1233");
-			connection.createPassword(PasswordHasher.md5("password"), b);
-			assertTrue(connection.checkPassword(PasswordHasher.md5("password"), b));
+			connection.createPassword(PasswordHasher.md5("1234"), b);
+			assertTrue(connection.checkPassword(PasswordHasher.md5("1234"), b));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

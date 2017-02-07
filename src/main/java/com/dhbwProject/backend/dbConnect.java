@@ -125,11 +125,11 @@ public class dbConnect {
 				 ps.setInt(5, ((Benutzer) obj).getBeruf().getId());
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
-			if(obj instanceof Berechtigung){
-				 PreparedStatement ps = con.prepareStatement("DELETE FROM `berechtigung` WHERE `berechtigung_bezeichnung` = ?)");
-				 ps.setString(1, ((Berechtigung) obj).getBezeichnung());
-				 int result = ps.executeUpdate();ps.close();return result;
-			}else
+//			if(obj instanceof Berechtigung){
+//				 PreparedStatement ps = con.prepareStatement("DELETE FROM `berechtigung` WHERE `berechtigung_bezeichnung` = ?)");
+//				 ps.setString(1, ((Berechtigung) obj).getBezeichnung());
+//				 int result = ps.executeUpdate();ps.close();return result;
+//			}else
 			if(obj instanceof Beruf){
 				 PreparedStatement ps = con.prepareStatement("DELETE FROM `beruf` WHERE `beruf_bezeichnung` = ?)");
 				 ps.setString(1, ((Beruf) obj).getBezeichnung());
@@ -181,28 +181,28 @@ public class dbConnect {
 				 ps.setInt(4, ((Gespraechsnotiz) obj).getBesuch().getId());
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
-			if (obj instanceof Rolle) {
-				PreparedStatement ps = con.prepareStatement(
-						"DELETE FROM `rolle` WHERE `rolle_bezeichnung` = ?)",
-						Statement.RETURN_GENERATED_KEYS);
-				ps.setString(1, ((Rolle) obj).getBezeichnung());
-				int p = ps.executeUpdate();
-				ResultSet rs = ps.getGeneratedKeys();
-				rs.next();
-				int auto_id = rs.getInt(1);
-				rs.close();
-				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
-				for (Berechtigung e : lBerechtigung) {
-					PreparedStatement ps2 = con.prepareStatement(
-							"DELETE FROM `rolle_berechtigung` WHERE `rolle_id` = ? AND `berechtigung_id` = ?)");
-					ps2.setInt(1, e.getId());
-					ps2.setInt(2, auto_id);
-					ps2.executeUpdate();
-					ps2.close();
-				}
-				ps.close();
-				return p;
-			} else
+//			if (obj instanceof Rolle) {
+//				PreparedStatement ps = con.prepareStatement(
+//						"DELETE FROM `rolle` WHERE `rolle_bezeichnung` = ?)",
+//						Statement.RETURN_GENERATED_KEYS);
+//				ps.setString(1, ((Rolle) obj).getBezeichnung());
+//				int p = ps.executeUpdate();
+//				ResultSet rs = ps.getGeneratedKeys();
+//				rs.next();
+//				int auto_id = rs.getInt(1);
+//				rs.close();
+//				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
+//				for (Berechtigung e : lBerechtigung) {
+//					PreparedStatement ps2 = con.prepareStatement(
+//							"DELETE FROM `rolle_berechtigung` WHERE `rolle_id` = ? AND `berechtigung_id` = ?)");
+//					ps2.setInt(1, e.getId());
+//					ps2.setInt(2, auto_id);
+//					ps2.executeUpdate();
+//					ps2.close();
+//				}
+//				ps.close();
+//				return p;
+//			} else
 			if(obj instanceof Status){
 				 PreparedStatement ps = con.prepareStatement("DELETE FROM `status` WHERE `status_bezeichnung` = ?)");
 				 ps.setString(1, ((Status) obj).getBezeichnung());
@@ -344,29 +344,29 @@ public class dbConnect {
 				 ps.close();
 				 return auto_id;
 			}else
-			if (obj instanceof Rolle) {
-				PreparedStatement ps = con.prepareStatement(
-						"INSERT INTO `rolle` (`rolle_id`, `rolle_bezeichnung`) VALUES (NULL, ?)",
-						Statement.RETURN_GENERATED_KEYS);
-				ps.setString(1, ((Rolle) obj).getBezeichnung());
-				int p = ps.executeUpdate();
-				ResultSet rs = ps.getGeneratedKeys();
-				rs.next();
-				int auto_id = rs.getInt(1);
-				rs.close();
-
-				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
-				for (Berechtigung e : lBerechtigung) {
-					PreparedStatement ps2 = con.prepareStatement(
-							"INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-					ps2.setInt(1, e.getId());
-					ps2.setInt(2, auto_id);
-					ps2.executeUpdate();
-					ps2.close();
-				}
-				ps.close();
-				return p;
-			} else
+//			if (obj instanceof Rolle) {
+//				PreparedStatement ps = con.prepareStatement(
+//						"INSERT INTO `rolle` (`rolle_id`, `rolle_bezeichnung`) VALUES (NULL, ?)",
+//						Statement.RETURN_GENERATED_KEYS);
+//				ps.setString(1, ((Rolle) obj).getBezeichnung());
+//				int p = ps.executeUpdate();
+//				ResultSet rs = ps.getGeneratedKeys();
+//				rs.next();
+//				int auto_id = rs.getInt(1);
+//				rs.close();
+//
+//				LinkedList<Berechtigung> lBerechtigung = ((Rolle) obj).getBerechtigung();
+//				for (Berechtigung e : lBerechtigung) {
+//					PreparedStatement ps2 = con.prepareStatement(
+//							"INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+//					ps2.setInt(1, e.getId());
+//					ps2.setInt(2, auto_id);
+//					ps2.executeUpdate();
+//					ps2.close();
+//				}
+//				ps.close();
+//				return p;
+//			} else
 			if(obj instanceof Status){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `status` (`status_id`, `status_bezeichnung`) VALUES (NULL, ?)", Statement.RETURN_GENERATED_KEYS);
 				 ps.setString(1, ((Status) obj).getBezeichnung());
@@ -682,52 +682,52 @@ public class dbConnect {
 	}
 	
 	// Berechtigung
-	public LinkedList<Berechtigung> getBerechtigungByRolle(Rolle rolle) throws SQLException {
-		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
-		ResultSet res = executeQuery(
-				"Select * from berechtigung b, rolle_berechtigung rb where rb.berechtigung_id = b.berechtigung_id and rolle_id = ?",
-				new Object[] { new Integer(rolle.getId()) });
-		
-			while (res.next()) {
-				int id = res.getInt("berechtigung_id");
-				String bezeichnung = res.getString("berechtigung_bezeichnung");
-				lBerechtigung.add(new Berechtigung(id, bezeichnung));
-			}
-				res.close();
-		return lBerechtigung;
-	}
-	public Berechtigung createBerechtigung(Berechtigung berechtigung) throws SQLException {
-		int i = executeInsert(berechtigung);
-		return getBerechtigunById(i);
-	}
-	public Berechtigung changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) throws SQLException {
-		int i = executeUpdate(
-				"UPDATE `berechtigung` SET `berechtigung_bezeichnung` = ? WHERE `berechtigung`.`berechtigung_id` = ?",
-				new Object[] { neuBerechtigung.getBezeichnung(), altBerechtigung.getId()});
-		return getBerechtigunById(altBerechtigung.getId());
-	}
-	public Berechtigung getBerechtigunById(int pId) throws SQLException{
-		Berechtigung berechtigung = null;
-		ResultSet res = executeQuery(
-				"select * from berechtigung where berechtigung_id = ?", new Object[] { new Integer(pId) });
-		
-			while (res.next()) {
-				int id = res.getInt("berechtigung_id");
-				String bezeichnung = res.getString("berechtigung_bezeichnung");
-				berechtigung = new Berechtigung(id, bezeichnung);
-			}
-		
-			
-			
-				res.close();
-		
-		return berechtigung;
-	}
-	public boolean deleteBerechtigung(Berechtigung berechtigung) throws SQLException{
-		int i = executeDelete(berechtigung);
-		if(i==1)return true;
-		return false;
-	}
+//	public LinkedList<Berechtigung> getBerechtigungByRolle(Rolle rolle) throws SQLException {
+//		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
+//		ResultSet res = executeQuery(
+//				"Select * from berechtigung b, rolle_berechtigung rb where rb.berechtigung_id = b.berechtigung_id and rolle_id = ?",
+//				new Object[] { new Integer(rolle.getId()) });
+//		
+//			while (res.next()) {
+//				int id = res.getInt("berechtigung_id");
+//				String bezeichnung = res.getString("berechtigung_bezeichnung");
+//				lBerechtigung.add(new Berechtigung(id, bezeichnung));
+//			}
+//				res.close();
+//		return lBerechtigung;
+//	}
+//	public Berechtigung createBerechtigung(Berechtigung berechtigung) throws SQLException {
+//		int i = executeInsert(berechtigung);
+//		return getBerechtigunById(i);
+//	}
+//	public Berechtigung changeBerechtigung(Berechtigung altBerechtigung, Berechtigung neuBerechtigung) throws SQLException {
+//		int i = executeUpdate(
+//				"UPDATE `berechtigung` SET `berechtigung_bezeichnung` = ? WHERE `berechtigung`.`berechtigung_id` = ?",
+//				new Object[] { neuBerechtigung.getBezeichnung(), altBerechtigung.getId()});
+//		return getBerechtigunById(altBerechtigung.getId());
+//	}
+//	public Berechtigung getBerechtigunById(int pId) throws SQLException{
+//		Berechtigung berechtigung = null;
+//		ResultSet res = executeQuery(
+//				"select * from berechtigung where berechtigung_id = ?", new Object[] { new Integer(pId) });
+//		
+//			while (res.next()) {
+//				int id = res.getInt("berechtigung_id");
+//				String bezeichnung = res.getString("berechtigung_bezeichnung");
+//				berechtigung = new Berechtigung(id, bezeichnung);
+//			}
+//		
+//			
+//			
+//				res.close();
+//		
+//		return berechtigung;
+//	}
+//	public boolean deleteBerechtigung(Berechtigung berechtigung) throws SQLException{
+//		int i = executeDelete(berechtigung);
+//		if(i==1)return true;
+//		return false;
+//	}
 	
 	// Beruf
 	public LinkedList<Beruf> getAllBeruf() throws SQLException{
@@ -1041,17 +1041,18 @@ public class dbConnect {
 	// Rolle
 	public LinkedList<Rolle> getAllRolle() throws SQLException{
 		Rolle rolle1 = null;
-		Rolle rolle2 = null;
+//		Rolle rolle2 = null;
 		ResultSet res = null;
 		LinkedList<Rolle> lRolle = new LinkedList<Rolle>();
-		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
+//		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
 		
 			res = executeQuery("select * from rolle", new Object[]{});
 			while (res.next()) {
-				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
-				lBerechtigung = getBerechtigungByRolle(rolle1);
-				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
-				lRolle.add(rolle2);
+//				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
+				rolle1 = new Rolle(res.getInt(1), res.getString(2));
+//				lBerechtigung = getBerechtigungByRolle(rolle1);
+//				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
+				lRolle.add(rolle1);
 			}
 		
 			res.close();
@@ -1059,33 +1060,35 @@ public class dbConnect {
 	}
 	public Rolle getRolleById(int id) throws SQLException{
 		Rolle rolle1 = null;
-		Rolle rolle2 = null;
+//		Rolle rolle2 = null;
 		ResultSet res = null;
-		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
+//		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
 		
 			res = executeQuery("select * from rolle where rolle_id = ?", new Object[]{(Object) new Integer(id)});
 			while (res.next()) {
-				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
-				lBerechtigung = getBerechtigungByRolle(rolle1);
-				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
+//				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
+				rolle1 = new Rolle(res.getInt(1), res.getString(2));
+//				lBerechtigung = getBerechtigungByRolle(rolle1);
+//				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
 			}
 		
 			res.close();
-		return rolle2;
+		return rolle1;
 	}
 	public Rolle getRolleByBezeichnung(String rolle_Bezeichnung) throws SQLException{
 		ResultSet res = executeQuery("select * from `rolle` where rolle_bezeichnung = ?", new Object[] {(Object) rolle_Bezeichnung});
 		Rolle rolle1 = null;
-		Rolle rolle2 = null;
-		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
+//		Rolle rolle2 = null;
+//		LinkedList<Berechtigung> lBerechtigung = new LinkedList<Berechtigung>();
 		
 			while (res.next()) {
-				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
-				lBerechtigung = getBerechtigungByRolle(rolle1);
-				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
+				rolle1 = new Rolle(res.getInt(1), res.getString(2));
+//				rolle1 = new Rolle(res.getInt(1), res.getString(2), lBerechtigung);
+//				lBerechtigung = getBerechtigungByRolle(rolle1);
+//				rolle2 = new Rolle(rolle1.getId(), rolle1.getBezeichnung(), lBerechtigung);
 			}
 			res.close();
-		return rolle2;
+		return rolle1;
 	}
 	public Rolle createRolle(Rolle rolle) throws SQLException {
 		int i = executeInsert(rolle);
@@ -1100,14 +1103,14 @@ public class dbConnect {
 				ps1.setInt(1, altRolle.getId());
 				ps1.executeUpdate();
 				ps1.close();
-				LinkedList<Berechtigung> lBerechtigung = getBerechtigungByRolle(altRolle);
-				for(Berechtigung e : lBerechtigung){
-				PreparedStatement ps2 = con.prepareStatement("INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)");
-				ps2.setInt(1, altRolle.getId());
-				ps2.setInt(2, e.getId());
-				ps2.executeUpdate();
-				ps2.close();
-				}
+//				LinkedList<Berechtigung> lBerechtigung = getBerechtigungByRolle(altRolle);
+//				for(Berechtigung e : lBerechtigung){
+//				PreparedStatement ps2 = con.prepareStatement("INSERT INTO `rolle_berechtigung` (`rolle_berechtigung_id`, `rolle_id`, `berechtigung_id`) VALUES (NULL, ?, ?)");
+//				ps2.setInt(1, altRolle.getId());
+//				ps2.setInt(2, e.getId());
+//				ps2.executeUpdate();
+//				ps2.close();
+//				}
 		return getRolleById(altRolle.getId());
 	}
 	
