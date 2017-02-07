@@ -1,7 +1,9 @@
-package com.dhbwProject.besuche;
+﻿package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -10,20 +12,15 @@ import java.util.TimeZone;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
-import com.dhbwProject.backend.beans.Adresse;
-import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
-import com.dhbwProject.backend.beans.Status;
 import com.vaadin.data.util.BeanItemContainer;
+
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
-import com.vaadin.server.VaadinSession;
+
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Calendar;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.Window;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventMoveHandler;
@@ -38,27 +35,39 @@ import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventClickHandl
 
 public class BesuchKalender extends Calendar {
 	private static final long serialVersionUID = 1L;
-	private LocalDateTime date;
+	
+	private int year;
+	private int month;
+	private final int dayStart = 1;
+	private int dayEnd;
+	
+	private int firstDay;
+	private int lastDay;
+	
 	private dbConnect dbConnection;
+	private Benutzer bUser;
+	private LinkedList<Besuch> lBesuch;
 	private BeanItemContainer<BesuchEvent> eventContainer;
 
-	private GregorianCalendar dateStart;
-	private GregorianCalendar dateEnd;
-
-	public BesuchKalender() {
+	
+	private LocalDateTime date;
+	private Date dateStart;
+	private Date dateEnd;
+	
+	public BesuchKalender(){
 		super();
-		this.dbConnection = (dbConnect) VaadinSession.getCurrent().getSession()
-				.getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-
-		this.date = LocalDateTime.now();
-		this.dateStart = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue() - 1, 01, 00, 00);
-		this.dateEnd = new GregorianCalendar(this.date.getYear(), this.date.getMonthValue() - 1, 31, 00, 00);
-
-		this.refreshTime();
-		this.setLocale(Locale.GERMANY);
-		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+		this.bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+		refreshListBesuch();
+		resetDateRange();
+		refreshDateRange();
+		
 		this.eventContainer = new BeanItemContainer<BesuchEvent>(BesuchEvent.class);
 		this.setContainerDataSource(eventContainer);
+		
+		this.setLocale(Locale.GERMANY);
+		this.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+	
 
 		this.initDateClickHandler();
 		this.initEventClickHandler();
@@ -67,9 +76,10 @@ public class BesuchKalender extends Calendar {
 		this.initEventMoveHandler();
 	}
 
-	protected void refreshTime() {
-		super.setStartDate(dateStart.getTime());
-		super.setEndDate(dateEnd.getTime());
+	
+	protected void setTime(){
+		super.setStartDate(dateStart);
+		super.setEndDate(dateEnd);
 	}
 
 	protected void initDateClickHandler() {
@@ -78,6 +88,7 @@ public class BesuchKalender extends Calendar {
 
 			@Override
 			public void dateClick(DateClickEvent event) {
+
 				int i = 0;
 				try {
 					i = dbConnection.checkBerechtigung((Benutzer) VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER),BesuchBearbeitung.BERECHTIGUNG);
@@ -85,19 +96,21 @@ public class BesuchKalender extends Calendar {
 					System.out.println("Fehler bei der Berechtigungsprüfung!");
 				}
 				if (i > 3) {
-					BesuchAnlage anlage = new BesuchAnlage(event.getDate());
-					anlage.addCloseListener(close -> {
-						refreshCalendarEvents();
-					});
-					getUI().addWindow(anlage);
-				}
-				else{
+				BesuchAnlage anlage = new BesuchAnlage(event.getDate());
+				anlage.addCloseListener(close ->{
+					if(anlage.getAnlage() == null)
+						return;
+					refreshListBesuch();
+					refreshCalendarEvents();
+				});
+}				else{
 					Notification meldung = new Notification("Sie haben nicht die benötigten Rechte");
 					meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
 					meldung.setPosition(Position.TOP_CENTER);
 					meldung.show(Page.getCurrent());
 					return;
 				}
+				getUI().addWindow(anlage);	
 			}
 		});
 	}
@@ -108,6 +121,7 @@ public class BesuchKalender extends Calendar {
 
 			@Override
 			public void eventClick(EventClick event) {
+			
 				int i = 0;
 				try {
 					i = dbConnection
@@ -119,12 +133,15 @@ public class BesuchKalender extends Calendar {
 					System.out.println("Fehler bei der Berechtigungsprüfung!");
 				}
 				if (i > 1) {
-					BesuchEvent e = (BesuchEvent) event.getCalendarEvent();
-					BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
-					bearbeitung.addCloseListener(close -> {
-						refreshCalendarEvents();
-					});
-					getUI().addWindow(bearbeitung);
+				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
+				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
+				bearbeitung.addCloseListener(close ->{
+					if(bearbeitung.getBearbeitung() == null)
+						return;
+					refreshListBesuch();
+					refreshCalendarEvents();
+				});
+				getUI().addWindow(bearbeitung);	
 				}
 				else{
 					Notification meldung = new Notification("Sie haben nicht die benötigten Rechte");
@@ -133,8 +150,8 @@ public class BesuchKalender extends Calendar {
 					meldung.show(Page.getCurrent());
 					return;
 				}
-			}
-		});
+			}		
+		});			
 	}
 
 	protected void initEventMoveHandler() {
@@ -143,18 +160,19 @@ public class BesuchKalender extends Calendar {
 
 			@Override
 			public void eventMove(MoveEvent event) {
-				BesuchEvent e = (BesuchEvent) event.getCalendarEvent();
-				Besuch bAlt = e.getBesuch();
-				Besuch bNeu = new Besuch(0, bAlt.getName(), e.getStart(), e.getEnd(), bAlt.getAdresse(),
-						bAlt.getStatus(), bAlt.getAnsprechpartner(), bAlt.getBesucher(), null, bAlt.getAutor());
-				try {
-					dbConnection.changeBesuch(bNeu, bAlt);
+
+				BesuchEvent e = (BesuchEvent)event.getCalendarEvent();
+				BesuchBearbeitung bearbeitung = new BesuchBearbeitung(e.getBesuch());
+				bearbeitung.setDateStart(e.getStart());
+				bearbeitung.setDateEnd(e.getEnd());
+				bearbeitung.addCloseListener(close ->{
+					if(bearbeitung.getBearbeitung() == null)
+						return;
+					refreshListBesuch();
 					refreshCalendarEvents();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+				});
+				getUI().addWindow(bearbeitung);	
+			}	
 		});
 	}
 
@@ -163,7 +181,8 @@ public class BesuchKalender extends Calendar {
 			private static final long serialVersionUID = 1L;
 
 			protected void setDates(ForwardEvent event, Date start, Date end) {
-				super.setDates(event, start, end);
+				increaseDateRange();
+			 	refreshCalendarEvents();
 			}
 		});
 	}
@@ -172,10 +191,12 @@ public class BesuchKalender extends Calendar {
 		this.setHandler(new BasicBackwardHandler() {
 			private static final long serialVersionUID = 1L;
 
-			protected void setDates(BackwardEvent event, Date start, Date end) {
-				super.setDates(event, start, end);
-			}
-		});
+			 protected void setDates(BackwardEvent event, Date start, Date end) {
+				 decreaseDateRange();
+				 refreshCalendarEvents();
+			 }			
+		});	
+
 	}
 
 	protected void navigateBackward() {
@@ -186,15 +207,60 @@ public class BesuchKalender extends Calendar {
 		this.fireNavigationEvent(true);
 	}
 
-	protected void refreshCalendarEvents() {
-		this.eventContainer.removeAllItems();
-		Benutzer b = (Benutzer) VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+	
+	protected void refreshCalendarEvents(){		
+		this.eventContainer.removeAllItems();	
+			for(Besuch t  :this.lBesuch)
+				if(t.getStartDate().after(dateStart) && t.getEndDate().before(dateEnd))
+					this.eventContainer.addBean(new BesuchEvent(t));
+	}
+	
+	protected void increaseDateRange(){
+		if(month >=11){
+			month = 0;
+			year = year +1;
+		}else
+			this.month = month+1;
+		setSpezificDays();
+		refreshDateRange();
+	}
+
+	protected void decreaseDateRange(){
+		if(month <= 0){
+			month = 11;
+			year = year-1;
+		}else
+			month = month -1;
+		setSpezificDays();
+		refreshDateRange();
+	}
+	
+	private void refreshDateRange(){
+		this.dateStart = new GregorianCalendar(year, month, dayStart, 01, 01).getTime();
+		this.dateEnd = new GregorianCalendar(year, month, dayEnd, 23, 59).getTime();
+		this.setTime();
+	}
+	
+	private void setSpezificDays(){
+		this.dayEnd = YearMonth.of(year, month+1).lengthOfMonth();
+		this.firstDay = YearMonth.of(year, month+1).atDay(dayStart).getDayOfWeek().getValue();
+		this.lastDay = YearMonth.of(year, month+1).atDay(dayEnd).getDayOfWeek().getValue();
+	}
+	
+	protected void resetDateRange(){
+		this.date = LocalDateTime.now();
+		this.year = date.getYear();
+		this.month = date.getMonthValue()-1;
+		setSpezificDays();
+		refreshDateRange();
+	}
+	
+	protected void refreshListBesuch(){
 		try {
-			for (Besuch t : this.dbConnection.getBesuchByBenutzer(b))
-				this.eventContainer.addBean(new BesuchEvent(t));
+			this.lBesuch = dbConnection.getBesuchByBenutzer(bUser);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

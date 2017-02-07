@@ -12,11 +12,15 @@ import com.dhbwProject.backend.beans.Rolle;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
@@ -30,14 +34,19 @@ public class BenutzerFields extends VerticalLayout{
 	private TextField tfEmail;
 	private ComboBox cbBeruf;
 	private ComboBox cbRolle;
-	private ComboBox cbPassword;
+	private CheckBox chPassword;
 	private ListSelect lsStudiengang;
 	private dbConnect dbConnect;
 	private LinkedList<Beruf> alleBerufe;
+
 	private LinkedList<Rolle> alleRollen;
 	private LinkedList<Studiengang> alleStudiengaenge;
 	public static final String BERECHTIGUNG = "Password";
 	private CheckBox chPassword;
+	
+	private TextArea taStudiengang;
+	private Button btnLookupStudiengang;
+	private LinkedList<Studiengang> alleStudiengaenge = new LinkedList<Studiengang>();
 	
 	public BenutzerFields() {
 		this.setSizeUndefined();
@@ -67,7 +76,6 @@ public class BenutzerFields extends VerticalLayout{
 	private void initID() {
 		this.tfID = new TextField();
 		this.tfID.setInputPrompt("Anmeldename");
-//		this.tfID.setRequired(true);
 		this.tfID.setWidth("300px");
 		this.addComponent(tfID);
 	}
@@ -75,7 +83,6 @@ public class BenutzerFields extends VerticalLayout{
 	private void initVorname() {
 		this.tfVorname = new TextField();
 		this.tfVorname.setInputPrompt("Vorname");
-//		this.tfVorname.setRequired(true);
 		this.tfVorname.setWidth("300px");
 		this.addComponent(tfVorname);
 		
@@ -84,7 +91,6 @@ public class BenutzerFields extends VerticalLayout{
 	private void initNachname() {
 		this.tfNachname = new TextField();
 		this.tfNachname.setInputPrompt("Nachname");
-//		this.tfNachname.setRequired(true);
 		this.tfNachname.setWidth("300px");
 		this.addComponent(tfNachname);
 	}
@@ -92,7 +98,6 @@ public class BenutzerFields extends VerticalLayout{
 	private void initCbBerufe() {
 		this.cbBeruf = new ComboBox();
 		this.cbBeruf.setInputPrompt("Beruf");
-//		this.cbBeruf.setRequired(true);
 		try {
 			alleBerufe = dbConnect.getAllBeruf();
 		} catch (SQLException e) {
@@ -111,7 +116,6 @@ public class BenutzerFields extends VerticalLayout{
 	private void initCbRolle() {
 		this.cbRolle = new ComboBox();
 		this.cbRolle.setInputPrompt("Rolle");
-//		this.cbRolle.setRequired(true);
 		try {
 			alleRollen = dbConnect.getAllRolle();
 		} catch (SQLException e) {
@@ -129,37 +133,42 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 //	Bosse
-	private void initChPassword(){
+	protected void initChPassword(){
 		this.chPassword = new CheckBox("Passwort zurücksetzen?");
 		this.chPassword.setValue(false);
 		this.chPassword.setWidth("300px");
 		this.addComponent(chPassword);
 	}
 	
-	
 	private void initLsStudiengang() {
-		this.lsStudiengang = new ListSelect();
-		this.lsStudiengang.setMultiSelect(true);
-		this.lsStudiengang.setCaption("Studiengang");
-//		this.lsStudiengang.setRequired(true);
-		try {
-			alleStudiengaenge = dbConnect.getAllStudiengang();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for (Studiengang stg : alleStudiengaenge) {
-			lsStudiengang.addItem(stg.getBezeichnung());
-		}
-		this.lsStudiengang.setRows(lsStudiengang.size());
-		this.lsStudiengang.setWidth("300px");
-		this.addComponent(lsStudiengang);
+		HorizontalLayout hl = new HorizontalLayout();
+		this.taStudiengang = new TextArea("Studiengang");
+		this.taStudiengang.setWidth("300px");
+		this.taStudiengang.setReadOnly(true);
+
+		this.btnLookupStudiengang = new Button();
+		this.btnLookupStudiengang.setIcon(FontAwesome.REPLY);
+		this.btnLookupStudiengang.setWidth("50px");
+		this.btnLookupStudiengang.addClickListener(listener -> {
+			this.alleStudiengaenge.clear();
+			LookupStudiengang lookup = new LookupStudiengang();
+			lookup.addCloseListener(CloseListener -> {
+				alleStudiengaenge = lookup.getLSelection();
+				this.setStudieng(lookup.getLSelection());
+			});
+			this.getUI().addWindow(lookup);
+		});
+
+		hl.setSizeUndefined();
+		hl.setSpacing(true);
+		hl.addComponent(this.taStudiengang);
+		hl.addComponent(this.btnLookupStudiengang);
+		this.addComponent(hl);
 	}
 	
 	private void initTelefonnummer() {
 		this.tfTelefonnummer = new TextField();
 		this.tfTelefonnummer.setInputPrompt("Telefonnummer");
-//		this.tfTelefonnummer.setRequired(true);
 		this.tfTelefonnummer.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
 	}
@@ -167,7 +176,6 @@ public class BenutzerFields extends VerticalLayout{
 	private void intitEmail() {
 		this.tfEmail = new TextField();
 		this.tfEmail.setInputPrompt("E-Mail");
-//		this.tfEmail.setRequired(true);
 		this.tfEmail.setWidth("300px");
 		this.addComponent(tfEmail);
 	}
@@ -215,29 +223,28 @@ public class BenutzerFields extends VerticalLayout{
 //	Bosse
 	public void setPassword (boolean b){
 		this.chPassword.setValue(b);
-		
 	}
 	
-	public boolean getPassword (){
+	public boolean getPassword(){
 		return this.chPassword.getValue();
 	}
 	
-
-	
-	
 	
 	public void setStudiengang (Benutzer b){
-		this.lsStudiengang.clear();
+		this.taStudiengang.clear();
+		String value = "";
 		for (Studiengang st : b.getStudiengang()) {
-			this.lsStudiengang.select(st.getBezeichnung());
+			value = value + st.getBezeichnung() + "\n";
+			this.taStudiengang.setReadOnly(false);
+			this.taStudiengang.setValue(value);
+			this.taStudiengang.setReadOnly(true);
 		}
 	}
 	
 	public LinkedList<String> getStudiengang (){
-		Set <Item>values=(Set<Item>) this.lsStudiengang.getValue();
 		LinkedList<String> stg = new LinkedList<String>();
-		for (Object o : values) {
-			stg.add((String) o);
+		for (Studiengang o : alleStudiengaenge) {
+			stg.add(o.getBezeichnung());
 		}
 		return stg;
 	}
@@ -278,8 +285,8 @@ public class BenutzerFields extends VerticalLayout{
 		return this.cbRolle;
 	}
 	
-	public ListSelect getLsStudiengang() {
-		return this.lsStudiengang;
+	public TextArea getTaStudiengang() {
+		return this.taStudiengang;
 	}
 	
 	public TextField getTfTelefonnummer() {
@@ -296,19 +303,28 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	
-	public void enableFields(boolean bool) {
-		this.tfID.setEnabled(false);
-		this.tfVorname.setEnabled(bool);
-		this.tfNachname.setEnabled(bool);
-		this.cbBeruf.setEnabled(bool);
-		this.cbRolle.setEnabled(bool);
-		this.lsStudiengang.setEnabled(bool);
-		this.tfTelefonnummer.setEnabled(bool);
-		this.tfEmail.setEnabled(bool);
-		//this.chPassword.setEnabled(true);
-	}
 
-	
+//	public void enableFields(boolean bool) {
+//		this.tfID.setEnabled(false);
+//		this.tfVorname.setEnabled(bool);
+//		this.tfNachname.setEnabled(bool);
+//		this.cbBeruf.setEnabled(bool);
+//		this.cbRolle.setEnabled(bool);
+//		this.lsStudiengang.setEnabled(bool);
+//		this.tfTelefonnummer.setEnabled(bool);
+//		this.tfEmail.setEnabled(bool);
+//		this.chPassword.setEnabled(bool);
+//	}
+
+
+	protected void setStudieng(LinkedList<Studiengang> studiengaenge) {
+		String value = "";
+		for (Studiengang stg : studiengaenge)
+			value = value + stg.getBezeichnung() + "\n";
+		this.taStudiengang.setReadOnly(false);
+		this.taStudiengang.setValue(value);
+		this.taStudiengang.setReadOnly(true);
+	}
 	
 
 }
