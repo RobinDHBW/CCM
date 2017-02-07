@@ -831,7 +831,7 @@ public class dbConnect {
 	}
 	public LinkedList<Besuch> getBesuchByBenutzer(Benutzer benutzer) throws SQLException{
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
-		ResultSet res = executeQuery("select * from benutzer_besuch where benutzer_id = ? ORDER BY besuch_beginn", new Object[] {(Object) benutzer.getId()});
+		ResultSet res = executeQuery("select * from benutzer_besuch where benutzer_id = ?", new Object[] {(Object) benutzer.getId()});
 		
 			while (res.next()) {
 				int besuch_id = res.getInt("besuch_id");
