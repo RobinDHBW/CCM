@@ -34,7 +34,7 @@ public class ViewBenutzer extends VerticalLayout implements View {
 		this.tbContent.addTab(new BenutzerVerwaltung(), "Benutzer", FontAwesome.USERS);
 //		this.tbContent.addTab(new BenutzerAnlage(), "Benutzer anlegen", FontAwesome.USER_PLUS);
 //		this.tbContent.addTab(new BenutzerAenderung(), "Benutzer ändern", FontAwesome.LIST);
-		this.tbContent.addTab(new RolleVerwaltung(), "Rolle", FontAwesome.LIST);
+//		this.tbContent.addTab(new RolleVerwaltung(), "Rolle", FontAwesome.LIST);
 		this.addComponent(tbContent);
 		
 	}

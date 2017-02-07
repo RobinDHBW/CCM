@@ -176,7 +176,7 @@ public class db_testing extends TestCase {
 		} catch (SQLException e1) {
 			try {
 				Beruf beruf = new Beruf(1, "Studiengangsleiter");
-				Rolle rolle = new Rolle(1, "ccm_all", null);
+				Rolle rolle = new Rolle(1, "ccm_all");
 				LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 				lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
 
@@ -213,7 +213,7 @@ public class db_testing extends TestCase {
 		try {
 			LinkedList<Benutzer> lBen = new LinkedList<Benutzer>();
 			Beruf beruf = new Beruf(1, "Studiengangsleiter");
-			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
+			Rolle rolle = new Rolle(1, "ccm_all");
 			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
 			lBen.add(new Benutzer("fgustavson", "Friedrich", "Gustavson", beruf, rolle, lStudiengang,
@@ -254,7 +254,7 @@ public class db_testing extends TestCase {
 		}
 		try {
 			Beruf beruf = new Beruf(1, "Studiengangsleiter");
-			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
+			Rolle rolle = new Rolle(1, "ccm_all");
 			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
 			Benutzer b = new Benutzer("sschlarb", "", "", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de$ä",
@@ -281,7 +281,7 @@ public class db_testing extends TestCase {
 		}
 		try {
 			Beruf beruf = new Beruf(1, "Studiengangsleiter");
-			Rolle rolle = new Rolle(1, "ccm_all", new LinkedList<Berechtigung>());
+			Rolle rolle = new Rolle(1, "ccm_all");
 			LinkedList<Studiengang> lStudiengang = new LinkedList<Studiengang>();
 			lStudiengang.add(new Studiengang(0, "Wirtschaftsinformatik"));
 			Benutzer b = new Benutzer("mmustermann", "", "", beruf, rolle, lStudiengang, "friedrich.gustavson@web.de",
