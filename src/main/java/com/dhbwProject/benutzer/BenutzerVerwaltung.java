@@ -9,9 +9,11 @@ import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.dhbwProject.unternehmen.UnternehmenAnlage;
+import com.dhbwProject.unternehmen.UnternehmenBearbeitung;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -81,6 +83,27 @@ public class BenutzerVerwaltung extends CustomComponent{
 							}
 						});
 						getUI().addWindow(anlage);
+					}
+				});
+		
+		
+		MenuItem itmBenutzerAenderung = this.mbMenu.addItem("Bearbeiten",
+				FontAwesome.COGS, new MenuBar.Command() {
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public void menuSelected(MenuItem selectedItem) {
+						if(tblBenutzer.getValue() == null){
+							message.show(Page.getCurrent());
+							return;
+						}
+						
+						BenutzerAenderung aenderung = new BenutzerAenderung((Benutzer) tblBenutzer.getValue());
+						aenderung.addCloseListener(close ->{
+							refreshContainer();
+							
+						});
+						getUI().addWindow(aenderung);
 					}
 				});
 	}

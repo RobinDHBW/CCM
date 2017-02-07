@@ -151,22 +151,6 @@ public class BenutzerFields extends VerticalLayout{
 		hl.addComponent(this.taStudiengang);
 		hl.addComponent(this.btnLookupStudiengang);
 		this.addComponent(hl);
-		
-		
-//		this.lsStudiengang = new ListSelect();
-//		this.lsStudiengang.setMultiSelect(true);
-//		this.lsStudiengang.setCaption("Studiengang");
-//		try {
-//			alleStudiengaenge = dbConnect.getAllStudiengang();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		for (Studiengang stg : alleStudiengaenge) {
-//			lsStudiengang.addItem(stg.getBezeichnung());
-//		}
-//		this.lsStudiengang.setRows(lsStudiengang.size());
-//		this.lsStudiengang.setWidth("300px");
-//		this.addComponent(lsStudiengang);
 	}
 	
 	private void initTelefonnummer() {
@@ -234,14 +218,17 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 	public void setStudiengang (Benutzer b){
-		this.lsStudiengang.clear();
+		this.taStudiengang.clear();
+		String value = "";
 		for (Studiengang st : b.getStudiengang()) {
-			this.lsStudiengang.select(st.getBezeichnung());
+			value = value + st.getBezeichnung() + "\n";
+			this.taStudiengang.setReadOnly(false);
+			this.taStudiengang.setValue(value);
+			this.taStudiengang.setReadOnly(true);
 		}
 	}
 	
 	public LinkedList<String> getStudiengang (){
-//		Set <Item>values=(Set<Item>) this.lsStudiengang.getValue();
 		LinkedList<String> stg = new LinkedList<String>();
 		for (Studiengang o : alleStudiengaenge) {
 			stg.add(o.getBezeichnung());
@@ -303,17 +290,17 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	
-	public void enableFields(boolean bool) {
-		this.tfID.setEnabled(false);
-		this.tfVorname.setEnabled(bool);
-		this.tfNachname.setEnabled(bool);
-		this.cbBeruf.setEnabled(bool);
-		this.cbRolle.setEnabled(bool);
+//	public void enableFields(boolean bool) {
+//		this.tfID.setEnabled(false);
+//		this.tfVorname.setEnabled(bool);
+//		this.tfNachname.setEnabled(bool);
+//		this.cbBeruf.setEnabled(bool);
+//		this.cbRolle.setEnabled(bool);
 //		this.lsStudiengang.setEnabled(bool);
-		this.tfTelefonnummer.setEnabled(bool);
-		this.tfEmail.setEnabled(bool);
-		this.chPassword.setEnabled(bool);
-	}
+//		this.tfTelefonnummer.setEnabled(bool);
+//		this.tfEmail.setEnabled(bool);
+//		this.chPassword.setEnabled(bool);
+//	}
 
 	protected void setStudieng(LinkedList<Studiengang> studiengaenge) {
 		String value = "";

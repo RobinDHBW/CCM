@@ -61,6 +61,7 @@ private static final long serialVersionUID = 1L;
 		this.initContainer();
 		this.select.setContainerDataSource(this.container);
 		select.setItemCaptionMode(ItemCaptionMode.ITEM);
+//		select.select(itemId);
 		
 		this.tfFilterStudiengang = new TextField();
 		this.tfFilterStudiengang.setInputPrompt("Filter Studiengang");
@@ -77,13 +78,9 @@ private static final long serialVersionUID = 1L;
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{
-//	    	if(select.isMultiSelect()){
 	    		Set <Item>values = (Set<Item>) this.select.getValue();
 	    		for(Object o : values)
 	    			this.lStudiengangSelection.add((Studiengang)o);
-//	    	}
-//	    	else
-//	    		this.sSelection = (Studiengang)this.select.getValue();
 	    	this.close();	
 	    });
 	    

@@ -39,8 +39,9 @@ public class BenutzerAnlage extends Window {
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		
 		this.center();
-		this.setWidth("450px");
+		this.setWidth("410px");
 		this.setHeight("500px");
+		this.setModal(true);
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Benutzer hinzufügen</h3></center>");
 		this.setContent(initLayout());
@@ -167,8 +168,8 @@ public class BenutzerAnlage extends Window {
 			mailAdresse.add(fields.getEmail());
 			String betreff = "CCM Benutzerkonto";
 			String inhalt = "Guten Tag " + fields.getVorname() + " "
-					+ fields.getNachname() + ",<br><br> Im CRM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
-					+ fields.getVorname() + " <br>Passwort: default <br><br> bitte ändern Sie das Passwort bei der ersten Anmeldung.";
+					+ fields.getNachname() + ",<br><br> Im CM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
+					+ fields.getVorname() + " <br>Passwort: default <br><br> Bitte ändern Sie das Passwort bei der ersten Anmeldung.";
 			try {
 			EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
 			mail.start();

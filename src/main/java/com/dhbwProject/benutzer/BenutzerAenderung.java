@@ -18,10 +18,12 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
-public class BenutzerAenderung extends CustomComponent {
+public class BenutzerAenderung extends Window {
 	private static final long serialVersionUID = 1L;
 	
 	
@@ -34,38 +36,35 @@ public class BenutzerAenderung extends CustomComponent {
 	private VerticalLayout vlLayout;
 	
 	
-	public BenutzerAenderung(){
+	public BenutzerAenderung(Benutzer b){
+		this.b = b;
 		this.fields = new BenutzerFields();
-		this.fields.enableFields(false);
 		this.fields.initChPassword();
+		this.fields.getTfID().setEnabled(false);
+//		this.fields.enableFields(false);
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-		this.initLookup();
-		this.initCreateButton();
-		this.initLayout();
-	}
-	
-	private void initLookup() {
-		lookup = new Button("Benutzer auswählen");
-		lookup.setIcon(FontAwesome.ANGLE_DOUBLE_RIGHT);
-		lookup.addClickListener(e -> {
-			LookupBenutzer bLookup = new LookupBenutzer();
-			bLookup.addCloseListener(event -> {
-				b = bLookup.getSelection();
-				if (b != null) {
-				fields.setID(b);
-				fields.setVorname(b);
-				fields.setNachname(b);
-				fields.setBeruf(b);
-				fields.setRolle(b);
-//				fields.setStudiengang(b);
-				fields.setEmail(b);
-				fields.setTelefonnummer(b);
-				fields.enableFields(true);
-				btnAendern.setEnabled(true);
-				}
-			});
-			this.getUI().addWindow(bLookup);
-		});
+		
+		this.center();
+		this.setWidth("450px");
+		this.setHeight("500px");
+		this.setModal(true);
+		this.setCaptionAsHtml(true);
+		this.setCaption("<center><h3>Benutzer ändern</h3></center>");
+		this.setContent(initLayout());
+		
+		
+		if (b != null) {
+			fields.setID(b);
+			fields.setVorname(b);
+			fields.setNachname(b);
+			fields.setBeruf(b);
+			fields.setRolle(b);
+			fields.setStudiengang(b);
+			fields.setEmail(b);
+			fields.setTelefonnummer(b);
+//			fields.enableFields(true);
+			btnAendern.setEnabled(true);
+			}
 		
 	}
 	private void initCreateButton() {
@@ -174,18 +173,22 @@ public class BenutzerAenderung extends CustomComponent {
 					
 				}
 			}
+			this.close();
 		});
 		
 		this.fields.addComponent(btnAendern);
 	}
 	
-	private void initLayout(){
-		this.vlLayout = new VerticalLayout(lookup, this.fields);
+	private Panel initLayout(){
+		this.initCreateButton();
+		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setSpacing(true);
 		this.vlLayout.setMargin(new MarginInfo(true, true, true, true));
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
-		this.setCompositionRoot(vlLayout);
+		Panel p = new Panel();
+		p.setContent(vlLayout);
+		return p;
 	}
 }
 
