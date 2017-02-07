@@ -10,6 +10,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class HeaderView extends CustomComponent{
@@ -38,10 +39,10 @@ public class HeaderView extends CustomComponent{
 	imageButton.setWidth("-1px");*/
 	
 	
-	Image ccmLogo= new Image(" ", new ThemeResource("ccmlogo.png"));
+	Image ccmLogo= new Image("Costumer Contact Management", new ThemeResource("ccmlogo.png"));
 	ccmLogo.setHeight("-1px");
 	ccmLogo.setWidth("-1px");
-	
+		
 		hL.addComponent(dhbwLogo);
 		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
 	

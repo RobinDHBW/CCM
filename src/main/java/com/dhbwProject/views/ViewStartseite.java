@@ -36,9 +36,9 @@ public class ViewStartseite extends VerticalLayout implements View {
 				 welcome.setStyleName("btnwhiteeins");
 		TextArea ta = new TextArea();
 //		ta.setCaption("Hallo " + benutzer.getVorname() + " " + benutzer.getNachname() + ",");
-		ta.setValue("Willkommen im CCM System, dem Unternehmensmanagement der Dualen Hochschule Baden-Württemberg in Mosbach.");
+		ta.setValue("Willkommen im CCM System der DHBW");
 		ta.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
-		ta.setWidth("300px");
+		ta.setWidth("400px");
 		ta.setWordwrap(true);
 		ta.setHeight("150px");
 //		Panel p = new Panel();
@@ -55,7 +55,7 @@ public class ViewStartseite extends VerticalLayout implements View {
 		Image ccmLogo= new Image(" ", new ThemeResource("ccmlogo.png"));
 		ccmLogo.setHeight("-1px");
 		ccmLogo.setWidth("-1px");
-		
+				
 		
 		FooterView fv = new FooterView();
 		this.addComponent(welcome);
