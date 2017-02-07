@@ -41,6 +41,9 @@ public class Navigationsbar extends CssLayout{
 		//Temporär soll der PW Ändern Button unter die üblichen Navigationsbuttons und über den Logout Button
 		this.addComponent(btnChangePW);
 		this.initLogoutButton();
+		
+		if(VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null)
+			refreshVisibilityByRolle();
 	}
 	
 	private void initLogoutButton(){
