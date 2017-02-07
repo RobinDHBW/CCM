@@ -359,29 +359,29 @@ public class BesuchUebersicht extends CustomComponent{
 				getUI().addWindow(unternehmen);
 			});
 			
-			HorizontalLayout hlUnternehmen = new HorizontalLayout(tfUnternehmen, btnUnternehmen);
-			hlUnternehmen.setSpacing(true);
-			hlUnternehmen.setCaption("Unternehmen: ");
+				HorizontalLayout hlUnternehmen = new HorizontalLayout(tfUnternehmen, btnUnternehmen);
+				hlUnternehmen.setSpacing(true);
+				hlUnternehmen.setCaption("Unternehmen: ");
 			
-			tfBenutzer = new TextField();
-			tfBenutzer.setWidth("300px");
-			tfBenutzer.setReadOnly(true);
+				tfBenutzer = new TextField();
+				tfBenutzer.setWidth("300px");
+				tfBenutzer.setReadOnly(true);
 			
-			btnBenutzer = new Button();
-			btnBenutzer.setIcon(FontAwesome.REPLY);
-			btnBenutzer.setWidth("50px");
-			btnBenutzer.addClickListener(click ->{
-				LookupBenutzer benutzer = new LookupBenutzer();
-				benutzer.addCloseListener(close ->{
-					if(benutzer.getSelection() == null)
-						return;
-					setBenutzer(benutzer.getSelection());
+				btnBenutzer = new Button();
+				btnBenutzer.setIcon(FontAwesome.REPLY);
+				btnBenutzer.setWidth("50px");
+				btnBenutzer.addClickListener(click ->{
+					LookupBenutzer benutzer = new LookupBenutzer();
+					benutzer.addCloseListener(close ->{
+						if(benutzer.getSelection() == null)
+							return;
+						setBenutzer(benutzer.getSelection());
+					});
+					getUI().addWindow(benutzer);
 				});
-				getUI().addWindow(benutzer);
-			});
-			HorizontalLayout hlBenutzer = new HorizontalLayout(tfBenutzer, btnBenutzer);
-			hlBenutzer.setSpacing(true);
-			hlBenutzer.setCaption("Benutzer: ");
+				HorizontalLayout hlBenutzer = new HorizontalLayout(tfBenutzer, btnBenutzer);
+				hlBenutzer.setSpacing(true);
+				hlBenutzer.setCaption("Benutzer: ");
 			
 			btnOK = new Button();
 			btnOK.setIcon(FontAwesome.SEARCH);
@@ -404,8 +404,12 @@ public class BesuchUebersicht extends CustomComponent{
 			});
 			HorizontalLayout hlButtons = new HorizontalLayout(btnReset, btnOK);
 			hlButtons.setSpacing(true);
-			
-			VerticalLayout layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlBenutzer, hlButtons);
+			VerticalLayout layoutFields;
+			if(bUser.getRolle().getId()>1)
+				layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlButtons);
+			else
+				layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen,hlBenutzer, hlButtons);
+					
 			VerticalLayout layout = new VerticalLayout(layoutFields);
 			layout.setComponentAlignment(layoutFields, Alignment.TOP_CENTER);
 			layout.setMargin(true);
