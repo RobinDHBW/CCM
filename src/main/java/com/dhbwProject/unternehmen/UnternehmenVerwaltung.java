@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
@@ -33,15 +34,18 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	private Table tblUnternehmen;
 	private IndexedContainer container;
 	private dbConnect dbConnection;
+	private Benutzer bUser;
 	
 	public UnternehmenVerwaltung(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+		this.bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
 		this.initContent();
 		this.setSizeFull();
 	}
 	
 	private void initContent(){
-		this.initMenu();
+		if(bUser.getRolle().getId()<=2)
+			this.initMenu();
 		this.tblUnternehmen = new Table();
 		this.tblUnternehmen.setHeight("500px");
 		this.tblUnternehmen.setSelectable(true);
@@ -53,7 +57,10 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.tblUnternehmen.setContainerDataSource(this.container);
 		this.tblUnternehmen.setColumnHeader("Kennzeichen", "");
 		
-		this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
+		if(bUser.getRolle().getId()<=2)
+			this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
+		else
+			this.vlLayout = new VerticalLayout(this.tblUnternehmen);
 		this.vlLayout.setMargin(true);
 		this.vlLayout.setSizeFull();
 		this.setCompositionRoot(this.vlLayout);	
