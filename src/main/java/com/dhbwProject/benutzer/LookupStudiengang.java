@@ -40,6 +40,7 @@ private static final long serialVersionUID = 1L;
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initFields();
 		this.select.setMultiSelect(true);
+		this.setModal(true);
 		
 		this.layout = new VerticalLayout(this.fields);
 		this.layout.setSizeFull();
@@ -48,7 +49,7 @@ private static final long serialVersionUID = 1L;
 		Panel p = new Panel(this.layout);
 		this.setContent(p);
 		this.center();
-		this.setWidth("350px");
+		this.setWidth("370px");
 		this.setHeight("500px");
 	}
 

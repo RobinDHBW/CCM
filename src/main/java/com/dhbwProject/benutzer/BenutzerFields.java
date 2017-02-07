@@ -80,7 +80,8 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	private void initCbBerufe() {
-		this.cbBeruf = new ComboBox("Beruf");
+		this.cbBeruf = new ComboBox();
+		this.cbBeruf.setInputPrompt("Beruf");
 		try {
 			alleBerufe = dbConnect.getAllBeruf();
 		} catch (SQLException e) {
@@ -97,7 +98,8 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	private void initCbRolle() {
-		this.cbRolle = new ComboBox("Rolle");
+		this.cbRolle = new ComboBox();
+		this.cbRolle.setInputPrompt("Rolle");
 		try {
 			alleRollen = dbConnect.getAllRolle();
 		} catch (SQLException e) {
@@ -149,15 +151,13 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	private void initTelefonnummer() {
-		this.tfTelefonnummer = new TextField();
-		this.tfTelefonnummer.setInputPrompt("Telefonnummer");
+		this.tfTelefonnummer = new TextField("Telefonnummer");
 		this.tfTelefonnummer.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
 	}
 	
 	private void intitEmail() {
-		this.tfEmail = new TextField();
-		this.tfEmail.setInputPrompt("E-Mail");
+		this.tfEmail = new TextField("E-Mail");
 		this.tfEmail.setWidth("300px");
 		this.addComponent(tfEmail);
 	}
