@@ -18,9 +18,10 @@ import com.vaadin.data.util.BeanItemContainer;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinService;
-
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Calendar;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickEvent;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.DateClickHandler;
 import com.vaadin.ui.components.calendar.CalendarComponentEvents.EventMoveHandler;
@@ -103,14 +104,17 @@ public class BesuchKalender extends Calendar {
 					refreshListBesuch();
 					refreshCalendarEvents();
 				});
-}				else{
+				getUI().addWindow(anlage);	
+
+				}				
+				else{
 					Notification meldung = new Notification("Sie haben nicht die benötigten Rechte");
 					meldung.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
 					meldung.setPosition(Position.TOP_CENTER);
 					meldung.show(Page.getCurrent());
 					return;
 				}
-				getUI().addWindow(anlage);	
+				
 			}
 		});
 	}

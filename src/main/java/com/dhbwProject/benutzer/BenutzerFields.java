@@ -34,13 +34,11 @@ public class BenutzerFields extends VerticalLayout{
 	private TextField tfEmail;
 	private ComboBox cbBeruf;
 	private ComboBox cbRolle;
-	private CheckBox chPassword;
 	private ListSelect lsStudiengang;
 	private dbConnect dbConnect;
 	private LinkedList<Beruf> alleBerufe;
 
 	private LinkedList<Rolle> alleRollen;
-	private LinkedList<Studiengang> alleStudiengaenge;
 	public static final String BERECHTIGUNG = "Password";
 	private CheckBox chPassword;
 	

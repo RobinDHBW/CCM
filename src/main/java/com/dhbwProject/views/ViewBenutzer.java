@@ -62,4 +62,4 @@ public class ViewBenutzer extends VerticalLayout implements View {
 		this.addComponent(tbContent);
 		
 	}
-}
+	}}
