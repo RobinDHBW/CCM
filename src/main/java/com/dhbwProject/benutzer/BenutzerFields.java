@@ -213,6 +213,7 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 	public void setStudiengang (Benutzer b){
+		this.alleStudiengaenge = b.getStudiengang(); // By Robin 08.02.2017 00:33 Uhr
 		this.taStudiengang.clear();
 		String value = "";
 		for (Studiengang st : b.getStudiengang()) {
