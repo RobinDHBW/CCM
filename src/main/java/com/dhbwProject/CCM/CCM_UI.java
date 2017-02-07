@@ -143,8 +143,10 @@ public class CCM_UI extends UI {
             public boolean beforeViewChange(ViewChangeEvent event) {
                 boolean isLoggedIn = VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
-                if(isLoggedIn && !naviBar.isVisible())
+                if(isLoggedIn && !naviBar.isVisible()){
+                	naviBar.refreshVisibilityByRolle();
                 	naviBar.setVisible(true);
+                }
                  //	Benutzer user = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
                 	//header.setStatustext("Herzlich willkommen, "+ "" + user.getVorname() + " " + user.getNachname()  );
 
