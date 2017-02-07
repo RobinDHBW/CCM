@@ -12,6 +12,7 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
 import com.dhbwProject.backend.beans.Gespraechsnotiz;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
@@ -49,6 +50,7 @@ public class BesuchBenachrichtigung extends Window {
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Benachrichtigungen</h3></center>");
 		this.setContent(this.initContent());
+		Responsive.makeResponsive(this);
 	}
 	
 	private Panel initContent(){
@@ -58,13 +60,15 @@ public class BesuchBenachrichtigung extends Window {
 		this.tabSheet.addTab(verlauf, "Nachrichtsverlauf", FontAwesome.FILE_TEXT);
 		this.tabSheet.addTab(nachricht, "Neue Nachricht", FontAwesome.PLUS);
 		this.tabSheet.setSizeFull();
-		
+		Responsive.makeResponsive(tabSheet);
 		VerticalLayout layout = new VerticalLayout(tabSheet);
 		layout.setSizeFull();
 		layout.setMargin(true);
 		
 		Panel p = new Panel();
 		p.setContent(layout);
+		Responsive.makeResponsive(layout);
+		Responsive.makeResponsive(p);
 		return p;
 	}
 	
@@ -106,22 +110,25 @@ public class BesuchBenachrichtigung extends Window {
 		
 		private NeueNachricht(){
 			this.initContent();
+			Responsive.makeResponsive(this);
 		}
 		
 		private void initContent(){
 			this.taNachricht = new TextArea();
 			this.taNachricht.setWidth("100%");
-			
+			Responsive.makeResponsive(taNachricht);
 			this.cbEmail = new CheckBox();
+			Responsive.makeResponsive(cbEmail);
 			cbEmail.setCaption("e-Mail Benachrichtigung?");
 
 			this.btnOK = new Button("Senden");
+			Responsive.makeResponsive(btnOK);
 			this.btnOK.setIcon(FontAwesome.CHECK);
 			this.btnOK.addClickListener(click -> createNachricht());
 			this.vlFields = new VerticalLayout(taNachricht, cbEmail, btnOK);
 			this.vlFields.setSpacing(true);
 			this.vlFields.setMargin(true);
-			
+			Responsive.makeResponsive(vlFields);
 			this.setCompositionRoot(vlFields);
 		}
 		
@@ -134,6 +141,7 @@ public class BesuchBenachrichtigung extends Window {
 		private BenachrichtigungVerlauf(){
 			this.setSizeFull();
 			this.initContent();
+			Responsive.makeResponsive(this);
 			try {
 				refreshValue();
 			} catch (SQLException e) {
@@ -151,6 +159,8 @@ public class BesuchBenachrichtigung extends Window {
 			Panel p = new Panel(vlFields);
 			p.setSizeFull();
 			p.setStyleName(ValoTheme.PANEL_BORDERLESS);
+			Responsive.makeResponsive(p);
+			Responsive.makeResponsive(vlFields);
 			this.setCompositionRoot(p);
 		}
 		

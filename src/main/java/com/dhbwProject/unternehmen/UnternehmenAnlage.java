@@ -8,6 +8,7 @@ import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
@@ -38,11 +39,14 @@ public class UnternehmenAnlage extends Window {
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Unternehmen hinzufügen</h3></center>");
 		this.setContent(this.initContent());
+		Responsive.makeResponsive(this);
+		
 	}
 	
 	private Panel initContent(){
 		this.btnErstellen = new Button("Hinzufügen");
 		this.btnErstellen.setIcon(FontAwesome.PLUS);
+		Responsive.makeResponsive(btnErstellen);
 		this.btnErstellen.addClickListener(click ->{
 			Notification message = new Notification("");
 			message.setPosition(Position.TOP_CENTER);
@@ -79,6 +83,8 @@ public class UnternehmenAnlage extends Window {
 		
 		Panel p = new Panel();
 		p.setContent(layout);
+		Responsive.makeResponsive(p);
+		Responsive.makeResponsive(layout);
 		return p;
 		
 	}

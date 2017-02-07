@@ -16,6 +16,7 @@ import com.dhbwProject.views.ViewUnternehmen;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
@@ -95,6 +96,9 @@ public class CCM_UI extends UI {
     	this.vlFormat.setExpandRatio(this.header, 2);
     	this.vlFormat.addComponent(this.hlContent);
     	this.vlFormat.setExpandRatio(this.hlContent, 8);
+    	//vlFormat.setStyleName("layout");
+    	Responsive.makeResponsive(vlFormat);
+    	Responsive.makeResponsive(hlContent);
     	
     }
     

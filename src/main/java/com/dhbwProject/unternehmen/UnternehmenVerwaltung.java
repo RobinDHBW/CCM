@@ -10,6 +10,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -38,6 +39,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initContent();
 		this.setSizeFull();
+		Responsive.makeResponsive(this);
 	}
 	
 	private void initContent(){
@@ -48,6 +50,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.tblUnternehmen.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblUnternehmen.addStyleName(ValoTheme.TABLE_NO_STRIPES);
 		this.tblUnternehmen.addStyleName(ValoTheme.TABLE_COMPACT);
+		Responsive.makeResponsive(tblUnternehmen);
 		
 		this.initContainer();
 		this.tblUnternehmen.setContainerDataSource(this.container);
@@ -56,12 +59,14 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
 		this.vlLayout.setMargin(true);
 		this.vlLayout.setSizeFull();
+		Responsive.makeResponsive(vlLayout);
 		this.setCompositionRoot(this.vlLayout);	
 	}
 	
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
 		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
+		Responsive.makeResponsive(mbMenu);
 		Notification message = new Notification("Bitte wählen Sie ein Unternehmen");
 		message.setPosition(Position.TOP_CENTER);
 		message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);

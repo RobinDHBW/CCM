@@ -3,6 +3,7 @@ package com.dhbwProject.unternehmen;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.Responsive;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
@@ -17,6 +18,7 @@ public class UnternehmenFelder extends VerticalLayout {
 	public UnternehmenFelder(){
 		this.setSpacing(true);
 		this.initFields();
+		Responsive.makeResponsive(this);
 	}
 	
 	private void initFields(){
@@ -25,6 +27,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.tfName.setCaption("Firma:");
 		this.tfName.addValidator(new StringLengthValidator("Tragen Sie die Firma ein", 1, 40, false));
 		this.addComponent(tfName);
+		Responsive.makeResponsive(tfName);
 		
 		this.cbKennzeichen = new ComboBox();
 		this.cbKennzeichen.setWidth("300px");
@@ -35,6 +38,7 @@ public class UnternehmenFelder extends VerticalLayout {
 		this.cbKennzeichen.setItemCaptionMode(ItemCaptionMode.ITEM);
 		this.cbKennzeichen.addValidator(new NullValidator("Wählen Sie ein Kennzeichen", false));
 		this.addComponent(cbKennzeichen);
+		Responsive.makeResponsive(cbKennzeichen);
 	}
 
 	protected String getName(){

@@ -20,6 +20,7 @@ import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
@@ -75,6 +76,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.initFieldAnsprechpartner();
 		this.initFieldParticipants();
 		this.initValidators();
+		Responsive.makeResponsive(this);
 	}
 	
 	protected void initValidators(){		
@@ -114,11 +116,13 @@ public class BesuchFelder extends VerticalLayout {
 		this.tfTitel.setCaption("Titel");
 		this.tfTitel.setWidth("300px");
 		this.addComponent(this.tfTitel);
+		Responsive.makeResponsive(tfTitel);
 	}
 	
 	protected void initFieldStatus(){
 		this.tfStatus = new TextField();
 		this.tfStatus.setWidth("300px");
+		Responsive.makeResponsive(tfStatus);
 		this.tfStatus.setNullRepresentation("");
 		this.tfStatus.setValue(null);
 		this.tfStatus.setReadOnly(true);
@@ -126,6 +130,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.btnLookupStatus = new Button();
 		this.btnLookupStatus.setIcon(FontAwesome.REPLY);
 		this.btnLookupStatus.setWidth("50px");
+		Responsive.makeResponsive(btnLookupStatus);
 		this.btnLookupStatus.addClickListener(click ->{
 			LookupStatus status = new LookupStatus();
 			status.addCloseListener(close ->{
@@ -137,6 +142,7 @@ public class BesuchFelder extends VerticalLayout {
 		HorizontalLayout hlStatus = new HorizontalLayout(this.tfStatus, this.btnLookupStatus);
 		hlStatus.setSpacing(true);
 		hlStatus.setCaption("Status");
+		Responsive.makeResponsive(hlStatus);
 		this.addComponent(hlStatus);
 		
 	}
@@ -145,6 +151,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.dfDateStart = new DateField();
 		this.dfDateStart.setCaption("Start:");
 		this.dfDateStart.setWidth("300px");
+		Responsive.makeResponsive(dfDateStart);
 		this.dfDateStart.setResolution(Resolution.MINUTE);
 		this.addComponent(this.dfDateStart);
 	}
@@ -154,6 +161,7 @@ public class BesuchFelder extends VerticalLayout {
 		this.dfDateEnd.setCaption("Ende:");
 		this.dfDateEnd.setWidth("300px");
 		this.dfDateEnd.setResolution(Resolution.MINUTE);
+		Responsive.makeResponsive(dfDateEnd);
 		this.addComponent(this.dfDateEnd);
 	}
 
@@ -166,16 +174,19 @@ public class BesuchFelder extends VerticalLayout {
 		this.tfUnternehmen.setNullRepresentation("");
 		this.tfUnternehmen.setValue(null);
 		this.tfUnternehmen.setReadOnly(true);
+		Responsive.makeResponsive(tfUnternehmen);
 		
 		this.taAdresse = new TextArea();
 		this.taAdresse.setWidth("300px");
 		this.taAdresse.setNullRepresentation("");
 		this.taAdresse.setValue(null);
 		this.taAdresse.setReadOnly(true);
+		Responsive.makeResponsive(taAdresse);
 
 		this.btnLookupAdresse = new Button();
 		this.btnLookupAdresse.setIcon(FontAwesome.REPLY);
 		this.btnLookupAdresse.setWidth("50px");
+		Responsive.makeResponsive(btnLookupAdresse);
 		this.btnLookupAdresse.addClickListener(listener -> {			
 			LookupUnternehmen lookup = new LookupUnternehmen();
 			lookup.addCloseListener(close ->{
@@ -195,10 +206,12 @@ public class BesuchFelder extends VerticalLayout {
 		hlUnternehmen.addComponent(this.tfUnternehmen);
 		hlUnternehmen.addComponent(this.btnLookupAdresse);
 		hlUnternehmen.setCaption("Unternehmen:");
+		Responsive.makeResponsive(hlUnternehmen);
 		
 		vlAdresse.setSizeUndefined();
 		vlAdresse.addComponent(hlUnternehmen);
 		vlAdresse.addComponent(this.taAdresse);
+		Responsive.makeResponsive(vlAdresse);
 		
 		this.addComponent(vlAdresse);
 	}
@@ -245,10 +258,12 @@ public class BesuchFelder extends VerticalLayout {
 		this.taParticipants = new TextArea();
 		this.taParticipants.setWidth("300px");
 		this.taParticipants.setReadOnly(true);
+		Responsive.makeResponsive(tfAnsprechpartner);
 
 		this.btnLookupParticipants = new Button();
 		this.btnLookupParticipants.setIcon(FontAwesome.REPLY);
 		this.btnLookupParticipants.setWidth("50px");
+		Responsive.makeResponsive(btnLookupParticipants);
 		this.btnLookupParticipants.addClickListener(listener -> {
 			this.lBenutzer.clear();
 			LookupBenutzer lookup = new LookupBenutzer(true);
@@ -264,6 +279,7 @@ public class BesuchFelder extends VerticalLayout {
 		hlParticipants.addComponent(this.taParticipants);
 		hlParticipants.addComponent(this.btnLookupParticipants);
 		hlParticipants.setCaption("Teilnehmen:");
+		Responsive.makeResponsive(hlParticipants);
 		this.addComponent(hlParticipants);
 	}
 	

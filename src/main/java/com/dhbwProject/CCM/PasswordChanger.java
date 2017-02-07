@@ -10,6 +10,7 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction.KeyCode;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
@@ -41,8 +42,8 @@ public class PasswordChanger extends Window {
 		
 		public PasswordChanger(boolean isLoggedIn){
 			this.center();
-			this.setWidth("350px");
-			this.setHeight("600px");
+//			this.setWidth("350px");
+//			this.setHeight("600px");
 			this.setClosable(true);
 			this.setModal(true);
 			this.setResizable(true);
@@ -51,6 +52,7 @@ public class PasswordChanger extends Window {
 			this.isLoggedIn = isLoggedIn;
 			this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 			this.initVlLayout();
+			Responsive.makeResponsive(this);
 		}
 		
 		private void initFieldUser(){
@@ -58,6 +60,7 @@ public class PasswordChanger extends Window {
 			this.tfUser.setCaption("Benutername");
 			this.tfUser.setWidth("300px");
 			this.tfUser.setRequired(true);
+			Responsive.makeResponsive(tfUser);
 		}
 		
 		private void initpwFieldOld(){
@@ -66,6 +69,7 @@ public class PasswordChanger extends Window {
 			this.pwFieldOld.setRequired(true);
 			this.pwFieldOld.setValue("");
 			this.pwFieldOld.setNullRepresentation("");
+			Responsive.makeResponsive(pwFieldOld);
 		}
 		
 		private void initpwFieldNew1(){
@@ -76,6 +80,7 @@ public class PasswordChanger extends Window {
 			this.pwFieldNew1.setNullRepresentation("");
 //			this.pwFieldNew1.addValidator(new NullValidator(validationMessage, false));
 			this.pwFieldNew1.addValidator(new StringLengthValidator(validationMessage, 5, 20, false));
+			Responsive.makeResponsive(pwFieldNew1);
 		}
 		
 		private void initpwFieldNew2(){
@@ -86,6 +91,7 @@ public class PasswordChanger extends Window {
 			this.pwFieldNew2.setNullRepresentation("");
 //			this.pwFieldNew2.addValidator(new NullValidator(validationMessage, false));
 			this.pwFieldNew2.addValidator(new StringLengthValidator(validationMessage, 5, 20, false));
+			Responsive.makeResponsive(pwFieldNew2);
 		}
 		
 		private void initbtnChange(){
@@ -93,6 +99,7 @@ public class PasswordChanger extends Window {
 			this.btnChange.setIcon(FontAwesome.CHECK);
 			this.btnChange.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 			this.btnChange.setClickShortcut(KeyCode.ENTER);
+			Responsive.makeResponsive(btnChange);
 			this.btnChange.addClickListener(listener ->{
 				Notification message = new Notification("");
 				message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);
@@ -140,6 +147,7 @@ public class PasswordChanger extends Window {
 	        this.vlLayout = new VerticalLayout(this.vlFields);
 	        this.vlLayout.setSizeFull();
 	        this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
+	        Responsive.makeResponsive(vlLayout);
 	        this.setContent(this.vlLayout);	
 		}
 		

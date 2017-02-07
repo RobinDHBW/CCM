@@ -10,6 +10,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -41,7 +42,6 @@ public class LookupUnternehmen extends Window{
 		
 		this.layout = new VerticalLayout(this.fields);
 		this.layout.setSizeFull();
-		this.layout.setComponentAlignment(this.fields, Alignment.TOP_CENTER);
 		
 		Panel p = new Panel();
 		p.setContent(this.layout);
@@ -49,6 +49,10 @@ public class LookupUnternehmen extends Window{
 		this.center();
 		this.setWidth("650px");
 		this.setHeight("500px");
+		Responsive.makeResponsive(this);
+		Responsive.makeResponsive(layout);
+		Responsive.makeResponsive(p);
+		
 	}
 	
 	private void initFields(){
@@ -66,10 +70,14 @@ public class LookupUnternehmen extends Window{
 		this.tblSelect.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblSelect.addStyleName(ValoTheme.TABLE_NO_STRIPES);
 		this.tblSelect.addStyleName(ValoTheme.TABLE_COMPACT);
+		Responsive.makeResponsive(tblSelect);
+
 		
 		this.tfFirma = new TextField();
 		this.tfFirma.setInputPrompt("Filter Firma");
 		this.tfFirma.setWidth("600px");
+		Responsive.makeResponsive(tfFirma);
+
 	    this.tfFirma.addTextChangeListener(change -> {
 	    	container.removeContainerFilters("Firma");
 	        if (! change.getText().isEmpty())
@@ -81,6 +89,7 @@ public class LookupUnternehmen extends Window{
 	    this.btnOk = new Button("Auswählen");
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);
+	    Responsive.makeResponsive(btnOk);
 	    this.btnOk.addClickListener(listener ->{
 	    	if(this.tblSelect.getValue() != null){
 				Adresse a = (Adresse)tblSelect.getValue();

@@ -2,6 +2,7 @@ package com.dhbwProject.CCM;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -60,6 +61,7 @@ public class Navigationsbar extends CssLayout{
 		
 		});
 		this.addComponent(btnLogout);
+		Responsive.makeResponsive(btnLogout);
 	}
 	
 	private void initNaviButtons(){
@@ -74,6 +76,10 @@ public class Navigationsbar extends CssLayout{
 		
 		NaviButton btnBesuch = new NaviButton(CCM_Constants.VIEW_NAME_BESUCH, FontAwesome.CALENDAR);
 		this.addComponent(btnBesuch);
+		Responsive.makeResponsive(btnStartseite);
+		Responsive.makeResponsive(btnBenutzer);
+		Responsive.makeResponsive(btnUnternehmen);
+		Responsive.makeResponsive(btnBesuch);
 	}
 	
 	

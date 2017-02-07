@@ -12,6 +12,7 @@ import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -51,6 +52,10 @@ private static final long serialVersionUID = 1L;
 		this.center();
 		this.setWidth("370px");
 		this.setHeight("500px");
+		Responsive.makeResponsive(this);
+		Responsive.makeResponsive(layout);
+		Responsive.makeResponsive(p);
+		
 	}
 
 	private void initFields(){
@@ -61,6 +66,7 @@ private static final long serialVersionUID = 1L;
 		
 		this.select = new OptionGroup();
 		this.select.setWidth("300px");
+		Responsive.makeResponsive(select);
 		this.initContainer();
 		this.select.setContainerDataSource(this.container);
 		select.setItemCaptionMode(ItemCaptionMode.ITEM);
@@ -69,6 +75,7 @@ private static final long serialVersionUID = 1L;
 		this.tfFilterStudiengang = new TextField();
 		this.tfFilterStudiengang.setInputPrompt("Filter Studiengang");
 		this.tfFilterStudiengang.setWidth("300px");
+		Responsive.makeResponsive(tfFilterStudiengang);
 	    this.tfFilterStudiengang.addTextChangeListener(change -> {
 	    	container.removeContainerFilters("studiengang");
 	        if (! change.getText().isEmpty())
@@ -79,6 +86,7 @@ private static final long serialVersionUID = 1L;
 	    
 	    this.btnOk = new Button("Auswählen");
 	    this.btnOk.setWidth("300px");
+	    Responsive.makeResponsive(btnOk);
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{
 	    		Set <Item>values = (Set<Item>) this.select.getValue();

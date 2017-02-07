@@ -15,6 +15,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
@@ -47,6 +48,7 @@ public class BesuchKollisionsanzeige extends Window {
 		this.setWidth("400px");
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center>Termine im Zeitraum von 30 Tagen<br>Diese Operation dennoch ausführen?</center>");
+		Responsive.makeResponsive(this);
 	}
 	
 	public BesuchKollisionsanzeige(LinkedList<Besuch> lBesuch){
@@ -75,6 +77,7 @@ public class BesuchKollisionsanzeige extends Window {
 		taBesuch.setHeight("100px");
 		taBesuch.setWidth("250px");
 		taBesuch.setReadOnly(true);
+		Responsive.makeResponsive(taBesuch);
 		itm.getItemProperty("Termine").setValue(taBesuch);
 	}
 	
@@ -86,13 +89,16 @@ public class BesuchKollisionsanzeige extends Window {
 		tblBesuche.setHeight("250px");
 		tblBesuche.setWidth("100%");
 		tblBesuche.setSelectable(true);
+		Responsive.makeResponsive(tblBesuche);
 		
 		this.taNachricht = new TextArea();
 		this.taNachricht.setHeight("80px");
 		this.taNachricht.setWidth("100%");
+		Responsive.makeResponsive(taNachricht);
 		this.taNachricht.setInputPrompt("Schreiben Sie eine Nachricht an den Autor eines kollidierenden Termins");
 		Button btnNachricht = new Button();
 		btnNachricht.setWidth("100%");
+		Responsive.makeResponsive(btnNachricht);
 		btnNachricht.setIcon(FontAwesome.COMMENT);
 		btnNachricht.setCaption("Nachricht senden");
 		btnNachricht.addClickListener(click ->{
@@ -127,10 +133,11 @@ public class BesuchKollisionsanzeige extends Window {
 		});
 		VerticalLayout vlNachricht = new VerticalLayout(taNachricht, btnNachricht);
 		vlNachricht.setSpacing(true);
-		
+		Responsive.makeResponsive(vlNachricht);
 		btnYes = new Button();
 		btnYes.setWidth("100%");
 		btnYes.setCaption("Ja");
+		Responsive.makeResponsive(btnYes);
 		btnYes.setIcon(FontAwesome.CHECK);
 		btnYes.addClickListener(click ->{
 			this.bResult = true;
@@ -140,6 +147,7 @@ public class BesuchKollisionsanzeige extends Window {
 		btnNo = new Button();
 		btnNo.setWidth("100%");
 		btnNo.setCaption("Nein");
+		Responsive.makeResponsive(btnNo);
 		btnNo.setIcon(FontAwesome.CLOSE);
 		btnNo.addClickListener(click ->{
 			close();
@@ -148,17 +156,21 @@ public class BesuchKollisionsanzeige extends Window {
 		HorizontalLayout hlButtons = new HorizontalLayout(btnYes, btnNo);
 		hlButtons.setWidth("100%");
 		hlButtons.setSpacing(true);
+		Responsive.makeResponsive(hlButtons);
 		VerticalLayout hlFields = new VerticalLayout(tblBesuche, vlNachricht, hlButtons);
 		hlFields.setSpacing(true);
 		hlFields.setComponentAlignment(tblBesuche, Alignment.TOP_CENTER);
 		hlFields.setComponentAlignment(vlNachricht, Alignment.TOP_CENTER);
 		hlFields.setComponentAlignment(hlButtons, Alignment.TOP_CENTER);
+		Responsive.makeResponsive(hlFields);
 		hlFields.setSizeFull();
 		VerticalLayout layout = new VerticalLayout(hlFields);
 		layout.setComponentAlignment(hlFields, Alignment.TOP_CENTER);
 		layout.setSizeFull();
 		layout.setMargin(true);
 		Panel p = new Panel(layout);
+		Responsive.makeResponsive(layout);
+		Responsive.makeResponsive(p);
 		p.setStyleName(ValoTheme.PANEL_BORDERLESS);
 		return new Panel(layout);
 	}

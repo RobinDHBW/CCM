@@ -13,6 +13,7 @@ import com.dhbwProject.backend.beans.Beruf;
 import com.dhbwProject.backend.beans.Rolle;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
@@ -53,6 +54,7 @@ public class BenutzerAenderung extends Window {
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Benutzer ändern</h3></center>");
 		this.setContent(initLayout());
+		Responsive.makeResponsive(this);
 		
 		
 		if (b != null) {
@@ -74,6 +76,7 @@ public class BenutzerAenderung extends Window {
 		this.btnAendern.setIcon(FontAwesome.PENCIL);
 		this.btnAendern.setCaption("Ändern");
 		this.btnAendern.setEnabled(false);
+		Responsive.makeResponsive(btnAendern);
 		this.btnAendern.addClickListener(listener ->{
 			
 			
@@ -205,6 +208,8 @@ public class BenutzerAenderung extends Window {
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_LEFT);
 		Panel p = new Panel();
 		p.setContent(vlLayout);
+		Responsive.makeResponsive(vlLayout);
+		Responsive.makeResponsive(p);
 		return p;
 	}
 }

@@ -7,6 +7,7 @@ import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
@@ -52,6 +53,7 @@ public class UnternehmenBearbeitung extends Window{
 		this.fieldsAdresse.setStrasse(a.getStrasse());
 		this.fieldsAdresse.setHausnummer(a.getHausnummer());
 		this.fieldsAdresse.setOrt(a.getOrt());
+		Responsive.makeResponsive(this);
 	}
 	
 	private Panel initFields(){
@@ -61,6 +63,8 @@ public class UnternehmenBearbeitung extends Window{
 		
 		this.btnBearbeiten = new Button();
 		this.btnBearbeiten.setCaption("Bearbeiten");
+		Responsive.makeResponsive(btnBearbeiten);
+		
 		this.btnBearbeiten.addClickListener(click ->{
 			Notification message = new Notification("");
 			message.setPosition(Position.TOP_CENTER);
@@ -89,8 +93,11 @@ public class UnternehmenBearbeitung extends Window{
 		this.vlLayout.setSpacing(true);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setMargin(new MarginInfo(true, true, true, true));
+	
 		Panel p = new Panel();
 		p.setContent(vlLayout);
+		Responsive.makeResponsive(vlLayout);
+		Responsive.makeResponsive(p);
 		return p;
 		
 	}

@@ -6,6 +6,7 @@ import com.dhbwProject.besuche.BesuchVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.TabSheet;
 
@@ -22,6 +23,7 @@ public class ViewBesuch extends CustomComponent implements View {
 		this.initTbContent();
 		FooterView fv= new FooterView();
 		tbContent.addComponent(fv);
+		Responsive.makeResponsive(tbContent);
 		
 	}
 	

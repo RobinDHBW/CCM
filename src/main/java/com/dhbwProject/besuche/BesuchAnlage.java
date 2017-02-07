@@ -13,6 +13,7 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Besuch;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
@@ -44,6 +45,7 @@ public class BesuchAnlage extends Window {
 		setDraggable(true);
 		setClosable(true);
 		setModal(false);
+		Responsive.makeResponsive(this);
 	}
 	
 	public BesuchAnlage(Date date){
@@ -58,6 +60,7 @@ public class BesuchAnlage extends Window {
 		this.btnCreate = new Button("Termin erstellen");
 		this.btnCreate.setIcon(FontAwesome.PLUS);
 		this.btnCreate.setWidth("300px");
+		Responsive.makeResponsive(btnCreate);
 		this.btnCreate.addClickListener(listener ->{
 			if(fields.isValid()){
 				try {	
@@ -82,12 +85,14 @@ public class BesuchAnlage extends Window {
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setComponentAlignment(this.fields, Alignment.TOP_CENTER);
+		Responsive.makeResponsive(vlLayout);
 	}
 	
 	private Panel initContent(){
 		this.initVlLayout();
 		Panel p = new Panel();
 		p.setContent(vlLayout);
+		Responsive.makeResponsive(p);
 		return p;
 	}
 	

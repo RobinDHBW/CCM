@@ -10,6 +10,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.MenuBar;
@@ -40,6 +41,7 @@ public class AnsprechpartnerVerwaltung extends Window {
 		this.setHeight("400px");
 		this.adresse = adr;
 		this.setContent(this.initFields());
+		Responsive.makeResponsive(this);
 	}
 	
 	private Panel initFields(){
@@ -57,13 +59,19 @@ public class AnsprechpartnerVerwaltung extends Window {
 		VerticalLayout vlLayout = new VerticalLayout(this.mbMenu, tblAnsprechpartner);
 		vlLayout.setMargin(true);
 		vlLayout.setSpacing(true);
-		
-		return new Panel(vlLayout);
+		Panel p = new Panel();
+		p.setContent(vlLayout);
+		Responsive.makeResponsive(vlLayout);
+		Responsive.makeResponsive(tblAnsprechpartner);
+		Responsive.makeResponsive(p);
+		return p;
 	}
 	
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
 		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
+		Responsive.makeResponsive(mbMenu);
+		
 		Notification message = new Notification("");
 		message.setPosition(Position.TOP_CENTER);
 		

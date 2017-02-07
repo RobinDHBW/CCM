@@ -14,6 +14,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.MarginInfo;
@@ -62,6 +63,7 @@ public class ViewLogin extends CustomComponent implements View{
 //		this.pwField.addValidator(new PasswordValidator());
 		this.pwField.setValue("");
 		this.pwField.setNullRepresentation("");
+		Responsive.makeResponsive(pwField);
 	}
 	
 	private void initUserField(){
@@ -69,6 +71,7 @@ public class ViewLogin extends CustomComponent implements View{
 		this.userField.setWidth("300px");
 		this.userField.setRequired(true);
 		this.userField.setInputPrompt("Ihr Benutzername");	
+		Responsive.makeResponsive(userField);
 	}
 	
 	private void initBtnLogin(){
@@ -78,6 +81,7 @@ public class ViewLogin extends CustomComponent implements View{
 		this.btnLogin.setCaption("Anmelden"); //Beschriftung des Buttons
 //		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.setClickShortcut(KeyCode.ENTER);
+		Responsive.makeResponsive(btnLogin);
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid())
 	            return;
@@ -108,6 +112,7 @@ public class ViewLogin extends CustomComponent implements View{
 		this.btnChangePw.setWidth("100%");
 //		this.btnChangePw.setCaption("Passwort ändern");
 		this.btnChangePw.setIcon(FontAwesome.COGS);
+		Responsive.makeResponsive(btnChangePw);
 		this.btnChangePw.addClickListener(click ->{
 			PasswordChanger changer = new PasswordChanger(false);
 			getUI().addWindow(changer);
@@ -122,7 +127,8 @@ public class ViewLogin extends CustomComponent implements View{
         this.vlFields.setCaption("Bitte melden Sie sich am System an");
         this.vlFields.setSpacing(true);
         this.vlFields.setMargin(new MarginInfo(true, false, true, false));
-        this.vlFields.setSizeUndefined();	
+        this.vlFields.setSizeUndefined();
+        Responsive.makeResponsive(hlButtons);
 	}
 	
 	private void initVlLayout(){
@@ -130,6 +136,7 @@ public class ViewLogin extends CustomComponent implements View{
         this.vlLayout.setSizeFull();
         this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
         this.setCompositionRoot(this.vlLayout);	
+        Responsive.makeResponsive(vlLayout);
 	}
 	
 //	private class PasswordValidator extends AbstractValidator<String>{

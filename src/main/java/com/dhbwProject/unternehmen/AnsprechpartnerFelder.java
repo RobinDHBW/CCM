@@ -2,6 +2,7 @@ package com.dhbwProject.unternehmen;
 import com.dhbwProject.backend.beans.Adresse;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -18,6 +19,7 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	public AnsprechpartnerFelder(){
 		this.setSizeUndefined();
 		this.initFields();
+		Responsive.makeResponsive(this);
 	}
 	
 	public AnsprechpartnerFelder(Adresse a){
@@ -50,6 +52,10 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 		this.tfEmail.setWidth("300px");
 		this.tfEmail.addValidator(new EmailValidator("Tragen Sie eine gültige e-Mail ein"));
 		this.addComponent(tfEmail);
+		Responsive.makeResponsive(tfVornameAnsprechpartner);
+		Responsive.makeResponsive(tfNameAnsprechpartner);
+		Responsive.makeResponsive(tfTelefonnummer);
+		Responsive.makeResponsive(tfEmail);
 	}
 	
 	public Adresse getAdresse(){

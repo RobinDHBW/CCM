@@ -14,6 +14,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -40,6 +41,7 @@ public class BenutzerVerwaltung extends CustomComponent{
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.initContent();
 		this.setSizeFull();
+		Responsive.makeResponsive(this);
 	}
 	
 	private void initContent() {
@@ -51,19 +53,21 @@ public class BenutzerVerwaltung extends CustomComponent{
 		this.tblBenutzer.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblBenutzer.addStyleName(ValoTheme.TABLE_NO_STRIPES);
 		this.tblBenutzer.addStyleName(ValoTheme.TABLE_COMPACT);
-		
+		Responsive.makeResponsive(tblBenutzer);
 		this.initContainer();
 		this.tblBenutzer.setContainerDataSource(this.container);
 		
 		this.vl = new VerticalLayout(mbMenu, tblBenutzer);
 		this.vl.setMargin(true);
 		this.vl.setSizeFull();
+		Responsive.makeResponsive(vl);
 		this.setCompositionRoot(this.vl);	
 	}
 	
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
 		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
+		Responsive.makeResponsive(mbMenu);
 		Notification message = new Notification("Bitte wählen Sie einen Benutzer");
 		message.setPosition(Position.TOP_CENTER);
 		message.setStyleName(ValoTheme.NOTIFICATION_FAILURE);

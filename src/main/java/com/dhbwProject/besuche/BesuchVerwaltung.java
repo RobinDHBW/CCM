@@ -1,6 +1,7 @@
 package com.dhbwProject.besuche;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -22,6 +23,7 @@ public class BesuchVerwaltung extends CustomComponent {
 	public BesuchVerwaltung() {
 		this.initFields();
 		this.initVlLayout();
+		Responsive.makeResponsive(this);
 	}
 
 	private void initVlLayout() {
@@ -29,15 +31,18 @@ public class BesuchVerwaltung extends CustomComponent {
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setComponentAlignment(this.hlFields, Alignment.TOP_LEFT);
 		this.setCompositionRoot(this.vlLayout);
+		Responsive.makeResponsive(vlLayout);
 	}
 	
 	private void initFields(){
 		this.hlFields = new HorizontalLayout();
 		this.hlFields.setSizeUndefined();
 		this.hlFields.setMargin(new MarginInfo(true, false, true, true)); 
+		Responsive.makeResponsive(hlFields);
 		
 		this.btnBackward = new NativeButton();
 		this.btnBackward.setWidth("50px");
+		Responsive.makeResponsive(btnBackward);
 		this.btnBackward.setStyleName("btnwhite");
 		this.btnBackward.setIcon(FontAwesome.BACKWARD);
 		this.btnBackward.addClickListener(listener ->{
@@ -52,6 +57,7 @@ public class BesuchVerwaltung extends CustomComponent {
 		
 		this.btnForward = new NativeButton();
 		this.btnForward.setWidth("50px");
+		Responsive.makeResponsive(btnForward);
 		this.btnForward.setStyleName("btnwhite");
 		this.btnForward.setIcon(FontAwesome.FORWARD);
 		this.btnForward.addClickListener(listener ->{

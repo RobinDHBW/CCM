@@ -5,6 +5,7 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.besuche.BesuchVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
@@ -67,6 +68,10 @@ public class ViewStartseite extends VerticalLayout implements View {
 		this.addComponent(ccmLogo);
 		this.setComponentAlignment(ccmLogo, Alignment.BOTTOM_CENTER);
 		this.addComponent(fv);
+		Responsive.makeResponsive(welcome);
+		Responsive.makeResponsive(ta);
+		Responsive.makeResponsive(ccmLogo);
+		Responsive.makeResponsive(fv);
 		
 	
 	}

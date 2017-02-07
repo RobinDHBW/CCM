@@ -9,6 +9,7 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Table;
@@ -25,6 +26,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 		this.setMargin(new MarginInfo(true, true, true, true));
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		initFields();
+		Responsive.makeResponsive(this);
 		
 	}
 	
@@ -33,6 +35,7 @@ public class BenutzerAnzeige extends VerticalLayout {
 		benutzer.setSizeFull();
 		benutzer.setContainerDataSource(loadTableData());
 		addComponent(benutzer);
+		Responsive.makeResponsive(benutzer);
 		
 	}
 	public IndexedContainer loadTableData() {

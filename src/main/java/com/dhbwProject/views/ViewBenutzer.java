@@ -6,6 +6,7 @@ import com.dhbwProject.rolle.RolleVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
@@ -35,6 +36,7 @@ public class ViewBenutzer extends VerticalLayout implements View {
 //		this.tbContent.addTab(new BenutzerAnlage(), "Benutzer anlegen", FontAwesome.USER_PLUS);
 //		this.tbContent.addTab(new BenutzerAenderung(), "Benutzer ändern", FontAwesome.LIST);
 		this.tbContent.addTab(new RolleVerwaltung(), "Rolle", FontAwesome.LIST);
+		Responsive.makeResponsive(tbContent);
 		this.addComponent(tbContent);
 		
 	}

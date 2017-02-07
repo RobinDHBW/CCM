@@ -1,6 +1,7 @@
 package com.dhbwProject.besuche;
 
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Window;
@@ -24,17 +25,20 @@ public class BesuchEntfernen extends Window {
 		this.setCaption(titel+"\n"+info);
 		this.initFields();
 		this.setContent(hlLayout);
+		Responsive.makeResponsive(this);
 	}
 	
 	private void initFields(){
 		this.btnYes = new Button("Ja");
 		this.btnYes.setIcon(FontAwesome.CHECK);
+		Responsive.makeResponsive(btnYes);
 		this.btnYes.addClickListener(click ->{
 			bResult = true;
 			close();
 		});
 		
 		this.btnNo = new Button("Nein");
+		Responsive.makeResponsive(btnNo);
 		this.btnNo.setIcon(FontAwesome.CLOSE);
 		this.btnNo.addClickListener(click ->{
 			close();
@@ -43,6 +47,7 @@ public class BesuchEntfernen extends Window {
 		this.hlLayout = new HorizontalLayout(btnNo, btnYes);
 		this.hlLayout.setSpacing(true);
 		this.hlLayout.setMargin(true);
+		Responsive.makeResponsive(hlLayout);
 		
 	}
 	

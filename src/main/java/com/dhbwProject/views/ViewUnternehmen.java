@@ -4,6 +4,7 @@ import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.unternehmen.UnternehmenVerwaltung;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Responsive;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
@@ -18,6 +19,8 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 		this.initTbContent();
 		FooterView fv= new FooterView();
 		this.addComponent(fv);
+		Responsive.makeResponsive(this);
+		Responsive.makeResponsive(fv);
 		
 		
 	}
@@ -32,6 +35,7 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 		this.verwaltung = new UnternehmenVerwaltung();
 		this.tbContent.addTab(this.verwaltung, "Verwaltung");
 		this.addComponent(tbContent);
+		Responsive.makeResponsive(tbContent);
 	}
 
 }

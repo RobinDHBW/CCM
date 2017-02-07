@@ -1,5 +1,6 @@
 package com.dhbwProject.views;
 
+import com.vaadin.server.Responsive;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -56,6 +57,12 @@ public class HeaderView extends CustomComponent{
 	hL.setComponentAlignment(ccmLogo, Alignment.TOP_RIGHT);
 	/*hL.addComponent(logoutB);
 	hL.setComponentAlignment(logoutB, Alignment.TOP_RIGHT);*/
+	Responsive.makeResponsive(hL);
+	Responsive.makeResponsive(pnHeader);
+	Responsive.makeResponsive(whiteL);
+	Responsive.makeResponsive(dhbwLogo);
+	Responsive.makeResponsive(ccmLogo);
+	
 	hL.setSizeFull();
 	hL.setHeight("120px");
 	pnHeader.setSizeFull();

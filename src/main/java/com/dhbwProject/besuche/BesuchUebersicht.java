@@ -20,6 +20,7 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.datefield.Resolution;
@@ -66,6 +67,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.currentTime = new Date(new GregorianCalendar(localDate.getYear(), localDate.getMonthValue()-1, localDate.getDayOfMonth(), 00, 00).getTime().getTime());
 		dStart = currentTime;
 		this.initLayout();
+		Responsive.makeResponsive(this);
 
 	}
 	
@@ -75,6 +77,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.vlLayout = new VerticalLayout(mbMenu, tblBesuche);
 		this.vlLayout.setMargin(true);
 		this.refreshContainer(this.bUser, dStart, dEnd);
+		Responsive.makeResponsive(vlLayout);
 		this.setCompositionRoot(vlLayout);
 	}
 	
@@ -85,6 +88,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.tblBesuche.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblBesuche.setSelectable(true);
 		this.tblBesuche.setHeight("500px");
+		Responsive.makeResponsive(tblBesuche);
 	}
 	
 	private void initContainer(){
@@ -141,6 +145,7 @@ public class BesuchUebersicht extends CustomComponent{
 		
 		TextArea taAdresse = new TextArea();
 		taAdresse.setHeight("100px");
+		Responsive.makeResponsive(taAdresse);
 		taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
 		taAdresse.setValue(b.getAdresse().getPlz()+"\n"+
 		b.getAdresse().getStrasse()+
@@ -152,7 +157,7 @@ public class BesuchUebersicht extends CustomComponent{
 	private void initMenu(){
 		this.mbMenu = new MenuBar();
 		this.mbMenu.setStyleName(ValoTheme.MENUBAR_BORDERLESS);
-		
+		Responsive.makeResponsive(mbMenu);
 		MenuItem itmSearch = mbMenu.addItem("Suchen", FontAwesome.SEARCH, new MenuBar.Command() {
 			
 			@Override
@@ -308,12 +313,14 @@ public class BesuchUebersicht extends CustomComponent{
 			setTitelAnzeige(titelAnzeige);
 			setBenutzer(bAnzeige);
 			setUnternehmen(uAnzeige);
+			Responsive.makeResponsive(this);
 		}
 		
 		private Panel initContent(){
 			tfTitel = new TextField();
 			tfTitel.setWidth("300px");
 			tfTitel.setCaption("Titel: ");
+			Responsive.makeResponsive(tfTitel);
 			tfTitel.addValueChangeListener(change ->{
 				if(change.getProperty().getValue() == null)
 					return;
@@ -323,6 +330,7 @@ public class BesuchUebersicht extends CustomComponent{
 			dfStart = new DateField();
 			dfStart.setResolution(Resolution.MINUTE);
 			dfStart.setWidth("300px");
+			Responsive.makeResponsive(dfStart);
 			dfStart.setCaption("Beginn: ");
 			dfStart.setValue(dStart);
 			dfStart.addValueChangeListener(change ->{
@@ -334,6 +342,7 @@ public class BesuchUebersicht extends CustomComponent{
 			dfEnd = new DateField();
 			dfEnd.setResolution(Resolution.MINUTE);
 			dfEnd.setWidth("300px");
+			Responsive.makeResponsive(dfEnd);
 			dfEnd.setCaption("Ende: ");
 			dfEnd.setValue(dEnd);
 			dfEnd.addValueChangeListener(change ->{
@@ -345,10 +354,12 @@ public class BesuchUebersicht extends CustomComponent{
 			tfUnternehmen = new TextField();
 			tfUnternehmen.setWidth("300px");
 			tfUnternehmen.setReadOnly(true);
+			Responsive.makeResponsive(tfUnternehmen);
 			
 			btnUnternehmen = new Button();
 			btnUnternehmen.setIcon(FontAwesome.REPLY);
 			btnUnternehmen.setWidth("50px");
+			Responsive.makeResponsive(btnUnternehmen);
 			btnUnternehmen.addClickListener(click ->{
 				LookupUnternehmen unternehmen = new LookupUnternehmen();
 				unternehmen.addCloseListener(close ->{
@@ -362,14 +373,16 @@ public class BesuchUebersicht extends CustomComponent{
 			HorizontalLayout hlUnternehmen = new HorizontalLayout(tfUnternehmen, btnUnternehmen);
 			hlUnternehmen.setSpacing(true);
 			hlUnternehmen.setCaption("Unternehmen: ");
-			
+			Responsive.makeResponsive(hlUnternehmen);
 			tfBenutzer = new TextField();
 			tfBenutzer.setWidth("300px");
 			tfBenutzer.setReadOnly(true);
+			Responsive.makeResponsive(tfBenutzer);
 			
 			btnBenutzer = new Button();
 			btnBenutzer.setIcon(FontAwesome.REPLY);
 			btnBenutzer.setWidth("50px");
+			Responsive.makeResponsive(btnBenutzer);
 			btnBenutzer.addClickListener(click ->{
 				LookupBenutzer benutzer = new LookupBenutzer();
 				benutzer.addCloseListener(close ->{
@@ -382,15 +395,18 @@ public class BesuchUebersicht extends CustomComponent{
 			HorizontalLayout hlBenutzer = new HorizontalLayout(tfBenutzer, btnBenutzer);
 			hlBenutzer.setSpacing(true);
 			hlBenutzer.setCaption("Benutzer: ");
+			Responsive.makeResponsive(hlBenutzer);
 			
 			btnOK = new Button();
 			btnOK.setIcon(FontAwesome.SEARCH);
 			btnOK.setCaption("Ausführen");
+			Responsive.makeResponsive(btnOK);
 			btnOK.addClickListener(click -> refreshContainer(bAnzeige, dStart, dEnd));
 			
 			btnReset = new Button();
 			btnReset.setIcon(FontAwesome.REPLY_ALL);
 			btnReset.setCaption("Zurücksetzen");
+			Responsive.makeResponsive(btnReset);
 			btnReset.addClickListener(click ->{
 				setTitelAnzeige(null);
 				setBenutzer(bUser);
@@ -404,12 +420,16 @@ public class BesuchUebersicht extends CustomComponent{
 			});
 			HorizontalLayout hlButtons = new HorizontalLayout(btnReset, btnOK);
 			hlButtons.setSpacing(true);
-			
+			Responsive.makeResponsive(hlButtons);
 			VerticalLayout layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlBenutzer, hlButtons);
 			VerticalLayout layout = new VerticalLayout(layoutFields);
 			layout.setComponentAlignment(layoutFields, Alignment.TOP_CENTER);
 			layout.setMargin(true);
-			return new Panel(layout);
+			Panel p = new Panel();
+			p.setContent(layout);
+			Responsive.makeResponsive(layout);
+			Responsive.makeResponsive(p);
+			return p;
 		}
 		
 		private void setBenutzer(Benutzer b){

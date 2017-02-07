@@ -11,6 +11,7 @@ import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -48,6 +49,7 @@ public class LookupAnsprechpartner extends Window{
 		this.center();
 		this.setWidth("350px");
 		this.setHeight("500px");
+		Responsive.makeResponsive(this);
 	}
 	
 	private void initFields(){
@@ -58,6 +60,7 @@ public class LookupAnsprechpartner extends Window{
 		
 		this.select = new ListSelect();
 		this.select.setWidth("300px");
+		Responsive.makeResponsive(select);
 		try {
 			this.initContainer();
 		} catch (ReadOnlyException e1) {
@@ -73,6 +76,7 @@ public class LookupAnsprechpartner extends Window{
 		this.tfFilterNachname = new TextField();
 		this.tfFilterNachname.setInputPrompt("Filter Nachname");
 		this.tfFilterNachname.setWidth("300px");
+		Responsive.makeResponsive(tfFilterNachname);
 	    this.tfFilterNachname.addTextChangeListener(change -> {
 	    	container.removeContainerFilters("nachname");
 	        if (! change.getText().isEmpty())
@@ -84,6 +88,7 @@ public class LookupAnsprechpartner extends Window{
 	    this.tfFilterVorname = new TextField();
 	    this.tfFilterVorname.setInputPrompt("Filter Vorname");
 	    this.tfFilterVorname.setWidth("300px");
+	    Responsive.makeResponsive(tfFilterVorname);
 	    this.tfFilterVorname.addTextChangeListener(change ->{
 	    	container.removeContainerFilters("vorname");
 	        if (! change.getText().isEmpty())
@@ -95,6 +100,7 @@ public class LookupAnsprechpartner extends Window{
 	    this.btnOK = new Button("Auswählen");
 	    this.btnOK.setWidth("300px");
 	    this.btnOK.setIcon(FontAwesome.UPLOAD);
+	    Responsive.makeResponsive(btnOK);
 	    this.btnOK.addClickListener(listener ->{
 	    	if(this.select.getValue() != null)
 				this.aPSelect = (Ansprechpartner)this.select.getValue();

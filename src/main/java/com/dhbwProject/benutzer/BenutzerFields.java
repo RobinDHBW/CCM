@@ -13,6 +13,7 @@ import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -56,6 +57,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.initLsStudiengang();
 		this.initTelefonnummer();
 		this.intitEmail();
+		Responsive.makeResponsive(this);
 		
 		
 	}
@@ -64,12 +66,14 @@ public class BenutzerFields extends VerticalLayout{
 		this.tfID = new TextField("Anmeldename");
 		this.tfID.setWidth("300px");
 		this.addComponent(tfID);
+		Responsive.makeResponsive(tfID);
 	}
 	
 	private void initVorname() {
 		this.tfVorname = new TextField("Vorname");
 		this.tfVorname.setWidth("300px");
 		this.addComponent(tfVorname);
+		Responsive.makeResponsive(tfVorname);
 		
 	}
 	
@@ -77,6 +81,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.tfNachname = new TextField("Nachname");
 		this.tfNachname.setWidth("300px");
 		this.addComponent(tfNachname);
+		Responsive.makeResponsive(tfNachname);
 	}
 	
 	private void initCbBerufe() {
@@ -94,6 +99,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.cbBeruf.setNullSelectionAllowed(false);
 		this.cbBeruf.setTextInputAllowed(false);
 		this.cbBeruf.setWidth("300px");
+		Responsive.makeResponsive(cbBeruf);
 		this.addComponent(cbBeruf);
 	}
 	
@@ -112,6 +118,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.cbRolle.setNullSelectionAllowed(false);
 		this.cbRolle.setTextInputAllowed(false);
 		this.cbRolle.setWidth("300px");
+		Responsive.makeResponsive(cbRolle);
 		this.addComponent(cbRolle);
 	}
 	
@@ -122,6 +129,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.chPassword.setValue(false);
 		this.chPassword.setWidth("300px");
 		this.addComponent(chPassword);
+		Responsive.makeResponsive(chPassword);
 	}
 	
 	private void initLsStudiengang() {
@@ -129,6 +137,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.taStudiengang = new TextArea("Studiengang");
 		this.taStudiengang.setWidth("300px");
 		this.taStudiengang.setReadOnly(true);
+		Responsive.makeResponsive(taStudiengang);
 
 		this.btnLookupStudiengang = new Button();
 		this.btnLookupStudiengang.setIcon(FontAwesome.REPLY);
@@ -147,6 +156,7 @@ public class BenutzerFields extends VerticalLayout{
 		hl.setSpacing(true);
 		hl.addComponent(this.taStudiengang);
 		hl.addComponent(this.btnLookupStudiengang);
+		Responsive.makeResponsive(hl);
 		this.addComponent(hl);
 	}
 	
@@ -154,12 +164,14 @@ public class BenutzerFields extends VerticalLayout{
 		this.tfTelefonnummer = new TextField("Telefonnummer");
 		this.tfTelefonnummer.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
+		Responsive.makeResponsive(tfTelefonnummer);
 	}
 	
 	private void intitEmail() {
 		this.tfEmail = new TextField("E-Mail");
 		this.tfEmail.setWidth("300px");
 		this.addComponent(tfEmail);
+		Responsive.makeResponsive(tfEmail);
 	}
 	
 	public void setID (Benutzer b){

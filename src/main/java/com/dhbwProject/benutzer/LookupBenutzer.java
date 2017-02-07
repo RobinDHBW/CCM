@@ -12,6 +12,7 @@ import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
@@ -48,6 +49,8 @@ public class LookupBenutzer extends Window{
 		this.center();
 		this.setWidth("350px");
 		this.setHeight("500px");
+		Responsive.makeResponsive(this);
+		Responsive.makeResponsive(layout);
 	}
 	
 	public LookupBenutzer(boolean multiSelect){
@@ -60,9 +63,11 @@ public class LookupBenutzer extends Window{
 		this.fields.setSizeUndefined();
 		this.fields.setSpacing(true);
 		this.fields.setMargin(new MarginInfo(true, true, true, true));
+		Responsive.makeResponsive(fields);
 		
 		this.select = new ListSelect();
 		this.select.setWidth("300px");
+		Responsive.makeResponsive(select);
 		this.initContainer();
 		this.select.setContainerDataSource(this.container);
 		select.setItemCaptionMode(ItemCaptionMode.ITEM);
@@ -70,6 +75,7 @@ public class LookupBenutzer extends Window{
 		this.tfFilterNachname = new TextField();
 		this.tfFilterNachname.setInputPrompt("Filter Nachname");
 		this.tfFilterNachname.setWidth("300px");
+		Responsive.makeResponsive(tfFilterNachname);
 	    this.tfFilterNachname.addTextChangeListener(change -> {
 	    	container.removeContainerFilters("nachname");
 	        if (! change.getText().isEmpty())
@@ -81,6 +87,7 @@ public class LookupBenutzer extends Window{
 	    this.tfFilterVorname = new TextField();
 	    this.tfFilterVorname.setInputPrompt("Filter Vorname");
 	    this.tfFilterVorname.setWidth("300px");
+		Responsive.makeResponsive(tfFilterVorname);
 	    this.tfFilterVorname.addTextChangeListener(change ->{
 	    	container.removeContainerFilters("vorname");
 	        if (! change.getText().isEmpty())
@@ -91,6 +98,7 @@ public class LookupBenutzer extends Window{
 	    
 	    this.btnOk = new Button("Auswählen");
 	    this.btnOk.setWidth("300px");
+	    Responsive.makeResponsive(btnOk);
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{
 	    	if(select.isMultiSelect()){

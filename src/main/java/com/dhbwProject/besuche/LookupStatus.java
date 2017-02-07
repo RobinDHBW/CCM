@@ -9,6 +9,7 @@ import com.vaadin.data.Item;
 import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -42,6 +43,8 @@ public class LookupStatus extends Window {
 		this.center();
 		this.setWidth("350px");
 		this.setHeight("500px");
+		Responsive.makeResponsive(layout);
+		Responsive.makeResponsive(this);
 	}
 	
 	private void initFields(){
@@ -52,6 +55,7 @@ public class LookupStatus extends Window {
 		
 		this.select = new ListSelect();
 		this.select.setWidth("300px");
+		Responsive.makeResponsive(select);
 		try {
 			this.initContainer();
 		} catch (ReadOnlyException e1) {
@@ -67,6 +71,7 @@ public class LookupStatus extends Window {
 	    
 	    this.btnOK = new Button("Auswählen");
 	    this.btnOK.setWidth("300px");
+	    Responsive.makeResponsive(btnOK);
 	    this.btnOK.setIcon(FontAwesome.UPLOAD);
 	    this.btnOK.addClickListener(listener ->{
 	    	if(this.select.getValue() != null)

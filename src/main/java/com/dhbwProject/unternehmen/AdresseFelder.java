@@ -2,6 +2,7 @@ package com.dhbwProject.unternehmen;
 
 import com.dhbwProject.backend.beans.Adresse;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -45,6 +46,10 @@ public class AdresseFelder extends VerticalLayout{
 		this.tfOrt.setWidth("300px");
 		this.tfOrt.addValidator(new StringLengthValidator("Tragen Sie einen Ort ein", 1, 40, false));
 		this.addComponent(this.tfOrt);
+		Responsive.makeResponsive(tfStrasse);
+		Responsive.makeResponsive(tfHausnummer);
+		Responsive.makeResponsive(tfPlz);
+		Responsive.makeResponsive(tfOrt);
 	}
 	
 	protected String getPlz(){

@@ -1,5 +1,6 @@
 package com.dhbwProject.views;
 
+import com.vaadin.server.Responsive;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
@@ -28,8 +29,10 @@ public class FooterView extends CustomComponent{
 		hL.setComponentAlignment(impressum, Alignment.TOP_RIGHT);
 		//hL.addComponent(version);
 		//hL.setComponentAlignment(version,Alignment.TOP_RIGHT);
-
-
+		Responsive.makeResponsive(pnFooter);
+		Responsive.makeResponsive(impressum);
+		Responsive.makeResponsive(hL);
+		Responsive.makeResponsive(this);
 		hL.setSizeFull();
 		hL.setHeight("40px");
 		pnFooter.setSizeFull();

@@ -10,6 +10,7 @@ import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
@@ -40,6 +41,7 @@ public class AdresseAnlage extends Window {
 		this.setModal(false);
 		
 		this.setContent(this.initContent());
+		Responsive.makeResponsive(this);
 	}
 	
 	public AdresseAnlage(Unternehmen u){
@@ -51,6 +53,7 @@ public class AdresseAnlage extends Window {
 		this.fields = new AdresseFelder();
 		this.btnAnlage = new Button("Hinzufügen");
 		this.btnAnlage.setIcon(FontAwesome.PLUS);
+		Responsive.makeResponsive(btnAnlage);
 		this.btnAnlage.addClickListener(click ->{
 			Notification message = new Notification("");
 			message.setPosition(Position.TOP_CENTER);
@@ -75,10 +78,12 @@ public class AdresseAnlage extends Window {
 		});
 		fields.addComponent(btnAnlage);
 		VerticalLayout layout = new VerticalLayout(fields);
+		Responsive.makeResponsive(layout);
 		layout.setComponentAlignment(fields, Alignment.TOP_CENTER);
 		layout.setMargin(true);
 		Panel p = new Panel();
 		p.setContent(layout);
+		Responsive.makeResponsive(p);
 		return p;
 	}
 	

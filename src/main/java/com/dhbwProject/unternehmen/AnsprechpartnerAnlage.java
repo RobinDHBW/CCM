@@ -8,6 +8,7 @@ import com.dhbwProject.backend.beans.Adresse;
 import com.dhbwProject.backend.beans.Ansprechpartner;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
+import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
@@ -39,12 +40,14 @@ public class AnsprechpartnerAnlage extends Window {
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Ansprechpartner anlegen</h3></center>");
 		this.setContent(this.initContent());
+		Responsive.makeResponsive(this);
 	}
 	
 	private Panel initContent(){
 		this.fields = new AnsprechpartnerFelder();
 		this.btnAnlage = new Button("Hinzufügen");
 		this.btnAnlage.setIcon(FontAwesome.PLUS);
+		Responsive.makeResponsive(btnAnlage);
 		this.btnAnlage.addClickListener(click ->{
 			Notification message = new Notification("");
 			message.setPosition(Position.TOP_CENTER);
@@ -70,7 +73,11 @@ public class AnsprechpartnerAnlage extends Window {
 		VerticalLayout layout = new VerticalLayout(fields);
 		layout.setComponentAlignment(fields, Alignment.TOP_CENTER);
 		layout.setMargin(true);
-		return new Panel(layout);	
+		Panel p = new Panel();
+		p.setContent(layout);
+		Responsive.makeResponsive(layout);
+		Responsive.makeResponsive(p);
+		return p;	
 	}
 	
 	protected Ansprechpartner getAnsprechpartnerNeu(){
