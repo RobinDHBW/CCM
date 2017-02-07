@@ -6,24 +6,19 @@ import javax.servlet.annotation.WebServlet;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
-import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.views.FooterView;
 import com.dhbwProject.views.HeaderView;
 import com.dhbwProject.views.ViewBenutzer;
-import com.dhbwProject.views.ViewLogin;
-import com.dhbwProject.views.ViewRolle;
-import com.dhbwProject.views.ViewStartseite;
 import com.dhbwProject.views.ViewBesuch;
+import com.dhbwProject.views.ViewLogin;
+import com.dhbwProject.views.ViewStartseite;
 import com.dhbwProject.views.ViewUnternehmen;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
@@ -136,7 +131,6 @@ public class CCM_UI extends UI {
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_START, ViewStartseite.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BENUTZER, ViewBenutzer.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_UNTERNEHMEN, ViewUnternehmen.class);
-		this.getNavigator().addView(CCM_Constants.VIEW_NAME_ROLLE, ViewRolle.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_BESUCH, ViewBesuch.class);
 //		this.getNavigator().addView(CCM_Constants.VIEW_NAME_TERMIN, new ViewTermin(this.dummyData));
 		

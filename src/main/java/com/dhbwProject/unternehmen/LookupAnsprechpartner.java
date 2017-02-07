@@ -118,7 +118,7 @@ public class LookupAnsprechpartner extends Window{
 		
 		for(Ansprechpartner a : this.dbConnection.getAnsprechpartnerByAdresse(aReferenz)){
 			Item itm = this.container.addItem(a);
-			itm.getItemProperty("nachname").setValue(a.getNachname());
+			itm.getItemProperty("nachname").setValue(a.getNachname()+", ");
 			itm.getItemProperty("vorname").setValue(a.getVorname());
 		}
 	}

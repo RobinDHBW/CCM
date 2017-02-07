@@ -612,8 +612,8 @@ public class dbConnect {
 		ps.setString(1, b.getVorname());
 		ps.setString(2, b.getNachname());
 		ps.setString(3, b.getId());
-		ps.setInt(4, beruf.getId());
-		ps.setInt(5, rolle.getId());
+		ps.setInt(4, rolle.getId());
+		ps.setInt(5, beruf.getId());
 		ps.setString(6, b.getEmail());
 		ps.setString(7, b.getTelefon());
 		ps.executeUpdate();
@@ -790,7 +790,7 @@ public class dbConnect {
 	// Besuch
 	public LinkedList<Besuch> getBesucheByDate(Date date) throws SQLException {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
-		ResultSet res = executeQuery("select * from besuch where besuch_beginn = ?", new Object[] {(Object) date});
+		ResultSet res = executeQuery("select * from besuch where besuch_beginn = ? ORDER BY besuch_beginn", new Object[] {(Object) date});
 		
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
@@ -811,7 +811,7 @@ public class dbConnect {
 	}
 	public LinkedList<Besuch> getBesuchByAdresse(Adresse pAdresse) throws SQLException {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
-		ResultSet res = executeQuery("select * from besuch where adresse_id = ?", new Object[] {(Object) pAdresse.getId()});
+		ResultSet res = executeQuery("select * from besuch where adresse_id = ?  ORDER BY besuch_beginn", new Object[] {(Object) pAdresse.getId()});
 		
 			while (res.next()) {
 				int id = res.getInt("besuch_id");

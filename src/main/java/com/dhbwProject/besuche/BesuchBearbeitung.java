@@ -138,6 +138,7 @@ public class BesuchBearbeitung extends Window {
 					fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 					fields.getTeilnehmenr(), null, fields.getAutor()), this.bAlt);
 		} catch (SQLException e) {
+			bNeu = null;
 			e.printStackTrace();
 		}
 	}
@@ -155,6 +156,14 @@ public class BesuchBearbeitung extends Window {
 	
 	private long differenzTage(Date dAlt, Date dNeu){
 		return  Math.abs(((dNeu.getTime() - dAlt.getTime() + CCM_Constants.ONE_HOUR_AS_LONG) / (CCM_Constants.ONE_HOUR_AS_LONG * 24)));
+	}
+	
+	protected void setDateStart(Date dStart){
+		this.fields.setDateStart(dStart);
+	}
+	
+	protected void setDateEnd(Date dEnd){
+		this.fields.setDateEnd(dEnd);
 	}
 	
 }

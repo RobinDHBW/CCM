@@ -1,5 +1,6 @@
 package com.dhbwProject.besuche;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.dhbwProject.backend.beans.Besuch;
@@ -13,18 +14,16 @@ public class BesuchEvent extends BasicEvent {
 		super();
 		this.besuch = b;
 		super.setCaption(b.getName());	
-		super.setDescription(b.getStartDate().toString()+" bis "+b.getEndDate().toString());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		super.setDescription(dateFormat.format(b.getStartDate())+" bis "+dateFormat.format(b.getEndDate()));
 		super.setStart(b.getStartDate());
 		super.setEnd(b.getEndDate());
 		//Hier wird der Stylename gesetzt damit die Events im Kalender richtig angezeigt werden.
 		//super.setStyleName(b.getStatus().getBezeichnung()); 
-		if(b.getStartDate().after(new Date())){
+		if(b.getStartDate().after(new Date()))
 			super.setStyleName("geplant");
-		}else{
-			
-	
-		super.setStyleName("besucht"); //benötigt für die Anzeige auf der Oberfläche// Jasmin
-		}
+		else
+			super.setStyleName("besucht"); //benötigt für die Anzeige auf der Oberfläche// Jasmin
 	}
 		
 	

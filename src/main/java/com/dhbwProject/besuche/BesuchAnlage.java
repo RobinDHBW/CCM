@@ -152,6 +152,7 @@ public class BesuchAnlage extends Window {
 					fields.getAdresse(), fields.getStatus(), fields.getAnsprechpartner(),
 					fields.getTeilnehmenr(), null, fields.getAutor()));
 		} catch (SQLException e) {
+			bAnlage = null;
 			e.printStackTrace();
 		}	
 	}

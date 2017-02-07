@@ -173,7 +173,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		TextArea taAdresse = new TextArea();
 		taAdresse.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
 		taAdresse.setHeight("100px");
-		taAdresse.setValue(a.getPlz()+"\n"+a.getStrasse()+" "+a.getHausnummer()+"\n"+a.getOrt());
+		taAdresse.setValue(a.getStrasse()+" "+a.getHausnummer()+"\n"+a.getPlz()+"\n"+a.getOrt());
 		itm.getItemProperty("Adresse").setValue(taAdresse);
 	}	
 

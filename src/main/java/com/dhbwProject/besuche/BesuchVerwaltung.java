@@ -62,7 +62,7 @@ public class BesuchVerwaltung extends CustomComponent {
 	}
 	
 	public void refresh(){
-		this.calendar.refreshTime();
+		this.calendar.resetDateRange();
 		this.calendar.refreshCalendarEvents();
 	}
 }
