@@ -16,6 +16,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -29,23 +30,27 @@ public class ViewStartseite extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 		 NativeButton welcome = new NativeButton();
 		 		 welcome.setEnabled(false);
 				 welcome.setCaption("Hallo " + benutzer.getVorname() + " " + benutzer.getNachname() + ",");
 				 welcome.setStyleName("btnwhiteeins");
-		Panel p = new Panel();
-		p.setWidth(50, Unit.PERCENTAGE);
-		p.setStyleName(ValoTheme.PANEL_BORDERLESS);
-		
-		
-		 Label deinBesuch = new Label("Willkommen im CCM System, dem Unternehmensmanagement der Dualen Hochschule Baden-Württemberg in Mosbach.");
-		 		 deinBesuch.setEnabled(false);
-		 		 deinBesuch.setCaption("Willkommen im CCM System, dem dualen Partnerunternehmesmanagement der Dualen Hochschule Baden-Württemberg in Mosbach. ");
-		 		 //deinBesuch.setStyleName("btnwhiteeins");
-//		BesuchVerwaltung bv = new BesuchVerwaltung();
-//		 bv.refresh();
-		p.setContent(deinBesuch);
+		TextArea ta = new TextArea();
+//		ta.setCaption("Hallo " + benutzer.getVorname() + " " + benutzer.getNachname() + ",");
+		ta.setValue("Willkommen im CCM System, dem Unternehmensmanagement der Dualen Hochschule Baden-Württemberg in Mosbach.");
+		ta.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
+		ta.setWidth("300px");
+		ta.setWordwrap(true);
+		ta.setHeight("150px");
+//		Panel p = new Panel();
+//		p.setWidth(50, Unit.PERCENTAGE);
+//		p.setStyleName(ValoTheme.PANEL_BORDERLESS);
+//		
+//		
+//		 Label deinBesuch = new Label("Willkommen im CCM System, dem Unternehmensmanagement der Dualen Hochschule Baden-Württemberg in Mosbach.");
+//		 		 deinBesuch.setEnabled(false);
+//		 		 deinBesuch.setCaption("Willkommen im CCM System, dem dualen Partnerunternehmesmanagement der Dualen Hochschule Baden-Württemberg in Mosbach. ");
+//		 		 //deinBesuch.setStyleName("btnwhiteeins");
+
 		
 		Image ccmLogo= new Image(" ", new ThemeResource("ccmlogo.png"));
 		ccmLogo.setHeight("-1px");
@@ -54,10 +59,10 @@ public class ViewStartseite extends VerticalLayout implements View {
 		
 		FooterView fv = new FooterView();
 		this.addComponent(welcome);
-		this.setComponentAlignment(welcome,Alignment.BOTTOM_CENTER);
+	this.setComponentAlignment(welcome,Alignment.BOTTOM_CENTER);
 		
-		this.addComponent(p);
-		this.setComponentAlignment(p, Alignment.BOTTOM_CENTER);
+		this.addComponent(ta);
+		this.setComponentAlignment(ta, Alignment.BOTTOM_CENTER);
 //		this.addComponent(bv);
 		this.addComponent(ccmLogo);
 		this.setComponentAlignment(ccmLogo, Alignment.BOTTOM_CENTER);
