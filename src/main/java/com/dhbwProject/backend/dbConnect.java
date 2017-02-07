@@ -808,6 +808,27 @@ public class dbConnect {
 		return lBesuch;
 
 	}
+	public LinkedList<Besuch> getAllBesuche() throws SQLException {
+		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
+		ResultSet res = executeQuery("select * from besuch ORDER BY besuch_beginn", new Object[] {});
+		
+			while (res.next()) {
+				int id = res.getInt("besuch_id");
+				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
+				java.sql.Timestamp timestamp = res.getTimestamp("besuch_timestamp");
+				java.sql.Timestamp startDate = res.getTimestamp("besuch_beginn");
+				java.sql.Timestamp endDate = res.getTimestamp("besuch_ende");
+				String name = res.getString("besuch_name");
+				Benutzer autor = getBenutzerById(res.getString("besuch_autor"));
+				Status status = getStatusById(res.getInt("status_id"));
+				LinkedList<Benutzer> lBenutzer = getBenutzerByBesuchId(id);
+				Ansprechpartner ansprechpartner = getAnsprechpartnerById(res.getInt("ansprechpartner_id"));
+				lBesuch.add(new Besuch(id, name, startDate, endDate, adresse, status, ansprechpartner, lBenutzer, timestamp, autor));
+			}
+			res.close();
+		return lBesuch;
+
+	}
 	public LinkedList<Besuch> getBesuchByAdresse(Adresse pAdresse) throws SQLException {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
 		ResultSet res = executeQuery("select * from besuch where adresse_id = ?  ORDER BY besuch_beginn", new Object[] {(Object) pAdresse.getId()});
