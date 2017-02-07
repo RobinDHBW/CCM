@@ -61,30 +61,26 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	private void initID() {
-		this.tfID = new TextField();
-		this.tfID.setInputPrompt("Anmeldename");
+		this.tfID = new TextField("Anmeldename");
 		this.tfID.setWidth("300px");
 		this.addComponent(tfID);
 	}
 	
 	private void initVorname() {
-		this.tfVorname = new TextField();
-		this.tfVorname.setInputPrompt("Vorname");
+		this.tfVorname = new TextField("Vorname");
 		this.tfVorname.setWidth("300px");
 		this.addComponent(tfVorname);
 		
 	}
 	
 	private void initNachname() {
-		this.tfNachname = new TextField();
-		this.tfNachname.setInputPrompt("Nachname");
+		this.tfNachname = new TextField("Nachname");
 		this.tfNachname.setWidth("300px");
 		this.addComponent(tfNachname);
 	}
 	
 	private void initCbBerufe() {
-		this.cbBeruf = new ComboBox();
-		this.cbBeruf.setInputPrompt("Beruf");
+		this.cbBeruf = new ComboBox("Beruf");
 		try {
 			alleBerufe = dbConnect.getAllBeruf();
 		} catch (SQLException e) {
@@ -101,8 +97,7 @@ public class BenutzerFields extends VerticalLayout{
 	}
 	
 	private void initCbRolle() {
-		this.cbRolle = new ComboBox();
-		this.cbRolle.setInputPrompt("Rolle");
+		this.cbRolle = new ComboBox("Rolle");
 		try {
 			alleRollen = dbConnect.getAllRolle();
 		} catch (SQLException e) {

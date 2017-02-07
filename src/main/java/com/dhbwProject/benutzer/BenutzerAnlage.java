@@ -169,7 +169,7 @@ public class BenutzerAnlage extends Window {
 			String betreff = "CCM Benutzerkonto";
 			String inhalt = "Guten Tag " + fields.getVorname() + " "
 					+ fields.getNachname() + ",<br><br> Im CM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
-					+ fields.getVorname() + " <br>Passwort: default <br><br> Bitte ändern Sie das Passwort bei der ersten Anmeldung.";
+					+ fields.getID() + " <br>Passwort: default <br><br> Bitte ändern Sie das Passwort bei der ersten Anmeldung.";
 			try {
 			EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
 			mail.start();

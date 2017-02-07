@@ -1,9 +1,11 @@
 package com.dhbwProject.benutzer;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.EMailThread;
 import com.dhbwProject.backend.PasswordHasher;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
@@ -167,6 +169,21 @@ public class BenutzerAenderung extends Window {
 					try {
 						dbConnect.changePassword(PasswordHasher.md5("default"), neu);
 						Notification.show("Das Passwort wurde auf default zurückgesetzt");
+						
+						ArrayList<String> mailAdresse = new ArrayList<String>();
+						mailAdresse.add(fields.getEmail());
+						String betreff = "CCM Benutzerkonto";
+						String inhalt = "Guten Tag " + fields.getVorname() + " "
+								+ fields.getNachname() + ",<br><br> Ihr Passwort im CRM-System wurde auf 'default' zurückgesetzt. <br><br>Benutzername: "
+								+ fields.getID() + "<br><br> Bitte ändern Sie das Passwort bei der nächtsen Anmeldung.";
+						try {
+						EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
+						mail.start();
+						} catch (Exception e) {
+							Notification.show("E-Mail Adresse nicht korrekt", Type.ERROR_MESSAGE);
+							e.printStackTrace();
+						}
+						
 					} catch (SQLException e) {
 						Notification.show("Das Passwort konnte nicht zurückgesetzt werden");
 					}

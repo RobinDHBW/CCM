@@ -18,6 +18,7 @@ import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -44,7 +45,8 @@ private static final long serialVersionUID = 1L;
 		this.layout.setSizeFull();
 		this.layout.setComponentAlignment(this.fields, Alignment.MIDDLE_CENTER);
 		
-		this.setContent(this.layout);
+		Panel p = new Panel(this.layout);
+		this.setContent(p);
 		this.center();
 		this.setWidth("350px");
 		this.setHeight("500px");
