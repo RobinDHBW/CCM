@@ -789,7 +789,7 @@ public class dbConnect {
 	// Besuch
 	public LinkedList<Besuch> getBesucheByDate(Date date) throws SQLException {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
-		ResultSet res = executeQuery("select * from besuch where besuch_beginn = ?", new Object[] {(Object) date});
+		ResultSet res = executeQuery("select * from besuch where besuch_beginn = ? ORDER BY besuch_beginn", new Object[] {(Object) date});
 		
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
@@ -810,7 +810,7 @@ public class dbConnect {
 	}
 	public LinkedList<Besuch> getBesuchByAdresse(Adresse pAdresse) throws SQLException {
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
-		ResultSet res = executeQuery("select * from besuch where adresse_id = ?", new Object[] {(Object) pAdresse.getId()});
+		ResultSet res = executeQuery("select * from besuch where adresse_id = ?  ORDER BY besuch_beginn", new Object[] {(Object) pAdresse.getId()});
 		
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
@@ -831,7 +831,7 @@ public class dbConnect {
 	}
 	public LinkedList<Besuch> getBesuchByBenutzer(Benutzer benutzer) throws SQLException{
 		LinkedList<Besuch> lBesuch = new LinkedList<Besuch>();
-		ResultSet res = executeQuery("select * from benutzer_besuch where benutzer_id = ?", new Object[] {(Object) benutzer.getId()});
+		ResultSet res = executeQuery("select * from benutzer_besuch where benutzer_id = ? ORDER BY besuch_beginn", new Object[] {(Object) benutzer.getId()});
 		
 			while (res.next()) {
 				int besuch_id = res.getInt("besuch_id");
