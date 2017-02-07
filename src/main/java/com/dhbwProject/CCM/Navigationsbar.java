@@ -1,6 +1,7 @@
 package com.dhbwProject.CCM;
 
 import com.dhbwProject.backend.CCM_Constants;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -11,6 +12,12 @@ import com.vaadin.ui.themes.ValoTheme;
 public class Navigationsbar extends CssLayout{
 	private static final long serialVersionUID = 1L;
 	private CCM_Navigator navNavigator;
+	
+	NaviButton btnStartseite;
+	NaviButton btnBenutzer;
+	NaviButton btnUnternehmen;
+	NaviButton btnBesuch;
+	
 	
 	public Navigationsbar(CCM_Navigator nav){
 		this.setSizeFull();
@@ -63,16 +70,16 @@ public class Navigationsbar extends CssLayout{
 	}
 	
 	private void initNaviButtons(){
-		NaviButton btnStartseite = new NaviButton(CCM_Constants.VIEW_NAME_START, FontAwesome.HOME);
+		btnStartseite = new NaviButton(CCM_Constants.VIEW_NAME_START, FontAwesome.HOME);
 		this.addComponent(btnStartseite);
 		
-		NaviButton btnBenutzer = new NaviButton(CCM_Constants.VIEW_NAME_BENUTZER, FontAwesome.GROUP);
+		btnBenutzer = new NaviButton(CCM_Constants.VIEW_NAME_BENUTZER, FontAwesome.GROUP);
 		this.addComponent(btnBenutzer);
 		
-		NaviButton btnUnternehmen = new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, FontAwesome.BUILDING);
+		btnUnternehmen = new NaviButton(CCM_Constants.VIEW_NAME_UNTERNEHMEN, FontAwesome.BUILDING);
 		this.addComponent(btnUnternehmen);
 		
-		NaviButton btnBesuch = new NaviButton(CCM_Constants.VIEW_NAME_BESUCH, FontAwesome.CALENDAR);
+		btnBesuch = new NaviButton(CCM_Constants.VIEW_NAME_BESUCH, FontAwesome.CALENDAR);
 		this.addComponent(btnBesuch);
 	}
 	
@@ -95,6 +102,14 @@ public class Navigationsbar extends CssLayout{
 			this.addStyleName("navi");
 		}
 		
+	}
+	
+	protected void refreshVisibilityByRolle(){
+		Benutzer bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+		if(bUser.getRolle().getId() > 1)
+			this.btnBenutzer.setVisible(false);
+		else if(!btnBenutzer.isVisible())
+			btnBenutzer.setVisible(true);
 	}
 
 }
