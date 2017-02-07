@@ -611,8 +611,8 @@ public class dbConnect {
 		ps.setString(1, b.getVorname());
 		ps.setString(2, b.getNachname());
 		ps.setString(3, b.getId());
-		ps.setInt(4, beruf.getId());
-		ps.setInt(5, rolle.getId());
+		ps.setInt(4, rolle.getId());
+		ps.setInt(5, beruf.getId());
 		ps.setString(6, b.getEmail());
 		ps.setString(7, b.getTelefon());
 		ps.executeUpdate();
