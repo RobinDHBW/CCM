@@ -9,6 +9,7 @@ import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -57,10 +58,22 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.tblUnternehmen.setContainerDataSource(this.container);
 		this.tblUnternehmen.setColumnHeader("Kennzeichen", "");
 		
+		TextField tfFilterUnternehmen = new TextField();
+		tfFilterUnternehmen.setWidth(tblUnternehmen.getWidth(), tblUnternehmen.getWidthUnits());
+		tfFilterUnternehmen.setStyleName(ValoTheme.TEXTFIELD_BORDERLESS);
+		tfFilterUnternehmen.setInputPrompt("Filter Unternehmen");
+		tfFilterUnternehmen.addTextChangeListener(change -> {
+	    	this.container.removeContainerFilters("Name");
+	        if (! change.getText().isEmpty())
+	        	container.addContainerFilter(
+	                new SimpleStringFilter("Name",
+	                    change.getText(), true, false));
+	    });
+		
 		if(bUser.getRolle().getId()<=2)
-			this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
+			this.vlLayout = new VerticalLayout(this.mbMenu, tfFilterUnternehmen, this.tblUnternehmen);
 		else
-			this.vlLayout = new VerticalLayout(this.tblUnternehmen);
+			this.vlLayout = new VerticalLayout(tfFilterUnternehmen, this.tblUnternehmen);
 		this.vlLayout.setMargin(true);
 		this.vlLayout.setSizeFull();
 		this.setCompositionRoot(this.vlLayout);	
