@@ -13,9 +13,7 @@ import com.dhbwProject.benutzer.LookupBenutzer;
 import com.dhbwProject.unternehmen.LookupAnsprechpartner;
 import com.dhbwProject.unternehmen.LookupUnternehmen;
 import com.vaadin.data.Validator.InvalidValueException;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.DateRangeValidator;
 import com.vaadin.data.validator.NullValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.FontAwesome;
@@ -254,6 +252,8 @@ public class BesuchFelder extends VerticalLayout {
 			LookupBenutzer lookup = new LookupBenutzer(true);
 			lookup.removeAutorFromList();
 			lookup.addCloseListener(CloseListener -> {
+				if(lookup.getLSelection() == null)
+					return;
 				this.setTeilnehmenr(lookup.getLSelection());
 			});
 			this.getUI().addWindow(lookup);

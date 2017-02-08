@@ -7,17 +7,19 @@ import java.util.Set;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Benutzer;
+import com.dhbwProject.backend.beans.Studiengang;
 import com.vaadin.data.Item;
-import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -25,29 +27,33 @@ import com.vaadin.ui.Window;
 public class LookupBenutzer extends Window{
 	private static final long serialVersionUID = 1L;
 	
-	private VerticalLayout layout;
 	private VerticalLayout fields;
 	private TextField tfFilterNachname;
 	private TextField tfFilterVorname;
+	private TextArea taFilterStudiengang;
+	private Button btnLookupStudiengang;
 	private ListSelect select;
 	private IndexedContainer container;
+	private LinkedList<Benutzer> lBenutzerAuswahl;
 	private Button btnOk;
-	private LinkedList<Benutzer> lBenutzerSelection = new LinkedList<Benutzer>();
+	private LinkedList<Benutzer> lBenutzerSelection;
 	private dbConnect dbConnection;
 	private Benutzer bSelection;
 	
 	public LookupBenutzer(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
-		this.initFields();
+		try {
+			this.lBenutzerAuswahl = this.dbConnection.getAllBenutzer();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		this.layout = new VerticalLayout(this.fields);
-		this.layout.setSizeFull();
-		this.layout.setComponentAlignment(this.fields, Alignment.MIDDLE_CENTER);
-		
-		this.setContent(this.layout);
+		this.setContent(this.initFields());
 		this.center();
-		this.setWidth("350px");
-		this.setHeight("500px");
+		this.setWidth("400");
+		this.setHeight("600px");
+		this.setCaptionAsHtml(true);
+		this.setCaption("<center><h3>Wählen Sie bis Teilnehmer</h3></center>");
 	}
 	
 	public LookupBenutzer(boolean multiSelect){
@@ -55,12 +61,7 @@ public class LookupBenutzer extends Window{
 		this.select.setMultiSelect(multiSelect);
 	}
 
-	private void initFields(){
-		this.fields = new VerticalLayout();
-		this.fields.setSizeUndefined();
-		this.fields.setSpacing(true);
-		this.fields.setMargin(new MarginInfo(true, true, true, true));
-		
+	private Panel initFields(){		
 		this.select = new ListSelect();
 		this.select.setWidth("300px");
 		this.initContainer();
@@ -89,11 +90,40 @@ public class LookupBenutzer extends Window{
 	                    change.getText(), true, false));
 	    });
 	    
+	    this.taFilterStudiengang = new TextArea();
+	    this.taFilterStudiengang.setInputPrompt("Filter Studiengang");
+	    this.taFilterStudiengang.setWidth("300px");
+	    this.taFilterStudiengang.setHeight("100px");
+	    this.taFilterStudiengang.setReadOnly(true);
+	    
+	    this.btnLookupStudiengang = new Button();
+	    this.btnLookupStudiengang.setWidth("50px");
+	    this.btnLookupStudiengang.setIcon(FontAwesome.REPLY);
+	    this.btnLookupStudiengang.addClickListener(click ->{
+	    	LookupStudiengang lookup = new LookupStudiengang();
+	    	lookup.addCloseListener(close ->{
+	    		if(lookup.getLSelection() == null)
+	    			return;
+	    		else if(lookup.getLSelection().size() <=0){
+	    			refreshContainer();
+	    			setStudiengang(lookup.getLSelection());
+	    		}else{
+		    		setStudiengang(lookup.getLSelection());
+		    		refreshContainer(lookup.getLSelection());
+	    		}
+	    	});
+	    	getUI().addWindow(lookup);
+	    });
+	    
+	    HorizontalLayout hlStudiengang = new HorizontalLayout(taFilterStudiengang, btnLookupStudiengang);
+	    hlStudiengang.setSpacing(true);
+	    
 	    this.btnOk = new Button("Auswählen");
 	    this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{
 	    	if(select.isMultiSelect()){
+	    		lBenutzerSelection  = new LinkedList<Benutzer>();
 	    		Set <Item>values = (Set<Item>) this.select.getValue();
 	    		for(Object o : values)
 	    			this.lBenutzerSelection.add((Benutzer)o);
@@ -102,34 +132,44 @@ public class LookupBenutzer extends Window{
 	    	this.close();	
 	    });
 	    
-		this.fields.addComponent(this.tfFilterNachname);
-		this.fields.setComponentAlignment(this.tfFilterNachname, Alignment.TOP_CENTER);
-		this.fields.addComponent(this.tfFilterVorname);
-		this.fields.setComponentAlignment(this.tfFilterVorname, Alignment.TOP_CENTER);
-		this.fields.addComponent(this.select);
-		this.fields.setComponentAlignment(this.select, Alignment.TOP_CENTER);
-		this.fields.addComponent(this.btnOk);
-		this.fields.setComponentAlignment(this.btnOk, Alignment.TOP_CENTER);
-		
+		this.fields = new VerticalLayout(tfFilterNachname, tfFilterVorname, hlStudiengang, select, btnOk);
+		this.fields.setSizeUndefined();
+		this.fields.setSpacing(true);
+
+		VerticalLayout layout = new VerticalLayout(fields);
+		layout.setMargin(true);
+		layout.setComponentAlignment(fields, Alignment.TOP_CENTER);
+		return new Panel(layout);
+	    
 	}
 
 	private void initContainer(){
 		this.container = new IndexedContainer();
 		this.container.addContainerProperty("nachname", String.class, null);
 		this.container.addContainerProperty("vorname", String.class, null);
-		try {
-			for(Benutzer b : this.dbConnection.getAllBenutzer()){
-				Item itm = container.addItem(b);
-				itm.getItemProperty("nachname").setValue(b.getNachname()+",");
-				itm.getItemProperty("vorname").setValue(b.getVorname());
-			}
-		} catch (ReadOnlyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		refreshContainer();
+	}
+	
+	private void refreshContainer(){
+		this.container.removeAllItems();
+		for(Benutzer b : this.lBenutzerAuswahl)
+			addItem(b);
+	}
+	
+	private void refreshContainer(LinkedList<Studiengang> lStudiengang){
+		this.container.removeAllItems();
+		for(Benutzer b : this.lBenutzerAuswahl)
+			for(Studiengang s : b.getStudiengang())
+				if(lStudiengang.contains(s)){
+					addItem(b);
+					break;
+				}
+	}
+	
+	private void addItem(Benutzer b){
+		Item itm = container.addItem(b);
+		itm.getItemProperty("nachname").setValue(b.getNachname()+", ");
+		itm.getItemProperty("vorname").setValue(b.getVorname());
 	}
 	
 	public boolean removeAutorFromList(){
@@ -146,5 +186,14 @@ public class LookupBenutzer extends Window{
 	
 	public LinkedList<Benutzer> getLSelection(){
 		return this.lBenutzerSelection;
+	}
+	
+	private void setStudiengang(LinkedList<Studiengang> lStudiengang){
+		StringBuilder sbValue = new StringBuilder();
+		for(Studiengang s : lStudiengang)
+			sbValue.append(s.getBezeichnung()+"\n");
+		this.taFilterStudiengang.setReadOnly(false);
+		this.taFilterStudiengang.setValue(sbValue.toString());
+		this.taFilterStudiengang.setReadOnly(true);
 	}
 }
