@@ -77,6 +77,7 @@ public class CCM_UI extends UI {
 		this.pnlContent.setStyleName(ValoTheme.PANEL_BORDERLESS);
 		this.pnlContent.setContent(this.vlFormat);
 		this.setContent(this.pnlContent);
+		Responsive.makeResponsive(pnlContent);
 		
 		this.getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
     }
@@ -124,12 +125,14 @@ public class CCM_UI extends UI {
 	private void initViewPanel(){	
 		this.hlContent.addComponent(this.pnlViews);
 		this.hlContent.setExpandRatio(this.pnlViews, 7);
+		Responsive.makeResponsive(hlContent);
 		this.pnlViews.setSizeFull();	
 	}
 	
 	private void initViewNavigator(){
 		this.pnlViews = new Panel();
 		this.pnlViews.setStyleName(ValoTheme.PANEL_BORDERLESS);
+		Responsive.makeResponsive(pnlViews);
 		this.setNavigator(new CCM_Navigator(this, this.pnlViews));
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_LOGIN, ViewLogin.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_START, ViewStartseite.class);

@@ -39,9 +39,89 @@ $v-error-indicator-color: #c4272d;//rot
 @import "../valo/valo.scss";
 
 @mixin CCM_Theme {
-  @include valo;
+ @include valo;
  
   // Insert your own theme rules here
+.v-textarea-tffield {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
+	user-select: text;
+	margin: 0;
+	font: inherit;
+	
+	font-weight: 400;
+	line-height: normal;
+	height: 37px;
+	border-radius: 4px;
+	padding: 6px;
+	border: 1px solid #c9c9c9;
+	background: white;
+	color: #474747;
+	-webkit-box-shadow: inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	box-shadow: inset 0 1px 0 #f7f7f7, 0 1px 0 rgba(255, 255, 255, 0.1);
+	-webkit-transition: box-shadow 180ms, border 180ms;
+	-moz-transition: box-shadow 180ms, border 180ms;
+	transition: box-shadow 180ms, border 180ms;
+	height: auto;
+	resize: none;
+	white-space: pre-wrap;
+	width:300px; 
+  
+  }
+
+.responsive-layout[width-range~="0-300px"]{
+	} 
+.responsive-layout[width-range~="300px-700px"]{
+	}  
+.responsive-layout[width-range~="700px-"]{
+	}
+.v-customcomponent-cclayout{
+	width:300px;
+	}
+
+.v-customcomponent-cclayout[width-range~="0-400px"]{
+	width:400px;
+	}
+.v-customcomponent-cclayout[width-range~="400px-700px"]{
+	width:600px;
+	}
+.v-customcomponent-cclayout[width-range~="700px-"]{
+	width:900px;
+	}
+//Horizontal Layout Stylerules
+.v-horizontal-hllogin{
+	width:300px;
+	}
+.v-horizontal-hllogin[width-range~="0-400px"]{
+	width:300px;
+	}
+	
+.v-horizontal-hllogin[width-range~="400px-700px"]{
+	width:500px;
+	}
+.v-horizontal-hllogin[width-range~="700px-"]{
+	width:600px;
+	}
+//Vertical Layout Stylerules
+.v-vertical-vlfelder{ 
+	width:300px;
+	}
+.v-vertical-vlfelder[width-range~="0-400px"]{ 
+	width:400px;
+	}
+.v-vertical-vlfelder[width-range~="400px-700px"]{ 
+	width:600px;
+	}
+
+.v-vertical-vlfelder[width-range~="700px-"]{ 
+	width:800px;
+	}
   
 //Button Styling
 .v-button{
@@ -58,6 +138,26 @@ $v-error-indicator-color: #c4272d;//rot
   
   
 }
+.v-button[width-range~="0-300px"]{
+	brackground: red;
+	width:300px;
+	}
+.v-button[width-range~="300px-"]{
+	brackground: green;
+	width:500px;
+	}
+
+.v-button-login[width-range~="0-400px"]{
+	brackground:red;
+	width:100%;
+	}
+.v-button-login[width-range~="400px-"]{
+	brackground:green;
+	width:100%;
+	}
+
+
+
 
 .v-button-caption{
  	font-size: 12pt;
@@ -65,7 +165,17 @@ $v-error-indicator-color: #c4272d;//rot
     font-color: #dcdfe0;
     padding:0px 0px 0px 0px;
 }
-.v-button-navi{
+.v-button-navi[width-range~="0-400px"]{
+background-color:#5d6a72;
+color: #dcdfe0;
+font-color: #dcdfe0;
+font-weight:bold;
+text-align:left;
+padding: 6px 6px 6px 6px;
+width:200px;
+	
+}
+.v-button-navi[width-range~="300px-"]{
 background-color:#5d6a72;
 color: #dcdfe0;
 font-color: #dcdfe0;
@@ -74,13 +184,6 @@ text-align:left;
 padding: 6px 6px 6px 6px;
 width:90%;
 	
- //.v-icon {
- //   float: left;
-//	vertical-align:left;
-//	margin-right:3px;
-//	margin-left:3px;
-//	border:none;
-//	}
 }
 .v-button .v-icon{
 	//vertical-align:right;
@@ -88,13 +191,26 @@ width:90%;
 	border:none;
 	}
 .v-button-navi-wrap .v-button-navi-caption{
-	font-size:12pt;
+	font-weight:bold;
+    font-color:#dcdfe0;
+    text-align:left;
+	padding:6px 6px 6px 0px;
+}
+.v-button-navi-wrap .v-button-navi-caption[width-range~="0-300px"]{
+	font-size:10pt;
     font-weight:bold;
     font-color:#dcdfe0;
     text-align:left;
 	padding:6px 6px 6px 0px;
 }
 
+.v-button-navi-wrap .v-button-navi-caption[width-range~="300px-"]{
+	font-size:16pt;
+    font-weight:bold;
+    font-color:#dcdfe0;
+    text-align:left;
+	padding:6px 6px 6px 0px;
+}
 
 	}
 //Während der Button angeclickt ist = focus; greifen für alle Buttons die folgenden Styling Regeln:
@@ -170,7 +286,7 @@ width:90%;
 	font-color:white;   
 	
 } 
-v-button-btnwhitelogo .v-button-icon{
+.v-button-btnwhitelogo .v-button-icon{
 	border:none;
 	width:100%;
 	color:white;
@@ -190,14 +306,42 @@ v-button-btnwhitelogo .v-button-icon{
 
 
 //Textfield und PasswordField nutzen denselben default Stylename
-.v-textfield{
+.v-textfield-tffield{
 	color:black
 	background-color: white;
 	width:300px;
 }
+.v-textfield-tffield[width-range~="0-400px"]{
+	width:300px;
 
 
+}
+.v-textfield-tffield[width-range~="400px-700px"]{
+	width:500px;
+}
 
+.v-textfield-tffield[width-range~="700px-"]{
+	width:600px;
+	}
+/*
+.v-textarea-tffield{
+	color:black
+	background-color: white;
+	width:300px;
+}
+.v-textarea-tffield[width-range~="0-400px"]{
+	width:300px;
+
+
+}
+.v-textarea-tffield[width-range~="400px-700px"]{
+	width:500px;
+}
+
+.v-textarea-tffield[width-range~="700px-"]{
+	width:600px;
+	}
+*/
 //Table Style
 .base .v-table-drag .v-table-body{
 border-color: white;

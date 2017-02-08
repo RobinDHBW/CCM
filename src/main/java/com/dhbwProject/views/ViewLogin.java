@@ -49,6 +49,8 @@ public class ViewLogin extends CustomComponent implements View{
 		this.initBtnChangePw();
 		this.initVlFields();
 		this.initVlLayout();
+		this.setStyleName("cclayout");
+		Responsive.makeResponsive(this);
 	}
 	
 	@Override
@@ -58,29 +60,32 @@ public class ViewLogin extends CustomComponent implements View{
 	
 	private void initPwField(){
 		this.pwField = new PasswordField("Passwort");
-		this.pwField.setWidth("300px");
+		this.pwField.setWidth("-1px");
 		this.pwField.setRequired(true);
 //		this.pwField.addValidator(new PasswordValidator());
 		this.pwField.setValue("");
 		this.pwField.setNullRepresentation("");
+		this.pwField.setStyleName("tffield");
 		Responsive.makeResponsive(pwField);
 	}
 	
 	private void initUserField(){
 		this.userField = new TextField("Benutzer");
-		this.userField.setWidth("300px");
+		this.userField.setWidth("-1px");
 		this.userField.setRequired(true);
 		this.userField.setInputPrompt("Ihr Benutzername");	
+		this.userField.setStyleName("tffield");
 		Responsive.makeResponsive(userField);
 	}
 	
 	private void initBtnLogin(){
 		this.btnLogin = new Button();
 		this.btnLogin.setIcon(FontAwesome.SIGN_IN);
-		this.btnLogin.setWidth("100%");
+	//	this.btnLogin.setWidth("100%");
 		this.btnLogin.setCaption("Anmelden"); //Beschriftung des Buttons
 //		this.btnLogin.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		this.btnLogin.setClickShortcut(KeyCode.ENTER);
+		this.btnLogin.setStyleName("login");
 		Responsive.makeResponsive(btnLogin);
 		this.btnLogin.addClickListener(listener ->{
 			if (!this.userField.isValid())
@@ -109,8 +114,9 @@ public class ViewLogin extends CustomComponent implements View{
 	
 	private void initBtnChangePw(){
 		this.btnChangePw = new Button();
-		this.btnChangePw.setWidth("100%");
+//		this.btnChangePw.setWidth("100%");
 //		this.btnChangePw.setCaption("Passwort ändern");
+		this.btnChangePw.setStyleName("login");
 		this.btnChangePw.setIcon(FontAwesome.COGS);
 		Responsive.makeResponsive(btnChangePw);
 		this.btnChangePw.addClickListener(click ->{
@@ -122,10 +128,12 @@ public class ViewLogin extends CustomComponent implements View{
 	private void initVlFields(){
 		HorizontalLayout hlButtons = new HorizontalLayout(this.btnLogin, this.btnChangePw);
 		hlButtons.setSpacing(true);
-		hlButtons.setWidth("300px");
+		hlButtons.setStyleName("hllogin");
+	//	hlButtons.setWidth("300px");
         this.vlFields = new VerticalLayout(this.userField, this.pwField, hlButtons);
         this.vlFields.setCaption("Bitte melden Sie sich am System an");
         this.vlFields.setSpacing(true);
+        this.vlFields.setStyleName("vlfelder");
         this.vlFields.setMargin(new MarginInfo(true, false, true, false));
         this.vlFields.setSizeUndefined();
         Responsive.makeResponsive(hlButtons);
