@@ -91,7 +91,6 @@ public class LookupBenutzer extends Window{
 	    });
 	    
 	    this.taFilterStudiengang = new TextArea();
-	    this.taFilterStudiengang.setInputPrompt("Filter Studiengang");
 	    this.taFilterStudiengang.setWidth("300px");
 	    this.taFilterStudiengang.setHeight("100px");
 	    this.taFilterStudiengang.setReadOnly(true);
@@ -116,6 +115,7 @@ public class LookupBenutzer extends Window{
 	    });
 	    
 	    HorizontalLayout hlStudiengang = new HorizontalLayout(taFilterStudiengang, btnLookupStudiengang);
+	    hlStudiengang.setCaption("Studiengänge:");
 	    hlStudiengang.setSpacing(true);
 	    
 	    this.btnOk = new Button("Auswählen");

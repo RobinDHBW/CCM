@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.EMailThread;
@@ -26,6 +27,7 @@ import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
@@ -51,12 +53,14 @@ public class BesuchUebersicht extends CustomComponent{
 	private IndexedContainer container;
 	private VerticalLayout vlLayout;
 	
+	private LinkedList<Besuch> lBesuch;
 	private Date currentTime;
 	private String titelAnzeige = null;
 	private Benutzer bAnzeige;
 	private Unternehmen uAnzeige;
 	private Date dStart;
 	private Date dEnd;
+	private boolean alleBenutzer;
 	
 	public BesuchUebersicht(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
@@ -74,7 +78,7 @@ public class BesuchUebersicht extends CustomComponent{
 		this.initTable();
 		this.vlLayout = new VerticalLayout(mbMenu, tblBesuche);
 		this.vlLayout.setMargin(true);
-		this.refreshContainer(this.bUser, dStart, dEnd);
+		this.refreshContainer(dStart, dEnd);
 		this.setCompositionRoot(vlLayout);
 	}
 	
@@ -97,11 +101,12 @@ public class BesuchUebersicht extends CustomComponent{
 		this.container.addContainerProperty("Adresse", TextArea.class, null);
 	}
 	
-	private void refreshContainer(Benutzer benutzer, Date dStart, Date dEnd){
+	private void refreshContainer(Date dStart, Date dEnd){
 		this.container.removeAllItems();
 		this.container.removeAllContainerFilters();
+		refreshBesuchListe();
 		try{
-			for(Besuch b : this.dbConnection.getBesuchByBenutzer(benutzer)){
+			for(Besuch b : lBesuch){
 				if(dStart !=null && dEnd != null){
 					if(b.getStartDate().after(dStart) && b.getEndDate().before(dEnd))
 						addItem(b);
@@ -125,6 +130,17 @@ public class BesuchUebersicht extends CustomComponent{
 				container.addContainerFilter(new SimpleStringFilter("Unternehmen", uAnzeige.getName(), true, false));
 			
 		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void refreshBesuchListe(){
+		try {
+			if(!alleBenutzer)
+				lBesuch = this.dbConnection.getBesuchByBenutzer(bAnzeige);
+			else
+				lBesuch = this.dbConnection.getAllBesuche();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -291,6 +307,7 @@ public class BesuchUebersicht extends CustomComponent{
 		Button btnUnternehmen;
 		TextField tfBenutzer;
 		Button btnBenutzer;
+		CheckBox cbAlleBenutzer;
 		
 		Button btnOK;
 		Button btnReset;
@@ -382,11 +399,17 @@ public class BesuchUebersicht extends CustomComponent{
 				HorizontalLayout hlBenutzer = new HorizontalLayout(tfBenutzer, btnBenutzer);
 				hlBenutzer.setSpacing(true);
 				hlBenutzer.setCaption("Benutzer: ");
+				
+				cbAlleBenutzer = new CheckBox();
+				cbAlleBenutzer.setCaption("Alle Benutzer?");
+				cbAlleBenutzer.addValueChangeListener(valueChange ->{
+					alleBenutzer = cbAlleBenutzer.getValue();
+				});
 			
 			btnOK = new Button();
 			btnOK.setIcon(FontAwesome.SEARCH);
 			btnOK.setCaption("Ausführen");
-			btnOK.addClickListener(click -> refreshContainer(bAnzeige, dStart, dEnd));
+			btnOK.addClickListener(click -> refreshContainer(dStart, dEnd));
 			
 			btnReset = new Button();
 			btnReset.setIcon(FontAwesome.REPLY_ALL);
@@ -399,8 +422,8 @@ public class BesuchUebersicht extends CustomComponent{
 				dEnd = null;
 				dfStart.setValue(dStart);
 				dfEnd.setValue(dEnd);
-//				activateFilter();
-				refreshContainer(bAnzeige, dStart, dEnd);
+				cbAlleBenutzer.setValue(false);
+				refreshContainer(dStart, dEnd);
 			});
 			HorizontalLayout hlButtons = new HorizontalLayout(btnReset, btnOK);
 			hlButtons.setSpacing(true);
@@ -408,7 +431,7 @@ public class BesuchUebersicht extends CustomComponent{
 			if(bUser.getRolle().getId()>1)
 				layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen, hlButtons);
 			else
-				layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen,hlBenutzer, hlButtons);
+				layoutFields = new VerticalLayout(tfTitel, dfStart, dfEnd, hlUnternehmen,hlBenutzer, cbAlleBenutzer, hlButtons);
 					
 			VerticalLayout layout = new VerticalLayout(layoutFields);
 			layout.setComponentAlignment(layoutFields, Alignment.TOP_CENTER);
@@ -440,31 +463,6 @@ public class BesuchUebersicht extends CustomComponent{
 				tfTitel.setValue("");
 		}
 		
-//		private void activateFilter(){
-//			container.removeAllContainerFilters();
-//			refreshContainer(bAnzeige, dStart, dEnd);
-//			
-//			for(Object pid : container.getContainerPropertyIds()){
-//				switch(pid.toString()){
-//				case "Titel":{
-//					if(titelAnzeige != null)
-//						container.addContainerFilter(new SimpleStringFilter(pid, titelAnzeige, true, false));
-//					break;
-//				}
-//				case "Unternehmen":{
-//					if(uAnzeige != null)
-//						container.addContainerFilter(new SimpleStringFilter(pid, uAnzeige.getName(), true, false));
-//					break;
-//				}
-//				default :
-//				
-//				}
-//			}
-//		}
 	}
-	
-
-	
-	
-	
+		
 }
