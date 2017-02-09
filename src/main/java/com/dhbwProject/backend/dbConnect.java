@@ -117,12 +117,8 @@ public class dbConnect {
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
 			if(obj instanceof Benutzer){
-				 PreparedStatement ps = con.prepareStatement("DELETE FROM `benutzer` WHERE `vorname`= ? AND `nachname`= ? AND `benutzer_id`= ? AND `rolle_id`= ? AND `beruf_id`= ?)");
-				 ps.setString(1, ((Benutzer) obj).getVorname());
-				 ps.setString(2, ((Benutzer) obj).getNachname());
-				 ps.setString(3, ((Benutzer) obj).getId());
-				 ps.setInt(4, ((Benutzer) obj).getRolle().getId());
-				 ps.setInt(5, ((Benutzer) obj).getBeruf().getId());
+				 PreparedStatement ps = con.prepareStatement("UPDATE `benutzer` SET `geloescht` = '1' WHERE `benutzer`.`benutzer_id` = ? ");
+				 ps.setString(1, ((Benutzer) obj).getId());
 				 int result = ps.executeUpdate();ps.close();return result;
 			}else
 //			if(obj instanceof Berechtigung){
@@ -576,9 +572,10 @@ public class dbConnect {
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
 				String email = res.getString("benutzer_email");
 				String telefon = res.getString("benutzer_telefon");
-				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
+				boolean inaktiv = res.getBoolean("geloescht");
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon, inaktiv);
 				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon, inaktiv);
 				benArr.add(benutzer);
 			}
 		
@@ -596,9 +593,10 @@ public class dbConnect {
 			Rolle rolle = getRolleById(res.getInt("rolle_id"));
 			String email = res.getString("benutzer_email");
 			String telefon = res.getString("benutzer_telefon");
-			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
+			boolean inaktiv = res.getBoolean("geloescht");
+			benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon, inaktiv);
 			LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
+			benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon, inaktiv);
 
 			res.close();
 		return benutzer;
@@ -651,6 +649,13 @@ public class dbConnect {
 		if(i==1)return true;
 		return false;
 	}
+	public Benutzer activateBenutzer(Benutzer benutzer) throws SQLException{
+		PreparedStatement ps = con.prepareStatement("UPDATE `benutzer` SET `geloescht` = NULL WHERE `benutzer`.`benutzer_id` = ? ");
+		 ps.setString(1, benutzer.getId());
+		 int result = ps.executeUpdate();
+		 ps.close();
+		 return getBenutzerById(benutzer.getId());
+	}
 	public Besuch deleteBenutzerFromBesuch(Besuch besuch, Benutzer benutzer) throws SQLException{
 		int i = executeUpdate(
 				"DELETE FROM `benutzer_besuch` WHERE `benutzer_besuch`.`benutzer_id` = ? AND `benutzer_besuch`.`besuch_id` = ?",
@@ -669,9 +674,10 @@ public class dbConnect {
 				Rolle rolle = getRolleById(res.getInt("rolle_id"));
 				String email = res.getString("benutzer_email");
 				String telefon = res.getString("benutzer_telefon");
-				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon);
+				boolean inaktiv = res.getBoolean("geloescht");
+				Benutzer benutzer = new Benutzer(id, vorname, nachname, beruf, rolle, null, email, telefon, inaktiv);
 				LinkedList<Studiengang> lStudiengang = getStudiengangByBenutzer(benutzer);
-				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon);
+				benutzer = new Benutzer(id, vorname,nachname,beruf, rolle, lStudiengang, email, telefon, inaktiv);
 				lBenutzer.add(benutzer);
 			}
 		

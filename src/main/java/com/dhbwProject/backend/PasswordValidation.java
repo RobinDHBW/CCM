@@ -6,24 +6,27 @@ public abstract class PasswordValidation {
 	
 	public static synchronized boolean isValidPassword(dbConnect connection, String bName, String pw){
 		Benutzer bUser;
+		
 		if(bName == null || bName.length() <1)
 			return false;
-		else
+		else 
 			try{
 				bUser = connection.getBenutzerById(bName);
 			}catch(Exception e){
 				return false;
 			}
 		
-		//-Prüfung Passwort
+		//-Prüfung Passwort und ob Benutzer inaktiv
 		if (pw == null || pw.length() <1) 
 			return false;
-		else
+		else if(bUser.getInaktiv()){
+			return false;
+		}else{
 			try{
 				return connection.checkPassword(PasswordHasher.md5(pw), bUser);
 			} catch (Exception e) {
 				return false;
-			}
+			}}
 	}
 
 }
