@@ -16,6 +16,8 @@ import com.dhbwProject.views.ViewUnternehmen;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -78,7 +80,9 @@ public class CCM_UI extends UI {
 		this.pnlContent.setContent(this.vlFormat);
 		this.setContent(this.pnlContent);
 		Responsive.makeResponsive(pnlContent);
-		
+		int hoch =UI.getCurrent().getPage().getBrowserWindowHeight();
+		int breit = UI.getCurrent().getPage().getBrowserWindowWidth();
+		System.out.println("Höhe:"+ hoch + ", Breite " + breit);
 		this.getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
     }
 

@@ -94,6 +94,52 @@ $v-error-indicator-color: #c4272d;//rot
 .v-customcomponent-cclayout[width-range~="700px-"]{
 	width:900px;
 	}
+
+.v-panel-pnheader{
+	.smalllogo, .biglogo, .ccmbiglogo, .ccmsmalllogo{
+		padding:5px;
+		margin:0px;
+		background: white;
+	}
+
+	.biglogo, .ccmbiglogo{
+			height:75px;
+			}
+	.biglogo{
+		width:360px;
+		}
+	.ccmbiglogo{
+		width:146px;
+		}
+	.smalllogo, .ccmsmalllogo{
+		height:31px;
+		}
+	.smalllogo{
+		width:150px;
+		}
+	.ccmsmalllogo{
+		width:60px;
+		}
+}
+
+.v-panel-pnheader[width-range~="0-800px"]{
+	height: 32px;
+	.biglogo, .ccmbiglogo{
+	 display:none;
+	 height:0px;
+	 width:0px;}
+	 
+	
+	}
+.v-panel-pnheader[width-range~="800px-"]{
+	height: 40px;
+	.smalllogo, .ccmsmalllogo{
+	display:none;
+	height:0px;
+	width:0px;
+	}
+}
+
 //Horizontal Layout Stylerules
 .v-horizontal-hllogin{
 	width:300px;
@@ -323,7 +369,7 @@ width:90%;
 .v-textfield-tffield[width-range~="700px-"]{
 	width:600px;
 	}
-/*
+
 .v-textarea-tffield{
 	color:black
 	background-color: white;
@@ -341,7 +387,7 @@ width:90%;
 .v-textarea-tffield[width-range~="700px-"]{
 	width:600px;
 	}
-*/
+
 //Table Style
 .base .v-table-drag .v-table-body{
 border-color: white;

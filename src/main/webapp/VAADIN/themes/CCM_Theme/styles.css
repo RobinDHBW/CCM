@@ -1641,6 +1641,22 @@ div.v-layout.v-horizontal.v-widget {
 	width: 600px;
 }
 
+.v-textarea-tffield {
+	width: 300px;
+}
+
+.v-textarea-tffield[width-range~="0-400px"] {
+	width: 300px;
+}
+
+.v-textarea-tffield[width-range~="400px-700px"] {
+	width: 500px;
+}
+
+.v-textarea-tffield[width-range~="700px-"] {
+	width: 600px;
+}
+
 .base .v-table-drag .v-table-body {
 	border-color: white;
 	text-decoration: none;
@@ -13260,6 +13276,56 @@ select.v-select-select {
 
 .CCM_Theme .v-customcomponent-cclayout[width-range~="700px-"] {
 	width: 900px;
+}
+
+.CCM_Theme .v-panel-pnheader .smalllogo, .CCM_Theme .v-panel-pnheader .biglogo, .CCM_Theme .v-panel-pnheader .ccmbiglogo, .CCM_Theme .v-panel-pnheader .ccmsmalllogo {
+	padding: 5px;
+	margin: 0px;
+	background: white;
+}
+
+.CCM_Theme .v-panel-pnheader .biglogo, .CCM_Theme .v-panel-pnheader .ccmbiglogo {
+	height: 75px;
+}
+
+.CCM_Theme .v-panel-pnheader .biglogo {
+	width: 360px;
+}
+
+.CCM_Theme .v-panel-pnheader .ccmbiglogo {
+	width: 146px;
+}
+
+.CCM_Theme .v-panel-pnheader .smalllogo, .CCM_Theme .v-panel-pnheader .ccmsmalllogo {
+	height: 31px;
+}
+
+.CCM_Theme .v-panel-pnheader .smalllogo {
+	width: 150px;
+}
+
+.CCM_Theme .v-panel-pnheader .ccmsmalllogo {
+	width: 60px;
+}
+
+.CCM_Theme .v-panel-pnheader[width-range~="0-800px"] {
+	height: 32px;
+}
+
+.CCM_Theme .v-panel-pnheader[width-range~="0-800px"] .biglogo, .CCM_Theme .v-panel-pnheader[width-range~="0-800px"] .ccmbiglogo {
+	display: none;
+	height: 0px;
+	width: 0px;
+}
+
+.CCM_Theme .v-panel-pnheader[width-range~="800px-"] {
+	height: 40px;
+}
+
+.CCM_Theme .v-panel-pnheader[width-range~="800px-"] .smalllogo, .CCM_Theme .v-panel-pnheader[width-range~="800px-"] .ccmsmalllogo {
+	display: none;
+	height: 0px;
+	width: 0px;
 }
 
 .CCM_Theme .v-horizontal-hllogin {

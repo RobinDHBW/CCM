@@ -23,15 +23,20 @@ public class HeaderView extends CustomComponent{
 	public HeaderView()	{
 	Panel pnHeader = new Panel(); 
 	pnHeader.setStyleName(ValoTheme.PANEL_BORDERLESS); //By Robin Bahr 07.01.2017
-	pnHeader.setHeight("40px");
+	//pnHeader.setHeight("40px");
 	pnHeader.setWidth("100%");
 	HorizontalLayout hL = new HorizontalLayout();
 	 hL.setMargin(new MarginInfo(true, true, false, true)); //top right bottom left
 	pnHeader.setContent(hL);
 	Image dhbwLogo = new Image(" ",
 		    new ThemeResource("logodhbw.gif"));
-	dhbwLogo.setHeight("-1px");
-	dhbwLogo.setWidth("-1px");
+	dhbwLogo.setStyleName("biglogo");
+	
+	Image smalldhbwLogo = new Image(" ",
+		    new ThemeResource("logodhbwsmall.gif"));
+	smalldhbwLogo.setStyleName("smalllogo");
+	
+	
 	
 	/*Button imageButton = new Button();
 	imageButton.setIcon(new ThemeResource("logodhbw.gif"));
@@ -41,11 +46,16 @@ public class HeaderView extends CustomComponent{
 	
 	
 	Image ccmLogo= new Image("Costumer Contact Management", new ThemeResource("ccmlogo.png"));
-	ccmLogo.setHeight("-1px");
-	ccmLogo.setWidth("-1px");
+	ccmLogo.setStyleName("ccmbiglogo");
+	
+	Image ccmLogoSmall = new Image(" ", new ThemeResource("ccmlogosmall.png"));
+	ccmLogoSmall.setStyleName("ccmsmalllogo");
 		
+		hL.addComponent(smalldhbwLogo);
+		hL.setComponentAlignment(smalldhbwLogo, Alignment.TOP_LEFT);
 		hL.addComponent(dhbwLogo);
-		hL.setComponentAlignment(dhbwLogo, Alignment.TOP_LEFT);
+		hL.setComponentAlignment(dhbwLogo, Alignment.BOTTOM_LEFT);
+		
 	
 	Label whiteL = new Label(getStatustext());
 	/*Button logoutB = new Button();
@@ -55,9 +65,12 @@ public class HeaderView extends CustomComponent{
 	hL.setComponentAlignment(whiteL, Alignment.BOTTOM_CENTER);
 	hL.addComponent(ccmLogo);
 	hL.setComponentAlignment(ccmLogo, Alignment.TOP_RIGHT);
+	hL.addComponent(ccmLogoSmall);
+	hL.setComponentAlignment(ccmLogoSmall, Alignment.TOP_RIGHT);
 	/*hL.addComponent(logoutB);
 	hL.setComponentAlignment(logoutB, Alignment.TOP_RIGHT);*/
 	Responsive.makeResponsive(hL);
+	pnHeader.setStyleName("pnheader");
 	Responsive.makeResponsive(pnHeader);
 	Responsive.makeResponsive(whiteL);
 	Responsive.makeResponsive(dhbwLogo);
