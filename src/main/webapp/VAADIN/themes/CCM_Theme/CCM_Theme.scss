@@ -95,6 +95,24 @@ $v-error-indicator-color: #c4272d;//rot
 	width:900px;
 	}
 
+.v-window-pwwindow {
+	width:350px;
+	height:500px;
+}
+.v-window-pwwindow [width-range~="0-400px"]{
+	width:350px;
+	height:500px;
+}
+.v-window-pwwindow [width-range~="400px-700px"]{
+	width:550px;
+	height:500px;
+}
+.v-window-pwwindow [width-range~="700px-"]{
+	width:650px;
+	height:500px;
+}
+
+
 .v-panel-pnheader{
 	.smalllogo, .biglogo, .ccmbiglogo, .ccmsmalllogo{
 		padding:5px;
@@ -168,6 +186,28 @@ $v-error-indicator-color: #c4272d;//rot
 .v-vertical-vlfelder[width-range~="700px-"]{ 
 	width:800px;
 	}
+  
+  
+//Vertical-vl WindowPWChanger
+.v-vertical-vlwindow{ 
+	width:350px;
+	height:500px;
+	}
+.v-vertical-vlwindow[width-range~="0-400px"]{ 
+	width:450px;
+	height:500px;
+	}
+.v-vertical-vlwindow[width-range~="400px-700px"]{ 
+	width:650px;
+	height:500px;
+	}
+
+.v-vertical-vlwindow[width-range~="700px-"]{ 
+	width:850px;
+	height:500px;
+	}  
+  
+  
   
 //Button Styling
 .v-button{

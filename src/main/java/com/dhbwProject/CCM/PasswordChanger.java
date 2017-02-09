@@ -52,6 +52,7 @@ public class PasswordChanger extends Window {
 			this.isLoggedIn = isLoggedIn;
 			this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 			this.initVlLayout();
+			this.setStyleName("pwwindow");
 			Responsive.makeResponsive(this);
 		}
 		
@@ -147,6 +148,7 @@ public class PasswordChanger extends Window {
 	        this.vlLayout = new VerticalLayout(this.vlFields);
 	        this.vlLayout.setSizeFull();
 	        this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
+	        this.vlLayout.setStyleName("vlwindow");
 	        Responsive.makeResponsive(vlLayout);
 	        this.setContent(this.vlLayout);	
 		}

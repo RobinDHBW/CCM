@@ -13278,6 +13278,26 @@ select.v-select-select {
 	width: 900px;
 }
 
+.CCM_Theme .v-window-pwwindow {
+	width: 350px;
+	height: 500px;
+}
+
+.CCM_Theme .v-window-pwwindow [width-range~="0-400px"] {
+	width: 350px;
+	height: 500px;
+}
+
+.CCM_Theme .v-window-pwwindow [width-range~="400px-700px"] {
+	width: 550px;
+	height: 500px;
+}
+
+.CCM_Theme .v-window-pwwindow [width-range~="700px-"] {
+	width: 650px;
+	height: 500px;
+}
+
 .CCM_Theme .v-panel-pnheader .smalllogo, .CCM_Theme .v-panel-pnheader .biglogo, .CCM_Theme .v-panel-pnheader .ccmbiglogo, .CCM_Theme .v-panel-pnheader .ccmsmalllogo {
 	padding: 5px;
 	margin: 0px;
@@ -13358,6 +13378,26 @@ select.v-select-select {
 
 .CCM_Theme .v-vertical-vlfelder[width-range~="700px-"] {
 	width: 800px;
+}
+
+.CCM_Theme .v-vertical-vlwindow {
+	width: 350px;
+	height: 500px;
+}
+
+.CCM_Theme .v-vertical-vlwindow[width-range~="0-400px"] {
+	width: 450px;
+	height: 500px;
+}
+
+.CCM_Theme .v-vertical-vlwindow[width-range~="400px-700px"] {
+	width: 650px;
+	height: 500px;
+}
+
+.CCM_Theme .v-vertical-vlwindow[width-range~="700px-"] {
+	width: 850px;
+	height: 500px;
 }
 
 .CCM_Theme .v-button {
