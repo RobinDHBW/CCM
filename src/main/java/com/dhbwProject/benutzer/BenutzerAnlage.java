@@ -40,12 +40,13 @@ public class BenutzerAnlage extends Window {
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		
 		this.center();
-		this.setWidth("410px");
-		this.setHeight("500px");
+//		this.setWidth("410px");
+//		this.setHeight("500px");
 		this.setModal(true);
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Benutzer hinzufügen</h3></center>");
 		this.setContent(initLayout());
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(this);
 	}
 	

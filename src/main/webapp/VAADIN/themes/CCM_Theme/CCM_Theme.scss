@@ -74,13 +74,14 @@ $v-error-indicator-color: #c4272d;//rot
 	width:300px; 
   
   }
-
+//TODO: rausnehmen
 .responsive-layout[width-range~="0-300"]{
 	} 
 .responsive-layout[width-range~="300-700"]{
 	}  
 .responsive-layout[width-range~="700-"]{
 	}
+
 .v-customcomponent-cclayout{
 	width:300px;
 	}
@@ -96,11 +97,11 @@ $v-error-indicator-color: #c4272d;//rot
 	}
 
 .v-window-pwwindow {
-	width:350px;
+	width:400px;
 	height:500px;
 }
 .v-window-pwwindow [width-range~="0-400"]{
-	width:350px;
+	width:400px;
 	height:500px;
 }
 .v-window-pwwindow [width-range~="400-700"]{
@@ -110,6 +111,16 @@ $v-error-indicator-color: #c4272d;//rot
 .v-window-pwwindow [width-range~="700-"]{
 	width:650px;
 	height:500px;
+}
+//Panel Header Style
+.v-panel-pnheader{
+  max-height:120px;
+  background:white;
+  width: 100%;
+  padding:0px 0px 0px 0px;
+  margin:0;
+  overflow:hidden;
+
 }
 
 
@@ -224,27 +235,25 @@ $v-error-indicator-color: #c4272d;//rot
   
   
 }
-.v-button[width-range~="0-300"]{
-	brackground: red;
+.v-button[width-range~="0-400"]{
 	width:300px;
 	}
-.v-button[width-range~="300-"]{
-	brackground: green;
+.v-button[width-range~="400-700"]{
 	width:500px;
 	}
-
+.v-button[width-range~="700- "]{
+	width:600px;
+	}
 .v-button-login[width-range~="0-400"]{
-	brackground:red;
 	width:100%;
 	}
 .v-button-login[width-range~="400-"]{
-	brackground:green;
 	width:100%;
 	}
 
 
 
-
+//TODO: Schriftgröße an Buttongröße anpassen
 .v-button-caption{
  	font-size: 12pt;
     font-weight: bold;
@@ -261,7 +270,7 @@ padding: 6px 6px 6px 6px;
 width:200px;
 	
 }
-.v-button-navi[width-range~="300-"]{
+.v-button-navi[width-range~="400-"]{
 background-color:#5d6a72;
 color: #dcdfe0;
 font-color: #dcdfe0;
@@ -282,7 +291,7 @@ width:90%;
     text-align:left;
 	padding:6px 6px 6px 0px;
 }
-.v-button-navi-wrap .v-button-navi-caption[width-range~="0-300"]{
+.v-button-navi-wrap .v-button-navi-caption[width-range~="0-400"]{
 	font-size:10pt;
     font-weight:bold;
     font-color:#dcdfe0;
@@ -290,7 +299,7 @@ width:90%;
 	padding:6px 6px 6px 0px;
 }
 
-.v-button-navi-wrap .v-button-navi-caption[width-range~="300-"]{
+.v-button-navi-wrap .v-button-navi-caption[width-range~="400-"]{
 	font-size:16pt;
     font-weight:bold;
     font-color:#dcdfe0;
@@ -378,16 +387,7 @@ width:90%;
 	color:white;
 	
 } 
-//Panel Header Style
-.v-panel-pnheader{
-  max-height:120px;
-  background:white;
-  width: 100%;
-  padding:0px 0px 0px 0px;
-  margin:0;
-  overflow:hidden;
 
-}
 
 
 
@@ -520,7 +520,7 @@ content:"-";
 margin-right:2px;
 }
 .v-calendar-event-month-besucht::before, v.overlay-container{
-content:"";  //Häckchen?
+content:"";  
 margin-right:2px;
 }
 
@@ -556,12 +556,27 @@ width:-1px;
 min-height:300px;
 
 }
-//Combobox 
+//Combobox und Checkbox
 
 .valo-textfield-prompt-style{
 	background-color: white;
 	}
- select.v-select-select {
+.v-filterselect, .v-checkbox, .v-select, .v-select-optiongroup{ 
+ width:300px;
+}
+.v-filterselect[width-range~="0-400"], .v-checkbox[width-range~="0-400"], .v-select[width-range~="0-400"],
+	 .v-select-optiongroup[width-range~="0-400"]{ 
+ width:300px;
+}
+.v-filterselect[width-range~="400-700"], .v-checkbox[width-range~="400-700"], .v-select[width-range~="400-700"]
+	, .v-select-optiongroup[width-range~="400-700"]{ 
+ width:500px;
+}
+.v-filterselect[width-range~="700-"], .v-checkbox[width-range~="700-"], .v-select[width-range~="700-"] 
+	, .v-select-optiongroup[width-range~="700-"]{ 
+ width:600px;
+}
+ .select.v-select-select {
     background-color:#8c0011; 
     border: none;
     padding: 0;
@@ -578,7 +593,6 @@ min-height:300px;
     padding: 0 0px 0 0; 
     background:#8c0011;
 }
- 
  
  
 }

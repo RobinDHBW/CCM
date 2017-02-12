@@ -64,23 +64,26 @@ public class BenutzerFields extends VerticalLayout{
 	
 	private void initID() {
 		this.tfID = new TextField("Anmeldename");
-		this.tfID.setWidth("300px");
+	//	this.tfID.setWidth("300px");
 		this.addComponent(tfID);
+		this.tfID.setStyleName("tffield");
 		Responsive.makeResponsive(tfID);
 	}
 	
 	private void initVorname() {
 		this.tfVorname = new TextField("Vorname");
-		this.tfVorname.setWidth("300px");
+	//	this.tfVorname.setWidth("300px");
 		this.addComponent(tfVorname);
+		this.tfVorname.setStyleName("tffield");
 		Responsive.makeResponsive(tfVorname);
 		
 	}
 	
 	private void initNachname() {
 		this.tfNachname = new TextField("Nachname");
-		this.tfNachname.setWidth("300px");
+	//	this.tfNachname.setWidth("300px");
 		this.addComponent(tfNachname);
+		this.tfNachname.setStyleName("tffield");
 		Responsive.makeResponsive(tfNachname);
 	}
 	
@@ -98,7 +101,7 @@ public class BenutzerFields extends VerticalLayout{
 		}
 		this.cbBeruf.setNullSelectionAllowed(false);
 		this.cbBeruf.setTextInputAllowed(false);
-		this.cbBeruf.setWidth("300px");
+	//	this.cbBeruf.setWidth("300px");
 		Responsive.makeResponsive(cbBeruf);
 		this.addComponent(cbBeruf);
 	}
@@ -117,7 +120,7 @@ public class BenutzerFields extends VerticalLayout{
 		}
 		this.cbRolle.setNullSelectionAllowed(false);
 		this.cbRolle.setTextInputAllowed(false);
-		this.cbRolle.setWidth("300px");
+	//	this.cbRolle.setWidth("300px");
 		Responsive.makeResponsive(cbRolle);
 		this.addComponent(cbRolle);
 	}
@@ -127,7 +130,7 @@ public class BenutzerFields extends VerticalLayout{
 	protected void initChPassword(){
 		this.chPassword = new CheckBox("Passwort zurücksetzen?");
 		this.chPassword.setValue(false);
-		this.chPassword.setWidth("300px");
+	//	this.chPassword.setWidth("300px");
 		this.addComponent(chPassword);
 		Responsive.makeResponsive(chPassword);
 	}
@@ -135,7 +138,8 @@ public class BenutzerFields extends VerticalLayout{
 	private void initLsStudiengang() {
 		HorizontalLayout hl = new HorizontalLayout();
 		this.taStudiengang = new TextArea("Studiengang");
-		this.taStudiengang.setWidth("300px");
+	//	this.taStudiengang.setWidth("300px");
+		taStudiengang.setStyleName("tffield");
 		this.taStudiengang.setReadOnly(true);
 		Responsive.makeResponsive(taStudiengang);
 
@@ -162,15 +166,17 @@ public class BenutzerFields extends VerticalLayout{
 	
 	private void initTelefonnummer() {
 		this.tfTelefonnummer = new TextField("Telefonnummer");
-		this.tfTelefonnummer.setWidth("300px");
+	//	this.tfTelefonnummer.setWidth("300px");
 		this.addComponent(tfTelefonnummer);
+		this.tfTelefonnummer.setStyleName("tffield");
 		Responsive.makeResponsive(tfTelefonnummer);
 	}
 	
 	private void intitEmail() {
 		this.tfEmail = new TextField("E-Mail");
-		this.tfEmail.setWidth("300px");
+	//	this.tfEmail.setWidth("300px");
 		this.addComponent(tfEmail);
+		this.tfEmail.setStyleName("tffield");
 		Responsive.makeResponsive(tfEmail);
 	}
 	

@@ -50,8 +50,9 @@ private static final long serialVersionUID = 1L;
 		Panel p = new Panel(this.layout);
 		this.setContent(p);
 		this.center();
-		this.setWidth("370px");
-		this.setHeight("500px");
+//		this.setWidth("370px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(this);
 		Responsive.makeResponsive(layout);
 		Responsive.makeResponsive(p);
@@ -65,7 +66,7 @@ private static final long serialVersionUID = 1L;
 		this.fields.setMargin(new MarginInfo(true, true, true, true));
 		
 		this.select = new OptionGroup();
-		this.select.setWidth("300px");
+//		this.select.setWidth("300px");
 		Responsive.makeResponsive(select);
 		this.initContainer();
 		this.select.setContainerDataSource(this.container);
@@ -74,7 +75,8 @@ private static final long serialVersionUID = 1L;
 		
 		this.tfFilterStudiengang = new TextField();
 		this.tfFilterStudiengang.setInputPrompt("Filter Studiengang");
-		this.tfFilterStudiengang.setWidth("300px");
+//		this.tfFilterStudiengang.setWidth("300px");
+		this.tfFilterStudiengang.setStyleName("tffield");
 		Responsive.makeResponsive(tfFilterStudiengang);
 	    this.tfFilterStudiengang.addTextChangeListener(change -> {
 	    	container.removeContainerFilters("studiengang");
@@ -85,7 +87,7 @@ private static final long serialVersionUID = 1L;
 	    });
 	    
 	    this.btnOk = new Button("Auswählen");
-	    this.btnOk.setWidth("300px");
+	 //   this.btnOk.setWidth("300px");
 	    Responsive.makeResponsive(btnOk);
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);	    
 	    this.btnOk.addClickListener(click ->{

@@ -48,12 +48,13 @@ public class BenutzerAenderung extends Window {
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		
 		this.center();
-		this.setWidth("450px");
-		this.setHeight("500px");
+//		this.setWidth("450px");
+//		this.setHeight("500px");
 		this.setModal(true);
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Benutzer ändern</h3></center>");
 		this.setContent(initLayout());
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(this);
 		
 		
