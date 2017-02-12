@@ -13269,6 +13269,22 @@ div.v-layout.v-horizontal.v-widget {
 	width: 300px;
 }
 
+.CCM_Theme .v-csslayout {
+	width: 300px;
+}
+
+.CCM_Theme .v-csslayout[width-range~="0-400"] {
+	width: 300px;
+}
+
+.CCM_Theme .v-csslayout[width-range~="400-700"] {
+	width: 500px;
+}
+
+.CCM_Theme .v-csslayout[width-range~="700-"] {
+	width: 600px;
+}
+
 .CCM_Theme .v-customcomponent-cclayout {
 	width: 300px;
 }
@@ -13445,6 +13461,18 @@ div.v-layout.v-horizontal.v-widget {
 
 .CCM_Theme .v-button-login[width-range~="400-"] {
 	width: 100%;
+}
+
+.CCM_Theme .v-button-naviother {
+	width: 200px;
+}
+
+.CCM_Theme .v-button-naviother[width-range~="0-400"] {
+	width: 200px;
+}
+
+.CCM_Theme .v-button-naviother[width-range~="400-"] {
+	width: 90%;
 }
 
 .CCM_Theme .v-button-caption {

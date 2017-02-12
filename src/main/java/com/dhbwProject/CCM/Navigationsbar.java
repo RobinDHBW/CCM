@@ -20,8 +20,8 @@ public class Navigationsbar extends CssLayout{
 		/*TEMPORÄR
 		 * */
 		Button btnChangePW = new Button("PW ändern");
-		btnChangePW.setWidth("90%");
-		btnChangePW.addStyleName("navi");
+//		btnChangePW.setWidth("90%");
+		btnChangePW.setStyleName("naviother");
 		btnChangePW.addClickListener(click ->{
 			PasswordChanger changer = new PasswordChanger(true);
 			getUI().addWindow(changer);
@@ -40,9 +40,10 @@ public class Navigationsbar extends CssLayout{
 	
 	private void initLogoutButton(){
 		Button btnLogout = new Button();
-		btnLogout.setWidth("90%");
+	//    btnLogout.setWidth("90%");
 		btnLogout.setCaption("Abmelden");
 		btnLogout.setIcon(FontAwesome.SIGN_OUT);
+		btnLogout.setStyleName("naviother");
 	//	btnLogout.setStyleName(ValoTheme.BUTTON_ICON_ALIGN_RIGHT);
 		btnLogout.addClickListener(click ->{
 			/*

@@ -81,7 +81,22 @@ $v-error-indicator-color: #c4272d;//rot
 	}  
 .responsive-layout[width-range~="700-"]{
 	}
+//CSS Layout
+.v-csslayout {
+	width:300px;
+}
+.v-csslayout[width-range~="0-400"]{
+	width:300px;
+	}
+.v-csslayout[width-range~="400-700"]{
+	width:500px;
+	}	
+.v-csslayout[width-range~="700-"]{
+	width:600px;
+	}
 
+
+//CostumComponent
 .v-customcomponent-cclayout{
 	width:300px;
 	}
@@ -250,9 +265,15 @@ $v-error-indicator-color: #c4272d;//rot
 .v-button-login[width-range~="400-"]{
 	width:100%;
 	}
-
-
-
+.v-button-naviother{
+	width:200px;
+	}
+.v-button-naviother[width-range~="0-400"]{
+	width:200px;
+	}
+.v-button-naviother[width-range~="400-"]{
+	width:90%;
+	}
 //TODO: Schriftgröße an Buttongröße anpassen
 .v-button-caption{
  	font-size: 12pt;
@@ -260,6 +281,7 @@ $v-error-indicator-color: #c4272d;//rot
     font-color: #dcdfe0;
     padding:0px 0px 0px 0px;
 }
+
 .v-button-navi[width-range~="0-400"]{
 background-color:#5d6a72;
 color: #dcdfe0;
