@@ -128,7 +128,7 @@ public class CCM_UI extends UI {
 	
 	private void initViewPanel(){	
 		this.hlContent.addComponent(this.pnlViews);
-		this.hlContent.setExpandRatio(this.pnlViews, 7);
+		this.hlContent.setExpandRatio(this.pnlViews, 4);
 		Responsive.makeResponsive(hlContent);
 		this.pnlViews.setSizeFull();	
 	}

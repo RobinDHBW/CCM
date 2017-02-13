@@ -42,7 +42,7 @@ $v-error-indicator-color: #c4272d;//rot
  @include valo;
  
   // Insert your own theme rules here
-.v-textarea-tffield {
+.v-textarea-taarea {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	-ms-appearance: none;
@@ -84,6 +84,7 @@ $v-error-indicator-color: #c4272d;//rot
 //CSS Layout
 .v-csslayout {
 	width:300px;
+	height:-1px;
 }
 .v-csslayout[width-range~="0-400"]{
 	width:300px;
@@ -432,21 +433,21 @@ width:90%;
 	width:600px;
 	}
 
-.v-textarea-tffield{
+.v-textarea{
 	color:black
 	background-color: white;
 	width:300px;
 }
-.v-textarea-tffield[width-range~="0-400"]{
+.v-textarea[width-range~="0-400"]{
 	width:300px;
 
 
 }
-.v-textarea-tffield[width-range~="400-700"]{
+.v-textarea[width-range~="400-700"]{
 	width:500px;
 }
 
-.v-textarea-tffield[width-range~="700-"]{
+.v-textarea[width-range~="700-"]{
 	width:600px;
 	}
 
