@@ -76,60 +76,8 @@ public class BenutzerAenderung extends Window {
 		this.btnAendern.setEnabled(false);
 		this.btnAendern.addClickListener(listener ->{
 			
-			
-			if (fields.getID().equals("")) {
-				fields.getTfID().setComponentError(new UserError("ID eingeben"));
-			} else {
-				fields.getTfID().setComponentError(null);
-			}
-			
-			if (fields.getVorname().equals("")) {
-				fields.getTfVorname().setComponentError(new UserError("Vorname eingeben"));
-			} else {
-				fields.getTfVorname().setComponentError(null);
-			}
-				
-			if (fields.getNachname().equals("")) {
-				fields.getTfNachname().setComponentError(new UserError("Nachname eingeben"));
-			} else {
-				fields.getTfNachname().setComponentError(null);
-			}
-			
-			if (fields.getBeruf() == null) {
-				fields.getCbBeruf().setComponentError(new UserError("Beruf auswählen"));
-			} else {
-				fields.getCbBeruf().setComponentError(null);
-			}
-			
-			if (fields.getRolle() == null) {
-				fields.getCbRolle().setComponentError(new UserError("Rolle auswählen"));
-			} else {
-				fields.getCbRolle().setComponentError(null);
-			}
-			
-			if (fields.getStudiengang().size() < 1) {
-				fields.getTaStudiengang().setComponentError(new UserError("Studiengang auswählen"));
-			} else {
-				fields.getTaStudiengang().setComponentError(null);
-			}
-			
-			if (fields.getTelefonnummer().equals("")) {
-				fields.getTfTelefonnummer().setComponentError(new UserError("Telefonnummer eingeben"));
-			} else {
-				fields.getTfTelefonnummer().setComponentError(null);
-			}
-			
-			if (fields.getEmail().equals("")) {
-				fields.getTfEmail().setComponentError(new UserError("E-Mail eingeben"));
-			} else {
-				fields.getTfEmail().setComponentError(null);
-			}
-			
-			
-			
-			if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
-					&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0
-					&& !fields.getTelefonnummer().equals("") && !fields.getEmail().equals("")) {
+			boolean isValid = this.fields.checkFields(fields);
+			if(isValid) {
 				String id = fields.getID();
 				Rolle rolle = null;
 				try {
