@@ -390,7 +390,6 @@ public class BesuchFelder extends VerticalLayout {
 			return false;
 		else if(this.adresse != null
 				&& this.autor != null
-				&& this.taParticipants != null
 				&& this.ansprechpartner != null
 				&& this.status != null)
 			return true;
