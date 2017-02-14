@@ -58,7 +58,6 @@ public class LookupBenutzer extends Window{
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Wählen Sie bis Teilnehmer</h3></center>");	
 		Responsive.makeResponsive(this);
-		Responsive.makeResponsive(layout);
 		
 
 	}

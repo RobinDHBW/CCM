@@ -34,8 +34,9 @@ public class UnternehmenAnlage extends Window {
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		
 		this.center();
-		this.setWidth("350px");
-		this.setHeight("500px");
+//		this.setWidth("350px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Unternehmen hinzufügen</h3></center>");
 		this.setContent(this.initContent());

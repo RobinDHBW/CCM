@@ -41,8 +41,9 @@ public class LookupStatus extends Window {
 		
 		this.setContent(this.layout);
 		this.center();
-		this.setWidth("350px");
-		this.setHeight("500px");
+//		this.setWidth("350px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(layout);
 		Responsive.makeResponsive(this);
 	}
@@ -54,7 +55,7 @@ public class LookupStatus extends Window {
 		this.fields.setMargin(new MarginInfo(true, true, true, true));
 		
 		this.select = new ListSelect();
-		this.select.setWidth("300px");
+	//	this.select.setWidth("300px");
 		Responsive.makeResponsive(select);
 		try {
 			this.initContainer();
@@ -70,7 +71,7 @@ public class LookupStatus extends Window {
 		
 	    
 	    this.btnOK = new Button("Auswählen");
-	    this.btnOK.setWidth("300px");
+	//    this.btnOK.setWidth("300px");
 	    Responsive.makeResponsive(btnOK);
 	    this.btnOK.setIcon(FontAwesome.UPLOAD);
 	    this.btnOK.addClickListener(listener ->{

@@ -17,8 +17,9 @@ public class BesuchEntfernen extends Window {
 	
 	public BesuchEntfernen(String bName){
 		this.center();
-		this.setHeight("300px");
-		this.setWidth("300px");
+//		this.setHeight("300px");
+//		this.setWidth("300px");
+		this.setStyleName("pwwindow");
 		this.setCaptionAsHtml(true);
 		String titel = "<center><h3>Möchten Sie den Termin: "+"<b>"+bName+"</b>"+" wirklich entfernen?</h3></center>";
 		String info = "<center><p>Falls Sie der Autor dieses Termins sind wird der gesamte Termin entfernt</p></center>";

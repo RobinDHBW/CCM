@@ -36,11 +36,12 @@ public class BesuchBearbeitung extends Window {
 		
 		setCaptionAsHtml(true);
 		center();
-		setWidth("450px");
-		setHeight("600px");
+//		setWidth("450px");
+//		setHeight("600px");
 		setDraggable(true);
 		setClosable(true);
 		setModal(false);
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(this);
 		
 	}

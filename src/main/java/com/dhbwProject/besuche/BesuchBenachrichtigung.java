@@ -45,8 +45,9 @@ public class BesuchBenachrichtigung extends Window {
 		dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
 		this.center();
-		this.setWidth("400px");
-		this.setHeight("600px");
+//		this.setWidth("400px");
+//		this.setHeight("600px");
+		this.setStyleName("pwwindow");
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Benachrichtigungen</h3></center>");
 		this.setContent(this.initContent());

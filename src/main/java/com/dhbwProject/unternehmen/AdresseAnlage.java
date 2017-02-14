@@ -35,8 +35,9 @@ public class AdresseAnlage extends Window {
 		this.center();
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Adresse hinzufügen</h3></center>");
-		this.setWidth("350px");
-		this.setHeight("500px");
+//		this.setWidth("350px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		this.setClosable(true);
 		this.setModal(false);
 		

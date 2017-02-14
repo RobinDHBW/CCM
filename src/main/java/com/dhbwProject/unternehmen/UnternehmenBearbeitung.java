@@ -39,9 +39,9 @@ public class UnternehmenBearbeitung extends Window{
 		this.setCaption("<center><h3>Unternehmen und Adresse bearbeiten</h3></center>");
 		this.setClosable(true);
 		this.setModal(false);
-		this.setWidth("400px");
-		this.setHeight("600px");
-		
+//		this.setWidth("400px");
+//		this.setHeight("600px");
+		this.setStyleName("pwwindow");
 		this.setContent(this.initFields());
 		this.uAlt = u;
 		this.aAlt = a;

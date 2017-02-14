@@ -37,8 +37,9 @@ public class AnsprechpartnerVerwaltung extends Window {
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Ansprechpartner verwalten</h3></center>");
 		this.center();
-		this.setWidth("600px");
-		this.setHeight("400px");
+//		this.setWidth("600px");
+//		this.setHeight("400px");
+		this.setStyleName("pwwindow");
 		this.adresse = adr;
 		this.setContent(this.initFields());
 		Responsive.makeResponsive(this);

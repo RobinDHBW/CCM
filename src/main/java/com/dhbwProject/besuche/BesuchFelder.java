@@ -112,14 +112,16 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldTitel() {
 		this.tfTitel = new TextField();
 		this.tfTitel.setCaption("Titel");
-		this.tfTitel.setWidth("300px");
+		//this.tfTitel.setWidth("300px");
+		this.tfTitel.setStyleName("tffield");
 		this.addComponent(this.tfTitel);
 		Responsive.makeResponsive(tfTitel);
 	}
 	
 	protected void initFieldStatus(){
 		this.tfStatus = new TextField();
-		this.tfStatus.setWidth("300px");
+		//this.tfStatus.setWidth("300px");
+		this.tfStatus.setStyleName("pwwindow");
 		Responsive.makeResponsive(tfStatus);
 		this.tfStatus.setNullRepresentation("");
 		this.tfStatus.setValue(null);
@@ -148,7 +150,7 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldStartDate() {
 		this.dfDateStart = new DateField();
 		this.dfDateStart.setCaption("Start:");
-		this.dfDateStart.setWidth("300px");
+		//this.dfDateStart.setWidth("300px");
 		Responsive.makeResponsive(dfDateStart);
 		this.dfDateStart.setResolution(Resolution.MINUTE);
 		this.addComponent(this.dfDateStart);
@@ -157,7 +159,7 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldEndDate(){
 		this.dfDateEnd = new DateField();
 		this.dfDateEnd.setCaption("Ende:");
-		this.dfDateEnd.setWidth("300px");
+		//this.dfDateEnd.setWidth("300px");
 		this.dfDateEnd.setResolution(Resolution.MINUTE);
 		Responsive.makeResponsive(dfDateEnd);
 		this.addComponent(this.dfDateEnd);
@@ -168,14 +170,16 @@ public class BesuchFelder extends VerticalLayout {
 		HorizontalLayout hlUnternehmen = new HorizontalLayout();
 		
 		this.tfUnternehmen = new TextField();
-		this.tfUnternehmen.setWidth("300px");
+		//this.tfUnternehmen.setWidth("300px");
+		this.tfUnternehmen.setStyleName("tffield");
 		this.tfUnternehmen.setNullRepresentation("");
 		this.tfUnternehmen.setValue(null);
 		this.tfUnternehmen.setReadOnly(true);
 		Responsive.makeResponsive(tfUnternehmen);
 		
 		this.taAdresse = new TextArea();
-		this.taAdresse.setWidth("300px");
+	//	this.taAdresse.setWidth("300px");
+		this.taAdresse.setStyleName("taarea");
 		this.taAdresse.setNullRepresentation("");
 		this.taAdresse.setValue(null);
 		this.taAdresse.setReadOnly(true);
@@ -217,7 +221,8 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldAnsprechpartner() {
 		HorizontalLayout hlAnsprechpartner = new HorizontalLayout();
 		this.tfAnsprechpartner = new TextField();
-		this.tfAnsprechpartner.setWidth("300px");
+	//	this.tfAnsprechpartner.setWidth("300px");
+		this.tfAnsprechpartner.setStyleName("tffield");
 		this.tfAnsprechpartner.setNullRepresentation("");
 		this.tfAnsprechpartner.setValue(null);
 		this.tfAnsprechpartner.setReadOnly(true);
@@ -254,7 +259,8 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldParticipants() {
 		HorizontalLayout hlParticipants = new HorizontalLayout();
 		this.taParticipants = new TextArea();
-		this.taParticipants.setWidth("300px");
+	//	this.taParticipants.setWidth("300px");
+		this.taParticipants.setStyleName("taarea");
 		this.taParticipants.setReadOnly(true);
 		Responsive.makeResponsive(tfAnsprechpartner);
 

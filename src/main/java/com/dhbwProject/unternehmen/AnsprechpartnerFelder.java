@@ -30,26 +30,30 @@ public class AnsprechpartnerFelder extends VerticalLayout {
 	private void initFields(){		
 		this.tfVornameAnsprechpartner = new TextField("Ansprechpartner:");
 		this.tfVornameAnsprechpartner.setCaption("Vorname:");
-		this.tfVornameAnsprechpartner.setWidth("300px");
+		//this.tfVornameAnsprechpartner.setWidth("300px");
+		this.tfVornameAnsprechpartner.setStyleName("tffield");
 		this.tfVornameAnsprechpartner.addValidator(new StringLengthValidator("Tragen Sie einen Nachnamen ein", 1, 40, false));
 		this.addComponent(tfVornameAnsprechpartner);
 		
 		this.tfNameAnsprechpartner = new TextField();
 		this.tfNameAnsprechpartner.setCaption("Nachname:");
-		this.tfNameAnsprechpartner.setWidth("300px");
+	//	this.tfNameAnsprechpartner.setWidth("300px");
+		this.tfNameAnsprechpartner.setStyleName("tffield");
 		this.tfNameAnsprechpartner.addValidator(new StringLengthValidator("Tragen Sie einen Vornamen ein", 1, 40, false));
 		this.addComponent(tfNameAnsprechpartner);
 		
 		this.tfTelefonnummer = new TextField();
 		this.tfTelefonnummer.setCaption("Telefonnummer:");
 		this.tfTelefonnummer.setNullRepresentation("");
-		this.tfTelefonnummer.setWidth("300px");
+	//	this.tfTelefonnummer.setWidth("300px");
+		this.tfTelefonnummer.setStyleName("tffield");
 		this.addComponent(tfTelefonnummer);
 		
 		this.tfEmail = new TextField();
 		this.tfEmail.setCaption("E-Mail:");
 		this.tfEmail.setNullRepresentation("");
-		this.tfEmail.setWidth("300px");
+		//this.tfEmail.setWidth("300px");
+		this.tfEmail.setStyleName("tffield");
 		this.tfEmail.addValidator(new EmailValidator("Tragen Sie eine gültige e-Mail ein"));
 		this.addComponent(tfEmail);
 		Responsive.makeResponsive(tfVornameAnsprechpartner);

@@ -23,14 +23,15 @@ public class UnternehmenFelder extends VerticalLayout {
 	
 	private void initFields(){
 		this.tfName = new TextField();
-		this.tfName.setWidth("300px");
+	//	this.tfName.setWidth("300px");
+		this.tfName.setStyleName("tffield");
 		this.tfName.setCaption("Firma:");
 		this.tfName.addValidator(new StringLengthValidator("Tragen Sie die Firma ein", 1, 40, false));
 		this.addComponent(tfName);
 		Responsive.makeResponsive(tfName);
 		
 		this.cbKennzeichen = new ComboBox();
-		this.cbKennzeichen.setWidth("300px");
+	//	this.cbKennzeichen.setWidth("300px");
 		this.cbKennzeichen.setCaption("Kennzeichen:");
 		this.cbKennzeichen.addContainerProperty("Kennzeichen", String.class, null);
 		this.cbKennzeichen.addItem("A").getItemProperty("Kennzeichen").setValue("Premiumpartner");

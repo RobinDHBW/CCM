@@ -33,8 +33,9 @@ public class AnsprechpartnerAnlage extends Window {
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.aReferenz = a;
 		this.center();
-		this.setWidth("350px");
-		this.setHeight("500px");
+//		this.setWidth("350px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		this.setClosable(true);
 		this.setModal(false);
 		this.setCaptionAsHtml(true);

@@ -25,25 +25,29 @@ public class AdresseFelder extends VerticalLayout{
 	private void initFields(){		
 		this.tfStrasse = new TextField();
 		this.tfStrasse.setCaption("Straße:");
-		this.tfStrasse.setWidth("300px");
+	//	this.tfStrasse.setWidth("300px");
+		this.tfStrasse.setStyleName("tffield");
 		this.tfStrasse.addValidator(new StringLengthValidator("Tragen Sie eine Straße ein", 1, 40, false));
 		this.addComponent(this.tfStrasse);
 		
 		this.tfHausnummer = new TextField();
 		this.tfHausnummer.setCaption("Hausnummer:");
-		this.tfHausnummer.setWidth("300px");
+	//	this.tfHausnummer.setWidth("300px");
+		this.tfHausnummer.setStyleName("tffield");
 		this.tfHausnummer.addValidator(new StringLengthValidator("Tragen Sie eine Hausnummer ein", 1, 10, false));
 		this.addComponent(tfHausnummer);
 		
 		this.tfPlz = new TextField();
 		this.tfPlz.setCaption("PLZ:");
-		this.tfPlz.setWidth("300px");
+	//	this.tfPlz.setWidth("300px");
+		this.tfPlz.setStyleName("tffield");
 		this.tfPlz.addValidator(new StringLengthValidator("Eine Postleitzahl ist immer 5 Zeichen lang", 5, 5, false));
 		this.addComponent(tfPlz);
 		
 		this.tfOrt = new TextField();
 		this.tfOrt.setCaption("Ort:");
-		this.tfOrt.setWidth("300px");
+	//	this.tfOrt.setWidth("300px");
+		this.tfOrt.setStyleName("tffield");
 		this.tfOrt.addValidator(new StringLengthValidator("Tragen Sie einen Ort ein", 1, 40, false));
 		this.addComponent(this.tfOrt);
 		Responsive.makeResponsive(tfStrasse);

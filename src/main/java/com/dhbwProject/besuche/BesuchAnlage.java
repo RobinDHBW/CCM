@@ -40,11 +40,12 @@ public class BesuchAnlage extends Window {
 		setCaptionAsHtml(true);
 		setCaption("<center><h3>Termin anlegen</h3></center>");
 		center();
-		setWidth("450px");
-		setHeight("600px");
+//		setWidth("450px");
+//		setHeight("600px");
 		setDraggable(true);
 		setClosable(true);
 		setModal(false);
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(this);
 	}
 	
@@ -59,7 +60,7 @@ public class BesuchAnlage extends Window {
 		this.fields.addTeilnehmer((Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER));
 		this.btnCreate = new Button("Termin erstellen");
 		this.btnCreate.setIcon(FontAwesome.PLUS);
-		this.btnCreate.setWidth("300px");
+	//  this.btnCreate.setWidth("300px");
 		Responsive.makeResponsive(btnCreate);
 		this.btnCreate.addClickListener(listener ->{
 			if(fields.isValid()){

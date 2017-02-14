@@ -35,8 +35,9 @@ public class AnsprechpartnerBearbeitung extends Window {
 		this.aAlt = a;
 		this.aReferenz = aReferenz;
 		this.center();
-		this.setWidth("350px");
-		this.setHeight("500px");
+//		this.setWidth("350px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		this.setClosable(true);
 		this.setModal(false);
 		this.setCaptionAsHtml(true);

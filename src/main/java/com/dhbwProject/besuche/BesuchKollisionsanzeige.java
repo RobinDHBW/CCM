@@ -44,8 +44,9 @@ public class BesuchKollisionsanzeige extends Window {
 		this.center();
 		this.setModal(true);
 		this.setClosable(false);
-		this.setHeight("600px");
-		this.setWidth("400px");
+//		this.setHeight("600px");
+//		this.setWidth("400px");
+		this.setStyleName("pwwindow");
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center>Termine im Zeitraum von 30 Tagen<br>Diese Operation dennoch ausführen?</center>");
 		Responsive.makeResponsive(this);
@@ -72,10 +73,11 @@ public class BesuchKollisionsanzeige extends Window {
 	private void addItem(Besuch b){
 		Item itm = container.addItem(b);
 		TextArea taBesuch = new TextArea();
+		taBesuch.setStyleName("taarea");
 		taBesuch.setValue(stringPresentation(b));
 		taBesuch.setStyleName(ValoTheme.TEXTAREA_BORDERLESS);
 		taBesuch.setHeight("100px");
-		taBesuch.setWidth("250px");
+	//	taBesuch.setWidth("250px");
 		taBesuch.setReadOnly(true);
 		Responsive.makeResponsive(taBesuch);
 		itm.getItemProperty("Termine").setValue(taBesuch);

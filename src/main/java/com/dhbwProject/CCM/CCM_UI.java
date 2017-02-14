@@ -170,11 +170,13 @@ public class CCM_UI extends UI {
             }
 
 			@Override
-			public void afterViewChange(ViewChangeEvent event) {
+			public void afterViewChange (ViewChangeEvent event) {
 				boolean isLoggedIn = VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
 				if(!isLoggedIn)
 					naviBar.setVisible(false);
 			}
-		});
+		};
+	});
+		
 	}
 }

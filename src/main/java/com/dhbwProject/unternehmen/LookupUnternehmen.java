@@ -47,8 +47,9 @@ public class LookupUnternehmen extends Window{
 		p.setContent(this.layout);
 		this.setContent(p);
 		this.center();
-		this.setWidth("650px");
-		this.setHeight("500px");
+//		this.setWidth("650px");
+//		this.setHeight("500px");
+		this.setStyleName("pwwindow");
 		Responsive.makeResponsive(this);
 		Responsive.makeResponsive(layout);
 		Responsive.makeResponsive(p);
@@ -76,6 +77,7 @@ public class LookupUnternehmen extends Window{
 		this.tfFirma = new TextField();
 		this.tfFirma.setInputPrompt("Filter Firma");
 		this.tfFirma.setWidth("600px");
+		
 		Responsive.makeResponsive(tfFirma);
 
 	    this.tfFirma.addTextChangeListener(change -> {
@@ -87,7 +89,7 @@ public class LookupUnternehmen extends Window{
 	    });
 	    
 	    this.btnOk = new Button("Auswählen");
-	    this.btnOk.setWidth("300px");
+	  //  this.btnOk.setWidth("300px");
 	    this.btnOk.setIcon(FontAwesome.UPLOAD);
 	    Responsive.makeResponsive(btnOk);
 	    this.btnOk.addClickListener(listener ->{
