@@ -136,6 +136,7 @@ public class CCM_UI extends UI {
 	private void initViewNavigator(){
 		this.pnlViews = new Panel();
 		this.pnlViews.setStyleName(ValoTheme.PANEL_BORDERLESS);
+		this.pnlViews.addStyleName("pnviews");
 		Responsive.makeResponsive(pnlViews);
 		this.setNavigator(new CCM_Navigator(this, this.pnlViews));
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_LOGIN, ViewLogin.class);

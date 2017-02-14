@@ -21,7 +21,7 @@ $v-selection-overlay-background-color: #fff;
 //Zusatzstyling
 $v-overlay-shadow: 0 0 0 2px #fff;
 
-$v-app-loading-text: "Bitte warten. Das Costumer Contact Management System wird geladen.";
+$v-app-loading-text: "Bitte warten. Das Company Contact Management System wird geladen.";
 
 // Affects the visual appearance of all components
 //$v-gradient: v-linear 8%;
@@ -185,6 +185,11 @@ $v-error-indicator-color: #c4272d;//rot
 	}
 }
 
+.v-panel-pnviews{
+	padding: 0, 0, 0, 30px;
+	}
+
+
 //Horizontal Layout Stylerules
 .v-horizontal-hllogin{
 	width:300px;
@@ -284,13 +289,13 @@ $v-error-indicator-color: #c4272d;//rot
 }
 
 .v-button-navi[width-range~="0-400"]{
-background-color:#5d6a72;
-color: #dcdfe0;
-font-color: #dcdfe0;
-font-weight:bold;
-text-align:left;
-padding: 6px 6px 6px 6px;
-width:200px;
+	background-color:#5d6a72;
+	color: #dcdfe0;
+	font-color: #dcdfe0;
+	font-weight:bold;
+	text-align:left;
+	padding: 6px 6px 6px 6px;
+	width:200px;
 	
 }
 .v-button-navi[width-range~="400-"]{
@@ -453,56 +458,58 @@ width:90%;
 
 //Table Style
 .base .v-table-drag .v-table-body{
-border-color: white;
-text-decoration:none;
-color:black
-background:white;
+	border-color: white;
+	text-decoration:none;
+	color:black
+	background:white;
 }
 
 .v-table-header{
-background:#5d6a72; //#8c0011;
-color:white;
-font-weight: bold;	
+	background:#5d6a72; 
+	color:white;
+	font-weight: bold;
+	font-size: 12pt;	
 }	
 .v-table-body{
-background-color:white;
-background:white;
-color:black;
+	background-color:white;
+	background:white;
+	color:black;
 }
 .v-table-row.v-table-row,
 .v-table-row-odd.v-table-row {
-  background-color:white;
-  background:white;
-  color:black;
+ 	background-color:white;
+  	background:white;
+  	color:black;
 }
+
+.v-table-cell-wrapper{
+	white-space:normal;
+	}
 //Label Style
 .v-label{
-
 color:black;
 margin:0px 10px 5px 10px;
 padding:0px 20px 0px 20px;
 width:50%;
-text-align: center;
+text-align:center;
 } 
 
 //Calendar Style
 .v-calendar-times{
-width: 51 px;
+	width: 51 px;
 }
 .v-calendar-time{
-text-align:right;
-color:000;
-border-right: 1px solid;
+	text-align:right;
+	color:000;
+	border-right: 1px solid;
 
 
 }
 .v-calendar{
- min-height:200px;
- min-weight: 100%;
- background:white;
- overflow:hidden;
-
-
+ 	min-height:200px;
+	min-weight: 100%;
+	background:white;
+	overflow:hidden;
 }
 
 
@@ -542,7 +549,7 @@ margin-right: 2px;
 content:"-";
 margin-right:2px;
 }
-.v-calendar-event-month-besucht::before, v.overlay-container{
+.v-calendar-event-besucht-month::before, v.overlay-container{
 content:"";  
 margin-right:2px;
 }
@@ -572,6 +579,20 @@ color:black;
 }
 
 //Tabsheet Style
+.v-tabsheet{
+	padding: 0px, 0px, 0px, 50px;
+	margin: 0px, 0px, 0px, 50px;
+	}
+.v-tabsheet[width-range~="0-400"]{
+	padding: 0px, 0px, 0px, 50px;
+	}
+.v-tabsheet[width-range~="400-700"]{
+	padding: 0px, 0px, 0px, 100px;
+	margin: 0px, 0px, 0px, 100px;
+	}
+.v-tabsheet[width-range~="700-"]{
+	padding: 0px, 0px, 0px, 100px;
+	}
 .v-tabsheet-tabsheetpanel{
 overflow:hidden;
 height:-1px;

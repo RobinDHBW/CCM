@@ -1657,6 +1657,7 @@ div.v-layout.v-horizontal.v-widget {
 	background: #5d6a72;
 	color: white;
 	font-weight: bold;
+	font-size: 12pt;
 }
 
 .v-table-body {
@@ -1669,6 +1670,10 @@ div.v-layout.v-horizontal.v-widget {
 	background-color: white;
 	background: white;
 	color: black;
+}
+
+.v-table-cell-wrapper {
+	white-space: normal;
 }
 
 .v-label {
@@ -1729,7 +1734,7 @@ div.v-layout.v-horizontal.v-widget {
 	margin-right: 2px;
 }
 
-.v-calendar-event-month-besucht::before, v.overlay-container {
+.v-calendar-event-besucht-month::before, v.overlay-container {
 	content: "";
 	margin-right: 2px;
 }
@@ -1752,6 +1757,24 @@ div.v-layout.v-horizontal.v-widget {
 .v-calendar-event-besucht-all-day {
 	background: #dcdfe0;
 	color: black;
+}
+
+.v-tabsheet {
+	padding: 0px, 0px, 0px, 50px;
+	margin: 0px, 0px, 0px, 50px;
+}
+
+.v-tabsheet[width-range~="0-400"] {
+	padding: 0px, 0px, 0px, 50px;
+}
+
+.v-tabsheet[width-range~="400-700"] {
+	padding: 0px, 0px, 0px, 100px;
+	margin: 0px, 0px, 0px, 100px;
+}
+
+.v-tabsheet[width-range~="700-"] {
+	padding: 0px, 0px, 0px, 100px;
 }
 
 .v-tabsheet-tabsheetpanel {
@@ -1835,7 +1858,7 @@ div.v-layout.v-horizontal.v-widget {
 	text-align: center;
 	left: 0;
 	right: 0;
-	content: "Bitte warten. Das Costumer Contact Management System wird geladen.";
+	content: "Bitte warten. Das Company Contact Management System wird geladen.";
 }
 
 .CCM_Theme .v-loading-indicator {
@@ -13379,6 +13402,10 @@ div.v-layout.v-horizontal.v-widget {
 	display: none;
 	height: 0px;
 	width: 0px;
+}
+
+.CCM_Theme .v-panel-pnviews {
+	padding: 0, 0, 0, 30px;
 }
 
 .CCM_Theme .v-horizontal-hllogin {
