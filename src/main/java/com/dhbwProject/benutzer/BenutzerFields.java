@@ -15,6 +15,7 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.Sizeable;
+import com.vaadin.server.UserError;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -231,6 +232,7 @@ public class BenutzerFields extends VerticalLayout{
 	
 	
 	public void setStudiengang (Benutzer b){
+		this.alleStudiengaenge = b.getStudiengang(); // By Robin 08.02.2017 00:33 Uhr
 		this.taStudiengang.clear();
 		String value = "";
 		for (Studiengang st : b.getStudiengang()) {
@@ -324,5 +326,66 @@ public class BenutzerFields extends VerticalLayout{
 		this.taStudiengang.setReadOnly(true);
 	}
 	
+	protected boolean checkFields(BenutzerFields fields) {
+		
+		if (fields.getID().trim().equals("")) {
+			tfID.setComponentError(new UserError("ID eingeben"));
+		} else {
+			tfID.setComponentError(null);
+		}
+		
+		if (fields.getVorname().trim().equals("")) {
+			tfVorname.setComponentError(new UserError("Vorname eingeben"));
+		} else {
+			tfVorname.setComponentError(null);
+		}
+			
+		if (fields.getNachname().trim().equals("")) {
+			tfNachname.setComponentError(new UserError("Nachname eingeben"));
+		} else {
+			tfNachname.setComponentError(null);
+		}
+		
+		if (fields.getBeruf() == null) {
+			cbBeruf.setComponentError(new UserError("Beruf auswählen"));
+		} else {
+			cbBeruf.setComponentError(null);
+		}
+		
+		if (fields.getRolle() == null) {
+			cbRolle.setComponentError(new UserError("Rolle auswählen"));
+		} else {
+			cbRolle.setComponentError(null);
+		}
+		
+		if (fields.getStudiengang().size() < 1) {
+			taStudiengang.setComponentError(new UserError("Studiengang auswählen"));
+		} else {
+			taStudiengang.setComponentError(null);
+		}
+		
+		if (fields.getTelefonnummer().trim().equals("")) {
+			tfTelefonnummer.setComponentError(new UserError("Telefonnummer eingeben"));
+		} else {
+			tfTelefonnummer.setComponentError(null);
+		}
+		
+		if (fields.getEmail().trim().equals("")) {
+			tfEmail.setComponentError(new UserError("E-Mail eingeben"));
+		} else {
+			tfEmail.setComponentError(null);
+		}
+		
+		
+		if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
+				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0
+				&& !fields.getTelefonnummer().equals("") && !fields.getEmail().equals("")) {
+			return true;
+		} else {
+			return false;
+		}
+		
+		
+		}
 
 }

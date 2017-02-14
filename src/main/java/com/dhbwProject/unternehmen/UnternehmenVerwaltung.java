@@ -5,9 +5,11 @@ import java.sql.SQLException;
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.backend.dbConnect;
 import com.dhbwProject.backend.beans.Adresse;
+import com.dhbwProject.backend.beans.Benutzer;
 import com.dhbwProject.backend.beans.Unternehmen;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
@@ -34,16 +36,19 @@ public class UnternehmenVerwaltung extends CustomComponent {
 	private Table tblUnternehmen;
 	private IndexedContainer container;
 	private dbConnect dbConnection;
+	private Benutzer bUser;
 	
 	public UnternehmenVerwaltung(){
 		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
+		this.bUser = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
 		this.initContent();
 		this.setSizeFull();
 		Responsive.makeResponsive(this);
 	}
 	
 	private void initContent(){
-		this.initMenu();
+		if(bUser.getRolle().getId()<=2)
+			this.initMenu();
 		this.tblUnternehmen = new Table();
 		this.tblUnternehmen.setHeight("500px");
 		this.tblUnternehmen.setSelectable(true);
@@ -56,7 +61,22 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		this.tblUnternehmen.setContainerDataSource(this.container);
 		this.tblUnternehmen.setColumnHeader("Kennzeichen", "");
 		
-		this.vlLayout = new VerticalLayout(this.mbMenu, this.tblUnternehmen);
+		TextField tfFilterUnternehmen = new TextField();
+		tfFilterUnternehmen.setWidth(tblUnternehmen.getWidth(), tblUnternehmen.getWidthUnits());
+		tfFilterUnternehmen.setStyleName(ValoTheme.TEXTFIELD_BORDERLESS);
+		tfFilterUnternehmen.setInputPrompt("Filter Unternehmen");
+		tfFilterUnternehmen.addTextChangeListener(change -> {
+	    	this.container.removeContainerFilters("Name");
+	        if (! change.getText().isEmpty())
+	        	container.addContainerFilter(
+	                new SimpleStringFilter("Name",
+	                    change.getText(), true, false));
+	    });
+		
+		if(bUser.getRolle().getId()<=2)
+			this.vlLayout = new VerticalLayout(this.mbMenu, tfFilterUnternehmen, this.tblUnternehmen);
+		else
+			this.vlLayout = new VerticalLayout(tfFilterUnternehmen, this.tblUnternehmen);
 		this.vlLayout.setMargin(true);
 		this.vlLayout.setSizeFull();
 		Responsive.makeResponsive(vlLayout);

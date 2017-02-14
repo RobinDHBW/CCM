@@ -12,6 +12,7 @@ public class Benutzer {
 	private LinkedList<Studiengang> lStudiengang;
 	private String email;
 	private String telefon;
+	private Boolean inaktiv;
 
 	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle, LinkedList<Studiengang> lStudiengang, String email, String telefon) {
 		this.id = id;
@@ -22,6 +23,27 @@ public class Benutzer {
 		this.lStudiengang = lStudiengang;
 		this.email = email;
 		this.telefon = telefon;
+		this.inaktiv = null;
+	}
+	public Benutzer(String id, String vorname, String nachname, Beruf beruf, Rolle rolle, LinkedList<Studiengang> lStudiengang, String email, String telefon, boolean inaktiv) {
+		this.id = id;
+		this.vorname = vorname;
+		this.nachname = nachname;
+		this.beruf = beruf;
+		this.rolle = rolle;
+		this.lStudiengang = lStudiengang;
+		this.email = email;
+		this.telefon = telefon;
+		this.inaktiv = new Boolean(inaktiv);
+	}
+	
+	public boolean getInaktiv(){
+		if(inaktiv == null) return false;
+		return inaktiv.booleanValue();
+	}
+	
+	public void setInaktiv(boolean pInaktiv){
+		inaktiv = new Boolean(pInaktiv);
 	}
 
 	public String getEmail() {

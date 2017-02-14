@@ -1,4 +1,4 @@
-package com.dhbwProject.CCM;
+﻿package com.dhbwProject.CCM;
 
 import java.sql.SQLException;
 
@@ -155,9 +155,9 @@ public class CCM_UI extends UI {
             public boolean beforeViewChange(ViewChangeEvent event) {
                 boolean isLoggedIn = VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
-                if(isLoggedIn && !naviBar.isVisible())
+                if(isLoggedIn && !naviBar.isVisible()){
+                	naviBar.refreshVisibilityByRolle();
                 	naviBar.setVisible(true);
-                
 
                 if (!isLoggedIn && !isLoginView) {
                 	naviBar.setVisible(false); //das sollte ansich auch wieder rauskönnen

@@ -1,4 +1,4 @@
-package com.dhbwProject.views;
+﻿package com.dhbwProject.views;
 
 import com.dhbwProject.backend.CCM_Constants;
 import com.dhbwProject.benutzer.BenutzerVerwaltung;
@@ -13,8 +13,6 @@ import com.vaadin.ui.VerticalLayout;
 public class ViewBenutzer extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	private TabSheet tbContent;
-	
-	
 	
 	public ViewBenutzer(){
 		this.setSizeFull();
@@ -37,7 +35,6 @@ public class ViewBenutzer extends VerticalLayout implements View {
 //		this.tbContent.addTab(new BenutzerAenderung(), "Benutzer ändern", FontAwesome.LIST);
 		this.tbContent.addTab(new RolleVerwaltung(), "Rolle", FontAwesome.LIST);
 		Responsive.makeResponsive(tbContent);
-		this.addComponent(tbContent);
-		
+		this.addComponent(tbContent);		
 	}
 }

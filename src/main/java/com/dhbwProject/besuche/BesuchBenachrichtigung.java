@@ -165,6 +165,7 @@ public class BesuchBenachrichtigung extends Window {
 		}
 		
 		private void refreshValue() throws SQLException, UnsupportedEncodingException{
+			vlFields.removeAllComponents();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 			for(Gespraechsnotiz g : dbConnection.getGespraechsnotizByBesuch(bReferenz))
 				if(g != null){

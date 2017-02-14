@@ -1,6 +1,5 @@
 package com.dhbwProject.backend;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.mail.EmailException;
@@ -23,17 +22,6 @@ public class EMailThread extends Thread {
 	public void run(){
 		this.bResult = this.sendMail();
 	}
-	
-	
-	//Zum testen---------------------------------------------------------------------
-	public static void main(String[] args){
-		ArrayList<String> alBenutzerMails = new ArrayList<String>();
-		alBenutzerMails.add("thyeria@gmx.de");
-		alBenutzerMails.add("fluhrerflo@gmail.com");
-		EMailThread eMailThread = new EMailThread(alBenutzerMails, "TestOutOfThread", "Here is the Content");
-		eMailThread.start();
-	}
-	//---------------------------------------------------------------------------------
 	
 	private boolean sendMail(){
 		HtmlEmail email = new HtmlEmail();

@@ -1,7 +1,6 @@
 package com.dhbwProject.besuche;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.Date;
@@ -160,10 +159,18 @@ protected void initEventMoveHandler(){
 		this.fireNavigationEvent(true);
 	}
 	
-	protected void refreshCalendarEvents(){		
+	protected void refreshCalendarEvents(){	
+		/*
+		 * Diese lokalen Datumswerte werden benötigt um die Fülltage zu berücksichtigen
+		 * Angenommen der erste Tag eines Monats ist ein Mittwoch, dann werden noch Montag und Dienstag
+		 * vom Vormonat angezeigt. Termine, die in dem Zeitraum liegen sollen selbstverständlich mit angezeigt werden
+		 * */
+		Date lokStart = new Date(dateStart.getTime()-((firstDay-1)*24*CCM_Constants.ONE_HOUR_AS_LONG));
+		Date lokEnd = new Date(dateEnd.getTime()+((7-lastDay)*24*CCM_Constants.ONE_HOUR_AS_LONG));
+		
 		this.eventContainer.removeAllItems();	
 			for(Besuch t  :this.lBesuch)
-				if(t.getStartDate().after(dateStart) && t.getEndDate().before(dateEnd))
+				if(t.getStartDate().after(lokStart) && t.getEndDate().before(lokEnd))
 					this.eventContainer.addBean(new BesuchEvent(t));
 	}
 	
@@ -188,7 +195,7 @@ protected void initEventMoveHandler(){
 	}
 	
 	private void refreshDateRange(){
-		this.dateStart = new GregorianCalendar(year, month, dayStart, 01, 01).getTime();
+		this.dateStart = new GregorianCalendar(year, month, dayStart, 00, 00).getTime();
 		this.dateEnd = new GregorianCalendar(year, month, dayEnd, 23, 59).getTime();
 		this.setTime();
 	}
