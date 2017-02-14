@@ -63,12 +63,11 @@ public class AdresseAnlage extends Window {
 				message.show(Page.getCurrent());
 				return;
 			}
-			
-			LinkedList<Adresse> lKollision = checkAdresseKollision();
-			if(lKollision.size()>0){
-				KollisionAbfrage abfrage = new KollisionAbfrage(lKollision);
-				abfrage.addCloseListener(close ->{
-					if(abfrage.getResult()){
+			AdresseKollisionsPruefer pruefer = new AdresseKollisionsPruefer(
+					new Adresse(0, fields.getPlz(), fields.getOrt(), fields.getStrasse(), fields.getHausnummer(), uReferenz), this.dbConnection);
+			if(pruefer.getKollisionSize()>0){
+				pruefer.addCloseListener(close ->{
+					if(pruefer.getResult()){
 						createAdresse();
 						close();
 					}else{
@@ -78,7 +77,7 @@ public class AdresseAnlage extends Window {
 					}
 						
 				});
-				getUI().addWindow(abfrage);
+				getUI().addWindow(pruefer);
 			}else{
 				createAdresse();
 				close();
@@ -97,86 +96,12 @@ public class AdresseAnlage extends Window {
 		return aNeu;
 	}
 	
-	private LinkedList<Adresse> checkAdresseKollision(){
-		LinkedList<Adresse> lKollisionReferenz = new LinkedList<Adresse>();
-		try {
-			for(Adresse a : this.dbConnection.getAllAdresse())
-				if(isKollision(a))
-					lKollisionReferenz.add(a);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return lKollisionReferenz;
-	}
-	
-	private boolean isKollision(Adresse a){
-		if(a.getPlz().equals(this.fields.getPlz())
-				&&a.getOrt().equals(this.fields.getOrt())
-				&& a.getStrasse().equals(this.fields.getStrasse()))
-			return true;
-		return false;
-			
-	}
-	
 	private void createAdresse(){
 		try{
 			this.aNeu = new Adresse(0, fields.getPlz(), fields.getOrt(), fields.getStrasse(), fields.getHausnummer(), uReferenz);
 			this.aNeu = dbConnection.createAdresse(aNeu);
 		}catch(SQLException e){
 			aNeu = null;
-		}
-	}
-	
-	private class KollisionAbfrage extends Window{
-		private boolean bResult = false;
-		
-		private KollisionAbfrage(LinkedList<Adresse> lAdresse){
-			this.center();
-			this.setModal(true);
-			this.setClosable(false);
-			this.setWidth("400px");
-			this.setHeight("600px");
-			this.setCaptionAsHtml(true);
-			this.setCaption("<center><h3>Die Adresse könnte bereits existieren!</h3></center>");
-			this.setContent(initContent(lAdresse));
-		}
-		
-		private Panel initContent(LinkedList<Adresse> lAdresse){
-			VerticalLayout layout = new VerticalLayout();
-			layout.setSizeFull();
-			layout.setSpacing(true);
-			for(Adresse a : lAdresse){
-				Label lblAdresse = new Label(a.getStrasse()+" "+a.getHausnummer()+"<br>"
-						+a.getPlz()+"<br>"+a.getOrt(), ContentMode.HTML);
-				layout.addComponent(lblAdresse);
-				layout.setComponentAlignment(lblAdresse, Alignment.TOP_CENTER);
-			}
-			
-			Button btnOk = new Button();
-			btnOk.setCaption("Ja");
-			btnOk.setWidth("100px");
-			btnOk.setIcon(FontAwesome.CHECK);
-			btnOk.addClickListener(click ->{
-				this.bResult = true;
-				this.close();
-			});
-			
-			Button btnNein = new Button();
-			btnNein.setCaption("Nein");
-			btnNein.setWidth("100px");
-			btnNein.setIcon(FontAwesome.CLOSE);
-			btnNein.addClickListener(click -> this.close());
-			
-			HorizontalLayout hlButtons = new HorizontalLayout(btnOk, btnNein);
-			hlButtons.setSpacing(true);
-			layout.addComponent(hlButtons);
-			layout.setComponentAlignment(hlButtons, Alignment.TOP_CENTER);
-			layout.setMargin(true);
-			return new Panel(layout);		
-		}
-		
-		private boolean getResult(){
-			return bResult;
 		}
 	}
 

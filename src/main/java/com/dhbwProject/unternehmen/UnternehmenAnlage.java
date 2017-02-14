@@ -52,20 +52,30 @@ public class UnternehmenAnlage extends Window {
 				message.show(Page.getCurrent());
 				return;
 			}
-			
-			try{
-				this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), fieldsUnternehmen.getKennzeichen());
-				this.uNeu = dbConnection.createUnternehmen(uNeu);
-				this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), uNeu);
-				this.aNeu = dbConnection.createAdresse(aNeu);
+			AdresseKollisionsPruefer pruefer = new AdresseKollisionsPruefer(
+					new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), 
+							new Unternehmen(0, fieldsUnternehmen.getName(), fieldsUnternehmen.getKennzeichen())), this.dbConnection);
+			if(pruefer.getKollisionSize()>0){
+				pruefer.addCloseListener(close ->{
+					if(pruefer.getResult()){
+						createNewRecord();
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.setCaption(uNeu.getName()+" wurde hinzugefügt");
+						message.show(Page.getCurrent());
+						this.close();
+					}else{
+						message.setCaption(uNeu.getName()+" wurde nicht hinzugefügt");
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.show(Page.getCurrent());
+					}
+				});
+				getUI().addWindow(pruefer);
+			}else{
+				createNewRecord();
 				message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 				message.setCaption(uNeu.getName()+" wurde hinzugefügt");
 				message.show(Page.getCurrent());
 				this.close();
-			}catch(SQLException e){
-				this.uNeu = null;
-				this.aNeu = null;
-				e.printStackTrace();
 			}
 		});
 		
@@ -89,6 +99,18 @@ public class UnternehmenAnlage extends Window {
 	
 	protected Adresse getAdresseNeu(){
 		return this.aNeu;
+	}
+	
+	private void createNewRecord(){
+		try{
+			this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), fieldsUnternehmen.getKennzeichen());
+			this.uNeu = dbConnection.createUnternehmen(uNeu);
+			this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), uNeu);
+			this.aNeu = dbConnection.createAdresse(aNeu);
+		}catch(SQLException e){
+			this.uNeu = null;
+			this.aNeu = null;
+		}
 	}
 
 }
