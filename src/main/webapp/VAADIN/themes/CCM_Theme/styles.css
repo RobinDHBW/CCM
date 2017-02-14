@@ -13293,20 +13293,20 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-csslayout {
-	width: 300px;
+	width: 500px;
 	height: -1px;
 }
 
 .CCM_Theme .v-csslayout[width-range~="0-400"] {
-	width: 300px;
+	width: 400px;
 }
 
 .CCM_Theme .v-csslayout[width-range~="400-700"] {
-	width: 500px;
+	width: 600px;
 }
 
 .CCM_Theme .v-csslayout[width-range~="700-"] {
-	width: 600px;
+	width: 700px;
 }
 
 .CCM_Theme .v-customcomponent-cclayout {
@@ -13405,7 +13405,23 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .CCM_Theme .v-panel-pnviews {
-	padding: 0, 0, 0, 30px;
+	padding-left: 30px;
+	margin-left: 400px;
+}
+
+.CCM_Theme .v-panel-pnviews[width-range~="0-400"] {
+	padding-left: 30px;
+	margin-left: 400px;
+}
+
+.CCM_Theme .v-panel-pnviews[width-range~="400-700"] {
+	padding-left: 30px;
+	margin-left: 600px;
+}
+
+.CCM_Theme .v-panel-pnviews[width-range~="700-"] {
+	padding-left: 30px;
+	margin-left: 600px;
 }
 
 .CCM_Theme .v-horizontal-hllogin {
@@ -13495,12 +13511,12 @@ div.v-layout.v-horizontal.v-widget {
 	width: 200px;
 }
 
-.CCM_Theme .v-button-naviother[width-range~="0-400"] {
+.CCM_Theme .v-button-naviother[width-range~="0-700"] {
 	width: 200px;
 }
 
-.CCM_Theme .v-button-naviother[width-range~="400-"] {
-	width: 90%;
+.CCM_Theme .v-button-naviother[width-range~="700-"] {
+	width: 300px;
 }
 
 .CCM_Theme .v-button-caption {
@@ -13510,7 +13526,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 0px 0px 0px 0px;
 }
 
-.CCM_Theme .v-button-navi[width-range~="0-400"] {
+.CCM_Theme .v-button-navi[width-range~="0-700"] {
 	background-color: #5d6a72;
 	color: #dcdfe0;
 	font-color: #dcdfe0;
@@ -13520,14 +13536,14 @@ div.v-layout.v-horizontal.v-widget {
 	width: 200px;
 }
 
-.CCM_Theme .v-button-navi[width-range~="400-"] {
+.CCM_Theme .v-button-navi[width-range~="700-"] {
 	background-color: #5d6a72;
 	color: #dcdfe0;
 	font-color: #dcdfe0;
 	font-weight: bold;
 	text-align: left;
 	padding: 6px 6px 6px 6px;
-	width: 90%;
+	width: 300px;
 }
 
 .CCM_Theme .v-button .v-icon {

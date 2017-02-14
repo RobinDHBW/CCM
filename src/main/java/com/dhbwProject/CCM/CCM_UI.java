@@ -130,13 +130,13 @@ public class CCM_UI extends UI {
 		this.hlContent.addComponent(this.pnlViews);
 		this.hlContent.setExpandRatio(this.pnlViews, 4);
 		Responsive.makeResponsive(hlContent);
-		this.pnlViews.setSizeFull();	
+		//this.pnlViews.setSizeUndefined();	
 	}
 	
 	private void initViewNavigator(){
 		this.pnlViews = new Panel();
-		this.pnlViews.setStyleName(ValoTheme.PANEL_BORDERLESS);
-		this.pnlViews.addStyleName("pnviews");
+		this.pnlViews.setStyleName("pnviews");
+		this.pnlViews.addStyleName(ValoTheme.PANEL_BORDERLESS);
 		Responsive.makeResponsive(pnlViews);
 		this.setNavigator(new CCM_Navigator(this, this.pnlViews));
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_LOGIN, ViewLogin.class);
@@ -157,13 +157,11 @@ public class CCM_UI extends UI {
                 boolean isLoginView = event.getNewView() instanceof ViewLogin;
                 if(isLoggedIn && !naviBar.isVisible())
                 	naviBar.setVisible(true);
-                 //	Benutzer user = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
-                	//header.setStatustext("Herzlich willkommen, "+ "" + user.getVorname() + " " + user.getNachname()  );
+                
 
                 if (!isLoggedIn && !isLoginView) {
                 	naviBar.setVisible(false); //das sollte ansich auch wieder rauskönnen
                     getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
-                 //   header.setStatustext("Hallo, bitte melden Sie sich am CCM System an.");
                     return false;
 
                 } else if (isLoggedIn && isLoginView)
