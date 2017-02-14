@@ -28,11 +28,13 @@ public class UnternehmenBearbeitung extends Window{
 
 	private VerticalLayout vlLayout;
 	
+	private dbConnect dbConnection;
 	private UnternehmenFelder fieldsUnternehmen;
 	private AdresseFelder fieldsAdresse;
 	private Button btnBearbeiten;
 	
 	public UnternehmenBearbeitung(Unternehmen u, Adresse a){
+		this.dbConnection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 		this.center();
 		this.setCaptionAsHtml(true);
 		this.setCaption("<center><h3>Unternehmen und Adresse bearbeiten</h3></center>");
@@ -70,18 +72,25 @@ public class UnternehmenBearbeitung extends Window{
 				message.show(Page.getCurrent());
 				return;
 			}
-			dbConnect connection = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
 			this.uNeu = new Unternehmen(0, fieldsUnternehmen.getName(), fieldsUnternehmen.getKennzeichen());
 			this.aNeu = new Adresse(0, fieldsAdresse.getPlz(), fieldsAdresse.getOrt(), fieldsAdresse.getStrasse(), fieldsAdresse.getHausnummer(), uNeu);
-			try {
-				uNeu = connection.changeUnternehmen(uAlt, uNeu);
-				aNeu = connection.changeAdresse(aAlt, aNeu);
-			} catch (SQLException e) {
-				uNeu = null;
-				aNeu = null;
-				e.printStackTrace();
+			AdresseKollisionsPruefer pruefer = new AdresseKollisionsPruefer(aNeu, this.dbConnection);
+			if(pruefer.getKollisionSize()>0){
+				pruefer.addCloseListener(close ->{
+					if(pruefer.getResult()){
+						updateRecord();
+						this.close();
+					}else{
+						message.setCaption("Die Änderungen wurden nicht vorgenommen");
+						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+						message.show(Page.getCurrent());
+					}
+				});
+				getUI().addWindow(pruefer);
+			}else{
+				updateRecord();
+				this.close();	
 			}
-			this.close();
 		});
 		
 		this.fieldsAdresse.addComponent(btnBearbeiten);
@@ -101,6 +110,16 @@ public class UnternehmenBearbeitung extends Window{
 	
 	public Unternehmen getUnternehmenChange(){
 		return this.uNeu;
+	}
+	
+	private void updateRecord(){
+		try {
+			uNeu = dbConnection.changeUnternehmen(uAlt, uNeu);
+			aNeu = dbConnection.changeAdresse(aAlt, aNeu);
+		} catch (SQLException e) {
+			uNeu = null;
+			aNeu = null;
+		}
 	}
 
 }

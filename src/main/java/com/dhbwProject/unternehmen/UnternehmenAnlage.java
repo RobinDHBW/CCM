@@ -64,7 +64,7 @@ public class UnternehmenAnlage extends Window {
 						message.show(Page.getCurrent());
 						this.close();
 					}else{
-						message.setCaption(uNeu.getName()+" wurde nicht hinzugefügt");
+						message.setCaption("Das Unternehmen wurde nicht hinzugefügt");
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
 						message.show(Page.getCurrent());
 					}
