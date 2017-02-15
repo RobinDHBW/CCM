@@ -68,13 +68,13 @@ public class LookupUnternehmen extends Window{
 		this.tblSelect.addStyleName(ValoTheme.TABLE_COMPACT);
 		
 		this.tfFirma = new TextField();
-		this.tfFirma.setInputPrompt("Filter Firma");
+		this.tfFirma.setInputPrompt("Filter Unternehmen");
 		this.tfFirma.setWidth("600px");
 	    this.tfFirma.addTextChangeListener(change -> {
-	    	container.removeContainerFilters("Firma");
+	    	container.removeContainerFilters("Unternehmen");
 	        if (! change.getText().isEmpty())
 	        	container.addContainerFilter(
-	                new SimpleStringFilter("Firma",
+	                new SimpleStringFilter("Unternehmen",
 	                    change.getText(), true, false));
 	    });
 	    
