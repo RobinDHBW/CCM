@@ -26,7 +26,7 @@ import com.vaadin.ui.themes.ValoTheme;
 public class BesuchAnlage extends Window {
 	private static final long serialVersionUID = 1L;
 	private dbConnect dbConnection;
-	private Besuch bAnlage;
+	private Besuch bAnlage = null;
 	
 	private BesuchFelder fields;
 	private VerticalLayout vlLayout;
@@ -153,7 +153,6 @@ public class BesuchAnlage extends Window {
 					fields.getTeilnehmenr(), null, fields.getAutor()));
 		} catch (SQLException e) {
 			bAnlage = null;
-			e.printStackTrace();
 		}	
 	}
 	

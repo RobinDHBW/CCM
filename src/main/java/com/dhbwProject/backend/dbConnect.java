@@ -300,7 +300,7 @@ public class dbConnect {
 				 ps.setInt(6, ((Besuch) obj).getStatus().getId());
 				 ps.setInt(7, ((Besuch) obj).getAnsprechpartner().getId());
 				 
-				 int p = ps.executeUpdate();
+				 ps.executeUpdate();
 				    ResultSet rs = ps.getGeneratedKeys();
 				     rs.next();
 				    int auto_id = rs.getInt(1);
@@ -314,7 +314,7 @@ public class dbConnect {
 					 ps2.close();
 				 	}
 				 ps.close();
-				 return p;
+				 return auto_id;
 				 }else
 			if(obj instanceof Gespraechsnotiz){
 				 PreparedStatement ps = con.prepareStatement("INSERT INTO `gespraechsnotizen` (`gespraechsnotiz_id`, `gespraechsnotiz_notiz`, `gespraechsnotiz_bild`, `unternehmen_id`, `besuch_id`, `gespraechsnotiz_timestamp`, `autor`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);

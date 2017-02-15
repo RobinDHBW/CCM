@@ -37,6 +37,13 @@ public class ViewBesuch extends CustomComponent implements View {
 		this.uebersicht = new BesuchUebersicht();
 		this.tbContent.addTab(this.verwaltung, "Meine Termine", FontAwesome.USER);
 		this.tbContent.addTab(this.uebersicht, "Gesamtübersicht", FontAwesome.LIST);
+		
+		tbContent.addSelectedTabChangeListener(tabChange ->{
+			if(tbContent.getSelectedTab().equals(verwaltung))
+				verwaltung.refresh();
+			else
+				uebersicht.refresh();
+		});
 		this.setCompositionRoot(this.tbContent);
 	}
 

@@ -101,6 +101,10 @@ public class BesuchUebersicht extends CustomComponent{
 		this.container.addContainerProperty("Adresse", TextArea.class, null);
 	}
 	
+	public void refresh(){
+		refreshContainer(dStart, dEnd);
+	}
+	
 	private void refreshContainer(Date dStart, Date dEnd){
 		this.container.removeAllItems();
 		this.container.removeAllContainerFilters();
