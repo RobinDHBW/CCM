@@ -75,8 +75,7 @@ public class BenutzerAnlage extends Window {
 	}
 	
 	public void createBenutzer() {
-		boolean isValid = this.fields.checkFields(fields);
-		if (isValid) {
+		if (this.fields.checkFields(fields)) {
 			String id = fields.getID();
 			Rolle rolle = null;
 			try {

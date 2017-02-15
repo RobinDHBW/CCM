@@ -42,6 +42,7 @@ public class BenutzerAenderung extends Window {
 		this.b = b;
 		this.fields = new BenutzerFields();
 		this.fields.initChPassword();
+		this.fields.initChLoeschen();
 		this.fields.getTfID().setEnabled(false);
 //		this.fields.enableFields(false);
 		this.dbConnect = (dbConnect)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_CONNECTION);
@@ -65,7 +66,7 @@ public class BenutzerAenderung extends Window {
 			fields.setEmail(b);
 			fields.setTelefonnummer(b);
 //			fields.enableFields(true);
-			btnAendern.setEnabled(true);
+//			btnAendern.setEnabled(true);
 			}
 		
 	}
@@ -76,9 +77,7 @@ public class BenutzerAenderung extends Window {
 		this.btnAendern.setEnabled(false);
 		this.btnAendern.addClickListener(listener ->{
 			
-			boolean isValid = this.fields.checkFields(fields);
-			if(isValid) {
-				String id = fields.getID();
+			if(this.fields.checkFields(fields)) {
 				Rolle rolle = null;
 				try {
 					rolle = dbConnect.getRolleByBezeichnung(fields.getRolle());
@@ -113,7 +112,7 @@ public class BenutzerAenderung extends Window {
 			Notification.show("Die Benutzerdaten wurden geändert",
 	                Type.TRAY_NOTIFICATION);
 			
-			if (this.fields.getChPassword().getValue() == true) {
+			if (this.fields.getPassword() == true) {
 					try {
 						dbConnect.changePassword(PasswordHasher.md5("default"), neu);
 						Notification.show("Das Passwort wurde auf default zurückgesetzt");
@@ -138,14 +137,46 @@ public class BenutzerAenderung extends Window {
 					
 				}
 			}
+			
+			if (this.fields.getInactive()) {
+				try {
+					dbConnect.deleteBenutzer(b);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			this.fields.enableFields(false);
 			this.close();
 		});
 		
 		this.fields.addComponent(btnAendern);
 	}
 	
+	private void initInactiveButton() {
+		Button inactive = new Button("Benutzer wieder aktivieren");
+		inactive.setIcon(FontAwesome.CHECK);
+		inactive.addClickListener(e -> {
+			try {
+				dbConnect.activateBenutzer(b);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			this.fields.enableFields(true);
+			this.close();
+			
+		});
+		this.fields.addComponent(inactive);
+	}
+	
 	private Panel initLayout(){
-		this.initCreateButton();
+		if (!b.getInaktiv()) {
+			this.initCreateButton();
+			btnAendern.setEnabled(true);
+			this.fields.enableFields(true);
+		} else {
+			this.initInactiveButton();
+			this.fields.enableFields(false);			
+		}
 		this.vlLayout = new VerticalLayout(this.fields);
 		this.vlLayout.setSizeFull();
 		this.vlLayout.setSpacing(true);

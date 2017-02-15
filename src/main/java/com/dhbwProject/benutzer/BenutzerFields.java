@@ -36,7 +36,7 @@ public class BenutzerFields extends VerticalLayout{
 	private ComboBox cbBeruf;
 	private ComboBox cbRolle;
 	private CheckBox chPassword;
-	private ListSelect lsStudiengang;
+	private CheckBox chLoeschen;
 	private dbConnect dbConnect;
 	private LinkedList<Beruf> alleBerufe;
 	private LinkedList<Rolle> alleRollen;	
@@ -123,6 +123,13 @@ public class BenutzerFields extends VerticalLayout{
 		this.chPassword.setValue(false);
 		this.chPassword.setWidth("300px");
 		this.addComponent(chPassword);
+	}
+	
+	protected void initChLoeschen() {
+		this.chLoeschen = new CheckBox("Benutzer deaktivieren?");
+		this.chLoeschen.setValue(false);
+		this.chLoeschen.setWidth("300px");
+		this.addComponent(chLoeschen);
 	}
 	
 	private void initLsStudiengang() {
@@ -212,6 +219,10 @@ public class BenutzerFields extends VerticalLayout{
 		return this.chPassword.getValue();
 	}
 	
+	public boolean getInactive() {
+		return this.chLoeschen.getValue();
+	}
+	
 	
 	public void setStudiengang (Benutzer b){
 		this.alleStudiengaenge = b.getStudiengang(); // By Robin 08.02.2017 00:33 Uhr
@@ -253,51 +264,19 @@ public class BenutzerFields extends VerticalLayout{
 		return this.tfID;
 	}
 	
-	public TextField getTfVorname() {
-		return this.tfVorname;
-	}
 	
-	public TextField getTfNachname() {
-		return this.tfNachname;
+	public void enableFields(boolean bool) {
+		this.tfID.setEnabled(false);
+		this.tfVorname.setEnabled(bool);
+		this.tfNachname.setEnabled(bool);
+		this.cbBeruf.setEnabled(bool);
+		this.cbRolle.setEnabled(bool);
+		this.taStudiengang.setEnabled(bool);
+		this.btnLookupStudiengang.setEnabled(bool);
+		this.tfTelefonnummer.setEnabled(bool);
+		this.tfEmail.setEnabled(bool);
+		this.chPassword.setEnabled(bool);
 	}
-	
-	public ComboBox getCbBeruf() {
-		return this.cbBeruf;
-	}
-	
-	public ComboBox getCbRolle() {
-		return this.cbRolle;
-	}
-	
-	public TextArea getTaStudiengang() {
-		return this.taStudiengang;
-	}
-	
-	public TextField getTfTelefonnummer() {
-		return this.tfTelefonnummer;
-	}
-	
-	public TextField getTfEmail() {
-		return this.tfEmail;
-	}
-
-//	Bosse
-	public CheckBox getChPassword(){
-		return this.chPassword;
-	}
-	
-	
-//	public void enableFields(boolean bool) {
-//		this.tfID.setEnabled(false);
-//		this.tfVorname.setEnabled(bool);
-//		this.tfNachname.setEnabled(bool);
-//		this.cbBeruf.setEnabled(bool);
-//		this.cbRolle.setEnabled(bool);
-//		this.lsStudiengang.setEnabled(bool);
-//		this.tfTelefonnummer.setEnabled(bool);
-//		this.tfEmail.setEnabled(bool);
-//		this.chPassword.setEnabled(bool);
-//	}
 
 	protected void setStudieng(LinkedList<Studiengang> studiengaenge) {
 		String value = "";

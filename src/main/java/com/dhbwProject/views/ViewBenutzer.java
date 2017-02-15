@@ -30,12 +30,12 @@ public class ViewBenutzer extends VerticalLayout implements View {
 	}
 	
 	private void initTbContent(){
-		this.tbContent = new TabSheet();
-		this.tbContent.addTab(new BenutzerVerwaltung(), "Benutzer", FontAwesome.USERS);
+//		this.tbContent = new TabSheet();
+//		this.tbContent.addTab(new BenutzerVerwaltung(), "Verwaltung", FontAwesome.USERS);
 //		this.tbContent.addTab(new BenutzerAnlage(), "Benutzer anlegen", FontAwesome.USER_PLUS);
 //		this.tbContent.addTab(new BenutzerAenderung(), "Benutzer ändern", FontAwesome.LIST);
 //		this.tbContent.addTab(new RolleVerwaltung(), "Rolle", FontAwesome.LIST);
-		this.addComponent(tbContent);
+		this.addComponent(new BenutzerVerwaltung());
 		
 	}
 }

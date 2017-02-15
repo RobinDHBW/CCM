@@ -48,6 +48,7 @@ public class BenutzerVerwaltung extends CustomComponent{
 //		this.tblBenutzer.setHeight("500px");
 		this.tblBenutzer.setSizeFull();
 		this.tblBenutzer.setSelectable(true);
+		this.tblBenutzer.setColumnExpandRatio("Studiengang", 1);
 		this.tblBenutzer.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblBenutzer.addStyleName(ValoTheme.TABLE_NO_STRIPES);
 		this.tblBenutzer.addStyleName(ValoTheme.TABLE_COMPACT);
@@ -100,8 +101,7 @@ public class BenutzerVerwaltung extends CustomComponent{
 						
 						BenutzerAenderung aenderung = new BenutzerAenderung((Benutzer) tblBenutzer.getValue());
 						aenderung.addCloseListener(close ->{
-							refreshContainer();
-							
+							refreshContainer();							
 						});
 						getUI().addWindow(aenderung);
 					}
@@ -116,6 +116,8 @@ public class BenutzerVerwaltung extends CustomComponent{
 		this.container.addContainerProperty("Beruf", String.class, null);
 		this.container.addContainerProperty("Rolle", String.class, null);
 		this.container.addContainerProperty("Studiengang", String.class, null);
+		this.container.addContainerProperty("E-Mail", String.class, null);
+		this.container.addContainerProperty("Telefon", String.class, null);
 		refreshContainer();
 	}
 	
@@ -148,6 +150,8 @@ public class BenutzerVerwaltung extends CustomComponent{
 			}
 		
 		item.getItemProperty("Studiengang").setValue(studiengang);
+		item.getItemProperty("E-Mail").setValue(b.getEmail());
+		item.getItemProperty("Telefon").setValue(b.getTelefon());
 		}
 	}
 
