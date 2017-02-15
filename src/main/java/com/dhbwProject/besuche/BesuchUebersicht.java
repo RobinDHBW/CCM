@@ -265,19 +265,19 @@ public class BesuchUebersicht extends CustomComponent{
 				entfernen.addCloseListener(close ->{
 					if(entfernen.getResult()){
 						try {
-							if(bUser.getId() != b.getAutor().getId()){
+							if(!bUser.getId().equals(b.getAutor().getId())){
 								dbConnection.deleteBenutzerFromBesuch(b, bUser);
 								refreshContainer(dStart, dEnd);
 								sendMailByRemoveParticipant(b, bUser);
 								message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
-								message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
+								message.setCaption("Der Termin: "+b.getName()+" wurde erfolgreich entfernt");
 								message.show(Page.getCurrent());
 							}else{
+								sendMailByRemoveMeeting(b);
 								dbConnection.deleteBesuch(b);
 								refreshContainer(dStart, dEnd);
-								sendMailByRemoveMeeting(b);
 								message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
-								message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
+								message.setCaption("Der Termin: "+b.getName()+" wurde erfolgreich entfernt");
 								message.show(Page.getCurrent());	
 							}
 						} catch (SQLException e) {
@@ -285,7 +285,7 @@ public class BesuchUebersicht extends CustomComponent{
 						}
 					}else{
 						message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
-						message.setCaption("Der Termin: "+b.getName()+"wurde nicht entfernt");
+						message.setCaption("Der Termin: "+b.getName()+" wurde nicht entfernt");
 						message.show(Page.getCurrent());
 					}
 				});

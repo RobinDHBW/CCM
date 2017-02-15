@@ -133,7 +133,7 @@ public class dbConnect {
 			}else
 			if(obj instanceof Besuch){
 				PreparedStatement ps = con.prepareStatement(
-						"DELETE FROM `besuch` WHERE `adresse_id` = ? AND `besuch_beginn` = ? AND `besuch_ende` = ? AND `besuch_name` = ? AND `besuch_autor` = ? AND `status_id` = ? AND `ansprechpartner_id` = ?)",
+						"DELETE FROM `besuch` WHERE `adresse_id` = ? AND `besuch_beginn` = ? AND `besuch_ende` = ? AND `besuch_name` = ? AND `besuch_autor` = ? AND `status_id` = ? AND `ansprechpartner_id` = ?",
 						Statement.RETURN_GENERATED_KEYS);
 				ps.setInt(1, ((Besuch) obj).getAdresse().getId());
 				 ps.setTimestamp(2, ((Besuch) obj).getStartDate());
@@ -144,15 +144,15 @@ public class dbConnect {
 				 ps.setInt(7, ((Besuch) obj).getAnsprechpartner().getId());
 				 
 				 int p = ps.executeUpdate();
-				    ResultSet rs = ps.getGeneratedKeys();
-				     rs.next();
-				    int auto_id = rs.getInt(1);
-				 rs.close();
+//				    ResultSet rs = ps.getGeneratedKeys();
+//				     rs.next();
+//				    int auto_id = rs.getInt(1);
+//				 rs.close();
 				 LinkedList<Benutzer> lBenutzer = ((Besuch) obj).getBesucher();
 				 for(Benutzer e : lBenutzer){
-					 PreparedStatement ps2 = con.prepareStatement("DELETE FROM `benutzer_besuch` WHERE `benutzer_id` = ? AND `besuch_id` = ?)");
+					 PreparedStatement ps2 = con.prepareStatement("DELETE FROM `benutzer_besuch` WHERE `benutzer_id` = ? AND `besuch_id` = ?");
 					 ps2.setString(1, e.getId());
-					 ps2.setInt(2, auto_id);
+					 ps2.setInt(2, ((Besuch) obj).getId());
 					 ps2.executeUpdate();
 					 ps2.close();
 				 	}
