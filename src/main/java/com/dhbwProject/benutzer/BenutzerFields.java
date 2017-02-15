@@ -252,11 +252,11 @@ public class BenutzerFields extends VerticalLayout{
 		return this.tfTelefonnummer.getValue();
 	}
 	
-	public void setEmail (Benutzer b){
+	public void setMail (Benutzer b){
 		this.tfEmail.setValue(b.getEmail());
 	}
 	
-	public String getEmail (){
+	public String getMail (){
 		return this.tfEmail.getValue();
 	}
 	
@@ -332,7 +332,7 @@ public class BenutzerFields extends VerticalLayout{
 			tfTelefonnummer.setComponentError(null);
 		}
 		
-		if (fields.getEmail().trim().equals("")) {
+		if (fields.getMail().trim().equals("")) {
 			tfEmail.setComponentError(new UserError("E-Mail eingeben"));
 		} else {
 			tfEmail.setComponentError(null);
@@ -341,7 +341,7 @@ public class BenutzerFields extends VerticalLayout{
 		
 		if (!fields.getID().equals("") && !fields.getVorname().equals("") && !fields.getNachname().equals("")
 				&& fields.getBeruf() != null && fields.getRolle() != null && fields.getStudiengang().size() > 0
-				&& !fields.getTelefonnummer().equals("") && !fields.getEmail().equals("")) {
+				&& !fields.getTelefonnummer().equals("") && !fields.getMail().equals("")) {
 			return true;
 		} else {
 			return false;

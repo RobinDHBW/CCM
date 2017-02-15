@@ -63,7 +63,7 @@ public class BenutzerAenderung extends Window {
 			fields.setBeruf(b);
 			fields.setRolle(b);
 			fields.setStudiengang(b);
-			fields.setEmail(b);
+			fields.setMail(b);
 			fields.setTelefonnummer(b);
 //			fields.enableFields(true);
 //			btnAendern.setEnabled(true);
@@ -101,7 +101,7 @@ public class BenutzerAenderung extends Window {
 						e.printStackTrace();
 					}
 				}
-			Benutzer neu = new Benutzer(fields.getID(), fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getEmail(),
+			Benutzer neu = new Benutzer(fields.getID(), fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getMail(),
 					fields.getTelefonnummer());
 			try {
 				dbConnect.changeBenutzer(b, neu);
@@ -118,10 +118,10 @@ public class BenutzerAenderung extends Window {
 						Notification.show("Das Passwort wurde auf default zurückgesetzt");
 						
 						ArrayList<String> mailAdresse = new ArrayList<String>();
-						mailAdresse.add(fields.getEmail());
+						mailAdresse.add(fields.getMail());
 						String betreff = "CCM Benutzerkonto";
 						String inhalt = "Guten Tag " + fields.getVorname() + " "
-								+ fields.getNachname() + ",<br><br> Ihr Passwort im CRM-System wurde auf 'default' zurückgesetzt. <br><br>Benutzername: "
+								+ fields.getNachname() + ",<br><br> Ihr Passwort im CCM-System wurde auf 'default' zurückgesetzt. <br><br>Benutzername: "
 								+ fields.getID() + "<br><br> Bitte ändern Sie das Passwort bei der nächtsen Anmeldung.";
 						try {
 						EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);

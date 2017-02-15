@@ -100,7 +100,7 @@ public class BenutzerAnlage extends Window {
 					e.printStackTrace();
 				}
 			}
-			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getEmail(),
+			Benutzer benutzer = new Benutzer(id, fields.getVorname(), fields.getNachname(), beruf, rolle, stg, fields.getMail(),
 					fields.getTelefonnummer());
 			try {
 				this.neu = this.dbConnect.createBenutzer(benutzer);
@@ -115,10 +115,10 @@ public class BenutzerAnlage extends Window {
 			}
 			
 			ArrayList<String> mailAdresse = new ArrayList<String>();
-			mailAdresse.add(fields.getEmail());
+			mailAdresse.add(fields.getMail());
 			String betreff = "CCM Benutzerkonto";
 			String inhalt = "Guten Tag " + fields.getVorname() + " "
-					+ fields.getNachname() + ",<br><br> Im CM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
+					+ fields.getNachname() + ",<br><br> Im CCM-System wurde ein Benutzerkonto für Sie angelegt. <br><br>Benutzername: "
 					+ fields.getID() + " <br>Passwort: default <br><br> Bitte ändern Sie das Passwort bei der ersten Anmeldung.";
 			try {
 			EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
