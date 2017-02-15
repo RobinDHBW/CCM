@@ -9,13 +9,15 @@ import com.vaadin.ui.VerticalLayout;
 
 public class ViewUnternehmen extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
-	private TabSheet tbContent;
+//	private TabSheet tbContent;
 	private UnternehmenVerwaltung verwaltung;
 	
 	public ViewUnternehmen(){
 		this.setSizeFull();
 		this.setCaption(CCM_Constants.VIEW_NAME_UNTERNEHMEN);
-		this.initTbContent();
+		this.verwaltung = new UnternehmenVerwaltung();
+		this.addComponent(verwaltung);
+//		this.initTbContent();
 		FooterView fv= new FooterView();
 		this.addComponent(fv);
 		
@@ -27,11 +29,11 @@ public class ViewUnternehmen extends VerticalLayout implements View {
 		
 	}
 	
-	private void initTbContent(){
-		this.tbContent = new TabSheet();
-		this.verwaltung = new UnternehmenVerwaltung();
-		this.tbContent.addTab(this.verwaltung, "Verwaltung");
-		this.addComponent(tbContent);
-	}
+//	private void initTbContent(){
+//		this.tbContent = new TabSheet();
+//		
+//		this.tbContent.addTab(this.verwaltung, "Verwaltung");
+//		this.addComponent(tbContent);
+//	}
 
 }

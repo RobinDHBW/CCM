@@ -263,7 +263,7 @@ public class BesuchFelder extends VerticalLayout {
 		hlParticipants.setSpacing(true);
 		hlParticipants.addComponent(this.taParticipants);
 		hlParticipants.addComponent(this.btnLookupParticipants);
-		hlParticipants.setCaption("Teilnehmen:");
+		hlParticipants.setCaption("Teilnehmer:");
 		this.addComponent(hlParticipants);
 	}
 	
