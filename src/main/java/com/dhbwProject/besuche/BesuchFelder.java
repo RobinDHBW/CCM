@@ -121,7 +121,7 @@ public class BesuchFelder extends VerticalLayout {
 	protected void initFieldStatus(){
 		this.tfStatus = new TextField();
 		//this.tfStatus.setWidth("300px");
-		this.tfStatus.setStyleName("pwwindow");
+		this.tfStatus.setStyleName("tffield");
 		Responsive.makeResponsive(tfStatus);
 		this.tfStatus.setNullRepresentation("");
 		this.tfStatus.setValue(null);

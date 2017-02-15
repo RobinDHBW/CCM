@@ -60,7 +60,7 @@ public class ViewLogin extends CustomComponent implements View{
 	
 	private void initPwField(){
 		this.pwField = new PasswordField("Passwort");
-		this.pwField.setWidth("-1px");
+	//	this.pwField.setWidth("-1px");
 		this.pwField.setRequired(true);
 //		this.pwField.addValidator(new PasswordValidator());
 		this.pwField.setValue("");
@@ -71,7 +71,7 @@ public class ViewLogin extends CustomComponent implements View{
 	
 	private void initUserField(){
 		this.userField = new TextField("Benutzer");
-		this.userField.setWidth("-1px");
+		//this.userField.setWidth("-1px");
 		this.userField.setRequired(true);
 		this.userField.setInputPrompt("Ihr Benutzername");	
 		this.userField.setStyleName("tffield");
@@ -142,7 +142,7 @@ public class ViewLogin extends CustomComponent implements View{
 	private void initVlLayout(){
         this.vlLayout = new VerticalLayout(this.vlFields);
         this.vlLayout.setSizeFull();
-        this.vlLayout.setComponentAlignment(this.vlFields, Alignment.MIDDLE_CENTER);
+        this.vlLayout.setComponentAlignment(this.vlFields, Alignment.BOTTOM_LEFT);
         this.setCompositionRoot(this.vlLayout);	
         Responsive.makeResponsive(vlLayout);
 	}

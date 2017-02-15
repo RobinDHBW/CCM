@@ -424,11 +424,13 @@ public class BesuchUebersicht extends CustomComponent{
 			btnOK = new Button();
 			btnOK.setIcon(FontAwesome.SEARCH);
 			btnOK.setCaption("Ausführen");
+			btnOK.setStyleName("login");
 			Responsive.makeResponsive(btnOK);
 
 			btnOK.addClickListener(click -> refreshContainer(dStart, dEnd));
 			
 			btnReset = new Button();
+			btnReset.setStyleName("login");
 			btnReset.setIcon(FontAwesome.REPLY_ALL);
 			btnReset.setCaption("Zurücksetzen");
 			Responsive.makeResponsive(btnReset);
@@ -445,7 +447,7 @@ public class BesuchUebersicht extends CustomComponent{
 			});
 			HorizontalLayout hlButtons = new HorizontalLayout(btnReset, btnOK);
 			hlButtons.setSpacing(true);
-
+			hlButtons.setStyleName("hllogin");
 			Responsive.makeResponsive(hlButtons);
 			VerticalLayout layoutFields;
 			if(bUser.getRolle().getId()>1)

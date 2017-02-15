@@ -1,4 +1,4 @@
-﻿package com.dhbwProject.CCM;
+package com.dhbwProject.CCM;
 
 import java.sql.SQLException;
 
@@ -16,8 +16,6 @@ import com.dhbwProject.views.ViewUnternehmen;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Page;
-import com.vaadin.server.Page.BrowserWindowResizeListener;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -101,7 +99,6 @@ public class CCM_UI extends UI {
     	this.vlFormat.setExpandRatio(this.header, 2);
     	this.vlFormat.addComponent(this.hlContent);
     	this.vlFormat.setExpandRatio(this.hlContent, 8);
-    	//vlFormat.setStyleName("layout");
     	Responsive.makeResponsive(vlFormat);
     	Responsive.makeResponsive(hlContent);
     	
@@ -128,16 +125,16 @@ public class CCM_UI extends UI {
 	
 	private void initViewPanel(){	
 		this.hlContent.addComponent(this.pnlViews);
-		this.hlContent.setExpandRatio(this.pnlViews, 4);
+		this.hlContent.setExpandRatio(this.pnlViews, 5);
+		this.pnlViews.setSizeFull();
 		Responsive.makeResponsive(hlContent);
-		//this.pnlViews.setSizeUndefined();	
 	}
 	
 	private void initViewNavigator(){
 		this.pnlViews = new Panel();
 		this.pnlViews.setStyleName("pnviews");
-		this.pnlViews.addStyleName(ValoTheme.PANEL_BORDERLESS);
 		Responsive.makeResponsive(pnlViews);
+		this.pnlViews.addStyleName(ValoTheme.PANEL_BORDERLESS);
 		this.setNavigator(new CCM_Navigator(this, this.pnlViews));
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_LOGIN, ViewLogin.class);
 		this.getNavigator().addView(CCM_Constants.VIEW_NAME_START, ViewStartseite.class);
@@ -158,10 +155,14 @@ public class CCM_UI extends UI {
                 if(isLoggedIn && !naviBar.isVisible()){
                 	naviBar.refreshVisibilityByRolle();
                 	naviBar.setVisible(true);
+                }
+                 //	Benutzer user = (Benutzer)VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER);
+                	//header.setStatustext("Herzlich willkommen, "+ "" + user.getVorname() + " " + user.getNachname()  );
 
                 if (!isLoggedIn && !isLoginView) {
                 	naviBar.setVisible(false); //das sollte ansich auch wieder rauskönnen
                     getNavigator().navigateTo(CCM_Constants.VIEW_NAME_LOGIN);
+                 //   header.setStatustext("Hallo, bitte melden Sie sich am CCM System an.");
                     return false;
 
                 } else if (isLoggedIn && isLoginView)
@@ -170,13 +171,11 @@ public class CCM_UI extends UI {
             }
 
 			@Override
-			public void afterViewChange (ViewChangeEvent event) {
+			public void afterViewChange(ViewChangeEvent event) {
 				boolean isLoggedIn = VaadinSession.getCurrent().getSession().getAttribute(CCM_Constants.SESSION_VALUE_USER) != null;
 				if(!isLoggedIn)
 					naviBar.setVisible(false);
 			}
-		};
-	});
-		
+		});
 	}
 }

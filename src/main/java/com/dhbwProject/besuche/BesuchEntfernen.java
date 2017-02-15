@@ -17,9 +17,9 @@ public class BesuchEntfernen extends Window {
 	
 	public BesuchEntfernen(String bName){
 		this.center();
-//		this.setHeight("300px");
-//		this.setWidth("300px");
-		this.setStyleName("pwwindow");
+		this.setHeight("300px");
+		this.setWidth("300px");
+	//	this.setStyleName("pwwindow");
 		this.setCaptionAsHtml(true);
 		String titel = "<center><h3>Möchten Sie den Termin: "+"<b>"+bName+"</b>"+" wirklich entfernen?</h3></center>";
 		String info = "<center><p>Falls Sie der Autor dieses Termins sind wird der gesamte Termin entfernt</p></center>";
@@ -30,7 +30,8 @@ public class BesuchEntfernen extends Window {
 	}
 	
 	private void initFields(){
-		this.btnYes = new Button("Ja");
+		this.btnYes = new Button(" Ja ");
+		this.btnYes.setStyleName("login");
 		this.btnYes.setIcon(FontAwesome.CHECK);
 		Responsive.makeResponsive(btnYes);
 		this.btnYes.addClickListener(click ->{
@@ -39,6 +40,7 @@ public class BesuchEntfernen extends Window {
 		});
 		
 		this.btnNo = new Button("Nein");
+		this.btnNo.setStyleName("login");
 		Responsive.makeResponsive(btnNo);
 		this.btnNo.setIcon(FontAwesome.CLOSE);
 		this.btnNo.addClickListener(click ->{
@@ -47,7 +49,9 @@ public class BesuchEntfernen extends Window {
 		
 		this.hlLayout = new HorizontalLayout(btnNo, btnYes);
 		this.hlLayout.setSpacing(true);
-		this.hlLayout.setMargin(true);
+		this.hlLayout.setMargin(false);
+		this.hlLayout.setStyleName("hllogin");
+		this.hlLayout.setWidth("100%");
 		Responsive.makeResponsive(hlLayout);
 		
 	}

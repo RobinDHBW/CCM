@@ -1618,34 +1618,42 @@ div.v-layout.v-horizontal.v-widget {
 
 .v-textfield-tffield {
 	width: 300px;
+	line-height: 37px;
 }
 
 .v-textfield-tffield[width-range~="0-400"] {
 	width: 300px;
+	line-height: 37px;
 }
 
 .v-textfield-tffield[width-range~="400-700"] {
 	width: 500px;
+	line-height: 37px;
 }
 
 .v-textfield-tffield[width-range~="700-"] {
 	width: 600px;
+	line-height: 37px;
 }
 
 .v-textarea {
 	width: 300px;
+	height: 80px;
 }
 
 .v-textarea[width-range~="0-400"] {
 	width: 300px;
+	height: 80px;
 }
 
 .v-textarea[width-range~="400-700"] {
 	width: 500px;
+	heigt: 80px;
 }
 
 .v-textarea[width-range~="700-"] {
 	width: 600px;
+	heigt: 80px;
 }
 
 .base .v-table-drag .v-table-body {
@@ -1760,21 +1768,21 @@ div.v-layout.v-horizontal.v-widget {
 }
 
 .v-tabsheet {
-	padding: 0px, 0px, 0px, 50px;
-	margin: 0px, 0px, 0px, 50px;
+	padding: 0px, 0px, 0px, 0px;
+	margin: 0px, 0px, 0px, 0px;
 }
 
 .v-tabsheet[width-range~="0-400"] {
-	padding: 0px, 0px, 0px, 50px;
+	padding: 0px, 0px, 0px, 0px;
 }
 
 .v-tabsheet[width-range~="400-700"] {
-	padding: 0px, 0px, 0px, 100px;
-	margin: 0px, 0px, 0px, 100px;
+	padding: 0px, 0px, 0px, 0px;
+	margin: 0px, 0px, 0px, 0px;
 }
 
 .v-tabsheet[width-range~="700-"] {
-	padding: 0px, 0px, 0px, 100px;
+	padding: 0px, 0px, 0px, 0px;
 }
 
 .v-tabsheet-tabsheetpanel {
@@ -13402,26 +13410,6 @@ div.v-layout.v-horizontal.v-widget {
 	display: none;
 	height: 0px;
 	width: 0px;
-}
-
-.CCM_Theme .v-panel-pnviews {
-	padding-left: 30px;
-	margin-left: 400px;
-}
-
-.CCM_Theme .v-panel-pnviews[width-range~="0-400"] {
-	padding-left: 30px;
-	margin-left: 400px;
-}
-
-.CCM_Theme .v-panel-pnviews[width-range~="400-700"] {
-	padding-left: 30px;
-	margin-left: 600px;
-}
-
-.CCM_Theme .v-panel-pnviews[width-range~="700-"] {
-	padding-left: 30px;
-	margin-left: 600px;
 }
 
 .CCM_Theme .v-horizontal-hllogin {
