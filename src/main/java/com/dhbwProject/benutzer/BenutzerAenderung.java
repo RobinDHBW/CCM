@@ -122,7 +122,7 @@ public class BenutzerAenderung extends Window {
 						String betreff = "CCM Benutzerkonto";
 						String inhalt = "Guten Tag " + fields.getVorname() + " "
 								+ fields.getNachname() + ",<br><br> Ihr Passwort im CCM-System wurde auf 'default' zurückgesetzt. <br><br>Benutzername: "
-								+ fields.getID() + "<br><br> Bitte ändern Sie das Passwort bei der nächtsen Anmeldung.";
+								+ fields.getID() + "<br><br> Bitte ändern Sie das Passwort bei der nächsten Anmeldung.";
 						try {
 						EMailThread mail = new EMailThread(mailAdresse, betreff, inhalt);
 						mail.start();
