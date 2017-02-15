@@ -1,8 +1,10 @@
 package com.dhbwProject.besuche;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import com.dhbwProject.backend.CCM_Constants;
@@ -71,7 +73,7 @@ public class BesuchBenachrichtigung extends Window {
 	protected void createNachricht(){
 		try {
 			gNeu = dbConnection.createGespraechsnotiz(new Gespraechsnotiz(0, nachricht.taNachricht.getValue().getBytes(),
-					null, bReferenz.getAdresse().getUnternehmen(), bReferenz, null, bUser));
+					null, bReferenz.getAdresse().getUnternehmen(), bReferenz,new Date(System.currentTimeMillis()), bUser));
 			if(nachricht.cbEmail.getValue() && gNeu != null)
 				sendMailByComment();
 			gNeu = null;
