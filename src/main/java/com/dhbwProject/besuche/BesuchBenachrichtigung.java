@@ -163,7 +163,7 @@ public class BesuchBenachrichtigung extends Window {
 				if(g != null){
 					Label lbl = new Label(
 							"<b>"+g.getAutor().getNachname()+", "+g.getAutor().getVorname()+": "+dateFormat.format(g.getTimestamp())+"</b><br>"
-									+new String(g.getNotiz(), "UTF-8"), ContentMode.HTML);
+									+new String(g.getNotiz()), ContentMode.HTML);
 					vlFields.addComponent(lbl);
 					vlFields.setComponentAlignment(lbl, Alignment.TOP_LEFT);
 				}
