@@ -265,11 +265,21 @@ public class BesuchUebersicht extends CustomComponent{
 				entfernen.addCloseListener(close ->{
 					if(entfernen.getResult()){
 						try {
-							container.removeItem(dbConnection.deleteBenutzerFromBesuch(b, bUser));
-							sendMailByRemoveParticipant(b, bUser);
-							message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
-							message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
-							message.show(Page.getCurrent());
+							if(bUser.getId() != b.getAutor().getId()){
+								dbConnection.deleteBenutzerFromBesuch(b, bUser);
+								refreshContainer(dStart, dEnd);
+								sendMailByRemoveParticipant(b, bUser);
+								message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+								message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
+								message.show(Page.getCurrent());
+							}else{
+								dbConnection.deleteBesuch(b);
+								refreshContainer(dStart, dEnd);
+								sendMailByRemoveMeeting(b);
+								message.setStyleName(ValoTheme.NOTIFICATION_SUCCESS);
+								message.setCaption("Der Termin: "+b.getName()+"wurde erfolgreich entfernt");
+								message.show(Page.getCurrent());	
+							}
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
@@ -293,6 +303,20 @@ public class BesuchUebersicht extends CustomComponent{
 				+"wurde von dem Termin: "+besuch.getName()+" entfernt";
 			if(besuch.getAutor().getEmail() != null)
 				eMailList.add(besuch.getAutor().getEmail());
+		
+		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
+		thread.start();
+	}
+	
+	private void sendMailByRemoveMeeting(Besuch besuch){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+		ArrayList<String> eMailList = new ArrayList<String>();
+		String titel = "Termin abgesagt: "+besuch.getName();
+		String inhalt = "<b>von: </b>"
+				+bUser.getNachname()+", "+bUser.getVorname();
+			for(Benutzer b : besuch.getBesucher())
+				if(b.getEmail() != null)
+					eMailList.add(b.getEmail());
 		
 		EMailThread thread = new EMailThread(eMailList, titel, inhalt);
 		thread.start();
