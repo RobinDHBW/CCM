@@ -875,7 +875,7 @@ public class dbConnect {
 			while (res.next()) {
 				int id = res.getInt("besuch_id");
 				Adresse adresse = getAdresseById(res.getInt("adresse_id"));
-				Date timestamp = res.getDate("besuch_timestamp");
+				java.sql.Timestamp timestamp = res.getTimestamp("besuch_timestamp");
 				java.sql.Timestamp startDate = res.getTimestamp("besuch_beginn");
 				java.sql.Timestamp endDate = res.getTimestamp("besuch_ende");
 				String name = res.getString("besuch_name");
@@ -961,7 +961,7 @@ public class dbConnect {
 				}
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
-				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
+				java.sql.Timestamp timestamp = res.getTimestamp("gespraechsnotiz_timestamp");
 				Benutzer autor = getBenutzerById(res.getString("autor"));
 				gespraechsnotiz = new Gespraechsnotiz(id, nb, bb, unternehmen, besuch, timestamp, autor);
 				lGespraechsnotiz.add(gespraechsnotiz);
@@ -1021,7 +1021,7 @@ public class dbConnect {
 				}
 				Unternehmen unternehmen = getUnternehmenById(res.getInt("unternehmen_id"));
 				Besuch besuch = getBesuchById(res.getInt("besuch_id"));
-				Date timestamp = res.getDate("gespraechsnotiz_timestamp");
+				java.sql.Timestamp timestamp = res.getTimestamp("gespraechsnotiz_timestamp");
 				Benutzer autor = getBenutzerById(res.getString("autor"));
 				gespraechsnotiz = new Gespraechsnotiz(id, nb, bb, unternehmen, besuch, timestamp, autor);
 			}

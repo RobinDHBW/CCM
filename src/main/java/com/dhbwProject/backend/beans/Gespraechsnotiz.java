@@ -12,7 +12,7 @@ public class Gespraechsnotiz {
 	private byte[] bild;
 	private Unternehmen unternehmen;
 	private Besuch besuch;
-	private Date timestamp;
+	private java.sql.Timestamp timestamp;
 	private Benutzer autor;
 	
 	public Gespraechsnotiz(int id, byte[] notiz, byte[] bild, Unternehmen unternehmen, Besuch besuch, Date timestamp, Benutzer autor) {
@@ -22,7 +22,7 @@ public class Gespraechsnotiz {
 		this.bild = bild;
 		this.unternehmen = unternehmen;
 		this.besuch = besuch;
-		this.timestamp = timestamp;
+		this.timestamp = new java.sql.Timestamp(timestamp.getTime());
 		this. autor = autor;
 	}
 
@@ -47,7 +47,7 @@ public class Gespraechsnotiz {
 		return besuch;
 	}
 
-	public Date getTimestamp() {
+	public java.sql.Timestamp getTimestamp() {
 		return timestamp;
 	}
 	public Benutzer getAutor(){
