@@ -48,7 +48,7 @@ public class UnternehmenVerwaltung extends CustomComponent {
 		if(bUser.getRolle().getId()<=2)
 			this.initMenu();
 		this.tblUnternehmen = new Table();
-		this.tblUnternehmen.setHeight("500px");
+		this.tblUnternehmen.setHeight("400px");
 		this.tblUnternehmen.setSelectable(true);
 		this.tblUnternehmen.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblUnternehmen.addStyleName(ValoTheme.TABLE_NO_STRIPES);

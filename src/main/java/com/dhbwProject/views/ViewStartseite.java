@@ -41,18 +41,9 @@ public class ViewStartseite extends VerticalLayout implements View {
 		ta.setWidth("400px");
 		ta.setWordwrap(true);
 		ta.setHeight("150px");
-//		Panel p = new Panel();
-//		p.setWidth(50, Unit.PERCENTAGE);
-//		p.setStyleName(ValoTheme.PANEL_BORDERLESS);
-//		
-//		
-//		 Label deinBesuch = new Label("Willkommen im CCM System, dem Unternehmensmanagement der Dualen Hochschule Baden-Württemberg in Mosbach.");
-//		 		 deinBesuch.setEnabled(false);
-//		 		 deinBesuch.setCaption("Willkommen im CCM System, dem dualen Partnerunternehmesmanagement der Dualen Hochschule Baden-Württemberg in Mosbach. ");
-//		 		 //deinBesuch.setStyleName("btnwhiteeins");
 
 		
-		Image ccmLogo= new Image(" ", new ThemeResource("ccmlogo.png"));
+		Image ccmLogo= new Image("Company Contact Management", new ThemeResource("ccmlogo.png"));
 		ccmLogo.setHeight("-1px");
 		ccmLogo.setWidth("-1px");
 				

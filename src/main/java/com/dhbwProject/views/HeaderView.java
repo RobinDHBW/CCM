@@ -39,7 +39,7 @@ public class HeaderView extends CustomComponent{
 	imageButton.setWidth("-1px");*/
 	
 	
-	Image ccmLogo= new Image("Costumer Contact Management", new ThemeResource("ccmlogo.png"));
+	Image ccmLogo= new Image("Company Contact Management", new ThemeResource("ccmlogo.png"));
 	ccmLogo.setHeight("-1px");
 	ccmLogo.setWidth("-1px");
 		

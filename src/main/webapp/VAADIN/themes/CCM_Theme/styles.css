@@ -1638,6 +1638,7 @@ v-button-btnwhitelogo .v-button-icon {
 	background: #5d6a72;
 	color: white;
 	font-weight: bold;
+	font-size: 12pt;
 }
 
 .v-table-body {
@@ -1650,6 +1651,10 @@ v-button-btnwhitelogo .v-button-icon {
 	background-color: white;
 	background: white;
 	color: black;
+}
+
+.v-table-cell-wrapper {
+	white-space: normal;
 }
 
 .v-label {
@@ -1800,7 +1805,7 @@ select.v-select-select {
 	text-align: center;
 	left: 0;
 	right: 0;
-	content: "Bitte warten. Das Costumer Contact Management System wird geladen.";
+	content: "Bitte warten. Das Company Contact Management System wird geladen.";
 }
 
 .CCM_Theme .v-loading-indicator {

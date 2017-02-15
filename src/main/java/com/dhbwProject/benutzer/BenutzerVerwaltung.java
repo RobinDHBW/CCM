@@ -45,10 +45,11 @@ public class BenutzerVerwaltung extends CustomComponent{
 	private void initContent() {
 		initMenu();
 		this.tblBenutzer = new Table();
-//		this.tblBenutzer.setHeight("500px");
-		this.tblBenutzer.setSizeFull();
+		this.tblBenutzer.setHeight("400px");
+		this.tblBenutzer.setWidth("100%");
+	//	this.tblBenutzer.setSizeFull();
 		this.tblBenutzer.setSelectable(true);
-		this.tblBenutzer.setColumnExpandRatio("Studiengang", 1);
+	//	this.tblBenutzer.setColumnExpandRatio("Studiengang", 1);
 		this.tblBenutzer.setStyleName(ValoTheme.TABLE_BORDERLESS);
 		this.tblBenutzer.addStyleName(ValoTheme.TABLE_NO_STRIPES);
 		this.tblBenutzer.addStyleName(ValoTheme.TABLE_COMPACT);
