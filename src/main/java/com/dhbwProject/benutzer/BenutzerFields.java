@@ -276,6 +276,7 @@ public class BenutzerFields extends VerticalLayout{
 		this.tfTelefonnummer.setEnabled(bool);
 		this.tfEmail.setEnabled(bool);
 		this.chPassword.setEnabled(bool);
+		this.chLoeschen.setEnabled(bool);
 	}
 
 	protected void setStudieng(LinkedList<Studiengang> studiengaenge) {

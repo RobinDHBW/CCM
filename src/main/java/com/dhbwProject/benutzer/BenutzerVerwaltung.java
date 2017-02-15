@@ -123,6 +123,7 @@ public class BenutzerVerwaltung extends CustomComponent{
 	
 	private void refreshContainer() {
 		this.container.removeAllItems();
+		this.tblBenutzer.setValue(null);
 		try{
 			for(Benutzer b : this.dbConnection.getAllBenutzer())
 				this.addItem(b);
