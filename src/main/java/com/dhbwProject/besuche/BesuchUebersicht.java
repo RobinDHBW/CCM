@@ -298,7 +298,7 @@ public class BesuchUebersicht extends CustomComponent{
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		ArrayList<String> eMailList = new ArrayList<String>();
 		String titel = "Terminabmeldung : "+besuch.getName();
-		String inhalt = "<b>Teilnehmenr: </b>"
+		String inhalt = "<b>Teilnehmer: </b>"
 				+benutzer.getNachname()+", "+benutzer.getVorname()+"<br>"
 				+"wurde von dem Termin: "+besuch.getName()+" entfernt";
 			if(besuch.getAutor().getEmail() != null)

@@ -53,7 +53,7 @@ public class LookupBenutzer extends Window{
 		this.setWidth("400");
 		this.setHeight("600px");
 		this.setCaptionAsHtml(true);
-		this.setCaption("<center><h3>Wählen Sie bis Teilnehmer</h3></center>");
+		this.setCaption("<center><h3>Wählen Sie Ihre Teilnehmer:</h3></center>");
 	}
 	
 	public LookupBenutzer(boolean multiSelect){

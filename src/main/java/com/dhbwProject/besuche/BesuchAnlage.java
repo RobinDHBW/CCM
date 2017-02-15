@@ -106,7 +106,7 @@ public class BesuchAnlage extends Window {
 				+this.fields.getAdresse().getPlz()+" "+this.fields.getAdresse().getOrt()+"<br>"
 				+"<b>Ansprechpartner: </b><br>"
 				+this.fields.getAnsprechpartner().getNachname()+", "+this.fields.getAnsprechpartner().getVorname()+"<br>"
-				+"<b>Teilnehmener: </b>"+"<br>";
+				+"<b>Teilnehmer: </b>"+"<br>";
 		
 		for(Benutzer b : this.fields.getTeilnehmenr()){
 			if(b.getEmail() != null)
