@@ -272,19 +272,6 @@ content: " ";
 margin-right: 2px;
 
 }
-// Noch unvollst�ndig Styling der Ereignisse nach f�lligkeit
-.v-calendar-event-month::before,  v.overlay-container{
- content: " ";
- margin-right: 2px;
-}
-.v-calendar-event-geplant-month::before, v.overlay-container{
-content:"-";
-margin-right:2px;
-}
-.v-calendar-event-month-besucht::before, v.overlay-container{
-content:"";  //Häckchen?
-margin-right:2px;
-}
 
 //Eventanzeige in der Monatsansicht
 .v-calendar-event-geplant{
@@ -323,7 +310,7 @@ min-height:300px;
 .valo-textfield-prompt-style{
 	background-color: white;
 	}
- select.v-select-select {
+.v-select.v-select-select {
     background-color:#8c0011; 
     border: none;
     padding: 0;

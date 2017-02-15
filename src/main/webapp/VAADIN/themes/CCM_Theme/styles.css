@@ -1705,21 +1705,6 @@ v-button-btnwhitelogo .v-button-icon {
 	margin-right: 2px;
 }
 
-.v-calendar-event-month::before, v.overlay-container {
-	content: " ";
-	margin-right: 2px;
-}
-
-.v-calendar-event-geplant-month::before, v.overlay-container {
-	content: "-";
-	margin-right: 2px;
-}
-
-.v-calendar-event-month-besucht::before, v.overlay-container {
-	content: "";
-	margin-right: 2px;
-}
-
 .v-calendar-event-geplant {
 	background: #5d6a72;
 	color: white;
@@ -1751,7 +1736,7 @@ v-button-btnwhitelogo .v-button-icon {
 	background-color: white;
 }
 
-select.v-select-select {
+.v-select.v-select-select {
 	background-color: #8c0011;
 	border: none;
 	padding: 0;
